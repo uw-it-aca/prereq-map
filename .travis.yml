@@ -29,14 +29,14 @@ script:
   - which mocha
   - which _mocha
   - which istanbul
-  - pycodestyle myuw/ --exclude=migrations,myuw/static
+  - pycodestyle prereq_map/ --exclude=migrations,prereq_map/static
   # Find </br> tags
-  - grep -re '<\s*/\s*br\s*>' myuw/templates/ ; test $? -eq 1
-  - grep -r 'static/' myuw/ | grep -v /test/ | grep -v washington.edu/static; test $? -eq 1
-#  - jshint myuw/static/js/  --verbose
-#  - mocha myuw/static/js/test/ --recursive
-#  - istanbul cover --include-all-sources -x "**/vendor/**" -x "**/site-packages/**" _mocha -- -R spec myuw/static/js/test/
-  - FORCE_VIEW_TESTS=1 coverage run --source=myuw/ --omit=myuw/migrations/* manage.py test myuw
+  - grep -re '<\s*/\s*br\s*>' prereq_map/templates/ ; test $? -eq 1
+  - grep -r 'static/' prereq_map/ | grep -v /test/ | grep -v washington.edu/static; test $? -eq 1
+#  - jshint prereq_map/static/js/  --verbose
+#  - mocha prereq_map/static/js/test/ --recursive
+#  - istanbul cover --include-all-sources -x "**/vendor/**" -x "**/site-packages/**" _mocha -- -R spec prereq_map/static/js/test/
+  - FORCE_VIEW_TESTS=1 coverage run --source=prereq_map/ --omit=prereq_map/migrations/* manage.py test prereq_map
 #  - coveralls-lcov -v -n coverage/lcov.info > js-coverage.json
 #after_script:
 #  - coveralls --merge=js-coverage.json
