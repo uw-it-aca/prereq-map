@@ -23,7 +23,7 @@ setup(
     author_email="aca-it@uw.edu",
     include_package_data=True,
     install_requires=[
-        'Django>=2.0',
+        'Django>=2.1,<3.0',
     ],
     license='Apache License, Version 2.0',
     description='A tool for visually displaying UW course prerequisites',
