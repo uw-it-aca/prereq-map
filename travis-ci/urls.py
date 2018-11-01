@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import re_path, include
 urlpatterns = [
-    path(r'^', include('prereq_map.urls'))
+    re_path(r'^', include('prereq_map.urls'))
 ]
