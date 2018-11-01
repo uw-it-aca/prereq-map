@@ -3,8 +3,4 @@ language: python
 python:
   - "3.6"
 install: pip install tox-travis
-before_script:
-  - pip install coveralls
 script: tox
-after_success:
-  - coveralls
