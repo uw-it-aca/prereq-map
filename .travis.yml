@@ -32,7 +32,6 @@ script:
   - pycodestyle prereq_map/ --exclude=migrations,prereq_map/static
   # Find </br> tags
   - grep -re '<\s*/\s*br\s*>' prereq_map/templates/ ; test $? -eq 1
-  - grep -r 'static/' prereq_map/ | grep -v /test/ | grep -v washington.edu/static; test $? -eq 1
 #  - jshint prereq_map/static/js/  --verbose
 #  - mocha prereq_map/static/js/test/ --recursive
 #  - istanbul cover --include-all-sources -x "**/vendor/**" -x "**/site-packages/**" _mocha -- -R spec prereq_map/static/js/test/
