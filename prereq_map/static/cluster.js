@@ -1121,821 +1121,821 @@ function uncollapsedNetwork(nodes, fit, resetHighlight, network, elid) {
 //----------------------------------------------------------------
 // All available functions/methods with visNetworkProxy
 //---------------------------------------------------------------
-if (HTMLWidgets.shinyMode){
-
-  // collapsed method
-  Shiny.addCustomMessageHandler('visShinyCollapse', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        collapsedNetwork(data.nodes, data.fit, data.resetHighlight, data.clusterOptions, undefined, el.chart, data.id)
-      }
-  });
-
-  // uncollapsed method
-  Shiny.addCustomMessageHandler('visShinyUncollapse', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        uncollapsedNetwork(data.nodes, data.fit, data.resetHighlight, el.chart, data.id)
-      }
-  });
-
-  // event method
-  Shiny.addCustomMessageHandler('visShinyEvents', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-
-        if(data.type === "once"){
-          for (var key in data.events) {
-            eval('network.once("' + key + '",' + data.events[key] + ')');
-          }
-        } else if(data.type === "on"){
-          for (var key in data.events) {
-            eval('network.on("' + key + '",' + data.events[key] + ')');
-          }
-        } else if(data.type === "off"){
-          for (var key in data.events) {
-            eval('network.off("' + key + '",' + data.events[key] + ')');
-          }
-        }
-      }
-  });
-
-  // moveNode method
-  Shiny.addCustomMessageHandler('visShinyMoveNode', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-        network.moveNode(data.nodeId, data.x, data.y);
-      }
-  });
-
-  // unselectAll method
-  Shiny.addCustomMessageHandler('visShinyUnselectAll', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-
-        // reset selection
-        document.getElementById("nodeSelect"+data.id).value = "";
-        document.getElementById("nodeSelect"+data.id).onchange();
-
-        if(document.getElementById(data.id).selectActive === true){
-            document.getElementById("selectedBy"+data.id).value = "";
-            document.getElementById("selectedBy"+data.id).onchange();
-        }
-
-        network.unselectAll();
-      }
-  });
-
-  // updateOptions in the network
-  Shiny.addCustomMessageHandler('visShinyOptions', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-        var options = el.options;
-        // configure
-        if(data.options.configure !== undefined){
-          if(data.options.configure.container !== undefined){
-            var dom_conf = document.getElementById(data.options.configure.container);
-            if(dom_conf !== null){
-              data.options.configure.container = dom_conf;
-            } else {
-              data.options.configure.container = undefined;
-            }
-          }
-        }
-
-        update(options, data.options);
-        network.setOptions(options);
-      }
-  });
-
-  // setData the network
-  Shiny.addCustomMessageHandler('visShinySetData', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-        var newnodes = new vis.DataSet();
-        var newedges = new vis.DataSet();
-
-        newnodes.add(visNetworkdataframeToD3(data.nodes, "nodes"));
-        newedges.add(visNetworkdataframeToD3(data.edges, "edges"));
-        var newdata = {
-          nodes: newnodes,
-          edges: newedges
-        };
-        network.setData(newdata);
-      }
-  });
-
-  // fit to a specific node
-  Shiny.addCustomMessageHandler('visShinyFit', function(data){
-    // get container id
-    var el = document.getElementById("graph"+data.id);
-    if(el){
-        var network = el.chart;
-        network.fit(data.options);
-      }
-  });
-
-  // focus on a node in the network
-  Shiny.addCustomMessageHandler('visShinyFocus', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-        network.focus(data.focusId, data.options);
-      }
-  });
-
-  // stabilize the network
-  Shiny.addCustomMessageHandler('visShinyStabilize', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-        network.stabilize(data.options);
-      }
-  });
-
-  // startSimulation on network
-  Shiny.addCustomMessageHandler('visShinyStartSimulation', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-        network.startSimulation();
-      }
-  });
-
-  // stopSimulation on network
-  Shiny.addCustomMessageHandler('visShinyStopSimulation', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-        network.stopSimulation();
-      }
-  });
-
-  // get positions of the network
-  Shiny.addCustomMessageHandler('visShinyGetPositions', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-        var pos;
-
-        if(data.nodes !== undefined){
-          pos = network.getPositions(data.nodes);
-        }else{
-          pos = network.getPositions();
-        }
-		// return positions in shiny
-        Shiny.onInputChange(data.input, pos);
-      }
-  });
-
-  // get edges data
-  Shiny.addCustomMessageHandler('visShinyGetEdges', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var current_edges = el.edges.getDataSet();
-        // return data in shiny
-        Shiny.onInputChange(data.input, current_edges._data);
-      }
-  });
-
-  // get nodes data
-  Shiny.addCustomMessageHandler('visShinyGetNodes', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        if(data.addCoordinates){
-          el.chart.storePositions();
-        }
-        var current_nodes = el.nodes.getDataSet();
-        // return data in shiny
-        Shiny.onInputChange(data.input, current_nodes._data);
-      }
-  });
-
-  // get selected edges
-  Shiny.addCustomMessageHandler('visShinyGetSelectedEdges', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-        var pos = network.getSelectedEdges();
-		    // return  in shiny
-        Shiny.onInputChange(data.input, pos);
-      }
-  });
-
-  // get selected nodes
-  Shiny.addCustomMessageHandler('visShinyGetSelectedNodes', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-        var pos = network.getSelectedNodes();
-		    // return  in shiny
-        Shiny.onInputChange(data.input, pos);
-      }
-  });
-
-  // getConnectedEdges
-  Shiny.addCustomMessageHandler('visShinyGetConnectedEdges', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-        var pos = network.getConnectedEdges(data.nodeId);
-        // return  in shiny
-        Shiny.onInputChange(data.input, pos);
-      }
-  });
-
-  // getConnectedNodes
-  Shiny.addCustomMessageHandler('visShinyGetConnectedNodes', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-        var pos = network.getConnectedNodes(data.nodeId);
-        // return  in shiny
-        Shiny.onInputChange(data.input, pos);
-      }
-  });
-
-  // getBoundingBox
-  Shiny.addCustomMessageHandler('visShinyGetBoundingBox', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-        var pos = network.getBoundingBox(data.nodeId);
-        // return  in shiny
-        Shiny.onInputChange(data.input, pos);
-      }
-  });
-
-  // get selection
-  Shiny.addCustomMessageHandler('visShinyGetSelection', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-        var pos;
-
-        pos = network.getSelection();
-
-		    // return  in shiny
-        Shiny.onInputChange(data.input, pos);
-      }
-  });
-
-  // get scale
-  Shiny.addCustomMessageHandler('visShinyGetScale', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-        var pos;
-
-        pos = network.getScale();
-
-		    // return  in shiny
-        Shiny.onInputChange(data.input, pos);
-      }
-  });
-
-  // store positions
-  Shiny.addCustomMessageHandler('visShinyStorePositions', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-        network.storePositions();
-      }
-  });
-
-  // get view position
-  Shiny.addCustomMessageHandler('visShinyGetViewPosition', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-        var pos;
-
-        pos = network.getViewPosition();
-
-		    // return  in shiny
-        Shiny.onInputChange(data.input, pos);
-      }
-  });
-
-  // get view position
-  Shiny.addCustomMessageHandler('visShinyGetOptionsFromConfigurator', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-		    // return  in shiny
-        Shiny.onInputChange(data.input, network.getOptionsFromConfigurator());
-      }
-  });
-
-  // Redraw the network
-  Shiny.addCustomMessageHandler('visShinyRedraw', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        el.chart.redraw();
-      }
-  });
-
-  // select nodes
-  Shiny.addCustomMessageHandler('visShinySelectNodes', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-        if(data.selid !== null){
-          network.selectNodes(data.selid, data.highlightEdges);
-          if(data.clickEvent){
-            el.myclick({nodes : data.selid});
-          }
-        }else{
-          if(data.clickEvent){
-            el.myclick({nodes : []});
-          }
-        }
-      }
-  });
-
-  // select edges
-  Shiny.addCustomMessageHandler('visShinySelectEdges', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-        if(data.selid !== null){
-          network.selectEdges(data.selid);
-        }
-      }
-  });
-
-  // set selection
-  Shiny.addCustomMessageHandler('visShinySetSelection', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(el){
-        var network = el.chart;
-        if(data.selection.nodes !== null || data.selection.edges !== null){
-          network.setSelection(data.selection, data.options);
-        }
-        if(data.clickEvent){
-          if(data.selection.nodes !== null){
-            el.myclick({nodes : data.selection.nodes});
-          } else {
-           el.myclick({nodes : []});
-          }
-        }
-      }
-  });
-
-  function updateVisOptions(data){
-        // get container id
-        var graph = document.getElementById("graph"+data.id);
-        var el = document.getElementById(data.id);
-        var do_loop_by = false;
-        var option2;
-        var selectList2;
-        var selectList;
-        var reset = false;
-
-        if(graph){
-          // reset nodes before ?
-          if(document.getElementById(el.id).highlight){
-            // need reset nodes
-            if(document.getElementById(el.id).highlightActive === true){
-              reset = true;
-            }
-          }
-          if(reset){
-            document.getElementById("nodeSelect"+data.id).value = "";
-            document.getElementById("nodeSelect"+data.id).onchange();
-          }
-
-          // collapse init
-          if(data.options.collapse !== undefined){
-            el.collapse = data.options.collapse.enabled;
-            el.collapseFit = data.options.collapse.fit;
-            el.collapseResetHighlight = data.options.collapse.resetHighlight;
-            el.clusterOptions = data.options.collapse.clusterOptions;
-          }
-
-          // highlight init
-          if(data.options.highlight !== undefined){
-            el.highlight = data.options.highlight.enabled;
-            el.degree = data.options.highlight.degree;
-            el.hoverNearest = data.options.highlight.hoverNearest;
-            el.highlightColor = data.options.highlight.hideColor;
-            el.highlightAlgorithm = data.options.highlight.algorithm;
-            el.highlightLabelOnly = data.options.labelOnly;
-          }
-
-          // byselection init
-          if(data.options.byselection !== undefined){
-            if(data.options.byselection.selected !== undefined){
-              document.getElementById("selectedBy"+data.id).value = data.options.byselection.selected;
-              document.getElementById("selectedBy"+data.id).onchange();
-            }
-            if(data.options.byselection.hideColor){
-              el.byselectionColor = data.options.byselection.hideColor;
-            }
-          }
-
-          if(data.options.byselection !== undefined){
-            selectList2 = document.getElementById("selectedBy"+data.id)
-            selectList2.options.length = 0;
-            if(data.options.byselection.enabled === true){
-              option2 = document.createElement("option");
-              option2.value = "";
-              if(data.options.byselection.main === undefined){
-                option2.text = "Select by " + data.options.byselection.variable;
-              } else {
-                option2.text = data.options.byselection.main;
-              }
-
-              selectList2.appendChild(option2);
-
-              if(data.options.byselection.values !== undefined){
-                for (var i = 0; i < data.options.byselection.values.length; i++) {
-                  option2 = document.createElement("option");
-                  option2.value = data.options.byselection.values[i];
-                  option2.text = data.options.byselection.values[i];
-                  selectList2.appendChild(option2);
-                }
-              }else{
-                do_loop_by = true;
-              }
-
-              el.byselection_variable = data.options.byselection.variable;
-              el.byselection_multiple = data.options.byselection.multiple;
-              selectList2.style.display = 'inline';
-              if(data.options.byselection.style !== undefined){
-                selectList2.setAttribute('style', data.options.byselection.style);
-              }
-              el.byselection = true;
-            } else {
-              selectList2.style.display = 'none';
-              el.byselection = false;
-              // reset selection
-              if(el.selectActive === true){
-                document.getElementById("selectedBy"+data.id).value = "";
-                document.getElementById("selectedBy"+data.id).onchange();
-              }
-            }
-          }else{
-            // reset selection
-            if(el.selectActive === true){
-              document.getElementById("selectedBy"+data.id).value = "";
-              document.getElementById("selectedBy"+data.id).onchange();
-            }
-          }
-
-          if(do_loop_by){
-              var allNodes = graph.nodes.get({returnType:"Object"});
-              var byselection_values = [];
-              for (var nodeId in allNodes) {
-                if(do_loop_by){
-                  var current_sel_value = allNodes[nodeId][data.options.byselection.variable];
-                  if(data.options.byselection.multiple){
-                    current_sel_value = current_sel_value.split(",").map(Function.prototype.call, String.prototype.trim);
-                  }else{
-                    current_sel_value = [current_sel_value];
-                  }
-                  for(var ind_c in current_sel_value){
-                    if(indexOf.call(byselection_values, current_sel_value[ind_c], false) === -1){
-                      option2 = document.createElement("option");
-                      option2.value = current_sel_value[ind_c];
-                      option2.text = current_sel_value[ind_c];
-                      selectList2.appendChild(option2);
-                      byselection_values.push(current_sel_value[ind_c]);
-                    }
-                  }
-                }
-              }
-          }
-
-          // node id selection init
-          if(data.options.idselection !== undefined){
-            selectList = document.getElementById("nodeSelect"+data.id)
-            selectList.options.length = 0;
-            if(data.options.idselection.enabled === true){
-              setNodeIdList(selectList, data.options.idselection, graph.nodes)
-              el.idselection = true;
-            } else {
-              selectList.style.display = 'none';
-              el.idselection = false;
-            }
-            if(data.options.idselection.useLabels !== undefined){
-              el.idselection_useLabels = data.options.idselection.useLabels
-            }
-          }
-
-          if(data.options.idselection !== undefined){
-            if(data.options.idselection.enabled === true && data.options.idselection.selected !== undefined){
-              document.getElementById("nodeSelect"+data.id).value = data.options.idselection.selected;
-              document.getElementById("nodeSelect"+data.id).onchange();
-            }
-          }
-        }
-  };
-
-  Shiny.addCustomMessageHandler('visShinyCustomOptions', updateVisOptions);
-
-  // udpate nodes data
-  Shiny.addCustomMessageHandler('visShinyUpdateNodes', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      var main_el = document.getElementById(data.id);
-
-      if(data.legend === false){
-        if(el){
-          // get & transform nodes object
-          var tmpnodes = visNetworkdataframeToD3(data.nodes, "nodes");
-
-          // reset some parameters / data before
-          if (main_el.selectActive === true | main_el.highlightActive === true) {
-            //reset nodes
-            resetAllNodes(el.nodes, true, el.chart.groups, el.options, el.chart);
-
-            if (main_el.selectActive === true){
-              main_el.selectActive = false;
-              resetList('selectedBy', data.id, 'selectedBy');
-            }
-            if (main_el.highlightActive === true){
-              main_el.highlightActive = false;
-              resetList('nodeSelect', data.id, 'selected');
-            }
-          }
-          // update nodes
-          el.nodes.update(tmpnodes);
-
-          // update options ?
-          if(data.updateOptions){
-            var dataOptions = {};
-            dataOptions.options = {};
-
-            var updateOpts = false;
-            if(document.getElementById("nodeSelect"+data.id).style.display === 'inline'){
-              updateOpts = true;
-              dataOptions.id  = data.id;
-              dataOptions.options.idselection = {enabled : true, useLabels : main_el.idselection_useLabels};
-            }
-
-            if(document.getElementById("selectedBy"+data.id).style.display === 'inline'){
-              updateOpts = true;
-              dataOptions.id  = data.id;
-              dataOptions.options.byselection = {enabled : true, variable : main_el.byselection_variable, multiple : main_el.byselection_multiple};
-            }
-
-            if(updateOpts){
-              updateVisOptions(dataOptions);
-            }
-          }
-        }
-      } else if(data.legend === true){
-        var legend_network = document.getElementById("legend"+data.id);
-        if(legend_network){
-          // get & transform nodes object
-          var tmpnodes = visNetworkdataframeToD3(data.nodes, "nodes");
-          // update nodes
-          legend_network.network.body.data.nodes.update(tmpnodes);
-          // fit
-          legend_network.network.fit();
-        }
-      }
-  });
-
-  // udpate edges data
-  Shiny.addCustomMessageHandler('visShinyUpdateEdges', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(data.legend === false){
-        if(el){
-          // get edges object
-          var tmpedges = visNetworkdataframeToD3(data.edges, "edges");
-          // reset edges
-          resetAllEdges(el.edges, el.highlightColor,  el.byselectionColor, el.chart)
-          el.edges.update(tmpedges);
-        }
-      } else if(data.legend === true){
-        var legend_network = document.getElementById("legend"+data.id);
-        if(legend_network){
-          // get & transform nodes object
-          var tmpedges = visNetworkdataframeToD3(data.edges, "edges");
-          // update edges
-          legend_network.network.body.data.edges.update(tmpedges);
-          // fit
-          legend_network.network.fit();
-        }
-      }
-  });
-
-  // remove nodes
-  Shiny.addCustomMessageHandler('visShinyRemoveNodes', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      var main_el = document.getElementById(data.id);
-      if(data.legend === false){
-        if(el){
-          // reset some parameters / date before
-          if (main_el.selectActive === true | main_el.highlightActive === true) {
-            //reset nodes
-            resetAllNodes(el.nodes, true, el.chart.groups, el.options, el.chart);
-
-            if (main_el.selectActive === true){
-              main_el.selectActive = false;
-              resetList('selectedBy', data.id, 'selectedBy');
-            }
-            if (main_el.highlightActive === true){
-              main_el.highlightActive = false;
-              resetList('nodeSelect', data.id, 'selected');
-            }
-          }
-          // remove nodes
-          el.nodes.remove(data.rmid);
-
-          // update options ?
-          if(data.updateOptions){
-            var dataOptions = {};
-            dataOptions.options = {};
-
-            var updateOpts = false;
-            if(document.getElementById("nodeSelect"+data.id).style.display === 'inline'){
-              updateOpts = true;
-              dataOptions.id  = data.id;
-              dataOptions.options.idselection = {enabled : true, useLabels : main_el.idselection_useLabels};
-            }
-
-            if(document.getElementById("selectedBy"+data.id).style.display === 'inline'){
-              updateOpts = true;
-              dataOptions.id  = data.id;
-              dataOptions.options.byselection = {enabled : true, variable : main_el.byselection_variable, multiple : main_el.byselection_multiple};
-            }
-
-            if(updateOpts){
-              updateVisOptions(dataOptions);
-            }
-          }
-        }
-      } else if(data.legend === true){
-        var legend_network = document.getElementById("legend"+data.id);
-        if(legend_network){
-          // remove nodes
-          legend_network.network.body.data.nodes.remove(data.rmid);
-          // fit
-          legend_network.network.fit();
-        }
-      }
-  });
-
-  // remove edges
-  Shiny.addCustomMessageHandler('visShinyRemoveEdges', function(data){
-      // get container id
-      var el = document.getElementById("graph"+data.id);
-      if(data.legend === false){
-        if(el){
-          // reset edges
-          resetAllEdges(el.edges, el.highlightColor,  el.byselectionColor, el.chart)
-          el.edges.remove(data.rmid);
-        }
-      } else if(data.legend === true){
-        var legend_network = document.getElementById("legend"+data.id);
-        if(legend_network){
-          // remove edges
-          legend_network.network.body.data.edges.remove(data.rmid);
-          // fit
-          legend_network.network.fit();
-        }
-      }
-  });
-
-  // remove edges
-  Shiny.addCustomMessageHandler('visShinySetTitle', function(data){
-    if(data.main !== null){
-      var div_title = document.getElementById("title" + data.id);
-      if(div_title !== null){
-        if(data.main.hidden === true){
-          div_title.style.display = 'none';
-        } else {
-          if(data.main.text !== undefined){
-            if(data.main.text !== null){
-              if(data.main.text.length > 0){
-                div_title.innerHTML = data.main.text;
-              } else {
-                div_title.innerHTML = "";
-              }
-            }
-          }
-          if(data.main.style !== undefined){
-            if(data.main.style !== null){
-              if(data.main.style.length > 0){
-                div_title.setAttribute('style',  data.main.style);
-              }
-            }
-          }
-          div_title.style.display = 'block';
-        }
-      }
-    }
-    if(data.submain !== null){
-      var div_subtitle = document.getElementById("subtitle" + data.id);
-      if(div_subtitle !== null){
-        if(data.submain.hidden === true){
-          div_subtitle.style.display = 'none';
-        } else {
-          if(data.submain.text !== undefined){
-            if(data.submain.text !== null){
-              if(data.submain.text.length > 0){
-                div_subtitle.innerHTML = data.submain.text;
-              } else {
-                div_subtitle.innerHTML = "";
-              }
-            }
-          }
-          if(data.submain.style !== undefined){
-            if(data.submain.style !== null){
-              if(data.submain.style.length > 0){
-                div_subtitle.setAttribute('style',  data.submain.style);
-              }
-            }
-          }
-          div_subtitle.style.display = 'block';
-        }
-      }
-    }
-    if(data.footer !== null){
-      var div_footer = document.getElementById("footer" + data.id);
-      if(div_footer !== null){
-        if(data.footer.hidden === true){
-          div_footer.style.display = 'none';
-        } else {
-          if(data.footer.text !== undefined){
-            if(data.footer.text !== null){
-              if(data.footer.text.length > 0){
-                div_footer.innerHTML = data.footer.text;
-              } else {
-                div_footer.innerHTML = "";
-              }
-            }
-          }
-          if(data.footer.style !== undefined){
-            if(data.footer.style !== null){
-              if(data.footer.style.length > 0){
-                div_footer.setAttribute('style',  data.footer.style);
-              }
-            }
-          }
-          div_footer.style.display = 'block';
-        }
-      }
-    }
-  });
-
-  // updateTree
-  Shiny.addCustomMessageHandler('visShinyUpdateTree', function(data){
-      // get container id
-      var el = document.getElementById(data.id);
-      if(el){
-      if(el.tree){
-          if(data.tree.updateShape != undefined){
-            el.tree.updateShape = data.tree.updateShape
-          }
-          if(data.tree.shapeVar != undefined){
-            el.tree.shapeVar = data.tree.shapeVar
-          }
-          if(data.tree.shapeY != undefined){
-            el.tree.shapeY = data.tree.shapeY
-          }
-        }
-      }
-  });
-}
+// if (HTMLWidgets.shinyMode){
+//
+//   // collapsed method
+//   Shiny.addCustomMessageHandler('visShinyCollapse', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         collapsedNetwork(data.nodes, data.fit, data.resetHighlight, data.clusterOptions, undefined, el.chart, data.id)
+//       }
+//   });
+//
+//   // uncollapsed method
+//   Shiny.addCustomMessageHandler('visShinyUncollapse', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         uncollapsedNetwork(data.nodes, data.fit, data.resetHighlight, el.chart, data.id)
+//       }
+//   });
+//
+//   // event method
+//   Shiny.addCustomMessageHandler('visShinyEvents', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+//
+//         if(data.type === "once"){
+//           for (var key in data.events) {
+//             eval('network.once("' + key + '",' + data.events[key] + ')');
+//           }
+//         } else if(data.type === "on"){
+//           for (var key in data.events) {
+//             eval('network.on("' + key + '",' + data.events[key] + ')');
+//           }
+//         } else if(data.type === "off"){
+//           for (var key in data.events) {
+//             eval('network.off("' + key + '",' + data.events[key] + ')');
+//           }
+//         }
+//       }
+//   });
+//
+//   // moveNode method
+//   Shiny.addCustomMessageHandler('visShinyMoveNode', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+//         network.moveNode(data.nodeId, data.x, data.y);
+//       }
+//   });
+//
+//   // unselectAll method
+//   Shiny.addCustomMessageHandler('visShinyUnselectAll', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+//
+//         // reset selection
+//         document.getElementById("nodeSelect"+data.id).value = "";
+//         document.getElementById("nodeSelect"+data.id).onchange();
+//
+//         if(document.getElementById(data.id).selectActive === true){
+//             document.getElementById("selectedBy"+data.id).value = "";
+//             document.getElementById("selectedBy"+data.id).onchange();
+//         }
+//
+//         network.unselectAll();
+//       }
+//   });
+//
+//   // updateOptions in the network
+//   Shiny.addCustomMessageHandler('visShinyOptions', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+//         var options = el.options;
+//         // configure
+//         if(data.options.configure !== undefined){
+//           if(data.options.configure.container !== undefined){
+//             var dom_conf = document.getElementById(data.options.configure.container);
+//             if(dom_conf !== null){
+//               data.options.configure.container = dom_conf;
+//             } else {
+//               data.options.configure.container = undefined;
+//             }
+//           }
+//         }
+//
+//         update(options, data.options);
+//         network.setOptions(options);
+//       }
+//   });
+//
+//   // setData the network
+//   Shiny.addCustomMessageHandler('visShinySetData', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+//         var newnodes = new vis.DataSet();
+//         var newedges = new vis.DataSet();
+//
+//         newnodes.add(visNetworkdataframeToD3(data.nodes, "nodes"));
+//         newedges.add(visNetworkdataframeToD3(data.edges, "edges"));
+//         var newdata = {
+//           nodes: newnodes,
+//           edges: newedges
+//         };
+//         network.setData(newdata);
+//       }
+//   });
+//
+//   // fit to a specific node
+//   Shiny.addCustomMessageHandler('visShinyFit', function(data){
+//     // get container id
+//     var el = document.getElementById("graph"+data.id);
+//     if(el){
+//         var network = el.chart;
+//         network.fit(data.options);
+//       }
+//   });
+//
+//   // focus on a node in the network
+//   Shiny.addCustomMessageHandler('visShinyFocus', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+//         network.focus(data.focusId, data.options);
+//       }
+//   });
+//
+//   // stabilize the network
+//   Shiny.addCustomMessageHandler('visShinyStabilize', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+//         network.stabilize(data.options);
+//       }
+//   });
+//
+//   // startSimulation on network
+//   Shiny.addCustomMessageHandler('visShinyStartSimulation', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+//         network.startSimulation();
+//       }
+//   });
+//
+//   // stopSimulation on network
+//   Shiny.addCustomMessageHandler('visShinyStopSimulation', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+//         network.stopSimulation();
+//       }
+//   });
+//
+//   // get positions of the network
+//   Shiny.addCustomMessageHandler('visShinyGetPositions', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+//         var pos;
+//
+//         if(data.nodes !== undefined){
+//           pos = network.getPositions(data.nodes);
+//         }else{
+//           pos = network.getPositions();
+//         }
+// 		// return positions in shiny
+//         Shiny.onInputChange(data.input, pos);
+//       }
+//   });
+//
+//   // get edges data
+//   Shiny.addCustomMessageHandler('visShinyGetEdges', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var current_edges = el.edges.getDataSet();
+//         // return data in shiny
+//         Shiny.onInputChange(data.input, current_edges._data);
+//       }
+//   });
+//
+//   // get nodes data
+//   Shiny.addCustomMessageHandler('visShinyGetNodes', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         if(data.addCoordinates){
+//           el.chart.storePositions();
+//         }
+//         var current_nodes = el.nodes.getDataSet();
+//         // return data in shiny
+//         Shiny.onInputChange(data.input, current_nodes._data);
+//       }
+//   });
+//
+//   // get selected edges
+//   Shiny.addCustomMessageHandler('visShinyGetSelectedEdges', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+//         var pos = network.getSelectedEdges();
+// 		    // return  in shiny
+//         Shiny.onInputChange(data.input, pos);
+//       }
+//   });
+//
+//   // get selected nodes
+//   Shiny.addCustomMessageHandler('visShinyGetSelectedNodes', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+//         var pos = network.getSelectedNodes();
+// 		    // return  in shiny
+//         Shiny.onInputChange(data.input, pos);
+//       }
+//   });
+//
+//   // getConnectedEdges
+//   Shiny.addCustomMessageHandler('visShinyGetConnectedEdges', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+//         var pos = network.getConnectedEdges(data.nodeId);
+//         // return  in shiny
+//         Shiny.onInputChange(data.input, pos);
+//       }
+//   });
+//
+//   // getConnectedNodes
+//   Shiny.addCustomMessageHandler('visShinyGetConnectedNodes', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+//         var pos = network.getConnectedNodes(data.nodeId);
+//         // return  in shiny
+//         Shiny.onInputChange(data.input, pos);
+//       }
+//   });
+//
+//   // getBoundingBox
+//   Shiny.addCustomMessageHandler('visShinyGetBoundingBox', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+//         var pos = network.getBoundingBox(data.nodeId);
+//         // return  in shiny
+//         Shiny.onInputChange(data.input, pos);
+//       }
+//   });
+//
+//   // get selection
+//   Shiny.addCustomMessageHandler('visShinyGetSelection', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+//         var pos;
+//
+//         pos = network.getSelection();
+//
+// 		    // return  in shiny
+//         Shiny.onInputChange(data.input, pos);
+//       }
+//   });
+//
+//   // get scale
+//   Shiny.addCustomMessageHandler('visShinyGetScale', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+//         var pos;
+//
+//         pos = network.getScale();
+//
+// 		    // return  in shiny
+//         Shiny.onInputChange(data.input, pos);
+//       }
+//   });
+//
+//   // store positions
+//   Shiny.addCustomMessageHandler('visShinyStorePositions', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+//         network.storePositions();
+//       }
+//   });
+//
+//   // get view position
+//   Shiny.addCustomMessageHandler('visShinyGetViewPosition', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+//         var pos;
+//
+//         pos = network.getViewPosition();
+//
+// 		    // return  in shiny
+//         Shiny.onInputChange(data.input, pos);
+//       }
+//   });
+//
+//   // get view position
+//   Shiny.addCustomMessageHandler('visShinyGetOptionsFromConfigurator', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+// 		    // return  in shiny
+//         Shiny.onInputChange(data.input, network.getOptionsFromConfigurator());
+//       }
+//   });
+//
+//   // Redraw the network
+//   Shiny.addCustomMessageHandler('visShinyRedraw', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         el.chart.redraw();
+//       }
+//   });
+//
+//   // select nodes
+//   Shiny.addCustomMessageHandler('visShinySelectNodes', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+//         if(data.selid !== null){
+//           network.selectNodes(data.selid, data.highlightEdges);
+//           if(data.clickEvent){
+//             el.myclick({nodes : data.selid});
+//           }
+//         }else{
+//           if(data.clickEvent){
+//             el.myclick({nodes : []});
+//           }
+//         }
+//       }
+//   });
+//
+//   // select edges
+//   Shiny.addCustomMessageHandler('visShinySelectEdges', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+//         if(data.selid !== null){
+//           network.selectEdges(data.selid);
+//         }
+//       }
+//   });
+//
+//   // set selection
+//   Shiny.addCustomMessageHandler('visShinySetSelection', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(el){
+//         var network = el.chart;
+//         if(data.selection.nodes !== null || data.selection.edges !== null){
+//           network.setSelection(data.selection, data.options);
+//         }
+//         if(data.clickEvent){
+//           if(data.selection.nodes !== null){
+//             el.myclick({nodes : data.selection.nodes});
+//           } else {
+//            el.myclick({nodes : []});
+//           }
+//         }
+//       }
+//   });
+//
+//   function updateVisOptions(data){
+//         // get container id
+//         var graph = document.getElementById("graph"+data.id);
+//         var el = document.getElementById(data.id);
+//         var do_loop_by = false;
+//         var option2;
+//         var selectList2;
+//         var selectList;
+//         var reset = false;
+//
+//         if(graph){
+//           // reset nodes before ?
+//           if(document.getElementById(el.id).highlight){
+//             // need reset nodes
+//             if(document.getElementById(el.id).highlightActive === true){
+//               reset = true;
+//             }
+//           }
+//           if(reset){
+//             document.getElementById("nodeSelect"+data.id).value = "";
+//             document.getElementById("nodeSelect"+data.id).onchange();
+//           }
+//
+//           // collapse init
+//           if(data.options.collapse !== undefined){
+//             el.collapse = data.options.collapse.enabled;
+//             el.collapseFit = data.options.collapse.fit;
+//             el.collapseResetHighlight = data.options.collapse.resetHighlight;
+//             el.clusterOptions = data.options.collapse.clusterOptions;
+//           }
+//
+//           // highlight init
+//           if(data.options.highlight !== undefined){
+//             el.highlight = data.options.highlight.enabled;
+//             el.degree = data.options.highlight.degree;
+//             el.hoverNearest = data.options.highlight.hoverNearest;
+//             el.highlightColor = data.options.highlight.hideColor;
+//             el.highlightAlgorithm = data.options.highlight.algorithm;
+//             el.highlightLabelOnly = data.options.labelOnly;
+//           }
+//
+//           // byselection init
+//           if(data.options.byselection !== undefined){
+//             if(data.options.byselection.selected !== undefined){
+//               document.getElementById("selectedBy"+data.id).value = data.options.byselection.selected;
+//               document.getElementById("selectedBy"+data.id).onchange();
+//             }
+//             if(data.options.byselection.hideColor){
+//               el.byselectionColor = data.options.byselection.hideColor;
+//             }
+//           }
+//
+//           if(data.options.byselection !== undefined){
+//             selectList2 = document.getElementById("selectedBy"+data.id)
+//             selectList2.options.length = 0;
+//             if(data.options.byselection.enabled === true){
+//               option2 = document.createElement("option");
+//               option2.value = "";
+//               if(data.options.byselection.main === undefined){
+//                 option2.text = "Select by " + data.options.byselection.variable;
+//               } else {
+//                 option2.text = data.options.byselection.main;
+//               }
+//
+//               selectList2.appendChild(option2);
+//
+//               if(data.options.byselection.values !== undefined){
+//                 for (var i = 0; i < data.options.byselection.values.length; i++) {
+//                   option2 = document.createElement("option");
+//                   option2.value = data.options.byselection.values[i];
+//                   option2.text = data.options.byselection.values[i];
+//                   selectList2.appendChild(option2);
+//                 }
+//               }else{
+//                 do_loop_by = true;
+//               }
+//
+//               el.byselection_variable = data.options.byselection.variable;
+//               el.byselection_multiple = data.options.byselection.multiple;
+//               selectList2.style.display = 'inline';
+//               if(data.options.byselection.style !== undefined){
+//                 selectList2.setAttribute('style', data.options.byselection.style);
+//               }
+//               el.byselection = true;
+//             } else {
+//               selectList2.style.display = 'none';
+//               el.byselection = false;
+//               // reset selection
+//               if(el.selectActive === true){
+//                 document.getElementById("selectedBy"+data.id).value = "";
+//                 document.getElementById("selectedBy"+data.id).onchange();
+//               }
+//             }
+//           }else{
+//             // reset selection
+//             if(el.selectActive === true){
+//               document.getElementById("selectedBy"+data.id).value = "";
+//               document.getElementById("selectedBy"+data.id).onchange();
+//             }
+//           }
+//
+//           if(do_loop_by){
+//               var allNodes = graph.nodes.get({returnType:"Object"});
+//               var byselection_values = [];
+//               for (var nodeId in allNodes) {
+//                 if(do_loop_by){
+//                   var current_sel_value = allNodes[nodeId][data.options.byselection.variable];
+//                   if(data.options.byselection.multiple){
+//                     current_sel_value = current_sel_value.split(",").map(Function.prototype.call, String.prototype.trim);
+//                   }else{
+//                     current_sel_value = [current_sel_value];
+//                   }
+//                   for(var ind_c in current_sel_value){
+//                     if(indexOf.call(byselection_values, current_sel_value[ind_c], false) === -1){
+//                       option2 = document.createElement("option");
+//                       option2.value = current_sel_value[ind_c];
+//                       option2.text = current_sel_value[ind_c];
+//                       selectList2.appendChild(option2);
+//                       byselection_values.push(current_sel_value[ind_c]);
+//                     }
+//                   }
+//                 }
+//               }
+//           }
+//
+//           // node id selection init
+//           if(data.options.idselection !== undefined){
+//             selectList = document.getElementById("nodeSelect"+data.id)
+//             selectList.options.length = 0;
+//             if(data.options.idselection.enabled === true){
+//               setNodeIdList(selectList, data.options.idselection, graph.nodes)
+//               el.idselection = true;
+//             } else {
+//               selectList.style.display = 'none';
+//               el.idselection = false;
+//             }
+//             if(data.options.idselection.useLabels !== undefined){
+//               el.idselection_useLabels = data.options.idselection.useLabels
+//             }
+//           }
+//
+//           if(data.options.idselection !== undefined){
+//             if(data.options.idselection.enabled === true && data.options.idselection.selected !== undefined){
+//               document.getElementById("nodeSelect"+data.id).value = data.options.idselection.selected;
+//               document.getElementById("nodeSelect"+data.id).onchange();
+//             }
+//           }
+//         }
+//   };
+//
+//   Shiny.addCustomMessageHandler('visShinyCustomOptions', updateVisOptions);
+//
+//   // udpate nodes data
+//   Shiny.addCustomMessageHandler('visShinyUpdateNodes', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       var main_el = document.getElementById(data.id);
+//
+//       if(data.legend === false){
+//         if(el){
+//           // get & transform nodes object
+//           var tmpnodes = visNetworkdataframeToD3(data.nodes, "nodes");
+//
+//           // reset some parameters / data before
+//           if (main_el.selectActive === true | main_el.highlightActive === true) {
+//             //reset nodes
+//             resetAllNodes(el.nodes, true, el.chart.groups, el.options, el.chart);
+//
+//             if (main_el.selectActive === true){
+//               main_el.selectActive = false;
+//               resetList('selectedBy', data.id, 'selectedBy');
+//             }
+//             if (main_el.highlightActive === true){
+//               main_el.highlightActive = false;
+//               resetList('nodeSelect', data.id, 'selected');
+//             }
+//           }
+//           // update nodes
+//           el.nodes.update(tmpnodes);
+//
+//           // update options ?
+//           if(data.updateOptions){
+//             var dataOptions = {};
+//             dataOptions.options = {};
+//
+//             var updateOpts = false;
+//             if(document.getElementById("nodeSelect"+data.id).style.display === 'inline'){
+//               updateOpts = true;
+//               dataOptions.id  = data.id;
+//               dataOptions.options.idselection = {enabled : true, useLabels : main_el.idselection_useLabels};
+//             }
+//
+//             if(document.getElementById("selectedBy"+data.id).style.display === 'inline'){
+//               updateOpts = true;
+//               dataOptions.id  = data.id;
+//               dataOptions.options.byselection = {enabled : true, variable : main_el.byselection_variable, multiple : main_el.byselection_multiple};
+//             }
+//
+//             if(updateOpts){
+//               updateVisOptions(dataOptions);
+//             }
+//           }
+//         }
+//       } else if(data.legend === true){
+//         var legend_network = document.getElementById("legend"+data.id);
+//         if(legend_network){
+//           // get & transform nodes object
+//           var tmpnodes = visNetworkdataframeToD3(data.nodes, "nodes");
+//           // update nodes
+//           legend_network.network.body.data.nodes.update(tmpnodes);
+//           // fit
+//           legend_network.network.fit();
+//         }
+//       }
+//   });
+//
+//   // udpate edges data
+//   Shiny.addCustomMessageHandler('visShinyUpdateEdges', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(data.legend === false){
+//         if(el){
+//           // get edges object
+//           var tmpedges = visNetworkdataframeToD3(data.edges, "edges");
+//           // reset edges
+//           resetAllEdges(el.edges, el.highlightColor,  el.byselectionColor, el.chart)
+//           el.edges.update(tmpedges);
+//         }
+//       } else if(data.legend === true){
+//         var legend_network = document.getElementById("legend"+data.id);
+//         if(legend_network){
+//           // get & transform nodes object
+//           var tmpedges = visNetworkdataframeToD3(data.edges, "edges");
+//           // update edges
+//           legend_network.network.body.data.edges.update(tmpedges);
+//           // fit
+//           legend_network.network.fit();
+//         }
+//       }
+//   });
+//
+//   // remove nodes
+//   Shiny.addCustomMessageHandler('visShinyRemoveNodes', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       var main_el = document.getElementById(data.id);
+//       if(data.legend === false){
+//         if(el){
+//           // reset some parameters / date before
+//           if (main_el.selectActive === true | main_el.highlightActive === true) {
+//             //reset nodes
+//             resetAllNodes(el.nodes, true, el.chart.groups, el.options, el.chart);
+//
+//             if (main_el.selectActive === true){
+//               main_el.selectActive = false;
+//               resetList('selectedBy', data.id, 'selectedBy');
+//             }
+//             if (main_el.highlightActive === true){
+//               main_el.highlightActive = false;
+//               resetList('nodeSelect', data.id, 'selected');
+//             }
+//           }
+//           // remove nodes
+//           el.nodes.remove(data.rmid);
+//
+//           // update options ?
+//           if(data.updateOptions){
+//             var dataOptions = {};
+//             dataOptions.options = {};
+//
+//             var updateOpts = false;
+//             if(document.getElementById("nodeSelect"+data.id).style.display === 'inline'){
+//               updateOpts = true;
+//               dataOptions.id  = data.id;
+//               dataOptions.options.idselection = {enabled : true, useLabels : main_el.idselection_useLabels};
+//             }
+//
+//             if(document.getElementById("selectedBy"+data.id).style.display === 'inline'){
+//               updateOpts = true;
+//               dataOptions.id  = data.id;
+//               dataOptions.options.byselection = {enabled : true, variable : main_el.byselection_variable, multiple : main_el.byselection_multiple};
+//             }
+//
+//             if(updateOpts){
+//               updateVisOptions(dataOptions);
+//             }
+//           }
+//         }
+//       } else if(data.legend === true){
+//         var legend_network = document.getElementById("legend"+data.id);
+//         if(legend_network){
+//           // remove nodes
+//           legend_network.network.body.data.nodes.remove(data.rmid);
+//           // fit
+//           legend_network.network.fit();
+//         }
+//       }
+//   });
+//
+//   // remove edges
+//   Shiny.addCustomMessageHandler('visShinyRemoveEdges', function(data){
+//       // get container id
+//       var el = document.getElementById("graph"+data.id);
+//       if(data.legend === false){
+//         if(el){
+//           // reset edges
+//           resetAllEdges(el.edges, el.highlightColor,  el.byselectionColor, el.chart)
+//           el.edges.remove(data.rmid);
+//         }
+//       } else if(data.legend === true){
+//         var legend_network = document.getElementById("legend"+data.id);
+//         if(legend_network){
+//           // remove edges
+//           legend_network.network.body.data.edges.remove(data.rmid);
+//           // fit
+//           legend_network.network.fit();
+//         }
+//       }
+//   });
+//
+//   // remove edges
+//   Shiny.addCustomMessageHandler('visShinySetTitle', function(data){
+//     if(data.main !== null){
+//       var div_title = document.getElementById("title" + data.id);
+//       if(div_title !== null){
+//         if(data.main.hidden === true){
+//           div_title.style.display = 'none';
+//         } else {
+//           if(data.main.text !== undefined){
+//             if(data.main.text !== null){
+//               if(data.main.text.length > 0){
+//                 div_title.innerHTML = data.main.text;
+//               } else {
+//                 div_title.innerHTML = "";
+//               }
+//             }
+//           }
+//           if(data.main.style !== undefined){
+//             if(data.main.style !== null){
+//               if(data.main.style.length > 0){
+//                 div_title.setAttribute('style',  data.main.style);
+//               }
+//             }
+//           }
+//           div_title.style.display = 'block';
+//         }
+//       }
+//     }
+//     if(data.submain !== null){
+//       var div_subtitle = document.getElementById("subtitle" + data.id);
+//       if(div_subtitle !== null){
+//         if(data.submain.hidden === true){
+//           div_subtitle.style.display = 'none';
+//         } else {
+//           if(data.submain.text !== undefined){
+//             if(data.submain.text !== null){
+//               if(data.submain.text.length > 0){
+//                 div_subtitle.innerHTML = data.submain.text;
+//               } else {
+//                 div_subtitle.innerHTML = "";
+//               }
+//             }
+//           }
+//           if(data.submain.style !== undefined){
+//             if(data.submain.style !== null){
+//               if(data.submain.style.length > 0){
+//                 div_subtitle.setAttribute('style',  data.submain.style);
+//               }
+//             }
+//           }
+//           div_subtitle.style.display = 'block';
+//         }
+//       }
+//     }
+//     if(data.footer !== null){
+//       var div_footer = document.getElementById("footer" + data.id);
+//       if(div_footer !== null){
+//         if(data.footer.hidden === true){
+//           div_footer.style.display = 'none';
+//         } else {
+//           if(data.footer.text !== undefined){
+//             if(data.footer.text !== null){
+//               if(data.footer.text.length > 0){
+//                 div_footer.innerHTML = data.footer.text;
+//               } else {
+//                 div_footer.innerHTML = "";
+//               }
+//             }
+//           }
+//           if(data.footer.style !== undefined){
+//             if(data.footer.style !== null){
+//               if(data.footer.style.length > 0){
+//                 div_footer.setAttribute('style',  data.footer.style);
+//               }
+//             }
+//           }
+//           div_footer.style.display = 'block';
+//         }
+//       }
+//     }
+//   });
+//
+//   // updateTree
+//   Shiny.addCustomMessageHandler('visShinyUpdateTree', function(data){
+//       // get container id
+//       var el = document.getElementById(data.id);
+//       if(el){
+//       if(el.tree){
+//           if(data.tree.updateShape != undefined){
+//             el.tree.updateShape = data.tree.updateShape
+//           }
+//           if(data.tree.shapeVar != undefined){
+//             el.tree.shapeVar = data.tree.shapeVar
+//           }
+//           if(data.tree.shapeY != undefined){
+//             el.tree.shapeY = data.tree.shapeY
+//           }
+//         }
+//       }
+//   });
+// }
 
 //----------------------------------------------------------------
 // HTMLWidgets.widget Definition
