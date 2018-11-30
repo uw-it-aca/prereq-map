@@ -652,6 +652,7 @@ function nodeAsHardToRead(node, groups, options, hideColor1, hideColor2, network
     if(type === "node"){
       node.hiddenLabel = node.label;
       node.label = undefined;
+
     } else {
       node.setOptions({hiddenLabel : node.options.label, label : undefined})
     }

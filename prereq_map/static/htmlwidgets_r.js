@@ -616,6 +616,7 @@
 
         var scriptData = document.querySelector("script[data-for='" + el.id + "'][type='application/json']");
         if (scriptData) {
+          console.log(scriptData);
           var data = JSON.parse(scriptData.textContent || scriptData.text);
           // Resolve strings marked as javascript literals to objects
           if (!(data.evals instanceof Array)) data.evals = [data.evals];
@@ -635,7 +636,8 @@
   if (document.addEventListener) {
     document.addEventListener("DOMContentLoaded", function() {
       document.removeEventListener("DOMContentLoaded", arguments.callee, false);
-      window.HTMLWidgets.staticRender();
+      // window.HTMLWidgets.staticRender();
+      window.show_graph();
     }, false);
   } else if (document.attachEvent) {
     document.attachEvent("onreadystatechange", function() {
