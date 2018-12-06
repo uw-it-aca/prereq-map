@@ -15,85 +15,12 @@ window.show_graph = function() {
     build_graph(graph_div, data.x, initResult)
 };
 
-function initSizing(el) {
-    var sizing = sizingPolicy(el);
-    if (!sizing)
-        return;
-
-    var cel = document.getElementById("htmlwidget_container");
-    if (!cel)
-        return;
-
-    if (typeof(sizing.padding) !== "undefined") {
-        document.body.style.margin = "0";
-        document.body.style.padding = "0";
-    }
-
-    if (sizing.fill) {
-        document.body.style.overflow = "hidden";
-        document.body.style.width = "100%";
-        document.body.style.height = "100%";
-        document.documentElement.style.width = "100%";
-        document.documentElement.style.height = "100%";
-        if (cel) {
-            cel.style.position = "absolute";
-            var pad = unpackPadding(sizing.padding);
-            cel.style.top = pad.top + "px";
-            cel.style.right = pad.right + "px";
-            cel.style.bottom = pad.bottom + "px";
-            cel.style.left = pad.left + "px";
-            el.style.width = "100%";
-            el.style.height = "100%";
-        }
-
-        return {
-            getWidth: function() { return cel.offsetWidth; },
-            getHeight: function() { return cel.offsetHeight; }
-        };
-
-    } else {
-        el.style.width = px(sizing.width);
-        el.style.height = px(sizing.height);
-
-        return {
-            getWidth: function() { return el.offsetWidth; },
-            getHeight: function() { return el.offsetHeight; }
-        };
-    }
-}
-
-function sizingPolicy(el) {
-    var sizingEl = document.querySelector("script[data-for='" + el.id + "'][type='application/htmlwidget-sizing']");
-    if (!sizingEl)
-        return null;
-    var sp = JSON.parse(sizingEl.textContent || sizingEl.text || "{}");
-    if (viewerMode) {
-        return sp.viewer;
-    } else {
-        return sp.browser;
-    }
-}
-
 function px(x) {
     if (typeof(x) === "number")
         return x + "px";
     else
         return x;
 }
-
-function elementData(el, name, value) {
-    if (arguments.length == 2) {
-        return el["htmlwidget_data_" + name];
-    } else if (arguments.length == 3) {
-        el["htmlwidget_data_" + name] = value;
-        return el;
-    } else {
-        throw new Error("Wrong number of arguments for elementData: " +
-                            arguments.length);
-    }
-}
-
-
 
 function build_graph(el, x, instance) {
     if(x.nodes){
@@ -273,6 +200,5 @@ function build_graph(el, x, instance) {
     };
 
     // create network
-    console.log(document.getElementById("graph"+el.id));
     new vis.Network(document.getElementById("graph"+el.id), data, options);
 }
