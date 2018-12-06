@@ -43,7 +43,6 @@ function edgeAsHardToRead(edge, hideColor1, hideColor2, network, type){
     }
     // set "hard to read" color
     edge.color = hideColor1;
-
     // reset and save label
     if (edge.hiddenLabel === undefined) {
       edge.hiddenLabel = edge.label;
@@ -1940,1880 +1939,1880 @@ function uncollapsedNetwork(nodes, fit, resetHighlight, network, elid) {
 //----------------------------------------------------------------
 // HTMLWidgets.widget Definition
 //---------------------------------------------------------------
-HTMLWidgets.widget({
-
-  name: 'visNetwork',
-
-  type: 'output',
-
-  initialize: function(el, width, height) {
-    return {
-    };
-  },
-
-  renderValue: function(el, x, instance) {
-    var data;
-    var nodes;
-    var edges;
-
-
-    // clustergin by zoom variables
-    var clusterIndex = 0;
-    var clusters = [];
-    var lastClusterZoomLevel = 0;
-    var clusterFactor;
-    var ctrlwait = 0;
-
-    // legend control
-    var addlegend = false;
-
-    // main div el.id
-    var el_id = document.getElementById(el.id);
-
-    // test background
-    el_id.style.background = x.background;
-
-    // clear el.id (for shiny...)
-    el_id.innerHTML = "";
-
-    // shared control with proxy function (is there a better way ?)
-    el_id.highlightActive = false;
-    el_id.selectActive = false;
-    el_id.idselection = x.idselection.enabled;
-    el_id.byselection = x.byselection.enabled;
-
-    if(x.highlight !== undefined){
-      el_id.highlight = x.highlight.enabled;
-      el_id.highlightColor = x.highlight.hideColor;
-      el_id.hoverNearest = x.highlight.hoverNearest;
-      el_id.degree = x.highlight.degree;
-      el_id.highlightAlgorithm = x.highlight.algorithm;
-      el_id.highlightLabelOnly = x.highlight.labelOnly;
-    } else {
-      el_id.highlight = false;
-      el_id.hoverNearest = false;
-      el_id.highlightColor = 'rgba(200,200,200,0.5)';
-      el_id.degree = 1;
-      el_id.highlightAlgorithm = "all";
-      el_id.highlightLabelOnly = true;
-    }
-
-    if(x.byselection.enabled){
-      el_id.byselectionColor = x.byselection.hideColor;
-    } else {
-      el_id.byselectionColor = 'rgba(200,200,200,0.5)';
-    }
-
-    if(x.idselection.enabled){
-      el_id.idselection_useLabels = true;
-    } else {
-      el_id.idselection_useLabels = false;
-    }
-
-    if(x.collapse !== undefined){
-      if(x.collapse.enabled){
-        el_id.collapse = true;
-        el_id.collapseFit = x.collapse.fit;
-        el_id.collapseResetHighlight = x.collapse.resetHighlight;
-        el_id.clusterOptions = x.collapse.clusterOptions;
-      }
-    } else {
-      el_id.collapse = false;
-      el_id.collapseFit = false;
-      el_id.collapseResetHighlight = false;
-      el_id.clusterOptions = undefined;
-    }
-
-    if(x.tree !== undefined){
-      el_id.tree = x.tree;
-    }
-
-    // configure
-    if(x.options.configure !== undefined){
-      if(x.options.configure.container !== undefined){
-        var dom_conf = document.getElementById(x.options.configure.container);
-        if(dom_conf !== null){
-          x.options.configure.container = dom_conf;
-        } else {
-          x.options.configure.container = undefined;
-        }
-      }
-    }
-
-    var changeInput = function(id, data) {
-            Shiny.onInputChange(el.id + '_' + id, data);
-    };
-
-    //*************************
-    //title
-    //*************************
-    var div_title = document.createElement('div');
-    div_title.id = "title"+el.id;
-    div_title.setAttribute('style','font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;');
-    div_title.style.display = 'none';
-    el_id.appendChild(div_title);
-    if(x.main !== null){
-      div_title.innerHTML = x.main.text;
-      div_title.setAttribute('style',  x.main.style + ";background-color: inherit;");
-      div_title.style.display = 'block';
-    }
-
-    //*************************
-    //subtitle
-    //*************************
-    var div_subtitle = document.createElement('div');
-    div_subtitle.id = "subtitle"+el.id;
-    div_subtitle.setAttribute('style',  'font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;');
-    div_subtitle.style.display = 'none';
-    el_id.appendChild(div_subtitle);
-    if(x.submain !== null){
-      div_subtitle.innerHTML = x.submain.text;
-      div_subtitle.setAttribute('style',  x.submain.style + ";background-color: inherit;");
-      div_title.style.display = 'block';
-    }
-
-    //*************************
-    //init idselection
-    //*************************
-    function onIdChange(id, init) {
-      if(id === ""){
-        instance.network.selectNodes([]);
-      }else{
-        instance.network.selectNodes([id]);
-      }
-      if(el_id.highlight){
-        neighbourhoodHighlight(instance.network.getSelection().nodes, "click", el_id.highlightAlgorithm);
-      }else{
-        if(init){
-          selectNode = document.getElementById('nodeSelect'+el.id);
-          if(x.idselection.values !== undefined){
-            if(indexOf.call(x.idselection.values, id, true) > -1){
-              selectNode.value = id;
-            }else{
-              selectNode.value = "";
-            }
-          }else{
-            selectNode.value = id;
-          }
-        }
-      }
-      if (window.Shiny){
-        changeInput('selected', document.getElementById("nodeSelect"+el.id).value);
-      }
-      if(el_id.byselection){
-        resetList('selectedBy', el.id, 'selectedBy');
-      }
-    }
-
-    // id nodes selection : add a list on top left
-    // actually only with nodes + edges data (not dot and gephi)
-    var idList = document.createElement("select");
-    idList.setAttribute('class', 'dropdown');
-    idList.style.display = 'none';
-    idList.id = "nodeSelect"+el.id;
-    el_id.appendChild(idList);
-
-    idList.onchange =  function(){
-      if(instance.network){
-        onIdChange(document.getElementById("nodeSelect"+el.id).value, false);
-      }
-    };
-
-    var hr = document.createElement("hr");
-    hr.setAttribute('style', 'height:0px; visibility:hidden; margin-bottom:-1px;');
-    el_id.appendChild(hr);
-
-    //*************************
-    //selectedBy
-    //*************************
-    function onByChange(value) {
-        if(instance.network){
-          selectedHighlight(value);
-        }
-        if (window.Shiny){
-          changeInput('selectedBy', value);
-        }
-        if(el_id.idselection){
-          resetList('nodeSelect', el.id, 'selected');
-        }
-    }
-
-    // selectedBy : add a list on top left
-    // actually only with nodes + edges data (not dot and gephi)
-    //Create and append select list
-    var byList = document.createElement("select");
-    byList.setAttribute('class', 'dropdown');
-    byList.style.display = 'none';
-    byList.id = "selectedBy"+el.id;
-    el_id.appendChild(byList);
-
-    byList.onchange =  function(){
-      onByChange(document.getElementById("selectedBy"+el.id).value);
-    };
-
-    if(el_id.byselection){
-
-      el_id.byselection_values = x.byselection.values;
-      el_id.byselection_variable = x.byselection.variable;
-      el_id.byselection_multiple = x.byselection.multiple;
-      var option2;
-
-      //Create and append select list
-      var selectList2 = document.getElementById("selectedBy"+el.id);
-      selectList2.setAttribute('style', x.byselection.style);
-      selectList2.style.display = 'inline';
-
-      option2 = document.createElement("option");
-      option2.value = "";
-      if(x.byselection.main === undefined){
-        option2.text = "Select by " + x.byselection.variable;
-      } else {
-        option2.text = x.byselection.main;
-      }
-
-      selectList2.appendChild(option2);
-
-      //Create and append the options
-      for (var i2 = 0; i2 < x.byselection.values.length; i2++) {
-        option2 = document.createElement("option");
-        option2.value = x.byselection.values[i2];
-        option2.text = x.byselection.values[i2];
-        selectList2.appendChild(option2);
-      }
-
-      if (window.Shiny){
-        changeInput('selectedBy', document.getElementById("selectedBy"+el.id).value);
-      }
-    }
-
-    //*************************
-    // pre-treatment for icons (unicode)
-    //*************************
-    if(x.options.groups){
-      for (var gr in x.options.groups){
-        if(x.options.groups[gr].icon){
-          if(x.options.groups[gr].icon.code){
-            x.options.groups[gr].icon.code = JSON.parse( '"'+'\\u' + x.options.groups[gr].icon.code + '"');
-          }
-          if(x.options.groups[gr].icon.color){
-            x.options.groups[gr].color = x.options.groups[gr].icon.color;
-          }
-        }
-      }
-    }
-
-    if(x.options.nodes.icon){
-        if(x.options.nodes.icon.code){
-          x.options.nodes.icon.code = JSON.parse( '"'+'\\u' + x.options.nodes.icon.code + '"');
-        }
-        if(x.options.nodes.icon.color){
-          x.options.nodes.color = x.options.nodes.icon.color;
-        }
-    }
-
-    //*************************
-    //page structure
-    //*************************
-
-    // divide page
-    var maindiv  = document.createElement('div');
-    maindiv.id = "maindiv"+el.id;
-    maindiv.setAttribute('style', 'height:95%;background-color: inherit;');
-    el_id.appendChild(maindiv);
-
-    var graph = document.createElement('div');
-    graph.id = "graph"+el.id;
-
-    if(x.legend !== undefined){
-      if((x.groups && x.legend.useGroups) || (x.legend.nodes !== undefined) || (x.legend.edges !== undefined)){
-        addlegend = true;
-      }
-    }
-
-    //legend
-    if(addlegend){
-      var legendwidth = x.legend.width*100;
-      var legend = document.createElement('div');
-
-      var pos = x.legend.position;
-      var pos2 = "right";
-      if(pos == "right"){
-        pos2 = "left";
-      }
-
-      legend.id = "legend"+el.id;
-      legend.setAttribute('style', 'float:' + pos + '; width:'+legendwidth+'%;height:100%');
-
-      //legend title
-      if(x.legend.main !== undefined){
-        var legend_title = document.createElement('div');
-        legend_title.innerHTML = x.legend.main.text;
-        legend_title.setAttribute('style',  x.legend.main.style);
-        legend.appendChild(legend_title);
-
-        legend.id = "legend_main"+el.id;
-        var legend_network = document.createElement('div');
-        legend_network.id = "legend"+el.id;
-        legend_network.setAttribute('style', 'height:100%');
-        legend.appendChild(legend_network);
-      }
-
-      document.getElementById("maindiv"+el.id).appendChild(legend);
-      graph.setAttribute('style', 'float:' + pos2 + '; width:'+(100-legendwidth)+'%;height:100%;background-color: inherit;');
-    }else{
-      graph.setAttribute('style', 'float:right; width:100%;height:100%;background-color: inherit;');
-    }
-
-    document.getElementById("maindiv"+el.id).appendChild(graph);
-
-    //*************************
-    //legend definition
-    //*************************
-    if(addlegend){
-
-      var legendnodes = new vis.DataSet();
-      var legendedges = null;
-      var datalegend;
-      var tmpnodes;
-
-      // set some options
-      var optionslegend = {
-        interaction:{
-          dragNodes: false,
-          dragView: false,
-          selectable: false,
-          zoomView: x.legend.zoom
-        },
-        physics:{
-          stabilization: false
-        }
-      };
-
-      function range(start, length, step, rep){
-        var a=[], b=start;
-        while(a.length < length){
-          for (var i = 0; i < rep; i++){
-            a.push(b);
-            if(a.length === length){
-              break;
-            }
-          }
-          b+=step;
-        }
-        return a;
-      };
-
-      var mynetwork = document.getElementById('legend'+el.id);
-      var lx = mynetwork.clientWidth / 2 + 50;
-      var ly = mynetwork.clientHeight / 2 + 50;
-      var edge_ly = ly;
-      var ncol = x.legend.ncol;
-      var step_x = x.legend.stepX;
-      var step_y = x.legend.stepY;
-      var tmp_ly;
-      var tmp_lx = lx;
-      var tmp_lx2;
-      var all_tmp_y = [];
-      if(tmp_lx === 0){
-        tmp_lx = 1
-      }
-
-      // construct nodes data if needed
-      if(x.legend.nodes !== undefined){
-        if(x.legend.nodesToDataframe){ // data in data.frame
-          tmpnodes = visNetworkdataframeToD3(x.legend.nodes, "nodes")
-        } else { // data in list
-          tmpnodes = x.legend.nodes;
-        }
-        // only one element
-        if(tmpnodes.length === undefined){
-          tmpnodes = new Array(tmpnodes);
-        }
-      }
-
-      // array of y position
-      if(x.groups && x.legend.useGroups && x.legend.nodes !== undefined){
-        all_tmp_y = range(ly, x.groups.length + tmpnodes.length, step_y, ncol);
-      } else if(x.groups && x.legend.useGroups && x.legend.nodes === undefined){
-        all_tmp_y = range(ly, x.groups.length, step_y, ncol);
-      } else if(x.legend.useGroups === false && x.legend.nodes !== undefined){
-        all_tmp_y = range(ly, tmpnodes.length, step_y, ncol);
-      }
-
-      // want to view groups in legend
-      if(x.groups && x.legend.useGroups){
-        // create data
-        for (var g1 = 0; g1 < x.groups.length; g1++){
-
-          if(g1 === 0){
-            tmp_lx = lx;
-          } else {
-            tmp_lx = lx + g1%ncol * step_x;
-          }
-
-          tmp_ly = all_tmp_y[g1];
-          if(tmp_ly === 0){
-            tmp_ly = 1
-          }
-
-          legendnodes.add({id: null, x : tmp_lx, y : tmp_ly, label: x.groups[g1], group: x.groups[g1], value: 1, mass:1});
-          edge_ly = tmp_ly;
-        }
-        // control icon size
-        if(x.options.groups){
-          optionslegend.groups = clone(x.options.groups);
-          for (var grp in optionslegend.groups) {
-            if(optionslegend.groups[grp].shape === "icon"){
-              optionslegend.groups[grp].icon.size = 50;
-            }
-          }
-        }
-      }
-      // want to add custom nodes
-      if(x.legend.nodes !== undefined){
-
-        // control icon
-        for (var nd in tmpnodes){
-          if(tmpnodes[nd].icon  && !x.legend.nodesToDataframe){
-            tmpnodes[nd].icon.code = JSON.parse( '"'+'\\u' + tmpnodes[nd].icon.code + '"');
-          }
-        }
-        // group control for y
-        var add_gr_y = 0;
-        if(x.groups && x.legend.useGroups){
-          add_gr_y = x.groups.length;
-        }
-        // set coordinates
-        for (var g = 0; g < tmpnodes.length; g++){
-          if((g+legendnodes.length) === 0){
-            tmp_lx = lx;
-          } else {
-            tmp_lx = lx + (g+legendnodes.length)%ncol * step_x;
-          }
-
-          tmp_ly = all_tmp_y[add_gr_y + g];
-          if(tmp_lx === 0){
-            tmp_lx = 1
-          }
-          if(tmp_ly === 0){
-            tmp_ly = 1
-          }
-          tmpnodes[g].x = tmp_lx;
-          tmpnodes[g].y = tmp_ly;
-
-          if(tmpnodes[g].value === undefined && tmpnodes[g].size === undefined){
-            tmpnodes[g].value = 1;
-          }
-          /*if(tmpnodes[g].id !== undefined){
-            tmpnodes[g].id = null;
-          }*/
-          tmpnodes[g].mass = 1;
-          edge_ly = tmp_ly;
-        }
-        legendnodes.add(tmpnodes);
-      }
-      // want to add custom edges
-      if(x.legend.edges !== undefined){
-        if(x.legend.edgesToDataframe){ // data in data.frame
-          legendedges = visNetworkdataframeToD3(x.legend.edges, "edges")
-        } else {  // data in list
-          legendedges = x.legend.edges;
-        }
-        // only one element
-        if(legendedges.length === undefined){
-          legendedges = new Array(legendedges);
-        }
-
-        // set coordinates and options
-        for (var edg = 0; edg < (legendedges.length); edg++){
-
-          var tmp_int = Math.floor(Math.random() * 1001);
-          legendedges[edg].from = edg + "tmp_leg_edges_" + tmp_int + "_1";
-          legendedges[edg].to = edg + "tmp_leg_edges_" + tmp_int + "_2";
-          legendedges[edg].physics = false;
-          legendedges[edg].smooth = false;
-          legendedges[edg].value = undefined;
-
-          if(legendedges[edg].arrows === undefined){
-            legendedges[edg].arrows = 'to';
-          }
-
-          if(legendedges[edg].width === undefined){
-            legendedges[edg].width = 1;
-          }
-
-          tmp_ly = edge_ly + (edg+1)*step_y;
-          if(tmp_ly === 0){
-            tmp_ly = 1
-          }
-
-          if(ncol === 1){
-            tmp_lx = lx - mynetwork.clientWidth/3;
-            tmp_lx2 = lx + mynetwork.clientWidth/3;
-          } else {
-            tmp_lx = lx;
-            tmp_lx2 = lx + (ncol-1) * step_x;
-          }
-
-          if(tmp_lx === 0){
-            tmp_lx = 1
-          }
-
-          if(tmp_lx2 === 0){
-            tmp_lx2 = 1
-          }
-
-          legendnodes.add({id: edg + "tmp_leg_edges_" + tmp_int + "_1", x : tmp_lx, y : tmp_ly, size : 0.0001, hidden : false, shape : "square", mass:1});
-          legendnodes.add({id: edg + "tmp_leg_edges_" + tmp_int + "_2", x : tmp_lx2, y : tmp_ly, size : 0.0001, hidden : false, shape : "square", mass:1});
-        }
-      }
-
-      // render legend network
-      datalegend = {
-        nodes: legendnodes,
-        edges: legendedges
-      };
-
-
-      instance.legend = new vis.Network(document.getElementById("legend"+el.id), datalegend, optionslegend);
-      //link network for update for re-use and update
-      document.getElementById("legend"+el.id).network = instance.legend;
-    }
-
-    //*************************
-    // Main Network rendering
-    //*************************
-    if(x.nodes){
-
-      // network
-      nodes = new vis.DataSet();
-      edges = new vis.DataSet();
-
-      var tmpnodes;
-      if(x.nodesToDataframe){ // data in data.frame
-        tmpnodes = visNetworkdataframeToD3(x.nodes, "nodes")
-      } else { // data in list
-        tmpnodes = x.nodes;
-      }
-      // only one element
-      if(tmpnodes.length === undefined){
-        tmpnodes = new Array(tmpnodes);
-      }
-
-      // update coordinates if igraph
-      if(x.igraphlayout !== undefined){
-        // to improved
-        var zoomLevel = -232.622349 / (tmpnodes.length + 91.165919)  +2.516861;
-        var igclientWidth = document.getElementById("graph"+el.id).clientWidth;
-        var scalex = 100;
-        var scaley = 100;
-
-        // current div visibled
-        if(igclientWidth !== 0){
-          var factor = igclientWidth / 1890;
-          zoomLevel = zoomLevel/factor;
-          var scalex = (igclientWidth / 2) * zoomLevel;
-          var scaley = scalex;
-          if(x.igraphlayout.type !== "square"){
-            scaley = (document.getElementById("graph"+el.id).clientHeight / 2) * zoomLevel;
-          }
-        } else {
-          // current div not visibled....
-          igclientWidth = parseInt(el_id.style.width);
-          if(igclientWidth !== 0){
-            var factor = igclientWidth / 1890;
-            zoomLevel = zoomLevel/factor;
-            var scalex = (igclientWidth / 2) * zoomLevel;
-            var scaley = scalex;
-            if(x.igraphlayout.type !== "square"){
-              scaley = (parseInt(el_id.style.height) / 2) * zoomLevel;
-            }
-          }
-        }
-
-        for (var nd in tmpnodes) {
-          tmpnodes[nd].x = tmpnodes[nd].x * scalex;
-          tmpnodes[nd].y = tmpnodes[nd].y * scaley;
-        }
-      }
-
-      nodes.add(tmpnodes);
-
-      var tmpedges;
-      if(x.edgesToDataframe){ // data in data.frame
-        tmpedges = visNetworkdataframeToD3(x.edges, "edges")
-      } else { // data in list
-        tmpedges = x.edges;
-      }
-      // only one element
-      if(tmpedges !== null){
-        if(tmpedges.length === undefined){
-          tmpedges = new Array(tmpedges);
-        }
-        edges.add(tmpedges);
-      }
-
-      // reset tmpnodes
-      tmpnodes = null;
-
-      data = {
-        nodes: nodes,
-        edges: edges
-      };
-
-      //save data for re-use and update
-      document.getElementById("graph"+el.id).nodes = nodes;
-      document.getElementById("graph"+el.id).edges = edges;
-
-    }else if(x.dot){
-      data = {
-        dot: x.dot
-      };
-    }else if(x.gephi){
-      data = {
-        gephi: x.gephi
-      };
-    }
-
-    var options = x.options;
-
-    //*************************
-    //manipulation
-    //*************************
-    if(x.options.manipulation.enabled){
-
-      var style = document.createElement('style');
-      style.type = 'text/css';
-      style.appendChild(document.createTextNode(x.datacss));
-      document.getElementsByTagName("head")[0].appendChild(style);
-
-      var div = document.createElement('div');
-      div.id = 'network-popUp';
-
-      div.innerHTML = '<span id="operation">node</span> <br>\
-      <table style="margin:auto;"><tr>\
-      <td>id</td><td><input id="node-id" value="new value" disabled = true></td>\
-      </tr>\
-      <tr>\
-      <td>label</td><td><input id="node-label" value="new value"> </td>\
-      </tr></table>\
-      <input type="button" value="save" id="saveButton"></button>\
-      <input type="button" value="cancel" id="cancelButton"></button>';
-
-      el_id.appendChild(div);
-
-      options.manipulation.addNode = function(data, callback) {
-        document.getElementById('operation').innerHTML = "Add Node";
-        document.getElementById('node-id').value = data.id;
-        document.getElementById('node-label').value = data.label;
-        document.getElementById('saveButton').onclick = saveNode.bind(this, data, callback, "addNode");
-        document.getElementById('cancelButton').onclick = clearPopUp.bind();
-        document.getElementById('network-popUp').style.display = 'block';
-      };
-
-      options.manipulation.editNode = function(data, callback) {
-        document.getElementById('operation').innerHTML = "Edit Node";
-        document.getElementById('node-id').value = data.id;
-        document.getElementById('node-label').value = data.label;
-        document.getElementById('saveButton').onclick = saveNode.bind(this, data, callback, "editNode");
-        document.getElementById('cancelButton').onclick = cancelEdit.bind(this,callback);
-        document.getElementById('network-popUp').style.display = 'block';
-      };
-
-      options.manipulation.deleteNode = function(data, callback) {
-          var r = confirm("Do you want to delete " + data.nodes.length + " node(s) and " + data.edges.length + " edges ?");
-          if (r === true) {
-            deleteSubGraph(data, callback);
-          }
-      };
-
-      options.manipulation.deleteEdge = function(data, callback) {
-          var r = confirm("Do you want to delete " + data.edges.length + " edges ?");
-          if (r === true) {
-            deleteSubGraph(data, callback);
-          }
-      };
-
-      options.manipulation.addEdge = function(data, callback) {
-        if (data.from == data.to) {
-          var r = confirm("Do you want to connect the node to itself?");
-          if (r === true) {
-            saveEdge(data, callback, "addEdge");
-          }
-        }
-        else {
-          saveEdge(data, callback, "addEdge");
-        }
-      };
-
-      options.manipulation.editEdge = function(data, callback) {
-        if (data.from == data.to) {
-          var r = confirm("Do you want to connect the node to itself?");
-          if (r === true) {
-            saveEdge(data, callback, "editEdge");
-          }
-        }
-        else {
-          saveEdge(data, callback, "editEdge");
-        }
-      };
-    }
-
-    // create network
-    instance.network = new vis.Network(document.getElementById("graph"+el.id), data, options);
-    if (window.Shiny){
-      Shiny.onInputChange(el.id + '_initialized', true);
-    }
-
-    //*************************
-    //add values to idselection
-    //*************************
-
-    if(el_id.idselection){
-      var selectList = document.getElementById("nodeSelect"+el.id)
-      setNodeIdList(selectList, x.idselection, nodes)
-
-      if (window.Shiny){
-        changeInput('selected', document.getElementById("nodeSelect"+el.id).value);
-      }
-    }
-
-    //save data for re-use and update
-    document.getElementById("graph"+el.id).chart = instance.network;
-    document.getElementById("graph"+el.id).options = options;
-
-    /////////
-    // popup
-    /////////
-
-    // Temporary variables to hold mouse x-y pos.s
-    var tempX = 0
-    var tempY = 0
-
-    // Main function to retrieve mouse x-y pos.s
-    function getMouseXY(e) {
-      tempX = e.clientX
-      tempY = e.clientY
-      // catch possible negative values in NS
-      if (tempX < 0){tempX = 0}
-      if (tempY < 0){tempY = 0}
-    }
-
-    document.addEventListener('mousemove', getMouseXY);
-
-   //this.body.emitter.emit("showPopup",{id:this.popupObj.id,x:t.x+3,y:t.y-5}))
-
-    // popup for title
-    var popupState = false;
-    var popupTimeout = null;
-    var vispopup = document.createElement("div");
-
-    // disable vis.js tooltip
-    var style = document.createElement('style');
-    style.type = 'text/css';
-    style.innerHTML = 'div.vis-tooltip {display : none}';
-    document.getElementsByTagName('head')[0].appendChild(style);
-
-    var popupStyle = 'position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2)'
-
-    if(x.tooltipStyle !== undefined){
-      popupStyle = x.tooltipStyle
-    }
-    var popupStay = 300;
-    if(x.tooltipStay !== undefined){
-      popupStay = x.tooltipStay
-    }
-    vispopup.setAttribute('style', popupStyle)
-
-    document.getElementById("graph"+el.id).appendChild(vispopup);
-
-    // add some event listeners to avoid it disappearing when the mouse if over it.
-    vispopup.addEventListener('mouseover',function () {
-      if (popupTimeout !== null) {
-        clearTimeout(popupTimeout);
-        popupTimeout = null;
-      }
-    });
-
-    // set the timeout when the mouse leaves it.
-    vispopup.addEventListener('mouseout',function () {
-      if (popupTimeout === null) {
-        myHidePopup(100);
-      }
-    });
-
-    // use the popup event to show
-    instance.network.on("showPopup", function(params) {
-      popupState = true;
-      myShowPopup(params);
-    })
-
-    // use the hide event to hide it
-    instance.network.on("hidePopup", function(params) {
-      // avoid double firing of this event, bug in 4.2.0
-      if (popupState === true) {
-        popupState = false;
-        myHidePopup(popupStay);
-      }
-    })
-
-    // hiding the popup through css and a timeout
-    function myHidePopup(delay) {
-      popupTimeout = setTimeout(function() {vispopup.style.visibility = 'hidden';}, delay);
-    }
-
-    // showing the popup
-    function myShowPopup(id) {
-      // get the data from the vis.DataSet
-      var nodeData = nodes.get([id]);
-      var edgeData = edges.get([id]);
-
-      // a node ?
-      if(nodeData[0] !== null && nodeData[0] !== undefined){
-        vispopup.innerHTML = nodeData[0].title;
-        // show and place the tooltip.
-        vispopup.style.visibility = 'visible';
-        vispopup.style.top = tempY - 20 +  "px";
-        vispopup.style.left = tempX + 5 + "px";
-
-      } else if(edgeData[0] !== null && edgeData[0] !== undefined){
-        // so it's perhaps a edge ?
-        vispopup.innerHTML = edgeData[0].title;
-        // show and place the tooltip.
-        vispopup.style.visibility = 'visible';
-        vispopup.style.top = tempY - 20 +  "px";
-        vispopup.style.left = tempX + 5 + "px";
-      } else {
-        // or a cluster ?
-        var node_cluster = instance.network.body.nodes[id]
-        if(node_cluster !== undefined){
-          vispopup.innerHTML = node_cluster.options.title;
-          // show and place the tooltip.
-          vispopup.style.visibility = 'visible';
-          vispopup.style.top = tempY - 20 +  "px";
-          vispopup.style.left = tempX + 5 + "px";
-        }
-      }
-
-      // for sparkline. Eval script...
-      var any_script= vispopup.getElementsByTagName('script')
-      for (var n = 0; n < any_script.length; n++){
-        if(any_script[n].getAttribute("type") === "text/javascript"){
-           eval(any_script[n].innerHTML);
-        }
-      }
-    }
-
-    //*************************
-    // Events
-    //*************************
-    if(x.events !== undefined){
-      for (var key in x.events) {
-          instance.network.on(key, x.events[key]);
-      }
-    }
-
-    if(x.OnceEvents !== undefined){
-      for (var key in x.OnceEvents) {
-          instance.network.once(key, x.OnceEvents[key]);
-      }
-    }
-
-    if(x.ResetEvents !== undefined){
-      for (var key in x.ResetEvents) {
-          instance.network.off(key);
-      }
-    }
-    //*************************
-    // Selected Highlight
-    //*************************
-
-    function selectedHighlight(value) {
-      // get current nodes
-      var allNodes = nodes.get({returnType:"Object"});
-
-      // first resetEdges
-      resetAllEdges(edges, el_id.byselectionColor, el_id.highlightColor, instance.network);
-      var connectedNodes = [];
-
-      // get variable
-      var sel = el_id.byselection_variable;
-      // need to make an update?
-      var update = !(el_id.selectActive === false && value === "");
-
-      if (value !== "") {
-        var updateArray = [];
-        el_id.selectActive = true;
-
-        // mark all nodes as hard to read.
-        for (var nodeId in allNodes) {
-          var value_in = false;
-          // unique selection
-          if(el_id.byselection_multiple === false){
-            if(sel == "label"){
-              value_in = ((allNodes[nodeId]["label"] + "") === value) || ((allNodes[nodeId]["hiddenLabel"] + "") === value);
-            }else if(sel == "color"){
-              value_in = ((allNodes[nodeId]["color"] + "") === value) || ((allNodes[nodeId]["hiddenColor"] + "") === value);
-            }else {
-              value_in = (allNodes[nodeId][sel] + "") === value;
-            }
-          }else{ // multiple selection
-            if(sel == "label"){
-              var current_value = allNodes[nodeId]["label"] + "";
-              var value_split = current_value.split(",").map(Function.prototype.call, String.prototype.trim);
-              var current_value2 = allNodes[nodeId]["hiddenLabel"] + "";
-              var value_split2 = current_value.split(",").map(Function.prototype.call, String.prototype.trim);
-              value_in = (value_split.indexOf(value) !== -1) || (value_split2.indexOf(value) !== -1);
-            }else if(sel == "color"){
-              var current_value = allNodes[nodeId]["color"] + "";
-              var value_split = current_value.split(",").map(Function.prototype.call, String.prototype.trim);
-              var current_value2 = allNodes[nodeId]["hiddenColor"] + "";
-              var value_split2 = current_value.split(",").map(Function.prototype.call, String.prototype.trim);
-              value_in = (value_split.indexOf(value) !== -1) || (value_split2.indexOf(value) !== -1);
-            }else {
-              var current_value = allNodes[nodeId][sel] + "";
-              var value_split = current_value.split(",").map(Function.prototype.call, String.prototype.trim);
-              value_in = value_split.indexOf(value) !== -1;
-            }
-          }
-          if(value_in === false){ // not in selection, so as hard to read
-            nodeAsHardToRead(allNodes[nodeId], instance.network.groups, options, el_id.byselectionColor, el_id.highlightColor, instance.network, "node");
-          } else { // in selection, so reset if needed
-            connectedNodes = connectedNodes.concat(allNodes[nodeId].id);
-            resetOneNode(allNodes[nodeId], instance.network.groups, options, instance.network);
-          }
-          allNodes[nodeId].x = undefined;
-          allNodes[nodeId].y = undefined;
-          // update data
-          if (allNodes.hasOwnProperty(nodeId) && update) {
-            updateArray.push(allNodes[nodeId]);
-          }
-        }
-        if(update){
-          // set some edges as hard to read
-          var edgesHardToRead = edges.get({
-            fields: ['id', 'color', 'hiddenColor', 'hiddenLabel', 'label'],
-            filter: function (item) {
-              return (indexOf.call(connectedNodes, item.from, true) === -1) ;
-            },
-            returnType :'Array'
-          });
-
-          // all in degree nodes get their own color and their label back
-          for (i = 0; i < edgesHardToRead.length; i++) {
-            edgeAsHardToRead(edgesHardToRead[i], el_id.byselectionColor, el_id.highlightColor, instance.network, type = "edge")
-          }
-          edges.update(edgesHardToRead);
-
-          nodes.update(updateArray);
-        }
-      }
-      else if (el_id.selectActive === true) {
-        //reset nodes
-        resetAllNodes(nodes, update, instance.network.groups, options, instance.network)
-        el_id.selectActive = false
-      }
-    }
-
-    //*************************
-    //Highlight
-    //*************************
-    var is_hovered = false;
-    var is_clicked = false;
-
-    function neighbourhoodHighlight(params, action_type, algorithm) {
-
-      var nodes_in_clusters = instance.network.body.modules.clustering.clusteredNodes;
-      var have_cluster_nodes = false;
-      if(Object.keys(nodes_in_clusters).length > 0){
-        have_cluster_nodes = true;
-        nodes_in_clusters = Object.keys(nodes_in_clusters);
-        edges_in_clusters = Object.keys(instance.network.body.modules.clustering.clusteredEdges);
-      } else {
-        nodes_in_clusters = [];
-        edges_in_clusters = [];
-      }
-
-      var selectNode;
-      // get nodes data
-      var allNodes = nodes.get({returnType:"Object"});
-
-      // cluster
-      var array_cluster_id;
-
-      // update
-      var update = !(el_id.highlightActive === false && params.length === 0) | (el_id.selectActive === true && params.length === 0);
-
-      if(!(action_type == "hover" && is_clicked)){
-
-        // first resetEdges
-        resetAllEdges(edges, el_id.highlightColor, el_id.byselectionColor, instance.network);
-
-        if (params.length > 0) {
-          var is_cluster = instance.network.isCluster(params[0]);
-          var selectedNode;
-
-          if(is_cluster){
-            selectedNode = instance.network.getNodesInCluster(params[0]);
-          } else {
-            selectedNode = params;
-          }
-
-          var updateArray = [];
-          if(el_id.idselection){
-            selectNode = document.getElementById('nodeSelect'+el.id);
-            if(is_cluster === false){
-              if(x.idselection.values !== undefined){
-                if(indexOf.call(x.idselection.values, selectedNode[0], true) > -1){
-                  selectNode.value = selectedNode[0];
-                }else{
-                  selectNode.value = "";
-                }
-              }else{
-                selectNode.value = selectedNode[0];
-              }
-              if (window.Shiny){
-                changeInput('selected', selectNode.value);
-              }
-            }
-          }
-
-          el_id.highlightActive = true;
-          var i,j;
-          var degrees = el_id.degree;
-
-          // mark all nodes as hard to read.
-          for (var nodeId in instance.network.body.nodes) {
-            if(instance.network.isCluster(nodeId)){
-              nodeAsHardToRead(instance.network.body.nodes[nodeId], instance.network.groups, options, el_id.highlightColor, el_id.byselectionColor, instance.network, "cluster");
-            }else {
-              var tmp_node = allNodes[nodeId];
-              if(tmp_node !== undefined){
-                nodeAsHardToRead(tmp_node, instance.network.groups, options, el_id.highlightColor, el_id.byselectionColor, instance.network, "node");
-                tmp_node.x = undefined;
-                tmp_node.y = undefined;
-              }
-            }
-          }
-
-          if(algorithm === "all"){
-            var connectedNodes;
-            if(degrees > 0){
-              connectedNodes = [];
-              for (j = 0; j < selectedNode.length; j++) {
-                connectedNodes = connectedNodes.concat(instance.network.getConnectedNodes(selectedNode[j], true));
-              }
-              connectedNodes = uniqueArray(connectedNodes, true, instance.network);
-            }else{
-              connectedNodes = selectedNode;
-            }
-
-            var allConnectedNodes = [];
-            // get the nodes to color
-            if(degrees >= 2){
-              for (i = 2; i <= degrees; i++) {
-                var previous_connectedNodes = connectedNodes;
-                var currentlength = connectedNodes.length;
-                for (j = 0; j < currentlength; j++) {
-                  connectedNodes = uniqueArray(connectedNodes.concat(instance.network.getConnectedNodes(connectedNodes[j])), true, instance.network);
-                }
-                if (connectedNodes.length === previous_connectedNodes.length) { break; }
-              }
-            }
-            // nodes to just label
-            for (j = 0; j < connectedNodes.length; j++) {
-                allConnectedNodes = allConnectedNodes.concat(instance.network.getConnectedNodes(connectedNodes[j]));
-            }
-            allConnectedNodes = uniqueArray(allConnectedNodes, true, instance.network);
-
-            if(el_id.highlightLabelOnly === true){
-              // all higher degree nodes get a different color and their label back
-              array_cluster_id = [];
-              for (i = 0; i < allConnectedNodes.length; i++) {
-                if (allNodes[allConnectedNodes[i]].hiddenLabel !== undefined) {
-                  allNodes[allConnectedNodes[i]].label = allNodes[allConnectedNodes[i]].hiddenLabel;
-                  allNodes[allConnectedNodes[i]].hiddenLabel = undefined;
-                  if(have_cluster_nodes){
-                    if(indexOf.call(nodes_in_clusters, allConnectedNodes[i], true) > -1){
-
-                      array_cluster_id = array_cluster_id.concat(instance.network.clustering.findNode(allConnectedNodes[i])[0]);
-                    }
-                  }
-                }
-              }
-
-              if(array_cluster_id.length > 0){
-                array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
-                for (i = 0; i < array_cluster_id.length; i++) {
-                  instance.network.body.nodes[array_cluster_id[i]].setOptions({label : instance.network.body.nodes[array_cluster_id[i]].options.hiddenLabel, hiddenLabel:undefined})
-                }
-              }
-            }
-
-            // all in degree nodes get their own color and their label back + main nodes
-            connectedNodes = connectedNodes.concat(selectedNode);
-            array_cluster_id = [];
-            for (i = 0; i < connectedNodes.length; i++) {
-              resetOneNode(allNodes[connectedNodes[i]], instance.network.groups, options, instance.network);
-              if(have_cluster_nodes){
-                if(indexOf.call(nodes_in_clusters, connectedNodes[i], true) > -1){
-                  array_cluster_id = array_cluster_id.concat(instance.network.clustering.findNode(connectedNodes[i])[0]);
-                }
-              }
-            }
-
-            if(array_cluster_id.length > 0){
-              array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
-              for (i = 0; i < array_cluster_id.length; i++) {
-                resetOneCluster(instance.network.body.nodes[array_cluster_id[i]], instance.network.groups, options, instance.network);
-              }
-            }
-
-            // set some edges as hard to read
-            var edgesHardToRead = edges.get({
-              fields: ['id', 'color', 'hiddenColor', 'hiddenLabel', 'label'],
-              filter: function (item) {
-                return ((indexOf.call(connectedNodes, item.from, true) === -1)) ;
-              },
-              returnType :'Array'
-            });
-
-            // all in degree nodes get their own color and their label back
-            array_cluster_id = [];
-            var tmp_cluster_id;
-            for (i = 0; i < edgesHardToRead.length; i++) {
-              edgeAsHardToRead(edgesHardToRead[i], el_id.highlightColor, el_id.byselectionColor, instance.network, type = "edge")
-              if(have_cluster_nodes){
-                if(indexOf.call(edges_in_clusters, edgesHardToRead[i].id, true) > -1){
-                  tmp_cluster_id = instance.network.clustering.getClusteredEdges(edgesHardToRead[i].id);
-                  if(tmp_cluster_id.length > 1){
-                    array_cluster_id = array_cluster_id.concat(tmp_cluster_id[0]);
-                  }
-                }
-              }
-            }
-
-            if(array_cluster_id.length > 0){
-              array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
-              for (i = 0; i < array_cluster_id.length; i++) {
-                edgeAsHardToRead(instance.network.body.edges[array_cluster_id[i]].options, el_id.highlightColor, el_id.byselectionColor, instance.network, type = "cluster")
-              }
-            }
-            edges.update(edgesHardToRead);
-
-          } else if(algorithm === "hierarchical"){
-
-            var degree_from = degrees.from;
-            var degree_to = degrees.to;
-            degrees = Math.max(degree_from, degree_to);
-
-            var allConnectedNodes = [];
-            var currentConnectedFromNodes = [];
-            var currentConnectedToNodes = [];
-            var connectedFromNodes = [];
-            var connectedToNodes = [];
-
-            if(degree_from > 0){
-              connectedFromNodes = edges.get({
-                fields: ['from'],
-                filter: function (item) {
-                  return ((indexOf.call(selectedNode, item.to, true) !== -1)) ;
-                },
-                returnType :'Array'
-              });
-            }
-
-            if(degree_to > 0){
-              connectedToNodes = edges.get({
-                fields: ['to'],
-                filter: function (item) {
-                  return ((indexOf.call(selectedNode, item.from, true) !== -1)) ;
-                },
-                returnType :'Array'
-              });
-            }
-            for (j = 0; j < connectedFromNodes.length; j++) {
-                allConnectedNodes = allConnectedNodes.concat(connectedFromNodes[j].from);
-                currentConnectedFromNodes = currentConnectedFromNodes.concat(connectedFromNodes[j].from);
-            }
-
-            for (j = 0; j < connectedToNodes.length; j++) {
-                allConnectedNodes = allConnectedNodes.concat(connectedToNodes[j].to);
-                currentConnectedToNodes = currentConnectedToNodes.concat(connectedToNodes[j].to);
-            }
-
-            var go_from;
-            var go_to;
-
-            if(degrees > 1){
-              for (i = 2; i <= degrees; i++) {
-                go_from = false;
-                go_to = false;
-                if(currentConnectedFromNodes.length > 0 && i <= degree_from){
-                  connectedFromNodes = edges.get({
-                    fields: ['from'],
-                    filter: function (item) {
-                      return indexOf.call(currentConnectedFromNodes, item.to, true) > -1;
-                    },
-                    returnType :'Array'
-                  });
-                  go_from = true;
-                }
-
-                if(currentConnectedToNodes.length > 0 && i <= degree_to){
-                  connectedToNodes = edges.get({
-                    fields: ['to'],
-                    filter: function (item) {
-                      return indexOf.call(currentConnectedToNodes, item.from, true) > -1;
-                    },
-                    returnType :'Array'
-                  });
-                  go_to = true;
-                }
-
-                if(go_from === true){
-                  currentConnectedFromNodes = [];
-                  for (j = 0; j < connectedFromNodes.length; j++) {
-                    allConnectedNodes = allConnectedNodes.concat(connectedFromNodes[j].from);
-                    currentConnectedFromNodes = currentConnectedFromNodes.concat(connectedFromNodes[j].from);
-                  }
-                }
-
-                if(go_to === true){
-                  currentConnectedToNodes = [];
-                  for (j = 0; j < connectedToNodes.length; j++) {
-                    allConnectedNodes = allConnectedNodes.concat(connectedToNodes[j].to);
-                    currentConnectedToNodes = currentConnectedToNodes.concat(connectedToNodes[j].to);
-                  }
-                }
-
-                if (go_from === false &&  go_to === false) { break;}
-              }
-            }
-
-            allConnectedNodes = uniqueArray(allConnectedNodes, true, instance.network).concat(selectedNode);
-
-            var nodesWithLabel = [];
-            if(el_id.highlightLabelOnly === true){
-              if(degrees > 0){
-                // nodes to just label
-                for (j = 0; j < currentConnectedToNodes.length; j++) {
-                    nodesWithLabel = nodesWithLabel.concat(instance.network.getConnectedNodes(currentConnectedToNodes[j]));
-                }
-
-                for (j = 0; j < currentConnectedFromNodes.length; j++) {
-                    nodesWithLabel = nodesWithLabel.concat(instance.network.getConnectedNodes(currentConnectedFromNodes[j]));
-                }
-                nodesWithLabel = uniqueArray(nodesWithLabel, true, instance.network);
-              } else{
-                nodesWithLabel = currentConnectedToNodes;
-                nodesWithLabel = nodesWithLabel.concat(currentConnectedFromNodes);
-                nodesWithLabel = uniqueArray(nodesWithLabel, true, instance.network);
-              }
-            }
-            // all higher degree nodes get a different color and their label back
-            array_cluster_id = [];
-            for (i = 0; i < nodesWithLabel.length; i++) {
-              if (allNodes[nodesWithLabel[i]].hiddenLabel !== undefined) {
-                allNodes[nodesWithLabel[i]].label = allNodes[nodesWithLabel[i]].hiddenLabel;
-                allNodes[nodesWithLabel[i]].hiddenLabel = undefined;
-                if(have_cluster_nodes){
-                  if(indexOf.call(nodes_in_clusters, nodesWithLabel[i], true) > -1){
-                    array_cluster_id = array_cluster_id.concat(instance.network.clustering.findNode(nodesWithLabel[i])[0]);
-                  }
-                }
-              }
-            }
-
-            if(array_cluster_id.length > 0){
-              array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
-              for (i = 0; i < array_cluster_id.length; i++) {
-                instance.network.body.nodes[array_cluster_id[i]].setOptions({label : instance.network.body.nodes[array_cluster_id[i]].options.hiddenLabel, hiddenLabel:undefined})
-              }
-            }
-
-            // all in degree nodes get their own color and their label back
-            array_cluster_id = [];
-            for (i = 0; i < allConnectedNodes.length; i++) {
-              resetOneNode(allNodes[allConnectedNodes[i]], instance.network.groups, options, instance.network);
-              if(have_cluster_nodes){
-                if(indexOf.call(nodes_in_clusters, allConnectedNodes[i], true) > -1){
-                  array_cluster_id = array_cluster_id.concat(instance.network.clustering.findNode(allConnectedNodes[i])[0]);
-                }
-              }
-            }
-
-            if(array_cluster_id.length > 0){
-              array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
-              for (i = 0; i < array_cluster_id.length; i++) {
-                 resetOneCluster(instance.network.body.nodes[array_cluster_id[i]], instance.network.groups, options, instance.network);
-              }
-            }
-
-            // set some edges as hard to read
-            var edgesHardToRead = edges.get({
-              fields: ['id', 'color', 'hiddenColor', 'hiddenLabel', 'label'],
-              filter: function (item) {
-                return ((indexOf.call(allConnectedNodes, item.from, true) === -1)  || (indexOf.call(allConnectedNodes, item.to, true) === -1)) ;
-              },
-              returnType :'Array'
-            });
-
-            array_cluster_id = [];
-            for (i = 0; i < edgesHardToRead.length; i++) {
-              edgeAsHardToRead(edgesHardToRead[i], el_id.highlightColor, el_id.byselectionColor, instance.network, type = "edge")
-              if(have_cluster_nodes){
-                if(indexOf.call(edges_in_clusters, edgesHardToRead[i].id, true) > -1){
-                  var tmp_cluster_id = instance.network.clustering.getClusteredEdges(edgesHardToRead[i].id);
-                  if(tmp_cluster_id.length > 1){
-                    array_cluster_id = array_cluster_id.concat(tmp_cluster_id[0]);
-                  }
-                }
-              }
-            }
-
-            if(array_cluster_id.length > 0){
-              array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
-              for (i = 0; i < array_cluster_id.length; i++) {
-                 edgeAsHardToRead(instance.network.body.edges[array_cluster_id[i]].options, el_id.highlightColor, el_id.byselectionColor, instance.network, type = "cluster");
-              }
-            }
-
-            edges.update(edgesHardToRead);
-
-          }
-
-          if(update){
-            if(!(action_type == "hover")){
-               is_clicked = true;
-            }
-            // transform the object into an array
-            var updateArray = [];
-            for (nodeId in allNodes) {
-              if (allNodes.hasOwnProperty(nodeId)) {
-                updateArray.push(allNodes[nodeId]);
-              }
-            }
-            nodes.update(updateArray);
-          }else{
-            is_clicked = false;
-          }
-
-        }
-        else if (el_id.highlightActive === true | el_id.selectActive === true) {
-          // reset nodeSelect list if actived
-          if(el_id.idselection){
-            resetList("nodeSelect", el.id, 'selected');
-          }
-          //reset nodes
-          resetAllNodes(nodes, update, instance.network.groups, options, instance.network)
-          el_id.highlightActive = false;
-          is_clicked = false;
-        }
-      }
-      // reset selectedBy list if actived
-      if(el_id.byselection){
-        resetList("selectedBy", el.id, 'selectedBy');
-      }
-    }
-
-    function onClickIDSelection(selectedItems) {
-      var selectNode;
-      if(el_id.idselection){
-        if (selectedItems.nodes.length !== 0) {
-          selectNode = document.getElementById('nodeSelect'+el.id);
-          if(x.idselection.values !== undefined){
-            if(indexOf.call(x.idselection.values, selectedItems.nodes[0], true) > -1){
-              selectNode.value = selectedItems.nodes;
-            }else{
-              selectNode.value = "";
-            }
-          }else{
-            selectNode.value = selectedItems.nodes;
-          }
-          if (window.Shiny){
-            changeInput('selected', selectNode.value);
-          }
-        }else{
-          resetList("nodeSelect", el.id, 'selected');
-        }
-      }
-      if(el_id.byselection){
-        // reset selectedBy list if actived
-        if (selectedItems.nodes.length === 0) {
-          resetList("selectedBy", el.id, 'selectedBy');
-          selectedHighlight("");
-        }
-      }
-    }
-
-    // shared click function (selectedNodes)
-    document.getElementById("graph"+el.id).myclick = function(params){
-        if(el_id.highlight && x.nodes){
-          neighbourhoodHighlight(params.nodes, "click", el_id.highlightAlgorithm);
-        }else if((el_id.idselection || el_id.byselection) && x.nodes){
-          onClickIDSelection(params)
-        }
-    };
-
-    // Set event in relation with highlightNearest
-    instance.network.on("click", function(params){
-        if(el_id.highlight && x.nodes){
-          neighbourhoodHighlight(params.nodes, "click", el_id.highlightAlgorithm);
-        }else if((el_id.idselection || el_id.byselection) && x.nodes){
-          onClickIDSelection(params)
-        }
-    });
-
-    instance.network.on("hoverNode", function(params){
-      if(el_id.hoverNearest && x.nodes){
-        neighbourhoodHighlight([params.node], "hover", el_id.highlightAlgorithm);
-      }
-    });
-
-    instance.network.on("blurNode", function(params){
-      if(el_id.hoverNearest && x.nodes){
-        neighbourhoodHighlight([], "hover", el_id.highlightAlgorithm);
-      }
-    });
-
-    //*************************
-    //collapse
-    //*************************
-    instance.network.on("doubleClick", function(params){
-      if(el_id.collapse){
-        collapsedNetwork(params.nodes, el_id.collapseFit, el_id.collapseResetHighlight, el_id.clusterOptions,
-        el_id.tree, instance.network, el.id)
-      }
-    });
-
-    if(el_id.collapse){
-      instance.network.on("doubleClick", networkOpenCluster);
-    }
-
-    //*************************
-    //footer
-    //*************************
-    var div_footer = document.createElement('div');
-    div_footer.id = "footer"+el.id;
-    div_footer.setAttribute('style',  'font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;background-color: inherit;');
-    div_footer.style.display = 'none';
-
-    document.getElementById("graph" + el.id).appendChild(div_footer);
-    if(x.footer !== null){
-      div_footer.innerHTML = x.footer.text;
-      div_footer.setAttribute('style',  x.footer.style + ';background-color: inherit;');
-      div_footer.style.display = 'block';
-    }
-
-    //*************************
-    // export
-    //*************************
-    if(x.export !== undefined){
-
-      var downloaddiv = document.createElement('div');
-      downloaddiv.setAttribute('style', 'float:right; width:100%;background-color: inherit;');
-
-      var downloadbutton = document.createElement("button");
-      downloadbutton.setAttribute('style', x.export.css);
-      downloadbutton.style.position = "relative";
-      downloadbutton.id = "download"+el.id;
-      downloadbutton.appendChild(document.createTextNode(x.export.label));
-      downloaddiv.appendChild(downloadbutton);
-
-      var hr = document.createElement("hr");
-      hr.setAttribute('style', 'height:5px; visibility:hidden; margin-bottom:-1px;');
-      downloaddiv.appendChild(hr);
-
-      document.getElementById("maindiv"+el.id).appendChild(downloaddiv);
-
-      document.getElementById("download"+el.id).onclick = function() {
-
-      // height control for export
-      var addHeightExport = document.getElementById("graph" + el.id).offsetHeight + idList.offsetHeight + byList.offsetHeight + downloaddiv.offsetHeight;
-      if(div_title.style.display !== 'none'){
-        addHeightExport = addHeightExport + div_title.offsetHeight;
-      }
-      if(div_subtitle.style.display !== 'none'){
-        addHeightExport = addHeightExport + div_subtitle.offsetHeight;
-      }
-      if(div_footer.style.display !== 'none'){
-        addHeightExport = addHeightExport + div_footer.offsetHeight;
-      } else {
-        addHeightExport = addHeightExport + 15;
-      }
-
-      downloadbutton.style.display = 'none';
-      var export_background = x.export.background;
-      if(x.background !== "transparent" && x.background !== "rgba(0, 0, 0, 0)"){
-        export_background = x.background
-      }
-
-      if(x.export.type !== "pdf"){
-        html2canvas(el_id, {
-          background: export_background,
-          height : addHeightExport,
-          onrendered: function(canvas) {
-            canvas.toBlobHD(function(blob) {
-              saveAs(blob, x.export.name);
-            }, "image/"+x.export.type);
-          }
-        });
-      } else {
-        html2canvas(el_id, {
-          background: export_background,
-          height : addHeightExport,
-          onrendered: function(canvas) {
-            var myImage = canvas.toDataURL("image/png", 1.0);
-            //var imgWidth = (canvas.width * 25.4) / 24;
-            //var imgHeight = (canvas.height * 25.4) / 24;
-            var table = new jsPDF('l', 'pt', [canvas.width, canvas.height]);
-            table.addImage(myImage, 'JPEG', 0, 0, canvas.width, canvas.height);
-            table.save(x.export.name);
-          }
-        });
-      }
-
-      downloadbutton.style.display = 'block';
-      };
-    }
-
-    //*************************
-    // dataManipulation
-    //*************************
-    function clearPopUp() {
-      document.getElementById('saveButton').onclick = null;
-      document.getElementById('cancelButton').onclick = null;
-      document.getElementById('network-popUp').style.display = 'none';
-    }
-
-    function saveNode(data, callback, cmd) {
-      data.id = document.getElementById('node-id').value;
-      data.label = document.getElementById('node-label').value;
-      if (window.Shiny){
-        var obj = {cmd: cmd, id: data.id, label: data.label}
-        Shiny.onInputChange(el.id + '_graphChange', obj);
-      }
-      clearPopUp();
-      callback(data);
-    }
-
-    function saveEdge(data, callback, cmd) {
-      callback(data); //must be first called for egde id !
-      if (window.Shiny){
-        var obj = {cmd: cmd, id: data.id, from: data.from, to: data.to};
-        Shiny.onInputChange(el.id + '_graphChange', obj);
-      }
-
-    }
-
-    function deleteSubGraph(data, callback) {
-      if (window.Shiny){
-        var obj = {cmd: "deleteElements", nodes: data.nodes, edges: data.edges}
-        Shiny.onInputChange(el.id + '_graphChange', obj);
-      }
-      callback(data);
-    }
-
-    function cancelEdit(callback) {
-      clearPopUp();
-      callback(null);
-    }
-
-    //*************************
-    // CLUSTERING
-    //*************************
-    if(x.clusteringGroup || x.clusteringColor || x.clusteringHubsize || x.clusteringConnection){
-
-      var clusterbutton = document.createElement("input");
-      clusterbutton.id = "backbtn"+el.id;
-      clusterbutton.setAttribute('type', 'button');
-      clusterbutton.setAttribute('value', 'Reinitialize clustering');
-      clusterbutton.setAttribute('style', 'background-color:#FFFFFF;border: none');
-      el_id.appendChild(clusterbutton);
-
-      clusterbutton.onclick =  function(){
-        instance.network.setData(data);
-        if(x.clusteringColor){
-          clusterByColor();
-        }
-        if(x.clusteringGroup){
-          clusterByGroup();
-        }
-        if(x.clusteringHubsize){
-          clusterByHubsize();
-        }
-        if(x.clusteringConnection){
-          clusterByConnection();
-        }
-        instance.network.fit();
-      }
-    }
-
-    if(x.clusteringGroup || x.clusteringColor || x.clusteringOutliers || x.clusteringHubsize || x.clusteringConnection){
-      // if we click on a node, we want to open it up!
-      instance.network.on("doubleClick", function (params){
-        if (params.nodes.length === 1) {
-          if (instance.network.isCluster(params.nodes[0]) === true) {
-            instance.network.openCluster(params.nodes[0], {releaseFunction : function(clusterPosition, containedNodesPositions) {
-              return containedNodesPositions;
-            }});
-          }
-        }
-      });
-    }
-    //*************************
-    //clustering Connection
-    //*************************
-    if(x.clusteringConnection){
-
-      function clusterByConnection() {
-        for (var i = 0; i < x.clusteringConnection.nodes.length; i++) {
-          instance.network.clusterByConnection(x.clusteringConnection.nodes[i])
-        }
-      }
-      clusterByConnection();
-    }
-
-    //*************************
-    //clustering hubsize
-    //*************************
-    if(x.clusteringHubsize){
-
-      function clusterByHubsize() {
-        var clusterOptionsByData = {
-          processProperties: function(clusterOptions, childNodes) {
-                  for (var i = 0; i < childNodes.length; i++) {
-                      //totalMass += childNodes[i].mass;
-                      if(i === 0){
-                        //clusterOptions.shape =  childNodes[i].shape;
-                        clusterOptions.color =  childNodes[i].color.background;
-                      }else{
-                        //if(childNodes[i].shape !== clusterOptions.shape){
-                          //clusterOptions.shape = 'database';
-                        //}
-                        if(childNodes[i].color.background !== clusterOptions.color){
-                          clusterOptions.color = 'grey';
-                        }
-                      }
-                  }
-            clusterOptions.label = "[" + childNodes.length + "]";
-            return clusterOptions;
-          },
-          clusterNodeProperties: {borderWidth:3, shape:'box', font:{size:30}}
-        }
-        if(x.clusteringHubsize.size > 0){
-          instance.network.clusterByHubsize(x.clusteringHubsize.size, clusterOptionsByData);
-        }else{
-          instance.network.clusterByHubsize(undefined, clusterOptionsByData);
-        }
-      }
-
-      clusterByHubsize();
-    }
-
-    if(x.clusteringColor){
-
-    //*************************
-    //clustering color
-    //*************************
-    function clusterByColor() {
-        var colors = x.clusteringColor.colors
-        var clusterOptionsByData;
-        for (var i = 0; i < colors.length; i++) {
-          var color = colors[i];
-          clusterOptionsByData = {
-              joinCondition: function (childOptions) {
-                  return childOptions.color.background == color; // the color is fully defined in the node.
-              },
-              processProperties: function (clusterOptions, childNodes, childEdges) {
-                  var totalMass = 0;
-                  for (var i = 0; i < childNodes.length; i++) {
-                      totalMass += childNodes[i].mass;
-                      if(x.clusteringColor.force === false){
-                        if(i === 0){
-                          clusterOptions.shape =  childNodes[i].shape;
-                        }else{
-                          if(childNodes[i].shape !== clusterOptions.shape){
-                            clusterOptions.shape = x.clusteringColor.shape;
-                          }
-                        }
-                      } else {
-                        clusterOptions.shape = x.clusteringColor.shape;
-                      }
-
-                  }
-                  clusterOptions.value = totalMass;
-                  return clusterOptions;
-              },
-              clusterNodeProperties: {id: 'cluster:' + color, borderWidth: 3, color:color, label: x.clusteringColor.label + color}
-          }
-          instance.network.cluster(clusterOptionsByData);
-        }
-      }
-
-      clusterByColor();
-    }
-
-    //*************************
-    //clustering groups
-    //*************************
-    if(x.clusteringGroup){
-
-      function clusterByGroup() {
-        var groups = x.clusteringGroup.groups;
-        var clusterOptionsByData;
-        for (var i = 0; i < groups.length; i++) {
-          var group = groups[i];
-          clusterOptionsByData = {
-              joinCondition: function (childOptions) {
-                  return childOptions.group == group; //
-              },
-              processProperties: function (clusterOptions, childNodes, childEdges) {
-                //console.info(clusterOptions);
-                  var totalMass = 0;
-                  for (var i = 0; i < childNodes.length; i++) {
-                      totalMass += childNodes[i].mass;
-                      if(x.clusteringGroup.force === false){
-                        if(i === 0){
-                          clusterOptions.shape =  childNodes[i].shape;
-                          clusterOptions.color =  childNodes[i].color.background;
-                        }else{
-                          if(childNodes[i].shape !== clusterOptions.shape){
-                            clusterOptions.shape = x.clusteringGroup.shape;
-                          }
-                          if(childNodes[i].color.background !== clusterOptions.color){
-                            clusterOptions.color = x.clusteringGroup.color;
-                          }
-                        }
-                      } else {
-                        clusterOptions.shape = x.clusteringGroup.shape;
-                        clusterOptions.color = x.clusteringGroup.color;
-                      }
-                  }
-                  clusterOptions.value = totalMass;
-                  return clusterOptions;
-              },
-              clusterNodeProperties: {id: 'cluster:' + group, borderWidth: 3, label:x.clusteringGroup.label + group}
-          }
-          instance.network.cluster(clusterOptionsByData);
-        }
-      }
-      clusterByGroup();
-    }
-
-    //*************************
-    //clustering by zoom
-    //*************************
-    if(x.clusteringOutliers){
-
-      clusterFactor = x.clusteringOutliers.clusterFactor;
-
-      // set the first initial zoom level
-      instance.network.on('initRedraw', function() {
-        if (lastClusterZoomLevel === 0) {
-          lastClusterZoomLevel = instance.network.getScale();
-        }
-      });
-
-      // we use the zoom event for our clustering
-      instance.network.on('zoom', function (params) {
-        if(ctrlwait === 0){
-        if (params.direction == '-') {
-          if (params.scale < lastClusterZoomLevel*clusterFactor) {
-            makeClusters(params.scale);
-            lastClusterZoomLevel = params.scale;
-          }
-        }
-        else {
-          openClusters(params.scale);
-        }
-        }
-      });
-    }
-
-    // make the clusters
-    function makeClusters(scale) {
-        ctrlwait = 1;
-        var clusterOptionsByData = {
-            processProperties: function (clusterOptions, childNodes) {
-                clusterIndex = clusterIndex + 1;
-                var childrenCount = 0;
-                for (var i = 0; i < childNodes.length; i++) {
-                    childrenCount += childNodes[i].childrenCount || 1;
-                }
-                clusterOptions.childrenCount = childrenCount;
-                clusterOptions.label = "# " + childrenCount + "";
-                clusterOptions.font = {size: childrenCount*5+30}
-                clusterOptions.id = 'cluster:' + clusterIndex;
-                clusters.push({id:'cluster:' + clusterIndex, scale:scale});
-                return clusterOptions;
-            },
-            clusterNodeProperties: {borderWidth: 3, shape: 'database', font: {size: 30}}
-        }
-        instance.network.clusterOutliers(clusterOptionsByData);
-        if (x.clusteringOutliers.stabilize) {
-            instance.network.stabilize();
-        };
-        ctrlwait = 0;
-    }
-
-    // open them back up!
-    function openClusters(scale) {
-        ctrlwait = 1;
-        var newClusters = [];
-        var declustered = false;
-        for (var i = 0; i < clusters.length; i++) {
-            if (clusters[i].scale < scale) {
-                instance.network.openCluster(clusters[i].id);
-                lastClusterZoomLevel = scale;
-                declustered = true;
-            }
-            else {
-                newClusters.push(clusters[i])
-            }
-        }
-        clusters = newClusters;
-        if (x.clusteringOutliers.stabilize) {
-            instance.network.stabilize();
-        };
-        ctrlwait = 0;
-    }
-
-    //******************
-    // init selection
-    //******************
-    if(el_id.idselection && x.nodes && x.idselection.selected !== undefined){
-      onIdChange(''+ x.idselection.selected, true);
-    }
-
-    if(el_id.byselection && x.nodes && x.byselection.selected !== undefined){
-      onByChange(x.byselection.selected);
-      selectNode = document.getElementById('selectedBy'+el.id);
-      selectNode.value = x.byselection.selected;
-    }
-
-    // try to fix icons loading css bug...
-    function iconsRedraw() {
-      setTimeout(function(){
-        if(instance.network)
-          instance.network.redraw();
-        if(instance.legend)
-          instance.legend.redraw();
-      }, 200);
-    }
-    if(x.iconsRedraw !== undefined){
-      if(x.iconsRedraw){
-        instance.network.once("stabilized", function(){iconsRedraw();})
-      }
-    }
-  },
-
-  resize: function(el, width, height, instance) {
-      if(instance.network)
-        instance.network.fit();
-      if(instance.legend)
-        instance.legend.fit();
-  }
-
-});
+// HTMLWidgets.widget({
+//
+//   name: 'visNetwork',
+//
+//   type: 'output',
+//
+//   initialize: function(el, width, height) {
+//     return {
+//     };
+//   },
+//
+//   renderValue: function(el, x, instance) {
+//     var data;
+//     var nodes;
+//     var edges;
+//
+//
+//     // clustergin by zoom variables
+//     var clusterIndex = 0;
+//     var clusters = [];
+//     var lastClusterZoomLevel = 0;
+//     var clusterFactor;
+//     var ctrlwait = 0;
+//
+//     // legend control
+//     var addlegend = false;
+//
+//     // main div el.id
+//     var el_id = document.getElementById(el.id);
+//
+//     // test background
+//     el_id.style.background = x.background;
+//
+//     // clear el.id (for shiny...)
+//     el_id.innerHTML = "";
+//
+//     // shared control with proxy function (is there a better way ?)
+//     el_id.highlightActive = false;
+//     el_id.selectActive = false;
+//     el_id.idselection = x.idselection.enabled;
+//     el_id.byselection = x.byselection.enabled;
+//
+//     if(x.highlight !== undefined){
+//       el_id.highlight = x.highlight.enabled;
+//       el_id.highlightColor = x.highlight.hideColor;
+//       el_id.hoverNearest = x.highlight.hoverNearest;
+//       el_id.degree = x.highlight.degree;
+//       el_id.highlightAlgorithm = x.highlight.algorithm;
+//       el_id.highlightLabelOnly = x.highlight.labelOnly;
+//     } else {
+//       el_id.highlight = false;
+//       el_id.hoverNearest = false;
+//       el_id.highlightColor = 'rgba(200,200,200,0.5)';
+//       el_id.degree = 1;
+//       el_id.highlightAlgorithm = "all";
+//       el_id.highlightLabelOnly = true;
+//     }
+//
+//     if(x.byselection.enabled){
+//       el_id.byselectionColor = x.byselection.hideColor;
+//     } else {
+//       el_id.byselectionColor = 'rgba(200,200,200,0.5)';
+//     }
+//
+//     if(x.idselection.enabled){
+//       el_id.idselection_useLabels = true;
+//     } else {
+//       el_id.idselection_useLabels = false;
+//     }
+//
+//     if(x.collapse !== undefined){
+//       if(x.collapse.enabled){
+//         el_id.collapse = true;
+//         el_id.collapseFit = x.collapse.fit;
+//         el_id.collapseResetHighlight = x.collapse.resetHighlight;
+//         el_id.clusterOptions = x.collapse.clusterOptions;
+//       }
+//     } else {
+//       el_id.collapse = false;
+//       el_id.collapseFit = false;
+//       el_id.collapseResetHighlight = false;
+//       el_id.clusterOptions = undefined;
+//     }
+//
+//     if(x.tree !== undefined){
+//       el_id.tree = x.tree;
+//     }
+//
+//     // configure
+//     if(x.options.configure !== undefined){
+//       if(x.options.configure.container !== undefined){
+//         var dom_conf = document.getElementById(x.options.configure.container);
+//         if(dom_conf !== null){
+//           x.options.configure.container = dom_conf;
+//         } else {
+//           x.options.configure.container = undefined;
+//         }
+//       }
+//     }
+//
+//     var changeInput = function(id, data) {
+//             Shiny.onInputChange(el.id + '_' + id, data);
+//     };
+//
+//     //*************************
+//     //title
+//     //*************************
+//     var div_title = document.createElement('div');
+//     div_title.id = "title"+el.id;
+//     div_title.setAttribute('style','font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;');
+//     div_title.style.display = 'none';
+//     el_id.appendChild(div_title);
+//     if(x.main !== null){
+//       div_title.innerHTML = x.main.text;
+//       div_title.setAttribute('style',  x.main.style + ";background-color: inherit;");
+//       div_title.style.display = 'block';
+//     }
+//
+//     //*************************
+//     //subtitle
+//     //*************************
+//     var div_subtitle = document.createElement('div');
+//     div_subtitle.id = "subtitle"+el.id;
+//     div_subtitle.setAttribute('style',  'font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;');
+//     div_subtitle.style.display = 'none';
+//     el_id.appendChild(div_subtitle);
+//     if(x.submain !== null){
+//       div_subtitle.innerHTML = x.submain.text;
+//       div_subtitle.setAttribute('style',  x.submain.style + ";background-color: inherit;");
+//       div_title.style.display = 'block';
+//     }
+//
+//     //*************************
+//     //init idselection
+//     //*************************
+//     function onIdChange(id, init) {
+//       if(id === ""){
+//         instance.network.selectNodes([]);
+//       }else{
+//         instance.network.selectNodes([id]);
+//       }
+//       if(el_id.highlight){
+//         neighbourhoodHighlight(instance.network.getSelection().nodes, "click", el_id.highlightAlgorithm);
+//       }else{
+//         if(init){
+//           selectNode = document.getElementById('nodeSelect'+el.id);
+//           if(x.idselection.values !== undefined){
+//             if(indexOf.call(x.idselection.values, id, true) > -1){
+//               selectNode.value = id;
+//             }else{
+//               selectNode.value = "";
+//             }
+//           }else{
+//             selectNode.value = id;
+//           }
+//         }
+//       }
+//       if (window.Shiny){
+//         changeInput('selected', document.getElementById("nodeSelect"+el.id).value);
+//       }
+//       if(el_id.byselection){
+//         resetList('selectedBy', el.id, 'selectedBy');
+//       }
+//     }
+//
+//     // id nodes selection : add a list on top left
+//     // actually only with nodes + edges data (not dot and gephi)
+//     var idList = document.createElement("select");
+//     idList.setAttribute('class', 'dropdown');
+//     idList.style.display = 'none';
+//     idList.id = "nodeSelect"+el.id;
+//     el_id.appendChild(idList);
+//
+//     idList.onchange =  function(){
+//       if(instance.network){
+//         onIdChange(document.getElementById("nodeSelect"+el.id).value, false);
+//       }
+//     };
+//
+//     var hr = document.createElement("hr");
+//     hr.setAttribute('style', 'height:0px; visibility:hidden; margin-bottom:-1px;');
+//     el_id.appendChild(hr);
+//
+//     //*************************
+//     //selectedBy
+//     //*************************
+//     function onByChange(value) {
+//         if(instance.network){
+//           selectedHighlight(value);
+//         }
+//         if (window.Shiny){
+//           changeInput('selectedBy', value);
+//         }
+//         if(el_id.idselection){
+//           resetList('nodeSelect', el.id, 'selected');
+//         }
+//     }
+//
+//     // selectedBy : add a list on top left
+//     // actually only with nodes + edges data (not dot and gephi)
+//     //Create and append select list
+//     var byList = document.createElement("select");
+//     byList.setAttribute('class', 'dropdown');
+//     byList.style.display = 'none';
+//     byList.id = "selectedBy"+el.id;
+//     el_id.appendChild(byList);
+//
+//     byList.onchange =  function(){
+//       onByChange(document.getElementById("selectedBy"+el.id).value);
+//     };
+//
+//     if(el_id.byselection){
+//
+//       el_id.byselection_values = x.byselection.values;
+//       el_id.byselection_variable = x.byselection.variable;
+//       el_id.byselection_multiple = x.byselection.multiple;
+//       var option2;
+//
+//       //Create and append select list
+//       var selectList2 = document.getElementById("selectedBy"+el.id);
+//       selectList2.setAttribute('style', x.byselection.style);
+//       selectList2.style.display = 'inline';
+//
+//       option2 = document.createElement("option");
+//       option2.value = "";
+//       if(x.byselection.main === undefined){
+//         option2.text = "Select by " + x.byselection.variable;
+//       } else {
+//         option2.text = x.byselection.main;
+//       }
+//
+//       selectList2.appendChild(option2);
+//
+//       //Create and append the options
+//       for (var i2 = 0; i2 < x.byselection.values.length; i2++) {
+//         option2 = document.createElement("option");
+//         option2.value = x.byselection.values[i2];
+//         option2.text = x.byselection.values[i2];
+//         selectList2.appendChild(option2);
+//       }
+//
+//       if (window.Shiny){
+//         changeInput('selectedBy', document.getElementById("selectedBy"+el.id).value);
+//       }
+//     }
+//
+//     //*************************
+//     // pre-treatment for icons (unicode)
+//     //*************************
+//     if(x.options.groups){
+//       for (var gr in x.options.groups){
+//         if(x.options.groups[gr].icon){
+//           if(x.options.groups[gr].icon.code){
+//             x.options.groups[gr].icon.code = JSON.parse( '"'+'\\u' + x.options.groups[gr].icon.code + '"');
+//           }
+//           if(x.options.groups[gr].icon.color){
+//             x.options.groups[gr].color = x.options.groups[gr].icon.color;
+//           }
+//         }
+//       }
+//     }
+//
+//     if(x.options.nodes.icon){
+//         if(x.options.nodes.icon.code){
+//           x.options.nodes.icon.code = JSON.parse( '"'+'\\u' + x.options.nodes.icon.code + '"');
+//         }
+//         if(x.options.nodes.icon.color){
+//           x.options.nodes.color = x.options.nodes.icon.color;
+//         }
+//     }
+//
+//     //*************************
+//     //page structure
+//     //*************************
+//
+//     // divide page
+//     var maindiv  = document.createElement('div');
+//     maindiv.id = "maindiv"+el.id;
+//     maindiv.setAttribute('style', 'height:95%;background-color: inherit;');
+//     el_id.appendChild(maindiv);
+//
+//     var graph = document.createElement('div');
+//     graph.id = "graph"+el.id;
+//
+//     if(x.legend !== undefined){
+//       if((x.groups && x.legend.useGroups) || (x.legend.nodes !== undefined) || (x.legend.edges !== undefined)){
+//         addlegend = true;
+//       }
+//     }
+//
+//     //legend
+//     if(addlegend){
+//       var legendwidth = x.legend.width*100;
+//       var legend = document.createElement('div');
+//
+//       var pos = x.legend.position;
+//       var pos2 = "right";
+//       if(pos == "right"){
+//         pos2 = "left";
+//       }
+//
+//       legend.id = "legend"+el.id;
+//       legend.setAttribute('style', 'float:' + pos + '; width:'+legendwidth+'%;height:100%');
+//
+//       //legend title
+//       if(x.legend.main !== undefined){
+//         var legend_title = document.createElement('div');
+//         legend_title.innerHTML = x.legend.main.text;
+//         legend_title.setAttribute('style',  x.legend.main.style);
+//         legend.appendChild(legend_title);
+//
+//         legend.id = "legend_main"+el.id;
+//         var legend_network = document.createElement('div');
+//         legend_network.id = "legend"+el.id;
+//         legend_network.setAttribute('style', 'height:100%');
+//         legend.appendChild(legend_network);
+//       }
+//
+//       document.getElementById("maindiv"+el.id).appendChild(legend);
+//       graph.setAttribute('style', 'float:' + pos2 + '; width:'+(100-legendwidth)+'%;height:100%;background-color: inherit;');
+//     }else{
+//       graph.setAttribute('style', 'float:right; width:100%;height:100%;background-color: inherit;');
+//     }
+//
+//     document.getElementById("maindiv"+el.id).appendChild(graph);
+//
+//     //*************************
+//     //legend definition
+//     //*************************
+//     if(addlegend){
+//
+//       var legendnodes = new vis.DataSet();
+//       var legendedges = null;
+//       var datalegend;
+//       var tmpnodes;
+//
+//       // set some options
+//       var optionslegend = {
+//         interaction:{
+//           dragNodes: false,
+//           dragView: false,
+//           selectable: false,
+//           zoomView: x.legend.zoom
+//         },
+//         physics:{
+//           stabilization: false
+//         }
+//       };
+//
+//       function range(start, length, step, rep){
+//         var a=[], b=start;
+//         while(a.length < length){
+//           for (var i = 0; i < rep; i++){
+//             a.push(b);
+//             if(a.length === length){
+//               break;
+//             }
+//           }
+//           b+=step;
+//         }
+//         return a;
+//       };
+//
+//       var mynetwork = document.getElementById('legend'+el.id);
+//       var lx = mynetwork.clientWidth / 2 + 50;
+//       var ly = mynetwork.clientHeight / 2 + 50;
+//       var edge_ly = ly;
+//       var ncol = x.legend.ncol;
+//       var step_x = x.legend.stepX;
+//       var step_y = x.legend.stepY;
+//       var tmp_ly;
+//       var tmp_lx = lx;
+//       var tmp_lx2;
+//       var all_tmp_y = [];
+//       if(tmp_lx === 0){
+//         tmp_lx = 1
+//       }
+//
+//       // construct nodes data if needed
+//       if(x.legend.nodes !== undefined){
+//         if(x.legend.nodesToDataframe){ // data in data.frame
+//           tmpnodes = visNetworkdataframeToD3(x.legend.nodes, "nodes")
+//         } else { // data in list
+//           tmpnodes = x.legend.nodes;
+//         }
+//         // only one element
+//         if(tmpnodes.length === undefined){
+//           tmpnodes = new Array(tmpnodes);
+//         }
+//       }
+//
+//       // array of y position
+//       if(x.groups && x.legend.useGroups && x.legend.nodes !== undefined){
+//         all_tmp_y = range(ly, x.groups.length + tmpnodes.length, step_y, ncol);
+//       } else if(x.groups && x.legend.useGroups && x.legend.nodes === undefined){
+//         all_tmp_y = range(ly, x.groups.length, step_y, ncol);
+//       } else if(x.legend.useGroups === false && x.legend.nodes !== undefined){
+//         all_tmp_y = range(ly, tmpnodes.length, step_y, ncol);
+//       }
+//
+//       // want to view groups in legend
+//       if(x.groups && x.legend.useGroups){
+//         // create data
+//         for (var g1 = 0; g1 < x.groups.length; g1++){
+//
+//           if(g1 === 0){
+//             tmp_lx = lx;
+//           } else {
+//             tmp_lx = lx + g1%ncol * step_x;
+//           }
+//
+//           tmp_ly = all_tmp_y[g1];
+//           if(tmp_ly === 0){
+//             tmp_ly = 1
+//           }
+//
+//           legendnodes.add({id: null, x : tmp_lx, y : tmp_ly, label: x.groups[g1], group: x.groups[g1], value: 1, mass:1});
+//           edge_ly = tmp_ly;
+//         }
+//         // control icon size
+//         if(x.options.groups){
+//           optionslegend.groups = clone(x.options.groups);
+//           for (var grp in optionslegend.groups) {
+//             if(optionslegend.groups[grp].shape === "icon"){
+//               optionslegend.groups[grp].icon.size = 50;
+//             }
+//           }
+//         }
+//       }
+//       // want to add custom nodes
+//       if(x.legend.nodes !== undefined){
+//
+//         // control icon
+//         for (var nd in tmpnodes){
+//           if(tmpnodes[nd].icon  && !x.legend.nodesToDataframe){
+//             tmpnodes[nd].icon.code = JSON.parse( '"'+'\\u' + tmpnodes[nd].icon.code + '"');
+//           }
+//         }
+//         // group control for y
+//         var add_gr_y = 0;
+//         if(x.groups && x.legend.useGroups){
+//           add_gr_y = x.groups.length;
+//         }
+//         // set coordinates
+//         for (var g = 0; g < tmpnodes.length; g++){
+//           if((g+legendnodes.length) === 0){
+//             tmp_lx = lx;
+//           } else {
+//             tmp_lx = lx + (g+legendnodes.length)%ncol * step_x;
+//           }
+//
+//           tmp_ly = all_tmp_y[add_gr_y + g];
+//           if(tmp_lx === 0){
+//             tmp_lx = 1
+//           }
+//           if(tmp_ly === 0){
+//             tmp_ly = 1
+//           }
+//           tmpnodes[g].x = tmp_lx;
+//           tmpnodes[g].y = tmp_ly;
+//
+//           if(tmpnodes[g].value === undefined && tmpnodes[g].size === undefined){
+//             tmpnodes[g].value = 1;
+//           }
+//           /*if(tmpnodes[g].id !== undefined){
+//             tmpnodes[g].id = null;
+//           }*/
+//           tmpnodes[g].mass = 1;
+//           edge_ly = tmp_ly;
+//         }
+//         legendnodes.add(tmpnodes);
+//       }
+//       // want to add custom edges
+//       if(x.legend.edges !== undefined){
+//         if(x.legend.edgesToDataframe){ // data in data.frame
+//           legendedges = visNetworkdataframeToD3(x.legend.edges, "edges")
+//         } else {  // data in list
+//           legendedges = x.legend.edges;
+//         }
+//         // only one element
+//         if(legendedges.length === undefined){
+//           legendedges = new Array(legendedges);
+//         }
+//
+//         // set coordinates and options
+//         for (var edg = 0; edg < (legendedges.length); edg++){
+//
+//           var tmp_int = Math.floor(Math.random() * 1001);
+//           legendedges[edg].from = edg + "tmp_leg_edges_" + tmp_int + "_1";
+//           legendedges[edg].to = edg + "tmp_leg_edges_" + tmp_int + "_2";
+//           legendedges[edg].physics = false;
+//           legendedges[edg].smooth = false;
+//           legendedges[edg].value = undefined;
+//
+//           if(legendedges[edg].arrows === undefined){
+//             legendedges[edg].arrows = 'to';
+//           }
+//
+//           if(legendedges[edg].width === undefined){
+//             legendedges[edg].width = 1;
+//           }
+//
+//           tmp_ly = edge_ly + (edg+1)*step_y;
+//           if(tmp_ly === 0){
+//             tmp_ly = 1
+//           }
+//
+//           if(ncol === 1){
+//             tmp_lx = lx - mynetwork.clientWidth/3;
+//             tmp_lx2 = lx + mynetwork.clientWidth/3;
+//           } else {
+//             tmp_lx = lx;
+//             tmp_lx2 = lx + (ncol-1) * step_x;
+//           }
+//
+//           if(tmp_lx === 0){
+//             tmp_lx = 1
+//           }
+//
+//           if(tmp_lx2 === 0){
+//             tmp_lx2 = 1
+//           }
+//
+//           legendnodes.add({id: edg + "tmp_leg_edges_" + tmp_int + "_1", x : tmp_lx, y : tmp_ly, size : 0.0001, hidden : false, shape : "square", mass:1});
+//           legendnodes.add({id: edg + "tmp_leg_edges_" + tmp_int + "_2", x : tmp_lx2, y : tmp_ly, size : 0.0001, hidden : false, shape : "square", mass:1});
+//         }
+//       }
+//
+//       // render legend network
+//       datalegend = {
+//         nodes: legendnodes,
+//         edges: legendedges
+//       };
+//
+//
+//       instance.legend = new vis.Network(document.getElementById("legend"+el.id), datalegend, optionslegend);
+//       //link network for update for re-use and update
+//       document.getElementById("legend"+el.id).network = instance.legend;
+//     }
+//
+//     //*************************
+//     // Main Network rendering
+//     //*************************
+//     if(x.nodes){
+//
+//       // network
+//       nodes = new vis.DataSet();
+//       edges = new vis.DataSet();
+//
+//       var tmpnodes;
+//       if(x.nodesToDataframe){ // data in data.frame
+//         tmpnodes = visNetworkdataframeToD3(x.nodes, "nodes")
+//       } else { // data in list
+//         tmpnodes = x.nodes;
+//       }
+//       // only one element
+//       if(tmpnodes.length === undefined){
+//         tmpnodes = new Array(tmpnodes);
+//       }
+//
+//       // update coordinates if igraph
+//       if(x.igraphlayout !== undefined){
+//         // to improved
+//         var zoomLevel = -232.622349 / (tmpnodes.length + 91.165919)  +2.516861;
+//         var igclientWidth = document.getElementById("graph"+el.id).clientWidth;
+//         var scalex = 100;
+//         var scaley = 100;
+//
+//         // current div visibled
+//         if(igclientWidth !== 0){
+//           var factor = igclientWidth / 1890;
+//           zoomLevel = zoomLevel/factor;
+//           var scalex = (igclientWidth / 2) * zoomLevel;
+//           var scaley = scalex;
+//           if(x.igraphlayout.type !== "square"){
+//             scaley = (document.getElementById("graph"+el.id).clientHeight / 2) * zoomLevel;
+//           }
+//         } else {
+//           // current div not visibled....
+//           igclientWidth = parseInt(el_id.style.width);
+//           if(igclientWidth !== 0){
+//             var factor = igclientWidth / 1890;
+//             zoomLevel = zoomLevel/factor;
+//             var scalex = (igclientWidth / 2) * zoomLevel;
+//             var scaley = scalex;
+//             if(x.igraphlayout.type !== "square"){
+//               scaley = (parseInt(el_id.style.height) / 2) * zoomLevel;
+//             }
+//           }
+//         }
+//
+//         for (var nd in tmpnodes) {
+//           tmpnodes[nd].x = tmpnodes[nd].x * scalex;
+//           tmpnodes[nd].y = tmpnodes[nd].y * scaley;
+//         }
+//       }
+//
+//       nodes.add(tmpnodes);
+//
+//       var tmpedges;
+//       if(x.edgesToDataframe){ // data in data.frame
+//         tmpedges = visNetworkdataframeToD3(x.edges, "edges")
+//       } else { // data in list
+//         tmpedges = x.edges;
+//       }
+//       // only one element
+//       if(tmpedges !== null){
+//         if(tmpedges.length === undefined){
+//           tmpedges = new Array(tmpedges);
+//         }
+//         edges.add(tmpedges);
+//       }
+//
+//       // reset tmpnodes
+//       tmpnodes = null;
+//
+//       data = {
+//         nodes: nodes,
+//         edges: edges
+//       };
+//
+//       //save data for re-use and update
+//       document.getElementById("graph"+el.id).nodes = nodes;
+//       document.getElementById("graph"+el.id).edges = edges;
+//
+//     }else if(x.dot){
+//       data = {
+//         dot: x.dot
+//       };
+//     }else if(x.gephi){
+//       data = {
+//         gephi: x.gephi
+//       };
+//     }
+//
+//     var options = x.options;
+//
+//     //*************************
+//     //manipulation
+//     //*************************
+//     if(x.options.manipulation.enabled){
+//
+//       var style = document.createElement('style');
+//       style.type = 'text/css';
+//       style.appendChild(document.createTextNode(x.datacss));
+//       document.getElementsByTagName("head")[0].appendChild(style);
+//
+//       var div = document.createElement('div');
+//       div.id = 'network-popUp';
+//
+//       div.innerHTML = '<span id="operation">node</span> <br>\
+//       <table style="margin:auto;"><tr>\
+//       <td>id</td><td><input id="node-id" value="new value" disabled = true></td>\
+//       </tr>\
+//       <tr>\
+//       <td>label</td><td><input id="node-label" value="new value"> </td>\
+//       </tr></table>\
+//       <input type="button" value="save" id="saveButton"></button>\
+//       <input type="button" value="cancel" id="cancelButton"></button>';
+//
+//       el_id.appendChild(div);
+//
+//       options.manipulation.addNode = function(data, callback) {
+//         document.getElementById('operation').innerHTML = "Add Node";
+//         document.getElementById('node-id').value = data.id;
+//         document.getElementById('node-label').value = data.label;
+//         document.getElementById('saveButton').onclick = saveNode.bind(this, data, callback, "addNode");
+//         document.getElementById('cancelButton').onclick = clearPopUp.bind();
+//         document.getElementById('network-popUp').style.display = 'block';
+//       };
+//
+//       options.manipulation.editNode = function(data, callback) {
+//         document.getElementById('operation').innerHTML = "Edit Node";
+//         document.getElementById('node-id').value = data.id;
+//         document.getElementById('node-label').value = data.label;
+//         document.getElementById('saveButton').onclick = saveNode.bind(this, data, callback, "editNode");
+//         document.getElementById('cancelButton').onclick = cancelEdit.bind(this,callback);
+//         document.getElementById('network-popUp').style.display = 'block';
+//       };
+//
+//       options.manipulation.deleteNode = function(data, callback) {
+//           var r = confirm("Do you want to delete " + data.nodes.length + " node(s) and " + data.edges.length + " edges ?");
+//           if (r === true) {
+//             deleteSubGraph(data, callback);
+//           }
+//       };
+//
+//       options.manipulation.deleteEdge = function(data, callback) {
+//           var r = confirm("Do you want to delete " + data.edges.length + " edges ?");
+//           if (r === true) {
+//             deleteSubGraph(data, callback);
+//           }
+//       };
+//
+//       options.manipulation.addEdge = function(data, callback) {
+//         if (data.from == data.to) {
+//           var r = confirm("Do you want to connect the node to itself?");
+//           if (r === true) {
+//             saveEdge(data, callback, "addEdge");
+//           }
+//         }
+//         else {
+//           saveEdge(data, callback, "addEdge");
+//         }
+//       };
+//
+//       options.manipulation.editEdge = function(data, callback) {
+//         if (data.from == data.to) {
+//           var r = confirm("Do you want to connect the node to itself?");
+//           if (r === true) {
+//             saveEdge(data, callback, "editEdge");
+//           }
+//         }
+//         else {
+//           saveEdge(data, callback, "editEdge");
+//         }
+//       };
+//     }
+//
+//     // create network
+//     instance.network = new vis.Network(document.getElementById("graph"+el.id), data, options);
+//     if (window.Shiny){
+//       Shiny.onInputChange(el.id + '_initialized', true);
+//     }
+//
+//     //*************************
+//     //add values to idselection
+//     //*************************
+//
+//     if(el_id.idselection){
+//       var selectList = document.getElementById("nodeSelect"+el.id)
+//       setNodeIdList(selectList, x.idselection, nodes)
+//
+//       if (window.Shiny){
+//         changeInput('selected', document.getElementById("nodeSelect"+el.id).value);
+//       }
+//     }
+//
+//     //save data for re-use and update
+//     document.getElementById("graph"+el.id).chart = instance.network;
+//     document.getElementById("graph"+el.id).options = options;
+//
+//     /////////
+//     // popup
+//     /////////
+//
+//     // Temporary variables to hold mouse x-y pos.s
+//     var tempX = 0
+//     var tempY = 0
+//
+//     // Main function to retrieve mouse x-y pos.s
+//     function getMouseXY(e) {
+//       tempX = e.clientX
+//       tempY = e.clientY
+//       // catch possible negative values in NS
+//       if (tempX < 0){tempX = 0}
+//       if (tempY < 0){tempY = 0}
+//     }
+//
+//     document.addEventListener('mousemove', getMouseXY);
+//
+//    //this.body.emitter.emit("showPopup",{id:this.popupObj.id,x:t.x+3,y:t.y-5}))
+//
+//     // popup for title
+//     var popupState = false;
+//     var popupTimeout = null;
+//     var vispopup = document.createElement("div");
+//
+//     // disable vis.js tooltip
+//     var style = document.createElement('style');
+//     style.type = 'text/css';
+//     style.innerHTML = 'div.vis-tooltip {display : none}';
+//     document.getElementsByTagName('head')[0].appendChild(style);
+//
+//     var popupStyle = 'position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2)'
+//
+//     if(x.tooltipStyle !== undefined){
+//       popupStyle = x.tooltipStyle
+//     }
+//     var popupStay = 300;
+//     if(x.tooltipStay !== undefined){
+//       popupStay = x.tooltipStay
+//     }
+//     vispopup.setAttribute('style', popupStyle)
+//
+//     document.getElementById("graph"+el.id).appendChild(vispopup);
+//
+//     // add some event listeners to avoid it disappearing when the mouse if over it.
+//     vispopup.addEventListener('mouseover',function () {
+//       if (popupTimeout !== null) {
+//         clearTimeout(popupTimeout);
+//         popupTimeout = null;
+//       }
+//     });
+//
+//     // set the timeout when the mouse leaves it.
+//     vispopup.addEventListener('mouseout',function () {
+//       if (popupTimeout === null) {
+//         myHidePopup(100);
+//       }
+//     });
+//
+//     // use the popup event to show
+//     instance.network.on("showPopup", function(params) {
+//       popupState = true;
+//       myShowPopup(params);
+//     })
+//
+//     // use the hide event to hide it
+//     instance.network.on("hidePopup", function(params) {
+//       // avoid double firing of this event, bug in 4.2.0
+//       if (popupState === true) {
+//         popupState = false;
+//         myHidePopup(popupStay);
+//       }
+//     })
+//
+//     // hiding the popup through css and a timeout
+//     function myHidePopup(delay) {
+//       popupTimeout = setTimeout(function() {vispopup.style.visibility = 'hidden';}, delay);
+//     }
+//
+//     // showing the popup
+//     function myShowPopup(id) {
+//       // get the data from the vis.DataSet
+//       var nodeData = nodes.get([id]);
+//       var edgeData = edges.get([id]);
+//
+//       // a node ?
+//       if(nodeData[0] !== null && nodeData[0] !== undefined){
+//         vispopup.innerHTML = nodeData[0].title;
+//         // show and place the tooltip.
+//         vispopup.style.visibility = 'visible';
+//         vispopup.style.top = tempY - 20 +  "px";
+//         vispopup.style.left = tempX + 5 + "px";
+//
+//       } else if(edgeData[0] !== null && edgeData[0] !== undefined){
+//         // so it's perhaps a edge ?
+//         vispopup.innerHTML = edgeData[0].title;
+//         // show and place the tooltip.
+//         vispopup.style.visibility = 'visible';
+//         vispopup.style.top = tempY - 20 +  "px";
+//         vispopup.style.left = tempX + 5 + "px";
+//       } else {
+//         // or a cluster ?
+//         var node_cluster = instance.network.body.nodes[id]
+//         if(node_cluster !== undefined){
+//           vispopup.innerHTML = node_cluster.options.title;
+//           // show and place the tooltip.
+//           vispopup.style.visibility = 'visible';
+//           vispopup.style.top = tempY - 20 +  "px";
+//           vispopup.style.left = tempX + 5 + "px";
+//         }
+//       }
+//
+//       // for sparkline. Eval script...
+//       var any_script= vispopup.getElementsByTagName('script')
+//       for (var n = 0; n < any_script.length; n++){
+//         if(any_script[n].getAttribute("type") === "text/javascript"){
+//            eval(any_script[n].innerHTML);
+//         }
+//       }
+//     }
+//
+//     //*************************
+//     // Events
+//     //*************************
+//     if(x.events !== undefined){
+//       for (var key in x.events) {
+//           instance.network.on(key, x.events[key]);
+//       }
+//     }
+//
+//     if(x.OnceEvents !== undefined){
+//       for (var key in x.OnceEvents) {
+//           instance.network.once(key, x.OnceEvents[key]);
+//       }
+//     }
+//
+//     if(x.ResetEvents !== undefined){
+//       for (var key in x.ResetEvents) {
+//           instance.network.off(key);
+//       }
+//     }
+//     //*************************
+//     // Selected Highlight
+//     //*************************
+//
+//     function selectedHighlight(value) {
+//       // get current nodes
+//       var allNodes = nodes.get({returnType:"Object"});
+//
+//       // first resetEdges
+//       resetAllEdges(edges, el_id.byselectionColor, el_id.highlightColor, instance.network);
+//       var connectedNodes = [];
+//
+//       // get variable
+//       var sel = el_id.byselection_variable;
+//       // need to make an update?
+//       var update = !(el_id.selectActive === false && value === "");
+//
+//       if (value !== "") {
+//         var updateArray = [];
+//         el_id.selectActive = true;
+//
+//         // mark all nodes as hard to read.
+//         for (var nodeId in allNodes) {
+//           var value_in = false;
+//           // unique selection
+//           if(el_id.byselection_multiple === false){
+//             if(sel == "label"){
+//               value_in = ((allNodes[nodeId]["label"] + "") === value) || ((allNodes[nodeId]["hiddenLabel"] + "") === value);
+//             }else if(sel == "color"){
+//               value_in = ((allNodes[nodeId]["color"] + "") === value) || ((allNodes[nodeId]["hiddenColor"] + "") === value);
+//             }else {
+//               value_in = (allNodes[nodeId][sel] + "") === value;
+//             }
+//           }else{ // multiple selection
+//             if(sel == "label"){
+//               var current_value = allNodes[nodeId]["label"] + "";
+//               var value_split = current_value.split(",").map(Function.prototype.call, String.prototype.trim);
+//               var current_value2 = allNodes[nodeId]["hiddenLabel"] + "";
+//               var value_split2 = current_value.split(",").map(Function.prototype.call, String.prototype.trim);
+//               value_in = (value_split.indexOf(value) !== -1) || (value_split2.indexOf(value) !== -1);
+//             }else if(sel == "color"){
+//               var current_value = allNodes[nodeId]["color"] + "";
+//               var value_split = current_value.split(",").map(Function.prototype.call, String.prototype.trim);
+//               var current_value2 = allNodes[nodeId]["hiddenColor"] + "";
+//               var value_split2 = current_value.split(",").map(Function.prototype.call, String.prototype.trim);
+//               value_in = (value_split.indexOf(value) !== -1) || (value_split2.indexOf(value) !== -1);
+//             }else {
+//               var current_value = allNodes[nodeId][sel] + "";
+//               var value_split = current_value.split(",").map(Function.prototype.call, String.prototype.trim);
+//               value_in = value_split.indexOf(value) !== -1;
+//             }
+//           }
+//           if(value_in === false){ // not in selection, so as hard to read
+//             nodeAsHardToRead(allNodes[nodeId], instance.network.groups, options, el_id.byselectionColor, el_id.highlightColor, instance.network, "node");
+//           } else { // in selection, so reset if needed
+//             connectedNodes = connectedNodes.concat(allNodes[nodeId].id);
+//             resetOneNode(allNodes[nodeId], instance.network.groups, options, instance.network);
+//           }
+//           allNodes[nodeId].x = undefined;
+//           allNodes[nodeId].y = undefined;
+//           // update data
+//           if (allNodes.hasOwnProperty(nodeId) && update) {
+//             updateArray.push(allNodes[nodeId]);
+//           }
+//         }
+//         if(update){
+//           // set some edges as hard to read
+//           var edgesHardToRead = edges.get({
+//             fields: ['id', 'color', 'hiddenColor', 'hiddenLabel', 'label'],
+//             filter: function (item) {
+//               return (indexOf.call(connectedNodes, item.from, true) === -1) ;
+//             },
+//             returnType :'Array'
+//           });
+//
+//           // all in degree nodes get their own color and their label back
+//           for (i = 0; i < edgesHardToRead.length; i++) {
+//             edgeAsHardToRead(edgesHardToRead[i], el_id.byselectionColor, el_id.highlightColor, instance.network, type = "edge")
+//           }
+//           edges.update(edgesHardToRead);
+//
+//           nodes.update(updateArray);
+//         }
+//       }
+//       else if (el_id.selectActive === true) {
+//         //reset nodes
+//         resetAllNodes(nodes, update, instance.network.groups, options, instance.network)
+//         el_id.selectActive = false
+//       }
+//     }
+//
+//     //*************************
+//     //Highlight
+//     //*************************
+//     var is_hovered = false;
+//     var is_clicked = false;
+//
+//     function neighbourhoodHighlight(params, action_type, algorithm) {
+//
+//       var nodes_in_clusters = instance.network.body.modules.clustering.clusteredNodes;
+//       var have_cluster_nodes = false;
+//       if(Object.keys(nodes_in_clusters).length > 0){
+//         have_cluster_nodes = true;
+//         nodes_in_clusters = Object.keys(nodes_in_clusters);
+//         edges_in_clusters = Object.keys(instance.network.body.modules.clustering.clusteredEdges);
+//       } else {
+//         nodes_in_clusters = [];
+//         edges_in_clusters = [];
+//       }
+//
+//       var selectNode;
+//       // get nodes data
+//       var allNodes = nodes.get({returnType:"Object"});
+//
+//       // cluster
+//       var array_cluster_id;
+//
+//       // update
+//       var update = !(el_id.highlightActive === false && params.length === 0) | (el_id.selectActive === true && params.length === 0);
+//
+//       if(!(action_type == "hover" && is_clicked)){
+//
+//         // first resetEdges
+//         resetAllEdges(edges, el_id.highlightColor, el_id.byselectionColor, instance.network);
+//
+//         if (params.length > 0) {
+//           var is_cluster = instance.network.isCluster(params[0]);
+//           var selectedNode;
+//
+//           if(is_cluster){
+//             selectedNode = instance.network.getNodesInCluster(params[0]);
+//           } else {
+//             selectedNode = params;
+//           }
+//
+//           var updateArray = [];
+//           if(el_id.idselection){
+//             selectNode = document.getElementById('nodeSelect'+el.id);
+//             if(is_cluster === false){
+//               if(x.idselection.values !== undefined){
+//                 if(indexOf.call(x.idselection.values, selectedNode[0], true) > -1){
+//                   selectNode.value = selectedNode[0];
+//                 }else{
+//                   selectNode.value = "";
+//                 }
+//               }else{
+//                 selectNode.value = selectedNode[0];
+//               }
+//               if (window.Shiny){
+//                 changeInput('selected', selectNode.value);
+//               }
+//             }
+//           }
+//
+//           el_id.highlightActive = true;
+//           var i,j;
+//           var degrees = el_id.degree;
+//
+//           // mark all nodes as hard to read.
+//           for (var nodeId in instance.network.body.nodes) {
+//             if(instance.network.isCluster(nodeId)){
+//               nodeAsHardToRead(instance.network.body.nodes[nodeId], instance.network.groups, options, el_id.highlightColor, el_id.byselectionColor, instance.network, "cluster");
+//             }else {
+//               var tmp_node = allNodes[nodeId];
+//               if(tmp_node !== undefined){
+//                 nodeAsHardToRead(tmp_node, instance.network.groups, options, el_id.highlightColor, el_id.byselectionColor, instance.network, "node");
+//                 tmp_node.x = undefined;
+//                 tmp_node.y = undefined;
+//               }
+//             }
+//           }
+//
+//           if(algorithm === "all"){
+//             var connectedNodes;
+//             if(degrees > 0){
+//               connectedNodes = [];
+//               for (j = 0; j < selectedNode.length; j++) {
+//                 connectedNodes = connectedNodes.concat(instance.network.getConnectedNodes(selectedNode[j], true));
+//               }
+//               connectedNodes = uniqueArray(connectedNodes, true, instance.network);
+//             }else{
+//               connectedNodes = selectedNode;
+//             }
+//
+//             var allConnectedNodes = [];
+//             // get the nodes to color
+//             if(degrees >= 2){
+//               for (i = 2; i <= degrees; i++) {
+//                 var previous_connectedNodes = connectedNodes;
+//                 var currentlength = connectedNodes.length;
+//                 for (j = 0; j < currentlength; j++) {
+//                   connectedNodes = uniqueArray(connectedNodes.concat(instance.network.getConnectedNodes(connectedNodes[j])), true, instance.network);
+//                 }
+//                 if (connectedNodes.length === previous_connectedNodes.length) { break; }
+//               }
+//             }
+//             // nodes to just label
+//             for (j = 0; j < connectedNodes.length; j++) {
+//                 allConnectedNodes = allConnectedNodes.concat(instance.network.getConnectedNodes(connectedNodes[j]));
+//             }
+//             allConnectedNodes = uniqueArray(allConnectedNodes, true, instance.network);
+//
+//             if(el_id.highlightLabelOnly === true){
+//               // all higher degree nodes get a different color and their label back
+//               array_cluster_id = [];
+//               for (i = 0; i < allConnectedNodes.length; i++) {
+//                 if (allNodes[allConnectedNodes[i]].hiddenLabel !== undefined) {
+//                   allNodes[allConnectedNodes[i]].label = allNodes[allConnectedNodes[i]].hiddenLabel;
+//                   allNodes[allConnectedNodes[i]].hiddenLabel = undefined;
+//                   if(have_cluster_nodes){
+//                     if(indexOf.call(nodes_in_clusters, allConnectedNodes[i], true) > -1){
+//
+//                       array_cluster_id = array_cluster_id.concat(instance.network.clustering.findNode(allConnectedNodes[i])[0]);
+//                     }
+//                   }
+//                 }
+//               }
+//
+//               if(array_cluster_id.length > 0){
+//                 array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
+//                 for (i = 0; i < array_cluster_id.length; i++) {
+//                   instance.network.body.nodes[array_cluster_id[i]].setOptions({label : instance.network.body.nodes[array_cluster_id[i]].options.hiddenLabel, hiddenLabel:undefined})
+//                 }
+//               }
+//             }
+//
+//             // all in degree nodes get their own color and their label back + main nodes
+//             connectedNodes = connectedNodes.concat(selectedNode);
+//             array_cluster_id = [];
+//             for (i = 0; i < connectedNodes.length; i++) {
+//               resetOneNode(allNodes[connectedNodes[i]], instance.network.groups, options, instance.network);
+//               if(have_cluster_nodes){
+//                 if(indexOf.call(nodes_in_clusters, connectedNodes[i], true) > -1){
+//                   array_cluster_id = array_cluster_id.concat(instance.network.clustering.findNode(connectedNodes[i])[0]);
+//                 }
+//               }
+//             }
+//
+//             if(array_cluster_id.length > 0){
+//               array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
+//               for (i = 0; i < array_cluster_id.length; i++) {
+//                 resetOneCluster(instance.network.body.nodes[array_cluster_id[i]], instance.network.groups, options, instance.network);
+//               }
+//             }
+//
+//             // set some edges as hard to read
+//             var edgesHardToRead = edges.get({
+//               fields: ['id', 'color', 'hiddenColor', 'hiddenLabel', 'label'],
+//               filter: function (item) {
+//                 return ((indexOf.call(connectedNodes, item.from, true) === -1)) ;
+//               },
+//               returnType :'Array'
+//             });
+//
+//             // all in degree nodes get their own color and their label back
+//             array_cluster_id = [];
+//             var tmp_cluster_id;
+//             for (i = 0; i < edgesHardToRead.length; i++) {
+//               edgeAsHardToRead(edgesHardToRead[i], el_id.highlightColor, el_id.byselectionColor, instance.network, type = "edge")
+//               if(have_cluster_nodes){
+//                 if(indexOf.call(edges_in_clusters, edgesHardToRead[i].id, true) > -1){
+//                   tmp_cluster_id = instance.network.clustering.getClusteredEdges(edgesHardToRead[i].id);
+//                   if(tmp_cluster_id.length > 1){
+//                     array_cluster_id = array_cluster_id.concat(tmp_cluster_id[0]);
+//                   }
+//                 }
+//               }
+//             }
+//
+//             if(array_cluster_id.length > 0){
+//               array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
+//               for (i = 0; i < array_cluster_id.length; i++) {
+//                 edgeAsHardToRead(instance.network.body.edges[array_cluster_id[i]].options, el_id.highlightColor, el_id.byselectionColor, instance.network, type = "cluster")
+//               }
+//             }
+//             edges.update(edgesHardToRead);
+//
+//           } else if(algorithm === "hierarchical"){
+//
+//             var degree_from = degrees.from;
+//             var degree_to = degrees.to;
+//             degrees = Math.max(degree_from, degree_to);
+//
+//             var allConnectedNodes = [];
+//             var currentConnectedFromNodes = [];
+//             var currentConnectedToNodes = [];
+//             var connectedFromNodes = [];
+//             var connectedToNodes = [];
+//
+//             if(degree_from > 0){
+//               connectedFromNodes = edges.get({
+//                 fields: ['from'],
+//                 filter: function (item) {
+//                   return ((indexOf.call(selectedNode, item.to, true) !== -1)) ;
+//                 },
+//                 returnType :'Array'
+//               });
+//             }
+//
+//             if(degree_to > 0){
+//               connectedToNodes = edges.get({
+//                 fields: ['to'],
+//                 filter: function (item) {
+//                   return ((indexOf.call(selectedNode, item.from, true) !== -1)) ;
+//                 },
+//                 returnType :'Array'
+//               });
+//             }
+//             for (j = 0; j < connectedFromNodes.length; j++) {
+//                 allConnectedNodes = allConnectedNodes.concat(connectedFromNodes[j].from);
+//                 currentConnectedFromNodes = currentConnectedFromNodes.concat(connectedFromNodes[j].from);
+//             }
+//
+//             for (j = 0; j < connectedToNodes.length; j++) {
+//                 allConnectedNodes = allConnectedNodes.concat(connectedToNodes[j].to);
+//                 currentConnectedToNodes = currentConnectedToNodes.concat(connectedToNodes[j].to);
+//             }
+//
+//             var go_from;
+//             var go_to;
+//
+//             if(degrees > 1){
+//               for (i = 2; i <= degrees; i++) {
+//                 go_from = false;
+//                 go_to = false;
+//                 if(currentConnectedFromNodes.length > 0 && i <= degree_from){
+//                   connectedFromNodes = edges.get({
+//                     fields: ['from'],
+//                     filter: function (item) {
+//                       return indexOf.call(currentConnectedFromNodes, item.to, true) > -1;
+//                     },
+//                     returnType :'Array'
+//                   });
+//                   go_from = true;
+//                 }
+//
+//                 if(currentConnectedToNodes.length > 0 && i <= degree_to){
+//                   connectedToNodes = edges.get({
+//                     fields: ['to'],
+//                     filter: function (item) {
+//                       return indexOf.call(currentConnectedToNodes, item.from, true) > -1;
+//                     },
+//                     returnType :'Array'
+//                   });
+//                   go_to = true;
+//                 }
+//
+//                 if(go_from === true){
+//                   currentConnectedFromNodes = [];
+//                   for (j = 0; j < connectedFromNodes.length; j++) {
+//                     allConnectedNodes = allConnectedNodes.concat(connectedFromNodes[j].from);
+//                     currentConnectedFromNodes = currentConnectedFromNodes.concat(connectedFromNodes[j].from);
+//                   }
+//                 }
+//
+//                 if(go_to === true){
+//                   currentConnectedToNodes = [];
+//                   for (j = 0; j < connectedToNodes.length; j++) {
+//                     allConnectedNodes = allConnectedNodes.concat(connectedToNodes[j].to);
+//                     currentConnectedToNodes = currentConnectedToNodes.concat(connectedToNodes[j].to);
+//                   }
+//                 }
+//
+//                 if (go_from === false &&  go_to === false) { break;}
+//               }
+//             }
+//
+//             allConnectedNodes = uniqueArray(allConnectedNodes, true, instance.network).concat(selectedNode);
+//
+//             var nodesWithLabel = [];
+//             if(el_id.highlightLabelOnly === true){
+//               if(degrees > 0){
+//                 // nodes to just label
+//                 for (j = 0; j < currentConnectedToNodes.length; j++) {
+//                     nodesWithLabel = nodesWithLabel.concat(instance.network.getConnectedNodes(currentConnectedToNodes[j]));
+//                 }
+//
+//                 for (j = 0; j < currentConnectedFromNodes.length; j++) {
+//                     nodesWithLabel = nodesWithLabel.concat(instance.network.getConnectedNodes(currentConnectedFromNodes[j]));
+//                 }
+//                 nodesWithLabel = uniqueArray(nodesWithLabel, true, instance.network);
+//               } else{
+//                 nodesWithLabel = currentConnectedToNodes;
+//                 nodesWithLabel = nodesWithLabel.concat(currentConnectedFromNodes);
+//                 nodesWithLabel = uniqueArray(nodesWithLabel, true, instance.network);
+//               }
+//             }
+//             // all higher degree nodes get a different color and their label back
+//             array_cluster_id = [];
+//             for (i = 0; i < nodesWithLabel.length; i++) {
+//               if (allNodes[nodesWithLabel[i]].hiddenLabel !== undefined) {
+//                 allNodes[nodesWithLabel[i]].label = allNodes[nodesWithLabel[i]].hiddenLabel;
+//                 allNodes[nodesWithLabel[i]].hiddenLabel = undefined;
+//                 if(have_cluster_nodes){
+//                   if(indexOf.call(nodes_in_clusters, nodesWithLabel[i], true) > -1){
+//                     array_cluster_id = array_cluster_id.concat(instance.network.clustering.findNode(nodesWithLabel[i])[0]);
+//                   }
+//                 }
+//               }
+//             }
+//
+//             if(array_cluster_id.length > 0){
+//               array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
+//               for (i = 0; i < array_cluster_id.length; i++) {
+//                 instance.network.body.nodes[array_cluster_id[i]].setOptions({label : instance.network.body.nodes[array_cluster_id[i]].options.hiddenLabel, hiddenLabel:undefined})
+//               }
+//             }
+//
+//             // all in degree nodes get their own color and their label back
+//             array_cluster_id = [];
+//             for (i = 0; i < allConnectedNodes.length; i++) {
+//               resetOneNode(allNodes[allConnectedNodes[i]], instance.network.groups, options, instance.network);
+//               if(have_cluster_nodes){
+//                 if(indexOf.call(nodes_in_clusters, allConnectedNodes[i], true) > -1){
+//                   array_cluster_id = array_cluster_id.concat(instance.network.clustering.findNode(allConnectedNodes[i])[0]);
+//                 }
+//               }
+//             }
+//
+//             if(array_cluster_id.length > 0){
+//               array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
+//               for (i = 0; i < array_cluster_id.length; i++) {
+//                  resetOneCluster(instance.network.body.nodes[array_cluster_id[i]], instance.network.groups, options, instance.network);
+//               }
+//             }
+//
+//             // set some edges as hard to read
+//             var edgesHardToRead = edges.get({
+//               fields: ['id', 'color', 'hiddenColor', 'hiddenLabel', 'label'],
+//               filter: function (item) {
+//                 return ((indexOf.call(allConnectedNodes, item.from, true) === -1)  || (indexOf.call(allConnectedNodes, item.to, true) === -1)) ;
+//               },
+//               returnType :'Array'
+//             });
+//
+//             array_cluster_id = [];
+//             for (i = 0; i < edgesHardToRead.length; i++) {
+//               edgeAsHardToRead(edgesHardToRead[i], el_id.highlightColor, el_id.byselectionColor, instance.network, type = "edge")
+//               if(have_cluster_nodes){
+//                 if(indexOf.call(edges_in_clusters, edgesHardToRead[i].id, true) > -1){
+//                   var tmp_cluster_id = instance.network.clustering.getClusteredEdges(edgesHardToRead[i].id);
+//                   if(tmp_cluster_id.length > 1){
+//                     array_cluster_id = array_cluster_id.concat(tmp_cluster_id[0]);
+//                   }
+//                 }
+//               }
+//             }
+//
+//             if(array_cluster_id.length > 0){
+//               array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
+//               for (i = 0; i < array_cluster_id.length; i++) {
+//                  edgeAsHardToRead(instance.network.body.edges[array_cluster_id[i]].options, el_id.highlightColor, el_id.byselectionColor, instance.network, type = "cluster");
+//               }
+//             }
+//
+//             edges.update(edgesHardToRead);
+//
+//           }
+//
+//           if(update){
+//             if(!(action_type == "hover")){
+//                is_clicked = true;
+//             }
+//             // transform the object into an array
+//             var updateArray = [];
+//             for (nodeId in allNodes) {
+//               if (allNodes.hasOwnProperty(nodeId)) {
+//                 updateArray.push(allNodes[nodeId]);
+//               }
+//             }
+//             nodes.update(updateArray);
+//           }else{
+//             is_clicked = false;
+//           }
+//
+//         }
+//         else if (el_id.highlightActive === true | el_id.selectActive === true) {
+//           // reset nodeSelect list if actived
+//           if(el_id.idselection){
+//             resetList("nodeSelect", el.id, 'selected');
+//           }
+//           //reset nodes
+//           resetAllNodes(nodes, update, instance.network.groups, options, instance.network)
+//           el_id.highlightActive = false;
+//           is_clicked = false;
+//         }
+//       }
+//       // reset selectedBy list if actived
+//       if(el_id.byselection){
+//         resetList("selectedBy", el.id, 'selectedBy');
+//       }
+//     }
+//
+//     function onClickIDSelection(selectedItems) {
+//       var selectNode;
+//       if(el_id.idselection){
+//         if (selectedItems.nodes.length !== 0) {
+//           selectNode = document.getElementById('nodeSelect'+el.id);
+//           if(x.idselection.values !== undefined){
+//             if(indexOf.call(x.idselection.values, selectedItems.nodes[0], true) > -1){
+//               selectNode.value = selectedItems.nodes;
+//             }else{
+//               selectNode.value = "";
+//             }
+//           }else{
+//             selectNode.value = selectedItems.nodes;
+//           }
+//           if (window.Shiny){
+//             changeInput('selected', selectNode.value);
+//           }
+//         }else{
+//           resetList("nodeSelect", el.id, 'selected');
+//         }
+//       }
+//       if(el_id.byselection){
+//         // reset selectedBy list if actived
+//         if (selectedItems.nodes.length === 0) {
+//           resetList("selectedBy", el.id, 'selectedBy');
+//           selectedHighlight("");
+//         }
+//       }
+//     }
+//
+//     // shared click function (selectedNodes)
+//     document.getElementById("graph"+el.id).myclick = function(params){
+//         if(el_id.highlight && x.nodes){
+//           neighbourhoodHighlight(params.nodes, "click", el_id.highlightAlgorithm);
+//         }else if((el_id.idselection || el_id.byselection) && x.nodes){
+//           onClickIDSelection(params)
+//         }
+//     };
+//
+//     // Set event in relation with highlightNearest
+//     instance.network.on("click", function(params){
+//         if(el_id.highlight && x.nodes){
+//           neighbourhoodHighlight(params.nodes, "click", el_id.highlightAlgorithm);
+//         }else if((el_id.idselection || el_id.byselection) && x.nodes){
+//           onClickIDSelection(params)
+//         }
+//     });
+//
+//     instance.network.on("hoverNode", function(params){
+//       if(el_id.hoverNearest && x.nodes){
+//         neighbourhoodHighlight([params.node], "hover", el_id.highlightAlgorithm);
+//       }
+//     });
+//
+//     instance.network.on("blurNode", function(params){
+//       if(el_id.hoverNearest && x.nodes){
+//         neighbourhoodHighlight([], "hover", el_id.highlightAlgorithm);
+//       }
+//     });
+//
+//     //*************************
+//     //collapse
+//     //*************************
+//     instance.network.on("doubleClick", function(params){
+//       if(el_id.collapse){
+//         collapsedNetwork(params.nodes, el_id.collapseFit, el_id.collapseResetHighlight, el_id.clusterOptions,
+//         el_id.tree, instance.network, el.id)
+//       }
+//     });
+//
+//     if(el_id.collapse){
+//       instance.network.on("doubleClick", networkOpenCluster);
+//     }
+//
+//     //*************************
+//     //footer
+//     //*************************
+//     var div_footer = document.createElement('div');
+//     div_footer.id = "footer"+el.id;
+//     div_footer.setAttribute('style',  'font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;background-color: inherit;');
+//     div_footer.style.display = 'none';
+//
+//     document.getElementById("graph" + el.id).appendChild(div_footer);
+//     if(x.footer !== null){
+//       div_footer.innerHTML = x.footer.text;
+//       div_footer.setAttribute('style',  x.footer.style + ';background-color: inherit;');
+//       div_footer.style.display = 'block';
+//     }
+//
+//     //*************************
+//     // export
+//     //*************************
+//     if(x.export !== undefined){
+//
+//       var downloaddiv = document.createElement('div');
+//       downloaddiv.setAttribute('style', 'float:right; width:100%;background-color: inherit;');
+//
+//       var downloadbutton = document.createElement("button");
+//       downloadbutton.setAttribute('style', x.export.css);
+//       downloadbutton.style.position = "relative";
+//       downloadbutton.id = "download"+el.id;
+//       downloadbutton.appendChild(document.createTextNode(x.export.label));
+//       downloaddiv.appendChild(downloadbutton);
+//
+//       var hr = document.createElement("hr");
+//       hr.setAttribute('style', 'height:5px; visibility:hidden; margin-bottom:-1px;');
+//       downloaddiv.appendChild(hr);
+//
+//       document.getElementById("maindiv"+el.id).appendChild(downloaddiv);
+//
+//       document.getElementById("download"+el.id).onclick = function() {
+//
+//       // height control for export
+//       var addHeightExport = document.getElementById("graph" + el.id).offsetHeight + idList.offsetHeight + byList.offsetHeight + downloaddiv.offsetHeight;
+//       if(div_title.style.display !== 'none'){
+//         addHeightExport = addHeightExport + div_title.offsetHeight;
+//       }
+//       if(div_subtitle.style.display !== 'none'){
+//         addHeightExport = addHeightExport + div_subtitle.offsetHeight;
+//       }
+//       if(div_footer.style.display !== 'none'){
+//         addHeightExport = addHeightExport + div_footer.offsetHeight;
+//       } else {
+//         addHeightExport = addHeightExport + 15;
+//       }
+//
+//       downloadbutton.style.display = 'none';
+//       var export_background = x.export.background;
+//       if(x.background !== "transparent" && x.background !== "rgba(0, 0, 0, 0)"){
+//         export_background = x.background
+//       }
+//
+//       if(x.export.type !== "pdf"){
+//         html2canvas(el_id, {
+//           background: export_background,
+//           height : addHeightExport,
+//           onrendered: function(canvas) {
+//             canvas.toBlobHD(function(blob) {
+//               saveAs(blob, x.export.name);
+//             }, "image/"+x.export.type);
+//           }
+//         });
+//       } else {
+//         html2canvas(el_id, {
+//           background: export_background,
+//           height : addHeightExport,
+//           onrendered: function(canvas) {
+//             var myImage = canvas.toDataURL("image/png", 1.0);
+//             //var imgWidth = (canvas.width * 25.4) / 24;
+//             //var imgHeight = (canvas.height * 25.4) / 24;
+//             var table = new jsPDF('l', 'pt', [canvas.width, canvas.height]);
+//             table.addImage(myImage, 'JPEG', 0, 0, canvas.width, canvas.height);
+//             table.save(x.export.name);
+//           }
+//         });
+//       }
+//
+//       downloadbutton.style.display = 'block';
+//       };
+//     }
+//
+//     //*************************
+//     // dataManipulation
+//     //*************************
+//     function clearPopUp() {
+//       document.getElementById('saveButton').onclick = null;
+//       document.getElementById('cancelButton').onclick = null;
+//       document.getElementById('network-popUp').style.display = 'none';
+//     }
+//
+//     function saveNode(data, callback, cmd) {
+//       data.id = document.getElementById('node-id').value;
+//       data.label = document.getElementById('node-label').value;
+//       if (window.Shiny){
+//         var obj = {cmd: cmd, id: data.id, label: data.label}
+//         Shiny.onInputChange(el.id + '_graphChange', obj);
+//       }
+//       clearPopUp();
+//       callback(data);
+//     }
+//
+//     function saveEdge(data, callback, cmd) {
+//       callback(data); //must be first called for egde id !
+//       if (window.Shiny){
+//         var obj = {cmd: cmd, id: data.id, from: data.from, to: data.to};
+//         Shiny.onInputChange(el.id + '_graphChange', obj);
+//       }
+//
+//     }
+//
+//     function deleteSubGraph(data, callback) {
+//       if (window.Shiny){
+//         var obj = {cmd: "deleteElements", nodes: data.nodes, edges: data.edges}
+//         Shiny.onInputChange(el.id + '_graphChange', obj);
+//       }
+//       callback(data);
+//     }
+//
+//     function cancelEdit(callback) {
+//       clearPopUp();
+//       callback(null);
+//     }
+//
+//     //*************************
+//     // CLUSTERING
+//     //*************************
+//     if(x.clusteringGroup || x.clusteringColor || x.clusteringHubsize || x.clusteringConnection){
+//
+//       var clusterbutton = document.createElement("input");
+//       clusterbutton.id = "backbtn"+el.id;
+//       clusterbutton.setAttribute('type', 'button');
+//       clusterbutton.setAttribute('value', 'Reinitialize clustering');
+//       clusterbutton.setAttribute('style', 'background-color:#FFFFFF;border: none');
+//       el_id.appendChild(clusterbutton);
+//
+//       clusterbutton.onclick =  function(){
+//         instance.network.setData(data);
+//         if(x.clusteringColor){
+//           clusterByColor();
+//         }
+//         if(x.clusteringGroup){
+//           clusterByGroup();
+//         }
+//         if(x.clusteringHubsize){
+//           clusterByHubsize();
+//         }
+//         if(x.clusteringConnection){
+//           clusterByConnection();
+//         }
+//         instance.network.fit();
+//       }
+//     }
+//
+//     if(x.clusteringGroup || x.clusteringColor || x.clusteringOutliers || x.clusteringHubsize || x.clusteringConnection){
+//       // if we click on a node, we want to open it up!
+//       instance.network.on("doubleClick", function (params){
+//         if (params.nodes.length === 1) {
+//           if (instance.network.isCluster(params.nodes[0]) === true) {
+//             instance.network.openCluster(params.nodes[0], {releaseFunction : function(clusterPosition, containedNodesPositions) {
+//               return containedNodesPositions;
+//             }});
+//           }
+//         }
+//       });
+//     }
+//     //*************************
+//     //clustering Connection
+//     //*************************
+//     if(x.clusteringConnection){
+//
+//       function clusterByConnection() {
+//         for (var i = 0; i < x.clusteringConnection.nodes.length; i++) {
+//           instance.network.clusterByConnection(x.clusteringConnection.nodes[i])
+//         }
+//       }
+//       clusterByConnection();
+//     }
+//
+//     //*************************
+//     //clustering hubsize
+//     //*************************
+//     if(x.clusteringHubsize){
+//
+//       function clusterByHubsize() {
+//         var clusterOptionsByData = {
+//           processProperties: function(clusterOptions, childNodes) {
+//                   for (var i = 0; i < childNodes.length; i++) {
+//                       //totalMass += childNodes[i].mass;
+//                       if(i === 0){
+//                         //clusterOptions.shape =  childNodes[i].shape;
+//                         clusterOptions.color =  childNodes[i].color.background;
+//                       }else{
+//                         //if(childNodes[i].shape !== clusterOptions.shape){
+//                           //clusterOptions.shape = 'database';
+//                         //}
+//                         if(childNodes[i].color.background !== clusterOptions.color){
+//                           clusterOptions.color = 'grey';
+//                         }
+//                       }
+//                   }
+//             clusterOptions.label = "[" + childNodes.length + "]";
+//             return clusterOptions;
+//           },
+//           clusterNodeProperties: {borderWidth:3, shape:'box', font:{size:30}}
+//         }
+//         if(x.clusteringHubsize.size > 0){
+//           instance.network.clusterByHubsize(x.clusteringHubsize.size, clusterOptionsByData);
+//         }else{
+//           instance.network.clusterByHubsize(undefined, clusterOptionsByData);
+//         }
+//       }
+//
+//       clusterByHubsize();
+//     }
+//
+//     if(x.clusteringColor){
+//
+//     //*************************
+//     //clustering color
+//     //*************************
+//     function clusterByColor() {
+//         var colors = x.clusteringColor.colors
+//         var clusterOptionsByData;
+//         for (var i = 0; i < colors.length; i++) {
+//           var color = colors[i];
+//           clusterOptionsByData = {
+//               joinCondition: function (childOptions) {
+//                   return childOptions.color.background == color; // the color is fully defined in the node.
+//               },
+//               processProperties: function (clusterOptions, childNodes, childEdges) {
+//                   var totalMass = 0;
+//                   for (var i = 0; i < childNodes.length; i++) {
+//                       totalMass += childNodes[i].mass;
+//                       if(x.clusteringColor.force === false){
+//                         if(i === 0){
+//                           clusterOptions.shape =  childNodes[i].shape;
+//                         }else{
+//                           if(childNodes[i].shape !== clusterOptions.shape){
+//                             clusterOptions.shape = x.clusteringColor.shape;
+//                           }
+//                         }
+//                       } else {
+//                         clusterOptions.shape = x.clusteringColor.shape;
+//                       }
+//
+//                   }
+//                   clusterOptions.value = totalMass;
+//                   return clusterOptions;
+//               },
+//               clusterNodeProperties: {id: 'cluster:' + color, borderWidth: 3, color:color, label: x.clusteringColor.label + color}
+//           }
+//           instance.network.cluster(clusterOptionsByData);
+//         }
+//       }
+//
+//       clusterByColor();
+//     }
+//
+//     //*************************
+//     //clustering groups
+//     //*************************
+//     if(x.clusteringGroup){
+//
+//       function clusterByGroup() {
+//         var groups = x.clusteringGroup.groups;
+//         var clusterOptionsByData;
+//         for (var i = 0; i < groups.length; i++) {
+//           var group = groups[i];
+//           clusterOptionsByData = {
+//               joinCondition: function (childOptions) {
+//                   return childOptions.group == group; //
+//               },
+//               processProperties: function (clusterOptions, childNodes, childEdges) {
+//                 //console.info(clusterOptions);
+//                   var totalMass = 0;
+//                   for (var i = 0; i < childNodes.length; i++) {
+//                       totalMass += childNodes[i].mass;
+//                       if(x.clusteringGroup.force === false){
+//                         if(i === 0){
+//                           clusterOptions.shape =  childNodes[i].shape;
+//                           clusterOptions.color =  childNodes[i].color.background;
+//                         }else{
+//                           if(childNodes[i].shape !== clusterOptions.shape){
+//                             clusterOptions.shape = x.clusteringGroup.shape;
+//                           }
+//                           if(childNodes[i].color.background !== clusterOptions.color){
+//                             clusterOptions.color = x.clusteringGroup.color;
+//                           }
+//                         }
+//                       } else {
+//                         clusterOptions.shape = x.clusteringGroup.shape;
+//                         clusterOptions.color = x.clusteringGroup.color;
+//                       }
+//                   }
+//                   clusterOptions.value = totalMass;
+//                   return clusterOptions;
+//               },
+//               clusterNodeProperties: {id: 'cluster:' + group, borderWidth: 3, label:x.clusteringGroup.label + group}
+//           }
+//           instance.network.cluster(clusterOptionsByData);
+//         }
+//       }
+//       clusterByGroup();
+//     }
+//
+//     //*************************
+//     //clustering by zoom
+//     //*************************
+//     if(x.clusteringOutliers){
+//
+//       clusterFactor = x.clusteringOutliers.clusterFactor;
+//
+//       // set the first initial zoom level
+//       instance.network.on('initRedraw', function() {
+//         if (lastClusterZoomLevel === 0) {
+//           lastClusterZoomLevel = instance.network.getScale();
+//         }
+//       });
+//
+//       // we use the zoom event for our clustering
+//       instance.network.on('zoom', function (params) {
+//         if(ctrlwait === 0){
+//         if (params.direction == '-') {
+//           if (params.scale < lastClusterZoomLevel*clusterFactor) {
+//             makeClusters(params.scale);
+//             lastClusterZoomLevel = params.scale;
+//           }
+//         }
+//         else {
+//           openClusters(params.scale);
+//         }
+//         }
+//       });
+//     }
+//
+//     // make the clusters
+//     function makeClusters(scale) {
+//         ctrlwait = 1;
+//         var clusterOptionsByData = {
+//             processProperties: function (clusterOptions, childNodes) {
+//                 clusterIndex = clusterIndex + 1;
+//                 var childrenCount = 0;
+//                 for (var i = 0; i < childNodes.length; i++) {
+//                     childrenCount += childNodes[i].childrenCount || 1;
+//                 }
+//                 clusterOptions.childrenCount = childrenCount;
+//                 clusterOptions.label = "# " + childrenCount + "";
+//                 clusterOptions.font = {size: childrenCount*5+30}
+//                 clusterOptions.id = 'cluster:' + clusterIndex;
+//                 clusters.push({id:'cluster:' + clusterIndex, scale:scale});
+//                 return clusterOptions;
+//             },
+//             clusterNodeProperties: {borderWidth: 3, shape: 'database', font: {size: 30}}
+//         }
+//         instance.network.clusterOutliers(clusterOptionsByData);
+//         if (x.clusteringOutliers.stabilize) {
+//             instance.network.stabilize();
+//         };
+//         ctrlwait = 0;
+//     }
+//
+//     // open them back up!
+//     function openClusters(scale) {
+//         ctrlwait = 1;
+//         var newClusters = [];
+//         var declustered = false;
+//         for (var i = 0; i < clusters.length; i++) {
+//             if (clusters[i].scale < scale) {
+//                 instance.network.openCluster(clusters[i].id);
+//                 lastClusterZoomLevel = scale;
+//                 declustered = true;
+//             }
+//             else {
+//                 newClusters.push(clusters[i])
+//             }
+//         }
+//         clusters = newClusters;
+//         if (x.clusteringOutliers.stabilize) {
+//             instance.network.stabilize();
+//         };
+//         ctrlwait = 0;
+//     }
+//
+//     //******************
+//     // init selection
+//     //******************
+//     if(el_id.idselection && x.nodes && x.idselection.selected !== undefined){
+//       onIdChange(''+ x.idselection.selected, true);
+//     }
+//
+//     if(el_id.byselection && x.nodes && x.byselection.selected !== undefined){
+//       onByChange(x.byselection.selected);
+//       selectNode = document.getElementById('selectedBy'+el.id);
+//       selectNode.value = x.byselection.selected;
+//     }
+//
+//     // try to fix icons loading css bug...
+//     function iconsRedraw() {
+//       setTimeout(function(){
+//         if(instance.network)
+//           instance.network.redraw();
+//         if(instance.legend)
+//           instance.legend.redraw();
+//       }, 200);
+//     }
+//     if(x.iconsRedraw !== undefined){
+//       if(x.iconsRedraw){
+//         instance.network.once("stabilized", function(){iconsRedraw();})
+//       }
+//     }
+//   },
+//
+//   resize: function(el, width, height, instance) {
+//       if(instance.network)
+//         instance.network.fit();
+//       if(instance.legend)
+//         instance.legend.fit();
+//   }
+//
+// });

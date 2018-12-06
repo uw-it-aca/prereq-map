@@ -1,38 +1,19 @@
-
+$(document).ready(function(){
+    window.show_graph();
+});
 
 window.show_graph = function() {
-    var widget = window.HTMLWidgets.widgets[0];
-    var el = widget.find(document.documentElement)[0];
-    var scriptData = document.querySelector("script[data-for='" + el.id + "'][type='application/json']");
-    var data = JSON.parse(scriptData.textContent || scriptData.text);
-    // Resolve strings marked as javascript literals to objects
-    if (!(data.evals instanceof Array)) data.evals = [data.evals];
-    for (var k = 0; data.evals && k < data.evals.length; k++) {
-        window.HTMLWidgets.evaluateStringMember(data.x, data.evals[k]);
-    }
-
-    var sizeObj = initSizing(el, widget);
     var initResult;
-    if (widget.initialize) {
-        initResult = widget.initialize(el,
-                                       sizeObj ? sizeObj.getWidth() : el.offsetWidth,
-                                       sizeObj ? sizeObj.getHeight() : el.offsetHeight
-        );
-        elementData(el, "init_result", initResult);
-    }
+    var graph_div = $("<div/>", {id: "graph_div"});
+    $("#graph_container").append(graph_div);
+    var el = graph_div;
+    var data = $("#graph_data").html();
+    data = JSON.parse(data);
 
-    // widget.renderValue(el, data.x, initResult);
-
-    var graph_div = $("<div/>", {id: "graph"+el.id});
-    $("#htmlwidget_container").append(graph_div);
-    build_graph(el, data.x, initResult)
+    var graph = $("<div/>", {id: "graph"+el.id});
+    $("#graph_container").append(graph);
+    build_graph(graph_div, data.x, initResult)
 };
-
-
-var viewerMode = window.HTMLWidgets.viewerMode =
-    /\bviewer_pane=1\b/.test(window.location);
-
-
 
 function initSizing(el) {
     var sizing = sizingPolicy(el);
@@ -292,5 +273,6 @@ function build_graph(el, x, instance) {
     };
 
     // create network
-    instance.network = new vis.Network(document.getElementById("graph"+el.id), data, options);
+    console.log(document.getElementById("graph"+el.id));
+    new vis.Network(document.getElementById("graph"+el.id), data, options);
 }
