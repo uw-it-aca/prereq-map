@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import pandas as pd
+import os
 # import igraph as ig
 
 """
@@ -29,6 +30,8 @@ D3 or vis.js later on.
 }
 """
 
+os.chdir(os.getcwd())
+
 course_data = pd.read_pickle("data/course_data.pkl")        # vertex attributes
 prereqs = pd.read_pickle("data/prereq_data.pkl")            # edgelist
 
@@ -55,8 +58,8 @@ course_data = course_data.loc[:, ['course', 'department_abbrev', 'course_number'
                                   'english_comp', 'qsr', 'vis_lit_perf_arts',
                                   'indiv_society', 'natural_world']]
 
-# remove inactive courses from prereqs
-prereqs = prereqs[prereqs['course_from'].isin(course_data['course'])]
+# remove inactive courses from prereqs (keep them in the from field)
+# prereqs = prereqs[prereqs['course_from'].isin(course_data['course'])]
 prereqs = prereqs[prereqs['course_to'].isin(course_data['course'])]
 
 # vertex metadata
@@ -64,3 +67,28 @@ clist = prereqs[['course_to', 'course_from']].drop_duplicates()
 clist.sort_values(['course_to', 'course_from'], inplace = True)
 
 attribs = course_data[course_data['course'].isin(prereqs['course_to']) | course_data['course'].isin(prereqs['course_from'])]
+
+# =============================================================================
+# Build up the text string for the prereq relationships
+#
+# =============================================================================
+def and_or(x = object):
+    if x == "O":
+        return " Or"
+    elif x == "A":
+        return "; and"
+    else:
+        return ""
+ao = prereqs['pr_and_or'].apply(and_or)
+ao = prereqs['course_from'] + ao
+vlab_andor = ao.groupby(prereqs['course_to']).apply(lambda x: ' '.join(x))
+
+attribs = pd.merge(attribs, vlab_andor.to_frame(name = "vlab_prereqs"),
+                how = "left", left_on = "course", right_on = "course_to")
+attribs.vlab_prereqs = attribs.vlab_prereqs.fillna('')
+attribs['vlab'] = attribs['long_course_title'] + "<br>" + attribs['vlab_prereqs']
+
+
+
+
+attribs_json = attribs.to_json()
