@@ -29,11 +29,15 @@ D3 or vis.js later on.
         }
 }
 """
+data_path = os.path.join(os.path.dirname(__file__),
+                         '..',
+                         'data')
 
 os.chdir(os.getcwd())
-
-course_data = pd.read_pickle("data/course_data.pkl")        # vertex attributes
-prereqs = pd.read_pickle("data/prereq_data.pkl")            # edgelist
+# vertex attributes
+course_data = pd.read_pickle(os.path.join(data_path, "course_data.pkl"))
+# edgelist
+prereqs = pd.read_pickle(os.path.join(data_path, "prereq_data.pkl"))
 
 # The database typically contains lots of whitespace for padding; remove it
 prereqs = prereqs.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
