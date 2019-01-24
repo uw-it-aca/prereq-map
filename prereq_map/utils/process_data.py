@@ -3,7 +3,6 @@
 
 import pandas as pd
 import os
-# import igraph as ig
 
 """
 Unless we want to mess around with plots offline there should be no need to
@@ -32,8 +31,8 @@ D3 or vis.js later on.
 
 os.chdir(os.getcwd())
 
-course_data = pd.read_pickle("data/course_data.pkl")        # vertex attributes
-prereqs = pd.read_pickle("data/prereq_data.pkl")            # edgelist
+course_data = pd.read_pickle("src-py/prereq_map/prereq_map/data/course_data.pkl")        # vertex attributes
+prereqs = pd.read_pickle("src-py/prereq_map/prereq_map/data/prereq_data.pkl")            # edgelist
 
 # The database typically contains lots of whitespace for padding; remove it
 prereqs = prereqs.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
@@ -50,10 +49,10 @@ prereqs.drop(prereqs[(prereqs.course_to == prereqs.course_from)].index, inplace 
 prereqs.drop(list(prereqs.filter(regex = '_spare')), axis = 1, inplace = True)
 # prereqs.drop(columns = ['pr_last_update_dt'], inplace = True)
 
-course_data = course_data.loc[:, ['course', 'department_abbrev', 'course_number',
+course_data = course_data[['course', 'department_abbrev', 'course_number',
                                   'last_eff_yr', 'last_eff_qtr', 'course_branch',
                                   'course_college', 'long_course_title',
-                                  'prq_lang_of_adm', 'prq_check_grads', 'pre_cancel_req',
+                                  'prq_lang_of_adm', 'prq_check_grads', 'prq_cancel_req',
                                   'course_cat_omit', 'writing_crs', 'diversity_crs',
                                   'english_comp', 'qsr', 'vis_lit_perf_arts',
                                   'indiv_society', 'natural_world']]
@@ -92,3 +91,4 @@ attribs['vlab'] = attribs['long_course_title'] + "<br>" + attribs['vlab_prereqs'
 
 
 attribs_json = attribs.to_json()
+prereqs_json = prereqs.to_json()
