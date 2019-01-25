@@ -87,7 +87,7 @@ def process_data():
 
 
     attribs_json = attribs.to_json()
-    print(len(attribs_json))
+    prereq_json = prereqs.to_json()
 
 # =============================================================================
 # Build up the text string for the prereq relationships
