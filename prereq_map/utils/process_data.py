@@ -3,6 +3,7 @@
 
 import pandas as pd
 import os
+import json
 # import igraph as ig
 
 """
@@ -83,11 +84,38 @@ def process_data():
     attribs.vlab_prereqs = attribs.vlab_prereqs.fillna('')
     attribs['vlab'] = attribs['long_course_title'] + "<br>" + attribs['vlab_prereqs']
 
+    # re-structuring data for graph
+    pr_obj = json.loads(prereqs.to_json())
+    attr_obj = json.loads(attribs.to_json())
 
+    edges = {}
+    edges['from'] = pr_obj.get('course_from')
+    edges['pr_and_or'] = pr_obj.get('pr_and_or')
+    edges['pr_concurrency'] = pr_obj.get('pr_concurrency')
+    edges['pr_cr_s'] = pr_obj.get('pr_cr_s')
+    edges['pr_grade_min'] = pr_obj.get('pr_grade_min')
+    edges['pr_group_no'] = pr_obj.get('pr_group_no')
+    edges['pr_seq_no'] = pr_obj.get('pr_seq_no')
+    edges['to'] = pr_obj.get('course_to')
 
+    nodes = {}
+    nodes['course.level'] = get_course_levels(attr_obj)
+    nodes['course_branch'] = attr_obj.get('course_branch')
+    nodes['course_cat_omit'] = attr_obj.get('course_cat_omit')
+    nodes['course_college'] = attr_obj.get('course_college')
+    nodes['course_number'] = attr_obj.get('course_number')
+    nodes['course_title'] = attr_obj.get('long_course_title')
+    nodes['department_abbrev'] = attr_obj.get('department_abbrev')
+    nodes['diversity_crs'] = attr_obj.get('diversity_crs')
+    nodes['english_comp'] = attr_obj.get('english_comp')
+    nodes['indiv_society'] = attr_obj.get('indiv_society')
+    nodes['natural_world'] = attr_obj.get('natural_world')
+    nodes['qsr'] = attr_obj.get('qsr')
+    nodes['vis_lit_perf_arts'] = attr_obj.get('vis_lit_perf_arts')
+    nodes['writing_crs'] = attr_obj.get('writing_crs')
 
-    attribs_json = attribs.to_json()
-    prereq_json = prereqs.to_json()
+    return {'x': {'nodes': nodes, 'edges': edges}}
+
 
 # =============================================================================
 # Build up the text string for the prereq relationships
@@ -100,3 +128,14 @@ def and_or(x = object):
         return "; and"
     else:
         return ""
+
+
+def get_course_levels(attr_obj):
+    numbers = attr_obj['course_number'].copy()
+    for value in numbers:
+        numbers[value] = course_level(numbers[value])
+    return numbers
+
+
+def course_level(course_number):
+    return course_number - (course_number % 100)
