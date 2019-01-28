@@ -114,7 +114,7 @@ def process_data():
     nodes['vis_lit_perf_arts'] = attr_obj.get('vis_lit_perf_arts')
     nodes['writing_crs'] = attr_obj.get('writing_crs')
 
-    return {'x': {'nodes': nodes, 'edges': edges}}
+    return json.dumps({'x': {'nodes': nodes, 'edges': edges}})
 
 
 # =============================================================================
