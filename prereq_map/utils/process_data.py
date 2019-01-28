@@ -114,7 +114,45 @@ def process_data():
     nodes['vis_lit_perf_arts'] = attr_obj.get('vis_lit_perf_arts')
     nodes['writing_crs'] = attr_obj.get('writing_crs')
 
-    return json.dumps({'x': {'nodes': nodes, 'edges': edges}})
+    options = {
+        "width": "100%",
+        "height": "100%",
+        "nodes": {
+            "physics": False,
+            "shape": "circle",
+            "size": 25,
+            "font": {
+                "size": 17
+            }
+        },
+        "manipulation": {
+            "enabled": False
+        },
+        "edges": {
+            "smooth": False,
+            "arrows": "to"
+        },
+        "physics": {
+            "stabilization": False
+        },
+        "interaction": {
+            "hideEdgesOnDrag": True,
+            "hoverConnectedEdges": True,
+            "multiselect": True
+        },
+        "layout": {
+            "hierarchical": {
+                "enabled": True,
+                "levelSeparation": 40,
+                "nodeSpacing": 150,
+                "direction": "LR"
+            }
+        }
+    }
+
+    return json.dumps({'x': {'nodes': nodes,
+                             'edges': edges,
+                             'options': options}})
 
 
 # =============================================================================

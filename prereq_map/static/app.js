@@ -22,6 +22,12 @@ function px(x) {
         return x;
 }
 
+// stab at refactor of graph
+function new_graph(graph_div, data){
+    build_graph(graph_div, data.x, initResult);
+}
+
+
 function build_graph(el, x, instance) {
     if(x.nodes){
 
