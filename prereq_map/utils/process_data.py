@@ -147,7 +147,8 @@ def process_data():
                 "nodeSpacing": 150,
                 "direction": "LR"
             }
-        }
+        },
+        "improvedLayout": False
     }
 
     return json.dumps({'x': {'nodes': nodes,
