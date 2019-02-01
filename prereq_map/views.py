@@ -11,7 +11,7 @@ class PageView(TemplateView):
         with open('prereq_map/data/chem_map.json', 'r') as myfile:
             graph_data = myfile.read().replace('\n', '')
         # context['json_data'] = graph_data
-        context['json_data'] = process_data()
+        context['json_data'] = process_data("CSE")
         return context
 
 

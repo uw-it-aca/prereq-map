@@ -30,7 +30,7 @@ D3 or vis.js later on.
         }
 }
 """
-def process_data():
+def process_data(curric_filter=None):
     data_path = os.path.join(os.path.dirname(__file__),
                              '..',
                              'data')
@@ -42,8 +42,16 @@ def process_data():
     prereqs = pd.read_pickle(os.path.join(data_path, "prereq_data.pkl"))
 
     # The database typically contains lots of whitespace for padding; remove it
-    prereqs = prereqs.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
-    course_data = course_data.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
+    prereqs = prereqs.apply(
+        lambda x: x.str.strip() if x.dtype == "object" else x)
+    course_data = course_data.apply(
+        lambda x: x.str.strip() if x.dtype == "object" else x)
+
+    if curric_filter:
+        course_data = course_data.loc[
+            course_data['department_abbrev'] == curric_filter]
+        prereqs = prereqs.loc[
+            prereqs['department_abbrev'] == curric_filter]
 
     # create readable course from dept + #
     prereqs['course_to'] = prereqs['department_abbrev'] + " " + prereqs['course_number'].map(str)

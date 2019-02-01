@@ -34,22 +34,18 @@ function new_graph(graph_div, data){
 
 
     var edge_list = [];
-    for(var i = 0; i < Object.keys(data.edges.from).length; i++){
-        var from = data.edges.from[i];
-        var to = data.edges.to[i];
+    Object.keys(data.edges.from).forEach(function(key){
+        var from = data.edges.from[key];
+        var to = data.edges.to[key];
         edge_list.push({from: from, to: to});
-    };
-    // console.log(edge_list);
-    console.log('test', edge_list)
-
+    });
     var nodes = new vis.DataSet(node_list);
     var edges = new vis.DataSet(edge_list);
 
+
     var data = {nodes: nodes, edges:edges};
-    var options = {height: '100%', width:'100%'};
-    console.log('foo');
-    alert("Building graph with " + nodes.length + " nodes and " + edges.length + " edges")
-    // var network = new vis.Network(graph_div, data, options);
+    var options = {height: '500px', width:'100%'};
+    var network = new vis.Network(graph_div, data, options);
 }
 
 
