@@ -9,10 +9,6 @@ class PageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        with open('prereq_map/data/chem_map.json', 'r') as myfile:
-            graph_data = myfile.read().replace('\n', '')
-        # context['json_data'] = graph_data
-        context['json_data'] = process_data("CSE")
         return context
 
 
