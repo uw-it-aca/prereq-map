@@ -159,9 +159,9 @@ def process_data(curric_filter=None):
         "improvedLayout": False
     }
 
-    return json.dumps({'x': {'nodes': nodes,
-                             'edges': edges,
-                             'options': options}})
+    return {'x': {'nodes': nodes,
+                  'edges': edges,
+                  'options': options}}
 
 
 # =============================================================================

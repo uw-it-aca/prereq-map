@@ -1,6 +1,7 @@
 from django.views.generic import TemplateView, View
 from django.http import HttpResponse
 from prereq_map.utils.process_data import process_data
+import json
 
 
 class PageView(TemplateView):
@@ -16,9 +17,8 @@ class PageView(TemplateView):
 
 
 class ApiView(View):
-    def get(self, request):
-        with open('prereq_map/data/chem_map.json', 'r') as myfile:
-            graph_data = myfile.read().replace('\n', '')
+    def get(self, request, curric_code):
+        response = process_data(curric_code.upper())
+        return HttpResponse(json.dumps(response))
 
-        return HttpResponse(graph_data)
 
