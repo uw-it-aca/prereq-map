@@ -1,20 +1,38 @@
 $(document).ready(function(){
-    window.show_graph();
+    var curric_code = getUrlParameter('curric');
+    if (curric_code !== undefined){
+        fetch_prereqs_for_curric(curric_code);
+    }
 });
 
-window.show_graph = function() {
+window.show_graph = function(graph_data) {
     var initResult;
     var graph_div = $("<div/>", {id: "graph_div"});
     $("#graph_container").append(graph_div);
     var el = graph_div;
-    var data = $("#graph_data").html();
-    data = JSON.parse(data);
 
     var graph = $("<div/>", {id: "graph"+el.id});
     $("#graph_container").append(graph);
     // build_graph(graph_div, data.x, initResult)
-    new_graph(graph_div.get(0), data.x)
+    new_graph(graph_div.get(0), graph_data.x)
 };
+
+
+function fetch_prereqs_for_curric(curric){
+    var url = "/api/curric/" + curric;
+    $.ajax({
+               url: url,
+               dataType: "JSON",
+               type: "GET",
+               accepts: {html: "text/html"},
+               success: function(results) {
+                   window.show_graph(results);
+               },
+               error: function(xhr, status, error) {
+                   console.log('api error fetching curric');
+               }
+           });
+}
 
 function px(x) {
     if (typeof(x) === "number")
@@ -229,3 +247,18 @@ function build_graph(el, x, instance) {
     // create network
     new vis.Network(document.getElementById("graph"+el.id), data, options);
 }
+
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+};
