@@ -12,9 +12,13 @@ class PageView(TemplateView):
         return context
 
 
-class ApiView(View):
+class CurricApiView(View):
     def get(self, request, curric_code):
         response = process_data(curric_code.upper())
         return HttpResponse(json.dumps(response))
 
 
+class CourseApiView(View):
+    def get(self, request, course_code):
+        # response = process_data(course_code.upper())
+        return HttpResponse(json.dumps({}))
