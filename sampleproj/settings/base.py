@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '*j&aaz72h9sd^k#*lrkg7#wm((n+5zp3gk+^9gq-m9qxs$l#i8'
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['testserver']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+ROOT_URLCONF = 'sampleproj.urls'
 
 TEMPLATES = [
     {
@@ -67,9 +68,8 @@ TEMPLATES = [
     },
 ]
 
-ROOT_URLCONF = 'travis-ci.urls'
+WSGI_APPLICATION = 'sampleproj.wsgi.application'
 
-WSGI_APPLICATION = 'travis-ci.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
@@ -119,3 +119,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+DATA_ROOT = os.path.join(BASE_DIR, "prereq_map/data")
+
+#EDW_PASSWORD = "XXXXX"
+#EDW_USER = "netid\\XXXXXXX"
