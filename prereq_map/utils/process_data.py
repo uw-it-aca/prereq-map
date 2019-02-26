@@ -59,8 +59,6 @@ def process_data(curric_filter=None, course_filter=None):
             prereqs['department_abbrev'] == curric_filter]
 
     if course_filter:
-        print(course_filter)
-        print(len(prereqs))
         prereqs_to = prereqs.loc[
             prereqs['course_to'] == course_filter
             ]
@@ -68,7 +66,6 @@ def process_data(curric_filter=None, course_filter=None):
             prereqs['course_from'] == course_filter
             ]
         prereqs = pd.concat([prereqs_to, prereqs_from])
-        print(len(prereqs))
 
 
 
