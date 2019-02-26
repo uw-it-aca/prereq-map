@@ -1,3 +1,5 @@
+.DS_Store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -106,8 +108,8 @@ venv.bak/
 .mypy_cache/
 
 # generated data files
-.pkl
-.csv
+*.pkl
+*.csv
 
 # private connection settings
 constring.txt
