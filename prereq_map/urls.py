@@ -6,6 +6,6 @@ urlpatterns = [
     path('', RedirectView.as_view(url='/curriculum-search/')),
     path('curriculum-search/', CurriculumSearch.as_view()),
     path('course-search/', CourseSearch.as_view()),
-    re_path('api/course/(?P<course_code>.*)', CourseApiView.as_view()),
-    re_path('api/curric/(?P<curric_code>.*)', CurricApiView.as_view())
+    re_path(r'^api/curric/(?P<curric_code>.*)', CurricApiView.as_view()),
+    re_path(r'^api/course/(?P<course_code>.*)', CourseApiView.as_view())
 ]
