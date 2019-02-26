@@ -3,6 +3,10 @@ $(document).ready(function(){
     if (curric_code !== undefined){
         fetch_prereqs_for_curric(curric_code);
     }
+    var course_code = getUrlParameter('course');
+    if (course_code !== undefined){
+        fetch_prereqs_for_course(course_code);
+    }
 });
 
 window.show_graph = function(graph_data) {
@@ -30,6 +34,23 @@ function fetch_prereqs_for_curric(curric){
                },
                error: function(xhr, status, error) {
                    console.log('api error fetching curric');
+               }
+           });
+}
+
+
+function fetch_prereqs_for_course(course){
+    var url = "/api/course/" + course;
+    $.ajax({
+               url: url,
+               dataType: "JSON",
+               type: "GET",
+               accepts: {html: "text/html"},
+               success: function(results) {
+                   window.show_graph(results);
+               },
+               error: function(xhr, status, error) {
+                   console.log('api error fetching course');
                }
            });
 }

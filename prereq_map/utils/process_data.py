@@ -30,7 +30,7 @@ D3 or vis.js later on.
         }
 }
 """
-def process_data(curric_filter=None):
+def process_data(curric_filter=None, course_filter=None):
     data_path = os.path.join(os.path.dirname(__file__),
                              '..',
                              'data')
@@ -46,6 +46,11 @@ def process_data(curric_filter=None):
         lambda x: x.str.strip() if x.dtype == "object" else x)
     course_data = course_data.apply(
         lambda x: x.str.strip() if x.dtype == "object" else x)
+    # create readable course from dept + #
+    prereqs['course_to'] = prereqs['department_abbrev'] + " " + prereqs[
+        'course_number'].map(str)
+    prereqs['course_from'] = prereqs['pr_curric_abbr'] + " " + prereqs[
+        'pr_course_no']
 
     if curric_filter:
         course_data = course_data.loc[
@@ -53,9 +58,17 @@ def process_data(curric_filter=None):
         prereqs = prereqs.loc[
             prereqs['department_abbrev'] == curric_filter]
 
-    # create readable course from dept + #
-    prereqs['course_to'] = prereqs['department_abbrev'] + " " + prereqs['course_number'].map(str)
-    prereqs['course_from'] = prereqs['pr_curric_abbr'] + " " + prereqs['pr_course_no']
+    if course_filter:
+        prereqs_to = prereqs.loc[
+            prereqs['course_to'] == course_filter
+            ]
+        prereqs_from = prereqs.loc[
+            prereqs['course_from'] == course_filter
+            ]
+        prereqs = pd.concat([prereqs_to, prereqs_from])
+
+
+
 
     course_data['course'] = course_data['department_abbrev'] + " " + course_data['course_number'].map(str)
 
