@@ -27,7 +27,7 @@
 
 </head>
 <body>
-  
+
   <header>
     <div class="line"></div> <!-- Separator on mobile nav -->
 
@@ -68,8 +68,8 @@
         <img alt="PreReq Map" src="{% static 'images/gr-PreReqMap-logo.png' %}">
       </div>
       <div class="nav nav-pills nav-justified tabs-med">
-        <a class="nav-link" href="/curriculum-search/?curric=cse">Curriculum Search</a>
-        <a class="nav-link" href="/course-search/?course=cse%20373">Course Search</a>
+        <a class="nav-link {% if request.path == "/curriculum-search/" %}active{% endif %}" href="/curriculum-search/?curric=cse">Curriculum Search</a>
+        <a class="nav-link {% if request.path == "/course-search/" %}active{% endif %}" href="/course-search/?course=cse%20373">Course Search</a>
       </div>
     </nav>
   </header>
