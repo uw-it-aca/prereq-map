@@ -42,3 +42,7 @@
     }
   }
 </script>
+
+<style scoped>
+.card { color: red; }
+</style>
