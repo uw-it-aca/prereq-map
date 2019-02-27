@@ -1,10 +1,13 @@
 {% extends "base.html" %}
 
+{% load static %}
+{% load render_bundle from webpack_loader %}
+
 {% block title %}Curriculum Search{% endblock %}
 
 {% block content %}
 
-<div class="container py-1 mt-2" role="main">
+<div id="vue_demo" class="container py-1 mt-2" role="main">
 
     <h2 class="pt-4 pb-2">Curriculum Search</h2>
     <p class="instruction-text pb-4">View the prerequisite map of courses in a curriculum. </p>
@@ -26,10 +29,12 @@
       </div>
       <div class="col-sm-12 col-md-3">
 
-        <!-- infobox template -->
+        <course-infobox></course-infobox>
+        <button-counter></button-counter>
+        
         <div class="card" id="infobox">
           <div class="card-header bg-white">
-            <h5 class="infobox-title">Course XXX</h5>
+            <h5 class="infobox-title">{{ course }}</h5>
             <span class="card-close clickable close-icon" data-effect="fadeOut"><i class="fas fa-times"></i></span>
             <p class="card-title">Lorem ipsum dolor set amet dapibus ac facilisis in</p>
           </div>
@@ -57,10 +62,15 @@
             <button type="button" class="btn btn-primary btn-block btn-lg btn-default">More details &amp; related curricula</button>
           </div>
         </div>
-        <!-- end infobox -->
 
       </div>
     </div>
+
+    <button-counter></button-counter>
+
 </div>
+
+<!-- load bundled vue files using webpack loader -->
+{% render_bundle 'vue_demo' %}
 
 {% endblock %}

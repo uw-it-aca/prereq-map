@@ -113,3 +113,10 @@ venv.bak/
 
 # private connection settings
 constring.txt
+
+# node
+node_modules/
+
+# react + webpack
+bundles/
+webpack-stats.json

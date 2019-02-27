@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'compressor',
+    'webpack_loader',
     'prereq_map'
 ]
 
@@ -120,7 +122,46 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = 'prereq_map/static/'
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
+
+STATICFILES_DIRS = [
+    #os.path.join(BASE_DIR, '..', "react"),
+]
+
 DATA_ROOT = os.path.join(BASE_DIR, "prereq_map/data")
 
 #EDW_PASSWORD = "XXXXX"
 #EDW_USER = "netid\\XXXXXXX"
+
+#webpack loader (react)
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'prereq_map/bundles/',
+        'STATS_FILE': os.path.join(BASE_DIR, '..', 'webpack-stats.json'),
+    }
+}
+
+
+# django compressor
+
+COMPRESS_ROOT = "/tmp/"
+COMPRESS_PRECOMPILERS = (
+    ('text/x-scss', 'django_pyscss.compressor.DjangoScssFilter'),
+)
+COMPRESS_ENABLED = True
+COMPRESS_OFFLINE = False
+COMPRESS_OUTPUT_DIR = ''
+COMPRESS_CSS_FILTERS = [
+    'compressor.filters.css_default.CssAbsoluteFilter',
+    'compressor.filters.cssmin.CSSMinFilter'
+]
+COMPRESS_JS_FILTERS = [
+    'compressor.filters.jsmin.JSMinFilter',
+]
