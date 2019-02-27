@@ -1,6 +1,7 @@
 from django.urls import include, path, re_path
 from django.views.generic.base import RedirectView
-from prereq_map.views import PageView, CurricApiView, CourseApiView, CurriculumSearch, CourseSearch
+from prereq_map.views.pages import PageView, CurriculumSearch, CourseSearch
+from prereq_map.views.api import CurricApiView, CourseApiView
 
 urlpatterns = [
     path('', RedirectView.as_view(url='/curriculum-search/')),
