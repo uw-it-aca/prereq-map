@@ -1,13 +1,17 @@
 {% extends "base.html" %}
 
+{% load static %}
+{% load render_bundle from webpack_loader %}
+
 {% block title %}Curriculum Search{% endblock %}
 
 {% block content %}
 
-<div class="container py-1 mt-2" role="main">
+<div id="vue_curriculum" class="container py-1 mt-2" role="main">
 
     <h2 class="pt-4 pb-2">Curriculum Search</h2>
     <p class="instruction-text pb-4">View the prerequisite map of courses in a curriculum. </p>
+
     <form>
       <div id="main-search" class="search-width">
         <div class="d-table-cell w-100">
@@ -26,41 +30,16 @@
       </div>
       <div class="col-sm-12 col-md-3">
 
-        <!-- infobox template -->
-        <div class="card" id="infobox">
-          <div class="card-header bg-white">
-            <h5 class="infobox-title">Course XXX</h5>
-            <span class="card-close clickable close-icon" data-effect="fadeOut"><i class="fas fa-times"></i></span>
-            <p class="card-title">Lorem ipsum dolor set amet dapibus ac facilisis in</p>
-          </div>
-          <div class="card-header card-body">
-            <h6 class="card-title">Has these prerequisites<span class="info-popover"><i class="fa fa-info-circle" aria-hidden="true" tabindex="0" data-placement="top" data-toggle="popover" data-trigger="focus" title="" data-content="#" data-original-title="Declared Majors"></i></span></h6>
-            <ol class="list-group list-group-flush">
-              <li class="#">ACCTG 225</li>
-              <li class="#">ECON 200</li>
-              <li class="#">
-                One of MATH 112, MATH 124, MATH 125, MATH 134, MATH 135, or Q SCI 291</li>
-              <li class="#">One of ECON 311, IND E 315, QMETH 201, Q SCI 291, Q SCI 381, PSYCH 315, PSYCH 318, STAT 220, STAT 221/SOC 221/CS&SS 221, STAT 311, or STAT 390; </li>
-            </ol>
-          </div>
-          <div class="card-header card-body">
-            <h5 class="card-title">Is a prerequisite for<span class="info-popover"><i class="fa fa-info-circle" aria-hidden="true" tabindex="0" data-placement="top" data-toggle="popover" data-trigger="focus" title="" data-content="#" data-original-title="Declared Majors"></i></span></h5>
-            <ul class="list-inline comma-list">
-              <li class="#">ABCD 123</li>
-              <li class="#">ZYX 123</li>
-              <li class="#">ABCD 123</li>
-              <li class="#">ZYX 123</li>
-              <li class="#">ABCD 123</li>
-            </ul>
-          </div>
-          <div class="card-body text-center">
-            <button type="button" class="btn btn-primary btn-block btn-lg btn-default">More details &amp; related curricula</button>
-          </div>
-        </div>
-        <!-- end infobox -->
+        <course-infobox></course-infobox>
 
       </div>
     </div>
+
+    <button-counter></button-counter>
+
 </div>
+
+<!-- load bundled vue files using webpack loader -->
+{% render_bundle 'vue_curriculum' %}
 
 {% endblock %}
