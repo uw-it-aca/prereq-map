@@ -122,7 +122,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = 'prereq_map/static/'
+STATIC_ROOT = '/staticfiles/'
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -150,7 +150,7 @@ WEBPACK_LOADER = {
 
 # django compressor
 
-COMPRESS_ROOT = "/tmp/"
+#COMPRESS_ROOT = "/staticfiles/"
 COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'django_pyscss.compressor.DjangoScssFilter'),
 )
