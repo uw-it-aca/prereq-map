@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/fontawesome.css" integrity="sha384-4aon80D8rXCGx9ayDt85LbyUHeMWd3UiBaWliBlJ53yzm9hqN21A+o1pqoyK04h+" crossorigin="anonymous">
 
   {% compress css %}
-  <link rel="stylesheet" type="text/x-scss" href="{% static 'css/styles.scss' %}" />
+  <link rel="stylesheet" type="text/x-scss" href="{% static '/prereq_map/css/styles.scss' %}" />
   {% endcompress %}
 
   <!-- base js frameworks -->
@@ -28,12 +28,12 @@
 
   <!-- app specific stuff -->
   {% compress js %}
-  <script src="{% static 'cluster.js' %}"></script>
-  <script src="{% static 'app.js' %}"></script>
+  <script src="{% static '/prereq_map/js/cluster.js' %}"></script>
+  <script src="{% static '/prereq_map/js/app.js' %}"></script>
   {% endcompress %}
 
   <!-- load bundled vendor files using webpack loader -->
-    {% render_bundle 'vendor' %}
+  {% render_bundle 'vendor' %}
 
 </head>
 <body>
@@ -75,7 +75,7 @@
     </nav>
     <nav class="navbar navbar-expand navbar-dark banner-row flex-nowrap justify-content-center" aria-label="Main Menu">
       <div class="logo-position">
-        <img alt="PreReq Map" src="{% static 'images/gr-PreReqMap-logo.png' %}">
+        <img alt="PreReq Map" src="{% static '/prereq_map/img/gr-PreReqMap-logo.png' %}">
       </div>
       <div class="nav nav-pills nav-justified tabs-med">
         <a class="nav-link {% if request.path == "/curriculum-search/" %}active{% endif %}" href="/curriculum-search/?curric=cse">Curriculum Search</a>
