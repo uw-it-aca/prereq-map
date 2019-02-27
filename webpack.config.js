@@ -9,7 +9,7 @@ module.exports = {
   context: __dirname,
 
   entry : {
-    vue_demo: './prereq_map/static/prereq_map/vue/demo',
+    vue_curriculum: './prereq_map/static/prereq_map/js/curriculum',
   },
 
   optimization: {
