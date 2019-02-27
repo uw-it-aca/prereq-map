@@ -139,7 +139,7 @@ DATA_ROOT = os.path.join(BASE_DIR, "prereq_map/data")
 #EDW_PASSWORD = "XXXXX"
 #EDW_USER = "netid\\XXXXXXX"
 
-#webpack loader (react)
+# webpack loader (vuejs)
 
 WEBPACK_LOADER = {
     'DEFAULT': {
@@ -147,7 +147,6 @@ WEBPACK_LOADER = {
         'STATS_FILE': os.path.join(BASE_DIR, '..', 'webpack-stats.json'),
     }
 }
-
 
 # django compressor
 
