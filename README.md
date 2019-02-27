@@ -47,3 +47,8 @@ Docker
     Docker image for the Django project.
 
         $ docker-compose up --build
+
+View your app
+-------------
+
+Demo: http://localhost:8123/
