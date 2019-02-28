@@ -1,7 +1,9 @@
 <template>
-  <div>
+
+  <div id="main-search" class="search-width">
+
     <vue-bootstrap-typeahead
-      class="mb-4"
+      class="woot"
       v-model="query"
       :data="users"
       :serializer="item => item.login"
@@ -11,7 +13,9 @@
 
     <h3>Selected User JSON</h3>
     <pre>{{ selectedUser | stringify }}</pre>
+
   </div>
+
 </template>
 
 <script>
@@ -57,5 +61,11 @@ export default {
 </script>
 
 <style>
-
+  .search-width {
+    input {
+      height: 3rem;
+      border-radius: 0;
+      border: 0.04688rem solid #333;
+    }
+  }
 </style>
