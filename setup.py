@@ -26,6 +26,7 @@ setup(
     install_requires=[
         'Django>=2.1,<3.0',
         'pandas',
+        'inflector'
     ],
     license='Apache License, Version 2.0',
     description='A tool for visually displaying UW course prerequisites',
