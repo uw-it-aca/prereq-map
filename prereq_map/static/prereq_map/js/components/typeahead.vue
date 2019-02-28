@@ -61,6 +61,7 @@ export default {
 </script>
 
 <style>
+
   .search-width {
     input {
       height: 3rem;
@@ -68,4 +69,7 @@ export default {
       border: 0.04688rem solid #333;
     }
   }
+
+  .vbt-autcomplete-list { box-shadow: none !important; }
+
 </style>
