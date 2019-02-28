@@ -2,7 +2,7 @@
   <div>
     <input v-model="query" @blur="reset" type="text" class="SearchInput" :placeholder="placeholder">
     <transition-group name="fade" tag="ul" class="Results">
-      <li v-for="item in filtered" :key="item">
+      <li v-for="item in filtered" :key="item.id">
         <span>
           <strong>{{ item.title  }}</strong> - <small>{{ item.id  }}</small><br>
           <small>{{ item.body  }}</small>
