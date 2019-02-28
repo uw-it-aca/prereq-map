@@ -3,6 +3,7 @@ import os
 import pyodbc
 import pandas
 from django.conf import settings
+from prereq_map.models.currics import CurricTitles
 
 
 class Command(BaseCommand):
@@ -23,7 +24,9 @@ class Command(BaseCommand):
             'select * from sec.sr_course_prereq where last_eff_yr = 9999', con)
         course_info = pandas.read_sql(
             'select * from sec.sr_course_titles where last_eff_yr = 9999', con)
+        curric_info = pandas.read_sql("select * from sec.sr_curric_code where curric_last_yr = 9999", con)
         con.close()
+        CurricTitles.update_titles(curric_info)
 
         prereq.to_pickle(os.path.join(data_root, "prereq_data.pkl"))
         course_info.to_pickle(os.path.join(data_root, "course_data.pkl"))

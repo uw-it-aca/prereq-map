@@ -29,6 +29,7 @@ setup(
         'django-pyscss',
         'django-webpack-loader',
         'pandas',
+        'inflector'
     ],
     license='Apache License, Version 2.0',
     description='A tool for visually displaying UW course prerequisites',
