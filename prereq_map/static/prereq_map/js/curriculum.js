@@ -6,18 +6,28 @@ import ButtonCounter from "./components/button-counter.vue";
 import CourseInfoBox from "./components/course-infobox.vue";
 import VueBootstrapTypeahead from 'vue-bootstrap-typeahead';
 
-
 console.log("I am Vue!")
 
-new Vue({
-  delimiters: ['[[', ']]'],
-  el: '#vue_curriculum',
+Vue.component('typeahead-literal', {
+  template: `
+  <div>
+    <vue-bootstrap-typeahead
+    class="mb-4"
+    v-model="query"
+    :data="users"
+    :serializer="item => item.login"
+    @hit="selectedUser = $event"
+    placeholder="Search GitHub Users"
+    />
+
+    <h3>Selected User JSON</h3>
+    <pre>{{ selectedUser | stringify }}</pre>
+  </div>
+  `,
   components: {
-    'button-counter' : ButtonCounter,
-    'course-infobox' : CourseInfoBox,
     VueBootstrapTypeahead
   },
-  data() {
+  data: function () {
     return {
       query: '',
       selectedUser: null,
@@ -45,4 +55,13 @@ new Vue({
       return JSON.stringify(value, null, 2)
     }
   },
+})
+
+new Vue({
+  delimiters: ['[[', ']]'],
+  el: '#vue_curriculum',
+  components: {
+    'button-counter' : ButtonCounter,
+    'course-infobox' : CourseInfoBox
+  }
 })
