@@ -23,6 +23,14 @@
       </div>
     </form>
 
+    <!-- Our component-->
+    <typeahead
+      source="https://jsonplaceholder.typicode.com/posts"
+      placeholder="What TV Serie you are looking for..."
+      filter-key="title"
+      :start-at="2">
+    </typeahead>
+
     <div class="row mt-5 mb-5">
 
       <div class="col-md-9 mb-3">
