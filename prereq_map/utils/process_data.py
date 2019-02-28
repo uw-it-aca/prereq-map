@@ -35,7 +35,6 @@ def process_data(curric_filter=None, course_filter=None):
                              '..',
                              'data')
 
-    os.chdir(os.getcwd())
     # vertex attributes
     course_data = pd.read_pickle(os.path.join(data_path, "course_data.pkl"))
     # edgelist
