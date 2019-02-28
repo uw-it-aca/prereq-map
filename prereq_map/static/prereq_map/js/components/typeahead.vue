@@ -9,7 +9,20 @@
       :serializer="item => item.login"
       @hit="selectedUser = $event"
       placeholder="Search GitHub Users.."
-    />
+    >
+    <template slot="suggestion" slot-scope="{ data, htmlText }">
+      <div class="d-flex align-items-center">
+        <img
+          class="rounded-circle"
+          :src="data.avatar_url"
+          style="width: 40px; height: 40px;" />
+
+        <!-- Note: the v-html binding is used, as htmlText contains
+             the suggestion text highlighted with <strong> tags -->
+        <span class="ml-4" v-html="htmlText"></span>
+      </div>
+    </template>
+    </vue-bootstrap-typeahead>
 
     <h3>Selected User JSON</h3>
     <pre>{{ selectedUser | stringify }}</pre>
