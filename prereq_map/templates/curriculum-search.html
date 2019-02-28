@@ -23,13 +23,20 @@
       </div>
     </form>
 
-    <!-- Our component-->
-    <typeahead
-      source="https://jsonplaceholder.typicode.com/posts"
-      placeholder="What TV Serie you are looking for..."
-      filter-key="title"
-      :start-at="2">
-    </typeahead>
+    <!-- another typeahead component -->
+    <div class="mt-5">
+      <vue-bootstrap-typeahead
+        class="mb-4"
+        v-model="query"
+        :data="users"
+        :serializer="item => item.login"
+        @hit="selectedUser = $event"
+        placeholder="Search GitHub Users"
+      />
+
+     <h3>Selected User JSON</h3>
+     <pre>[[ selectedUser | stringify ]]</pre>
+    </div>
 
     <div class="row mt-5 mb-5">
 

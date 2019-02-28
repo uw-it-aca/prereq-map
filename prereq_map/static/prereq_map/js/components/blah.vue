@@ -1,22 +1,28 @@
-import Vue from 'vue/dist/vue.js';
+<template>
+
+  <div>
+    <vue-bootstrap-typeahead
+      class="mb-4"
+      v-model="query"
+      :data="users"
+      :serializer="item => item.login"
+      @hit="selectedUser = $event"
+      placeholder="Search GitHub Users"
+    />
+
+   <h3>Selected User JSON</h3>
+   <pre>{{ selectedUser | stringify }}</pre>
+  </div>
+
+</template>
+
+
+<script>
 import {_} from 'vue-underscore';
 const axios = require('axios');
 
-import ButtonCounter from "./components/button-counter.vue";
-import CourseInfoBox from "./components/course-infobox.vue";
-import VueBootstrapTypeahead from 'vue-bootstrap-typeahead';
+export default {
 
-
-console.log("I am Vue!")
-
-new Vue({
-  delimiters: ['[[', ']]'],
-  el: '#vue_curriculum',
-  components: {
-    'button-counter' : ButtonCounter,
-    'course-infobox' : CourseInfoBox,
-    VueBootstrapTypeahead
-  },
   data() {
     return {
       query: '',
@@ -45,4 +51,6 @@ new Vue({
       return JSON.stringify(value, null, 2)
     }
   },
-})
+
+}
+</script>
