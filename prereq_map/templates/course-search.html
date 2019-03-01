@@ -1,13 +1,17 @@
 {% extends "base.html" %}
 
+{% load static %}
+{% load render_bundle from webpack_loader %}
+
 {% block title %}Course Search{% endblock %}
 
 {% block content %}
 
-<div class="container py-1 mt-2" role="main">
+<div id="vue_course" class="container py-1 mt-2" role="main">
 
   <h2 class="pt-4 pb-2">Course Search</h2>
   <p class="instruction-text pb-4">See a course’s prerequisites, what it’s a prerequisite for, and other related curriculum.</p>
+
 
   <form>
     <div id="main-search" class="search-width">
@@ -97,8 +101,11 @@
     </ul>
   </div>
 
-
+  <button-counter></button-counter>
 
 </div>
+
+<!-- load bundled vue files using webpack loader -->
+{% render_bundle 'vue_course' %}
 
 {% endblock %}
