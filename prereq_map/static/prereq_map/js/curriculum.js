@@ -14,4 +14,4 @@ new Vue({
     'course-infobox' : CourseInfoBox,
     'typeahead' : Typeahead
   }
-})
+});
