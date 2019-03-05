@@ -5,18 +5,12 @@
         <vue-bootstrap-typeahead
                 class="woot"
                 v-model="query"
-                :data="users"
-                :serializer="item => item.login"
-                @hit="selectedUser = $event"
+                :data="curric_list"
+                @hit="selected_curric = $event"
                 placeholder="Search GitHub Users.."
         >
             <template slot="suggestion" slot-scope="{ data, htmlText }">
                 <div class="d-flex align-items-center">
-                    <img
-                            class="rounded-circle"
-                            :src="data.avatar_url"
-                            style="width: 40px; height: 40px;" />
-
                     <!-- Note: the v-html binding is used, as htmlText contains
                          the suggestion text highlighted with <strong> tags -->
                     <span class="ml-4" v-html="htmlText"></span>
@@ -25,7 +19,7 @@
         </vue-bootstrap-typeahead>
 
         <h3>Selected User JSON</h3>
-        <pre>{{ selectedUser | stringify }}</pre>
+        <pre>{{ selected_curric}}</pre>
 
     </div>
 
@@ -41,33 +35,34 @@
         components: {
             VueBootstrapTypeahead
         },
+        mounted: function (){
+            var self = this;
+            axios.get('/api/curric_typeahead')
+                .then((res) => {
+                    this.curric_objs = res.data;
+                    var curric_list = [];
+
+                    $(res.data).each(function(idx, value){
+                       curric_list.push(...Object.keys(value));
+                    });
+                    this.curric_list = curric_list;
+                });
+        },
+
         data: function () {
             return {
                 query: '',
-                selectedUser: null,
-                users: []
+                selected_curric: null,
+                curric_list: []
             }
         },
         methods: {
-
-            searchUsers(newQuery) {
-                axios.get(`https://api.github.com/search/users?q=${newQuery}`)
-                    .then((res) => {
-                        console.log(res.data)
-                        this.users = res.data.items
-                    })
-            }
-
         },
 
         watch: {
-            query: _.debounce(function(newQuery) { this.searchUsers(newQuery) }, 250)
         },
 
         filters: {
-            stringify(value) {
-                return JSON.stringify(value, null, 2)
-            }
         },
 
     }
