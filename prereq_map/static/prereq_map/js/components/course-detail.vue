@@ -1,6 +1,6 @@
 <template>
 
-  <div class="mt-5 mb-5 course-detail">
+  <div class="mt-5 mb-5 course-detail" v-if="this.course_param !== null ">
 
     <h2 class="pt-3">ECON 300 – Intermediate Microeconomics {{ blah }}</h2>
 
@@ -83,9 +83,19 @@
   export default {
     data () {
       return {
-        blah: 'This is extra!'
+        blah: 'This is extra!',
+        course_param: ''
       }
-    }
+    },
+    created() {
+      let uri = window.location.search.substring(1);
+      let params = new URLSearchParams(uri);
+
+      this.course_param = params.get("course");
+      console.log(this.course_param);
+
+    },
+
   }
 </script>
 
