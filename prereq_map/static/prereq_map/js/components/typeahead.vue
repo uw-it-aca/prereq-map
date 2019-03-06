@@ -7,7 +7,7 @@
                 v-model="query"
                 :data="curric_list"
                 @hit="selected_curric = $event"
-                placeholder="Search GitHub Users.."
+                placeholder="Search curricula.."
         >
             <template slot="suggestion" slot-scope="{ data, htmlText }">
                 <div class="d-flex align-items-center">
@@ -18,8 +18,6 @@
             </template>
         </vue-bootstrap-typeahead>
 
-        <h3>Selected User JSON</h3>
-        <pre>{{ selected_curric}}</pre>
 
     </div>
 
@@ -53,13 +51,19 @@
             return {
                 query: '',
                 selected_curric: null,
-                curric_list: []
+                curric_list: [],
+                curric_objs: null
             }
         },
         methods: {
         },
 
         watch: {
+            selected_curric(curric_query){
+                var curric_code = this.curric_objs[curric_query];
+                location.href = "?curric=" + curric_code;
+
+            }
         },
 
         filters: {
