@@ -12,30 +12,23 @@
     <h2 class="pt-4 pb-2">Curriculum Search</h2>
     <p class="instruction-text pb-4">View the prerequisite map of courses in a curriculum. </p>
 
-    <form>
-      <div id="main-search" class="search-width">
-        <div class="d-table-cell w-100">
-          <input class="form-control form-control-lg form-styling" aria-describedby="fieldHelp" placeholder="e.g. Biology, BIOL">
-        </div>
-        <div class="d-table-cell align-middle">
-          <button class="btn btn-primary button-styling"><i class="py-1 fas fa-search"></i></button>
-        </div>
-      </div>
-    </form>
+    <typeahead></typeahead>
 
     <div class="row mt-5 mb-5">
 
-      <div class="col-md-9 mb-3">
-        <div id="graph_container" style="width: 100%; height: 100%; border: 1px solid rgba(0,0,0,.125);"></div>
-      </div>
-      <div class="col-sm-12 col-md-3">
+        <div class="col-md-9 mb-3">
+            {% if request.GET.curric %}
+            <div id="graph_container" style="width: 100%; height: 100%; border: 1px solid rgba(0,0,0,.125);"></div>
+            {% else %}
+            <div>no curric provided</div>
+            {% endif %}
+        </div>
 
-        <course-infobox></course-infobox>
+        <div class="col-sm-12 col-md-3">
+            <course-infobox></course-infobox>
+        </div>
 
-      </div>
     </div>
-
-    <button-counter></button-counter>
 
 </div>
 
