@@ -31,5 +31,5 @@ class CourseTitle(models.Model):
         dept_abbr = match.group(1).strip()
         course_num = match.group(2)
         course = CourseTitle.objects.get(department_abbrev=dept_abbr,
-                                            course_number=course_num)
+                                         course_number=course_num)
         return course.long_course_title
