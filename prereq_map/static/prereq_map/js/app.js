@@ -48,6 +48,8 @@ function fetch_prereqs_for_course(course){
                accepts: {html: "text/html"},
                success: function(results) {
                    window.show_graph(results);
+                   // window.course_data = results;
+                   // CourseData.$emit('course_data_loaded', results)
                },
                error: function(xhr, status, error) {
                    console.log('api error fetching course');

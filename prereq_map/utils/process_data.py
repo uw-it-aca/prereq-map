@@ -4,6 +4,7 @@
 import pandas as pd
 import os
 import json
+from prereq_map.models.course_title import CourseTitle
 # import igraph as ig
 
 """
@@ -34,6 +35,7 @@ def process_data(curric_filter=None, course_filter=None):
     data_path = os.path.join(os.path.dirname(__file__),
                              '..',
                              'data')
+    response = {}
 
     # vertex attributes
     course_data = pd.read_pickle(os.path.join(data_path, "course_data.pkl"))
@@ -58,6 +60,8 @@ def process_data(curric_filter=None, course_filter=None):
             prereqs['department_abbrev'] == curric_filter]
 
     if course_filter:
+        title = CourseTitle.get_course_title(course_filter)
+        response['course_title'] = title
         prereqs_to = prereqs.loc[
             prereqs['course_to'] == course_filter
             ]
@@ -170,10 +174,10 @@ def process_data(curric_filter=None, course_filter=None):
         },
         "improvedLayout": False
     }
-
-    return {'x': {'nodes': nodes,
-                  'edges': edges,
-                  'options': options}}
+    response.update({'x': {'nodes': nodes,
+                           'edges': edges,
+                           'options': options}})
+    return response
 
 
 # =============================================================================

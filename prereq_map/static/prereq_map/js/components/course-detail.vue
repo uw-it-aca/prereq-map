@@ -2,7 +2,7 @@
 
   <div class="mt-5 mb-5 course-detail" v-if="this.course_param !== null ">
 
-    <h2 class="pt-3">{{ course_param }} – {{ blah }}</h2>
+    <h2 class="pt-3">{{ course_param }} – {{ course_title }}</h2>
 
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sit amet consectetur dui. Donec ut enim lorem. Sed sed accumsan sem. Etiam felis mauris, pulvinar in felis id, aliquam scelerisque nisi. Nullam et euismod enim. Ut a elit a mi
       efficitur mattis. Mauris ac porta. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sit amet consectetur dui. </p>
@@ -83,7 +83,7 @@
   export default {
     data () {
       return {
-        blah: 'This is the course name',
+        course_title: '',
         course_param: ''
       }
     },
@@ -95,6 +95,11 @@
       console.log(this.course_param);
 
     },
+      mounted: function() {
+        // CourseData.$on('course_data_loaded', function(results){
+        //     console.log("A", results)
+        // });
+      }
 
   }
 </script>

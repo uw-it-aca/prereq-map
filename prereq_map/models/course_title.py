@@ -1,22 +1,35 @@
+import re
 from django.db import models
 
 
 class CourseTitle(models.Model):
     department_abbrev = models.CharField(max_length=6)
     course_number = models.SmallIntegerField()
-    last_eff_yr = models.SmallIntegerField()
-    last_eff_qtr = models.SmallIntegerField()
-    course_branch = models.SmallIntegerField()
     course_college = models.CharField(max_length=1)
     long_course_title = models.CharField(max_length=120)
-    prq_lang_of_adm = models.SmallIntegerField()
-    prq_check_grads = models.CharField(max_length=1)
-    pre_cancel_req = models.CharField(max_length=1)
-    course_cat_omit = models.BooleanField()
-    writing_crs = models.BooleanField()
-    diversity_crs = models.BooleanField()
-    english_comp = models.BooleanField()
-    qsr = models.BooleanField()
-    vis_lit_perf_arts = models.BooleanField()
-    indiv_society = models.BooleanField()
-    natural_world = models.BooleanField()
+
+
+    @staticmethod
+    def update_titles(titles_dataframe):
+        CourseTitle.objects.all().delete()
+        title_objects = []
+        for idx, row in titles_dataframe.iterrows():
+            title_objects.append(
+                CourseTitle(
+                    department_abbrev=row['department_abbrev'].strip(),
+                    course_number=row['course_number'],
+                    course_college=row['course_college'],
+                    long_course_title=row['long_course_title']
+                )
+            )
+        CourseTitle.objects.bulk_create(title_objects)
+
+    @staticmethod
+    def get_course_title(course_filter):
+        regex = re.compile('^([a-zA-Z\s]+)(\d+)')
+        match = regex.match(course_filter)
+        dept_abbr = match.group(1).strip()
+        course_num = match.group(2)
+        course = CourseTitle.objects.get(department_abbrev=dept_abbr,
+                                            course_number=course_num)
+        return course.long_course_title

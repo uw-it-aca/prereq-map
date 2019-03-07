@@ -9,7 +9,7 @@
     data () {
       return {
         count: 0,
-        blah: 'This is extra!'
+        course_title: 'This is extra!'
       }
     }
   }
