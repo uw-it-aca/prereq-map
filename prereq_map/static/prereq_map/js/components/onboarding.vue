@@ -114,7 +114,7 @@ export default {
 <style lang="scss">
 
     .modal-backdrop { opacity: 0.8 !important; }
-    .modal-content { background: purple; }
+    .modal-content { background: purple; border: none; }
     .modal-header { color: #fff; border-bottom: none;
         button { color: #fff; }
     }
