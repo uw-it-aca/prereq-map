@@ -98,7 +98,7 @@ export default {
         if ($cookies.get('onboarding-shown') == null) {
 
             // show the onboarding modal
-            $('#onboardingModal').modal('show');
+            $('#onboardingModal').modal({backdrop: 'static', keyboard: false});
 
             // set a cookie to track that user has seen the onboarding and
             // TODO: set the cookie expiration to the last day of current term
