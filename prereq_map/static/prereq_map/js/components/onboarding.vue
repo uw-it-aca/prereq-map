@@ -87,7 +87,7 @@ Vue.use(VueCookies)
 export default {
     data() {
         return {
-            beenShown: false
+            
         }
     },
     mounted() {
