@@ -87,10 +87,12 @@ Vue.use(VueCookies)
 export default {
     data() {
         return {
-            
+
         }
     },
     mounted() {
+
+        // TODO: hit the term API and get the last day of current term
 
         // check if valid cookie exists
         if ($cookies.get('onboarding-shown') == null) {
@@ -99,8 +101,8 @@ export default {
             $('#onboardingModal').modal('show');
 
             // set a cookie to track that user has seen the onboarding and
-            // set to expire after 90 days
-            $cookies.config('3mo');
+            // TODO: set the cookie expiration to the last day of current term
+            $cookies.config('2min');
             $cookies.set('onboarding-shown', 'true');
 
         }
