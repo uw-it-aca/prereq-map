@@ -26,7 +26,7 @@
                         <div class="carousel-item active">
                             <h2 class="text-white">Discover courses and plan your schedule more effectively</h2>
                           <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce finibus mi placerat libero feugiat fermentum. Duis posuere, nibh quis scelerisque iaculis, lorem ante mollis ante, rhoncus hendrerit nulla turpis ut est. Morbi vestibulum mi id sem vehicula sodales et in ex. Donec sit amet tincidunt massa. Nullam molestie, ligula a euismod laoreet, risus sem bibendum ante, ultricies condimentum ligula turpis nec lacus. Sed convallis lacinia nisi, eu accumsan dui vulputate et. Morbi accumsan neque a tortor lobortis ornare. Nunc facilisis laoreet erat vehicula rutrum. Integer vel dapibus metus. Quisque facilisis turpis id libero vulputate dictum. Fusce facilisis arcu congue aliquam molestie. Pellentesque eros justo, efficitur ut tortor vel, hendrerit porta ipsum. Cras posuere scelerisque massa sit amet pulvinar.</div>
-                          <div class="text-center">
+                          <div class="text-center mt-5">
                               <button type="button" class="btn btn-primary">Got it!</button>
                               <div><a href="#">Read further details on IT Connect</a></div>
                           </div>
@@ -76,8 +76,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
+    .modal-backdrop { opacity: 0.8 !important; }
     .modal-content { background: purple; }
     .modal-header { color: #fff; border-bottom: none;
         button { color: #fff; }
