@@ -27,6 +27,7 @@
                                     est. Morbi vestibulum mi id sem vehicula sodales et in ex. Donec sit amet tincidunt massa. Nullam molestie, ligula a euismod laoreet, risus sem bibendum ante, ultricies condimentum ligula turpis nec lacus. Sed
                                     convallis lacinia nisi, eu accumsan dui vulputate et. Morbi accumsan neque a tortor lobortis ornare. Nunc facilisis laoreet erat vehicula rutrum. Integer vel dapibus metus. Quisque facilisis turpis id libero
                                     vulputate dictum. Fusce facilisis arcu congue aliquam molestie. Pellentesque eros justo, efficitur ut tortor vel, hendrerit porta ipsum. Cras posuere scelerisque massa sit amet pulvinar.</div>
+
                                 <div class="text-center mt-5">
                                     <button type="button" class="btn btn-primary">Got it!</button>
                                     <div><a href="#">Read further details on IT Connect</a></div>
@@ -51,6 +52,11 @@
                                 <div>Fusce ut semper dui. Vestibulum condimentum, arcu in imperdiet dapibus, sem lorem scelerisque metus, ut vestibulum nisl dolor dignUt non massa auctor, fermentum ipsum quis, porttitor ex. Nullam dignissim congue
                                     ornare. Duis purus ipsum, mollis at luctus vel, aliquam id dui. Phasellus mattis ut mi at tincidunt. Aliquam a rhoncus augue, non tempus enim. Fusce vitae egestas ante. Morbi euismod arcu sed odio posuere
                                     tincidunt.</div>
+
+                                <div class="text-center mt-5">
+                                    <button type="button" class="btn btn-primary">Get Started!</button>
+                                </div>
+
                             </div>
                         </div>
                         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -74,14 +80,30 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
+
 export default {
     data() {
         return {
-
+            beenShown: false
         }
     },
     mounted() {
-        $('#onboardingModal').modal('show');
+
+        // check if valid cookie exists
+        if ($cookies.get('onboarding-shown') == null) {
+
+            // show the onboarding modal
+            $('#onboardingModal').modal('show');
+
+            // set a cookie to track that user has seen the onboarding and
+            // set to expire after 90 days
+            $cookies.config('3mo');
+            $cookies.set('onboarding-shown', 'true');
+
+        }
     }
 
 }
