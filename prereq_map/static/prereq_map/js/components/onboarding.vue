@@ -103,9 +103,8 @@ export default {
 
         accept: function(event) {
             // set a cookie to track that user has seen the onboarding and
-            // TODO: set the cookie expiration to the last day of current term
-            // plus 1 second
-            $cookies.set('onboarding-accepted', 'true', 1);
+            // TODO: set the cookie expiration to 30secs after original expire date
+            $cookies.set('onboarding-accepted', 'true', 30);
             $('#onboardingModal').modal('hide');
         }
 
