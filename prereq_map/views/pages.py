@@ -17,11 +17,14 @@ class CurriculumSearch(TemplateView):
         return context
 
     def render_to_response(self, context, **response_kwargs):
-        response = super(CurriculumSearch, self).render_to_response(context, **response_kwargs)
+        response = super(CurriculumSearch, self).render_to_response(
+            context, **response_kwargs)
 
-        if not self.request.COOKIES.get('onboarding-accepted'):
-            # set cookie to expire in 1 minute (60 sec.)
-            response.set_cookie("onboarding-accepted","false", 60)
+        # check to see if the onboarding cookie exists, if not create it
+        if 'onboarding-accepted' not in self.request.COOKIES:
+            # set cookie to expire in 45 sec
+            # TODO: Change to Term API last day of finals week
+            response.set_cookie("onboarding-accepted", "false", max_age=45)
         return response
 
 

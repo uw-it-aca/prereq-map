@@ -104,9 +104,9 @@ export default {
         accept: function(event) {
             // set a cookie to track that user has seen the onboarding and
             // TODO: set the cookie expiration to the last day of current term
-            $cookies.set('onboarding-accepted', 'true');
+            // plus 1 second
+            $cookies.set('onboarding-accepted', 'true', 1);
             $('#onboardingModal').modal('hide');
-            console.log($cookies.get('onboarding-accepted'));
         }
 
     }
