@@ -53,7 +53,7 @@
                                     tincidunt.</div>
 
                                 <div class="text-center mt-5">
-                                    <button @click.prevent="accept()" type="button" class="btn btn-primary">Get Started!</button>
+                                    <button v-on:click="accept" class="btn btn-primary">Get Started!</button>
                                 </div>
 
                             </div>
@@ -94,18 +94,19 @@ export default {
         // TODO: hit the term API and get the last day of current term
 
         // check if valid cookie exists
-        if ($cookies.get('onboarding-accepted') == null) {
+        if ($cookies.get('onboarding-accepted') == 'false') {
             // show the onboarding modal
             $('#onboardingModal').modal({backdrop: 'static', keyboard: false});
         }
     },
     methods: {
 
-        accept() {
-          // set a cookie to track that user has seen the onboarding and
-          // TODO: set the cookie expiration to the last day of current term
-          $cookies.config('2min');
-          $cookies.set('onboarding-accepted', 'true');
+        accept: function(event) {
+            // set a cookie to track that user has seen the onboarding and
+            // TODO: set the cookie expiration to the last day of current term
+            $cookies.set('onboarding-accepted', 'true');
+            $('#onboardingModal').modal('hide');
+            console.log($cookies.get('onboarding-accepted'));
         }
 
     }

@@ -16,6 +16,14 @@ class CurriculumSearch(TemplateView):
         context = super().get_context_data(**kwargs)
         return context
 
+    def render_to_response(self, context, **response_kwargs):
+        response = super(CurriculumSearch, self).render_to_response(context, **response_kwargs)
+
+        if not self.request.COOKIES.get('onboarding-accepted'):
+            # set cookie to expire in 1 minute (60 sec.)
+            response.set_cookie("onboarding-accepted","false", 60)
+        return response
+
 
 class CourseSearch(TemplateView):
     template_name = "course-search.html"
