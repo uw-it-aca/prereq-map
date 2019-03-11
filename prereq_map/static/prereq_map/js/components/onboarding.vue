@@ -29,8 +29,7 @@
                                     vulputate dictum. Fusce facilisis arcu congue aliquam molestie. Pellentesque eros justo, efficitur ut tortor vel, hendrerit porta ipsum. Cras posuere scelerisque massa sit amet pulvinar.</div>
 
                                 <div class="text-center mt-5">
-                                    <button type="button" class="btn btn-primary">Got it!</button>
-                                    <div><a href="#">Read further details on IT Connect</a></div>
+                                    <div><a href="#" target="_blank">Read further details on IT Connect</a></div>
                                 </div>
 
                             </div>
@@ -54,7 +53,7 @@
                                     tincidunt.</div>
 
                                 <div class="text-center mt-5">
-                                    <button type="button" class="btn btn-primary">Get Started!</button>
+                                    <button @click.prevent="accept()" type="button" class="btn btn-primary">Get Started!</button>
                                 </div>
 
                             </div>
@@ -95,17 +94,20 @@ export default {
         // TODO: hit the term API and get the last day of current term
 
         // check if valid cookie exists
-        if ($cookies.get('onboarding-shown') == null) {
-
+        if ($cookies.get('onboarding-accepted') == null) {
             // show the onboarding modal
             $('#onboardingModal').modal({backdrop: 'static', keyboard: false});
-
-            // set a cookie to track that user has seen the onboarding and
-            // TODO: set the cookie expiration to the last day of current term
-            $cookies.config('2min');
-            $cookies.set('onboarding-shown', 'true');
-
         }
+    },
+    methods: {
+
+        accept() {
+          // set a cookie to track that user has seen the onboarding and
+          // TODO: set the cookie expiration to the last day of current term
+          $cookies.config('2min');
+          $cookies.set('onboarding-accepted', 'true');
+        }
+
     }
 
 }
