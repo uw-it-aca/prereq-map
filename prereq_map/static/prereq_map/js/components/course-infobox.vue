@@ -1,10 +1,11 @@
 <template>
     <div>
+        <!--
         <p>click on course codes to see infobox (inside of component)</p>
         <ul>
             <li><a href="#" v-on:click.prevent="show('CSE 142')">CSE 142</a></li>
             <li><a href="#" v-on:click.prevent="show('CSE 143')">CSE 143</a></li>
-        </ul>
+        </ul> -->
         <div class="card" id="infobox" v-if="course_code">
             <div class="card-header bg-white">
                 <h5 class="infobox-title">{{ course_code }}</h5>
