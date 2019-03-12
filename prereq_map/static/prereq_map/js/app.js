@@ -85,6 +85,20 @@ function new_graph(graph_div, data){
     var data = {nodes: nodes, edges:edges};
     var options = {height: '500px', width:'100%'};
     var network = new vis.Network(graph_div, data, options);
+
+    // handle clicking on individual nodes
+    network.on('click', function(properties) {
+        var ids = properties.nodes;
+        var clickedNodes = nodes.get(ids);
+
+        if (clickedNodes.length > 0) {
+            // console.log('clicked nodes:', clickedNodes[0].id);
+            // trigger the click event for the vue component
+            $(document).trigger('myCustomEvent', [clickedNodes[0].id]);
+        }
+
+    });
+
 }
 
 
