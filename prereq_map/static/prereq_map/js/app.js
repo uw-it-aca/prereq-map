@@ -95,6 +95,8 @@ function new_graph(graph_div, data){
             // console.log('clicked nodes:', clickedNodes[0].id);
             // trigger the click event for the vue component
             $(document).trigger('myCustomEvent', [clickedNodes[0].id]);
+        } else {
+            $(document).trigger('myCustomEvent', ['']);
         }
 
     });
