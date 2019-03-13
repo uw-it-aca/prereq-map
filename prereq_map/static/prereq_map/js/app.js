@@ -83,7 +83,27 @@ function new_graph(graph_div, data){
 
 
     var data = {nodes: nodes, edges:edges};
-    var options = {height: '500px', width:'100%'};
+    var options = {
+        height: '500px',
+        width:'100%',
+
+        edges: {
+           arrows: 'from, to, middle',
+           color: 'red',
+           font: '12px arial #ff0000',
+           scaling:{
+             label: true,
+           },
+           shadow: true,
+           smooth: true,
+        },
+
+       nodes: {
+            shape: 'circle',
+            shadow: true,
+        },
+
+    };
     var network = new vis.Network(graph_div, data, options);
 
     // handle clicking on individual nodes

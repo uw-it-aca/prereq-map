@@ -10,12 +10,12 @@
             <div class="card-header bg-white">
                 <h5 class="infobox-title">{{ course_code }}</h5>
                 <span class="card-close clickable close-icon" data-effect="fadeOut"><i class="fas fa-times"></i></span>
-                <p class="card-title">Lorem ipsum dolor set amet dapibus ac facilisis in</p>
+                <p class="card-title text-danger">Lorem ipsum dolor set amet dapibus ac facilisis in</p>
             </div>
             <div class="card-header card-body">
                 <h6 class="card-title">Has these prerequisites<span class="info-popover"><i class="fa fa-info-circle" aria-hidden="true" tabindex="0" data-placement="top" data-toggle="popover" data-trigger="focus" title="" data-content="#"
                             data-original-title="Declared Majors"></i></span></h6>
-                <ul class="list">
+                <ul class="list text-danger">
                     <li class="#">ABCD 123</li>
                     <li class="#">ZYX 123</li>
                     <li class="#">ABCD 123</li>
@@ -25,7 +25,7 @@
             </div>
             <div class="card-header card-body">
                 <h5 class="card-title">Is a prerequisite for<span class="info-popover"><i class="fa fa-info-circle" aria-hidden="true" tabindex="0" data-placement="top" data-toggle="popover" data-trigger="focus" title="" data-content="#" data-original-title="Declared Majors"></i></span></h5>
-                <ul class="list">
+                <ul class="list text-danger">
                     <li class="#">ABCD 123</li>
                     <li class="#">ZYX 123</li>
                     <li class="#">ABCD 123</li>
