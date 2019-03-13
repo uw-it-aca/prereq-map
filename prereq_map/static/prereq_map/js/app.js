@@ -134,6 +134,10 @@ function new_graph(graph_div, data){
             }
         },
 
+        physics: {
+            enabled: false
+         }
+
     };
     var network = new vis.Network(graph_div, data, options);
 
