@@ -86,7 +86,7 @@ function new_graph(graph_div, data){
     var options = {
         height: '500px',
         width: '100%',
-        
+
         edges: {
             arrows: {
                 to: {
@@ -138,6 +138,7 @@ function new_graph(graph_div, data){
     var network = new vis.Network(graph_div, data, options);
 
     // handle clicking on individual nodes
+    /**
     network.on('click', function(properties) {
         var ids = properties.nodes;
         var clickedNodes = nodes.get(ids);
@@ -150,6 +151,16 @@ function new_graph(graph_div, data){
             $(document).trigger('myCustomEvent', ['']);
         }
 
+    });
+    **/
+
+    // actual selectNode event
+    network.on('selectNode', function(properties) {
+        console.log("node selected");
+        var ids = properties.nodes;
+        var clickedNode = nodes.get(ids);
+
+        $(document).trigger('myCustomEvent', [clickedNode[0].id]);
     });
 
 }
