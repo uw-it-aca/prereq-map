@@ -83,6 +83,8 @@ function new_graph(graph_div, data){
 
 
     var data = {nodes: nodes, edges:edges};
+
+
     var options = {
         height: '500px',
         width: '100%',
@@ -91,12 +93,12 @@ function new_graph(graph_div, data){
             arrows: {
                 to: {
                     enabled: true,
-                    scaleFactor: 1,
+                    //scaleFactor: 1,
                     type: 'arrow'
                 },
                 from: {
                     enabled: false,
-                    scaleFactor: 1,
+                    //scaleFactor: 1,
                     type: 'arrow'
                 }
             },
@@ -105,40 +107,45 @@ function new_graph(graph_div, data){
             scaling: {
                 label: true,
             },
-            shadow: true,
+            //shadow: true,
             smooth: {
-                enabled: true,
-                type: "dynamic",
+                enabled: false,
+                type: "straightCross",
+                forceDirection: 'none',
                 roundness: 1
             },
         },
 
         nodes: {
             shape: 'circle',
-            shadow: true,
+            //shadow: true,
         },
 
         layout: {
-            randomSeed: undefined,
-            improvedLayout: true,
             hierarchical: {
-                enabled: false,
-                levelSeparation: 150,
-                nodeSpacing: 100,
+                enabled: true,
+                levelSeparation: 200,
+                nodeSpacing: 90,
                 treeSpacing: 200,
                 blockShifting: true,
                 edgeMinimization: true,
                 parentCentralization: true,
-                direction: 'UD', // UD, DU, LR, RL
-                sortMethod: 'hubsize' // hubsize, directed
+                direction: "LR",
+                sortMethod: "hubsize"
             }
         },
 
         physics: {
-            enabled: false
-         }
+            enabled: false,
+            forceAtlas2Based: {
+              springLength: 100
+            },
+            minVelocity: 0.75,
+            solver: "forceAtlas2Based"
+        }
 
     };
+
     var network = new vis.Network(graph_div, data, options);
 
     // handle clicking on individual nodes
