@@ -11,7 +11,6 @@ con = po.connect(constring)
 
 prereq = pd.read_sql('select * from sec.sr_course_prereq where last_eff_yr = 9999', con)
 course_info = pd.read_sql('select * from sec.sr_course_titles where last_eff_yr = 9999', con)
-print(course_info.columns)
 con.close()
 
 data_path = os.path.join(os.path.dirname(__file__),
