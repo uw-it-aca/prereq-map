@@ -60,8 +60,12 @@ def process_data(curric_filter=None, course_filter=None):
             prereqs['department_abbrev'] == curric_filter]
 
     if course_filter:
-        title = CourseTitle.get_course_title(course_filter)
-        response['course_title'] = title
+        try:
+            title = CourseTitle.get_course_title(course_filter)
+            response['course_title'] = title
+        except CourseTitle.DoesNotExist:
+            pass
+
         prereqs_to = prereqs.loc[
             prereqs['course_to'] == course_filter
             ]
