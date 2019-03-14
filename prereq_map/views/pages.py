@@ -1,4 +1,5 @@
 from django.views.generic import TemplateView
+from uw_sws.term import get_current_term
 
 
 class PageView(TemplateView):
@@ -19,6 +20,12 @@ class CurriculumSearch(TemplateView):
     def render_to_response(self, context, **response_kwargs):
         response = super(CurriculumSearch, self).render_to_response(
             context, **response_kwargs)
+
+        # get the current term
+        term = get_current_term()
+        print(term)
+        # get the last final exam date for given term
+        print(term.last_final_exam_date)
 
         # check to see if the onboarding cookie exists, if not create it
         if 'onboarding-accepted' not in self.request.COOKIES:
