@@ -16,6 +16,14 @@ Setup
         $ git clone https://github.com/uw-it-aca/prereq_map
         $ cd prereq_map
 
+2. Create local settings
+
+        $ cp sampleproj/settings/local_example.py sampleproj/settings/local.py
+
+3. Update local settings as needed
+
+        $ vim sampleproj/settings/local.py
+
 Node
 ----
 

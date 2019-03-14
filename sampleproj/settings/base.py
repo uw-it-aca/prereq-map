@@ -137,9 +137,6 @@ STATICFILES_DIRS = [
 
 DATA_ROOT = os.path.join(BASE_DIR, "prereq_map/data")
 
-#EDW_PASSWORD = "XXXXX"
-#EDW_USER = "netid\\XXXXXXX"
-
 # webpack loader (vuejs)
 
 WEBPACK_LOADER = {
@@ -165,6 +162,3 @@ COMPRESS_CSS_FILTERS = [
 COMPRESS_JS_FILTERS = [
     'compressor.filters.jsmin.JSMinFilter',
 ]
-
-# google analytics tracking (set in production)
-#GOOGLE_ANALYTICS_KEY = "UA-XXXXXXXX-X"
