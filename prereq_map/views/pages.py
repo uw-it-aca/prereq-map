@@ -25,13 +25,14 @@ class CurriculumSearch(TemplateView):
         term = get_current_term()
         print(term)
         # get the last final exam date for given term
-        print(term.last_final_exam_date)
+        #print(term.last_final_exam_date)
 
         # check to see if the onboarding cookie exists, if not create it
         if 'onboarding-accepted' not in self.request.COOKIES:
             # set cookie to expire in 30 sec
             # TODO: Change to Term API last day of finals week
             response.set_cookie("onboarding-accepted", "false", max_age=30)
+
         return response
 
 
