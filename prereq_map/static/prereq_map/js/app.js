@@ -83,7 +83,68 @@ function new_graph(graph_div, data){
 
 
     var data = {nodes: nodes, edges:edges};
-    var options = {height: '500px', width:'100%'};
+
+    var options = {
+        height: '500px',
+        width: '100%',
+
+        edges: {
+            arrows: {
+                to: {
+                    enabled: true,
+                    //scaleFactor: 1,
+                    type: 'arrow'
+                },
+                from: {
+                    enabled: false,
+                    //scaleFactor: 1,
+                    type: 'arrow'
+                }
+            },
+            color: 'red',
+            font: '12px arial #ff0000',
+            scaling: {
+                label: true,
+            },
+            //shadow: true,
+            smooth: {
+                enabled: false,
+                type: "straightCross",
+                forceDirection: 'none',
+                roundness: 1
+            },
+        },
+
+        nodes: {
+            shape: 'circle',
+            //shadow: true,
+        },
+
+        layout: {
+            hierarchical: {
+                enabled: true,
+                levelSeparation: 200,
+                nodeSpacing: 90,
+                treeSpacing: 200,
+                blockShifting: true,
+                edgeMinimization: true,
+                //parentCentralization: true,
+                direction: "TD",
+                sortMethod: "directed"
+            }
+        },
+
+        physics: {
+            enabled: false,
+            forceAtlas2Based: {
+              springLength: 100
+            },
+            minVelocity: 0.75,
+            solver: "forceAtlas2Based"
+        }
+
+    };
+    
     var network = new vis.Network(graph_div, data, options);
 }
 
