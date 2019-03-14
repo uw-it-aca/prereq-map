@@ -65,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'prereq_map.context_processors.google_analytics',
             ],
         },
     },
@@ -164,3 +165,6 @@ COMPRESS_CSS_FILTERS = [
 COMPRESS_JS_FILTERS = [
     'compressor.filters.jsmin.JSMinFilter',
 ]
+
+# google analytics tracking (set in production)
+#GOOGLE_ANALYTICS_KEY = "UA-XXXXXXXX-X"
