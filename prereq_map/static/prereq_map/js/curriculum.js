@@ -7,11 +7,11 @@ import Graph from "./components/curric-graph.vue";
 console.log("I am Vue!")
 
 new Vue({
-            delimiters: ['[[', ']]'],
-            el: '#vue_curriculum',
-            components: {
-                'course-infobox' : CourseInfoBox,
-                'typeahead' : Typeahead,
-                'curric-graph': Graph
-            }
-        })
+  delimiters: ['[[', ']]'],
+  el: '#vue_curriculum',
+  components: {
+    'course-infobox' : CourseInfoBox,
+    'typeahead' : Typeahead,
+    'curric-graph': Graph
+  }
+});
