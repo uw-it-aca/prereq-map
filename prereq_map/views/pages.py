@@ -22,6 +22,7 @@ class CurriculumSearch(TemplateView):
             context, **response_kwargs)
 
         # get the current term
+        print("term resource...")
         term = get_current_term()
         print(term)
         # get the last final exam date for given term
