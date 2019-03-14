@@ -11,7 +11,7 @@
         <div class="col-md-5">
 
           <div>
-
+            <course-graph></course-graph>
           </div>
 
         </div>
@@ -80,6 +80,7 @@
 </template>
 
 <script>
+  import Graph from "./course-graph.vue";
   export default {
     data () {
       return {
@@ -98,6 +99,9 @@
         // CourseData.$on('course_data_loaded', function(results){
         //     console.log("A", results)
         // });
+      },
+      components: {
+        'course-graph': Graph
       }
 
   }
