@@ -22,11 +22,11 @@
       <div class="col-sm-12 col-md-3">
 
         <course-infobox></course-infobox>
+         <curric-graph></curric-graph>
 
       </div>
     </div>
 
-    <button-counter></button-counter>
 
 </div>
 
@@ -34,3 +34,9 @@
 {% render_bundle 'vue_curriculum' %}
 
 {% endblock %}
+<script>
+    import CurricGraph from "../static/prereq_map/js/components/curric-graph";
+    export default {
+        components: {CurricGraph}
+    }
+</script>

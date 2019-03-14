@@ -11,7 +11,7 @@
         <div class="col-md-5">
 
           <div>
-            <div id="graph_container" style="width: 100%; height: 100%; border: 1px solid rgba(0,0,0,.125);"></div>
+
           </div>
 
         </div>
@@ -92,7 +92,6 @@
       let params = new URLSearchParams(uri);
 
       this.course_param = params.get("course");
-      console.log(this.course_param);
 
     },
       mounted: function() {
