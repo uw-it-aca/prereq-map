@@ -24,7 +24,7 @@ class CurriculumSearch(TemplateView):
         # get the current term
         print("term resource...")
         term = get_current_term()
-        print(term)
+        print(term.year, term.quarter)
         # get the last final exam date for given term
         #print(term.last_final_exam_date)
 
