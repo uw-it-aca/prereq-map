@@ -85,27 +85,25 @@ Vue.use(VueCookies)
 
 export default {
     data() {
-        return {
-
-        }
+        return { }
     },
     mounted() {
-
-        // TODO: hit the term API and get the last day of current term
-
-        // check if valid cookie exists
-        if ($cookies.get('onboarding-accepted') == 'false') {
+        // check if valid cookie exists and user has not yet accepted terms
+        if ($cookies.get('prereq-onboarding-accepted') == 'false') {
             // show the onboarding modal
-            $('#onboardingModal').modal({backdrop: 'static', keyboard: false});
+            $('#onboardingModal').modal({backdrop: 'static', keyboard: false})
         }
     },
     methods: {
 
+        // handle the 'get started' button click event
         accept: function(event) {
-            // set a cookie to track that user has seen the onboarding and
-            // TODO: set the cookie expiration to 30secs after original expire date
-            $cookies.set('onboarding-accepted', 'true', 30);
-            $('#onboardingModal').modal('hide');
+            // get the end of term date and set as the expiration value
+            var expires = $cookies.get('prereq-onboarding-expires')
+            // set the accept cookie value to true and set the expiration
+            $cookies.set('prereq-onboarding-accepted', 'true', expires)
+            // hide the modal (until end of the current term)
+            $('#onboardingModal').modal('hide')
         }
 
     }
