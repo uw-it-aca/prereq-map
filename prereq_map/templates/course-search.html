@@ -1,30 +1,23 @@
 {% extends "base.html" %}
 
+{% load static %}
+{% load render_bundle from webpack_loader %}
+
 {% block title %}Course Search{% endblock %}
 
 {% block content %}
 
-<div class="container py-1 mt-2" role="main">
+<div id="vue_course" class="container py-1 mt-2" role="main">
 
-    <h2 class="pt-4 pb-2">Course Search</h2>
-    <p class="instruction-text pb-4">See a course’s prerequisites, what it’s a prerequisite for, and other related curriculum.</p>
-    <form>
-        <div id="main-search" class="search-width">
-            <div class="d-table-cell w-100">
-                <input class="form-control form-control-lg form-styling" aria-describedby="fieldHelp" placeholder="e.g. BIOL 300">
-            </div>
-            <div class="d-table-cell align-middle">
-                <button class="btn btn-primary button-styling"><i class="py-1 fas fa-search"></i></button>
-            </div>
-        </div>
-    </form>
+  <h1 class="pt-4 pb-2">Course Search</h1>
+  <p class="instruction-text pb-4">See a course’s prerequisites, what it’s a prerequisite for, and other related curriculum.</p>
 
-    <div class="row mt-5 mb-5">
-      <div class="col-12">
-        <div id="graph_container" style="width: 100%; height: 100%; border: 1px solid rgba(0,0,0,.125);"></div>
-      </div>
-    </div>
+  <course-search></course-search>
+  <course-detail></course-detail>
 
 </div>
+
+<!-- load bundled vue files using webpack loader -->
+{% render_bundle 'vue_course' %}
 
 {% endblock %}
