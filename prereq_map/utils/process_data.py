@@ -161,14 +161,12 @@ def process_data(curric_filter=None, course_filter=None):
             "multiselect": True
         }
     }
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
+
     response.update({'x': {'nodes': nodes,
                            'edges': edges,
                            'options': options}})
     return response
-=======
+
 
     # options = {
     #     "width": "100%",
@@ -206,15 +204,11 @@ def process_data(curric_filter=None, course_filter=None):
     #         "improvedLayout": False
     #     },
     # }
->>>>>>> Stashed changes
 
     return {'x': {'nodes': nodes,
                   'edges': edges,
                   'options': options}}
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
->>>>>>> Stashed changes
+
 
 
 # =============================================================================
