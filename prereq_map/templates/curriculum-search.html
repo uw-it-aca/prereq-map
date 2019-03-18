@@ -12,6 +12,8 @@
     <h2 class="pt-4 pb-2">Curriculum Search</h2>
     <p class="instruction-text pb-4">View the prerequisite map of courses in a curriculum. </p>
 
+    <onboarding></onboarding>
+
     <typeahead></typeahead>
 
     <div class="row mt-5 mb-5">
@@ -26,6 +28,7 @@
 
         <div class="col-sm-12 col-md-3">
             <course-infobox></course-infobox>
+            <curric-graph></curric-graph>
         </div>
 
     </div>
@@ -36,3 +39,9 @@
 {% render_bundle 'vue_curriculum' %}
 
 {% endblock %}
+<script>
+    import CurricGraph from "../static/prereq_map/js/components/curric-graph";
+    export default {
+        components: {CurricGraph}
+    }
+</script>

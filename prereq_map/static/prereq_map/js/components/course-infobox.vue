@@ -27,7 +27,7 @@
       </ul>
     </div>
     <div class="card-body text-center">
-      <button type="button" class="btn btn-primary btn-block btn-lg btn-default">More details &amp; related curricula</button>
+      <a href="/course-search/?course=cse%20373" class="btn btn-primary btn-block btn-lg btn-default">More details &amp; related curricula</a>
     </div>
   </div>
 
