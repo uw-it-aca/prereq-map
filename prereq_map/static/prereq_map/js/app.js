@@ -1,7 +1,7 @@
 window.show_graph = function(graph_data) {
     var initResult;
     var graph_div = $("<div/>", {id: "graph_div"});
-    $("#graph_container").append(graph_div);
+    $("#graph_container").html(graph_div);
     var el = graph_div;
 
     var graph = $("<div/>", {id: "graph"+el.id});
