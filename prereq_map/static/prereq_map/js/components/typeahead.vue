@@ -33,6 +33,17 @@
         components: {
             VueBootstrapTypeahead
         },
+
+        data: function () {
+            return {
+                query: '',
+                selected_curric: null,
+                curric_list: [],
+                curric_objs: null
+            }
+        },
+        methods: { },
+
         mounted: function (){
             var self = this;
             axios.get('/api/curric_typeahead')
@@ -47,23 +58,18 @@
                 });
         },
 
-        data: function () {
-            return {
-                query: '',
-                selected_curric: null,
-                curric_list: [],
-                curric_objs: null
-            }
-        },
-        methods: {
-        },
-
         watch: {
             selected_curric(curric_query){
                 var curric_code = this.curric_objs[curric_query];
-                location.href = "?curric=" + curric_code;
+                //location.href = "?curric=" + curric_code;
+                this.$router.push('/curriculum-search/?curric=' + curric_code)
 
+            },
+
+            '$route'(to, from) {
+                // react to route changes...
             }
+
         },
 
         filters: {
