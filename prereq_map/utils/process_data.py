@@ -135,45 +135,86 @@ def process_data(curric_filter=None, course_filter=None):
     nodes['writing_crs'] = attr_obj.get('writing_crs')
 
     options = {
-        "width": "100%",
-        "height": "100%",
+        # "width": "100%",
+        "height": "500px",      # [TODO] Fix.this
+        # "height": "100%",
+        "autoResize": True,
         "nodes": {
-            "physics": False,
             "shape": "circle",
-            "size": 25,
-            "font": {
-                "size": 17
-            }
-        },
-        "manipulation": {
-            "enabled": False
+            "size": 20,
+            "color": {
+                "background": "lime",
+                "border": "black"
+            },
         },
         "edges": {
-            "smooth": False,
-            "arrows": "to"
-        },
-        "physics": {
-            "stabilization": False
-        },
-        "interaction": {
-            "hideEdgesOnDrag": True,
-            "hoverConnectedEdges": True,
-            "multiselect": True
+            "arrows": "to",
+            "color": "gray"
         },
         "layout": {
             "hierarchical": {
                 "enabled": True,
-                "levelSeparation": 40,
-                "nodeSpacing": 150,
-                "direction": "LR"
-            }
+                "direction": "DU"
+            },
         },
-        "improvedLayout": False
+        "interaction":{
+            "multiselect": True
+        }
     }
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+    response.update({'x': {'nodes': nodes,
+                           'edges': edges,
+                           'options': options}})
+    return response
+=======
+
+    # options = {
+    #     "width": "100%",
+    #     "height": "100%",
+    #     "nodes": {
+    #         "physics": False,
+    #         "shape": "circle",
+    #         "size": 2,
+    #         "font": {
+    #             "size": 17
+    #         }
+    #     },
+    #     "manipulation": {
+    #         "enabled": False
+    #     },
+    #     "edges": {
+    #         "smooth": False,
+    #         "arrows": "to"
+    #     },
+    #     "physics": {
+    #         "stabilization": False
+    #     },
+    #     "interaction": {
+    #         "hideEdgesOnDrag": True,
+    #         "hoverConnectedEdges": True,
+    #         "multiselect": True
+    #     },
+    #     "layout": {
+    #         "hierarchical": {
+    #             "enabled": True,
+    #             "levelSeparation": 40,
+    #             "nodeSpacing": 150,
+    #             "direction": "LR"
+    #         },
+    #         "improvedLayout": False
+    #     },
+    # }
+>>>>>>> Stashed changes
 
     return {'x': {'nodes': nodes,
                   'edges': edges,
                   'options': options}}
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
 
 # =============================================================================

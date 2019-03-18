@@ -17,7 +17,6 @@ window.show_graph = function(graph_data) {
 
     var graph = $("<div/>", {id: "graph"+el.id});
     $("#graph_container").append(graph);
-    // build_graph(graph_div, data.x, initResult)
     new_graph(graph_div.get(0), graph_data.x)
 };
 
@@ -81,9 +80,11 @@ function new_graph(graph_div, data){
     var nodes = new vis.DataSet(node_list);
     var edges = new vis.DataSet(edge_list);
 
+    var options = data.options;       // [TODO] not resuse `data`?
 
     var data = {nodes: nodes, edges:edges};
 
+<<<<<<< Updated upstream
     var options = {
         height: '500px',
         width: '100%',
@@ -145,6 +146,36 @@ function new_graph(graph_div, data){
 
     };
     
+=======
+    // this is (apparently?) overwriting the settings in process_data.py
+    // I'm going to guess that I have a better understanding/chance of
+    // doing more dynamic changes in there rather than here
+    // ...exccccccccept that those options in that file don't seem
+    // to be percolating through (?)
+
+    // var options = {
+    //     nodes: {
+    //       shape: 'circle',
+    //       color: {
+    //         background: 'lime',
+    //         border: 'black'
+    //       },
+    //     },
+    //     edges: {
+    //       arrows: 'to',
+    //       color: 'black'
+    //     },
+    //     layout: {
+    //       hierarchical: {
+    //         enabled: true,
+    //         direction: 'DU'
+    //       },
+    //     },
+    //     height: '500px',
+    //     width:'100%'
+    // };
+
+>>>>>>> Stashed changes
     var network = new vis.Network(graph_div, data, options);
 }
 
@@ -243,8 +274,6 @@ function build_graph(el, x, instance) {
     }
 
 
-
-
     // manipulation
 
     // var style = document.createElement('style');
@@ -266,7 +295,6 @@ function build_graph(el, x, instance) {
     //   <input type="button" value="cancel" id="cancelButton"></button>';
 
     // el_id.appendChild(div);
-
 
     var options = x.options;
 
