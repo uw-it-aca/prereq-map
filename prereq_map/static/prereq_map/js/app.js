@@ -1,18 +1,7 @@
-$(document).ready(function(){
-    var curric_code = getUrlParameter('curric');
-    if (curric_code !== undefined){
-        fetch_prereqs_for_curric(curric_code);
-    }
-    var course_code = getUrlParameter('course');
-    if (course_code !== undefined){
-        fetch_prereqs_for_course(course_code);
-    }
-});
-
 window.show_graph = function(graph_data) {
     var initResult;
     var graph_div = $("<div/>", {id: "graph_div"});
-    $("#graph_container").append(graph_div);
+    $("#graph_container").html(graph_div);
     var el = graph_div;
 
     var graph = $("<div/>", {id: "graph"+el.id});
@@ -20,40 +9,6 @@ window.show_graph = function(graph_data) {
     // build_graph(graph_div, data.x, initResult)
     new_graph(graph_div.get(0), graph_data.x)
 };
-
-
-function fetch_prereqs_for_curric(curric){
-    var url = "/api/curric/" + curric;
-    $.ajax({
-               url: url,
-               dataType: "JSON",
-               type: "GET",
-               accepts: {html: "text/html"},
-               success: function(results) {
-                   window.show_graph(results);
-               },
-               error: function(xhr, status, error) {
-                   console.log('api error fetching curric');
-               }
-           });
-}
-
-
-function fetch_prereqs_for_course(course){
-    var url = "/api/course/" + course;
-    $.ajax({
-               url: url,
-               dataType: "JSON",
-               type: "GET",
-               accepts: {html: "text/html"},
-               success: function(results) {
-                   window.show_graph(results);
-               },
-               error: function(xhr, status, error) {
-                   console.log('api error fetching course');
-               }
-           });
-}
 
 function px(x) {
     if (typeof(x) === "number")
