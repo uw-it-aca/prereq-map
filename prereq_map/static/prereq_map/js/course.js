@@ -21,8 +21,8 @@ new Vue({
         'course-search': CourseSearch,
         'course-detail': CourseDetail,
     },
-
-    data: function () {
+    
+    data() {
         return {
             course_param: '',
         }
@@ -44,7 +44,7 @@ new Vue({
         //this.course_param = params.get("course");
 
         //console.log(this.course_param)
-        console.log(this.$route.query.course)
+        //console.log(this.$route.query.course)
         this.course_param = this.$route.query.course
 
     },

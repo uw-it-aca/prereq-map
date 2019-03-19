@@ -449,3 +449,9 @@ ol, ul{
     display: block;
     padding: 0.25rem 0.5rem;
 }
+
+/**** vue helpers ***/
+//Combine CSS rules to v-cloak
+[v-cloak] {
+  display: none;
+}

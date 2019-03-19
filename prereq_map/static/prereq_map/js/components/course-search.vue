@@ -34,7 +34,6 @@ export default {
         //let params = new URLSearchParams(uri);
         //this.course_param = params.get("course");
 
-        console.log("first load")
         this.course = this.$route.query.course
     },
 

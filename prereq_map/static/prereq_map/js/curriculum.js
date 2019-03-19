@@ -42,7 +42,7 @@ new Vue({
         }
     },
 
-    created: function () {
+    mounted() {
 
         //let uri = window.location.search.substring(1);
         //let params = new URLSearchParams(uri);

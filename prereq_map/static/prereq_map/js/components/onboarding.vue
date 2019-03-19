@@ -1,6 +1,5 @@
 <template>
-<div style="margin: 30px;">
-
+<div v-cloak>
     <!-- Modal -->
     <div class="modal fade" id="onboardingModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
