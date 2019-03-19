@@ -1,26 +1,13 @@
 <template>
-
-    <div id="main-search" class="search-width">
-
-        <vue-bootstrap-typeahead
-                class="woot"
-                v-model="query"
-                :data="curric_list"
-                @hit="selected_curric = $event"
-                placeholder="Search curricula.."
-        >
-            <template slot="suggestion" slot-scope="{ data, htmlText }">
-                <div class="d-flex align-items-center">
-                    <!-- Note: the v-html binding is used, as htmlText contains
-                         the suggestion text highlighted with <strong> tags -->
-                    <span class="ml-4" v-html="htmlText"></span>
-                </div>
-            </template>
-        </vue-bootstrap-typeahead>
-
-
-    </div>
-
+<div id="main-search" class="search-width">
+    <vue-bootstrap-typeahead
+        class="woot"
+        v-model="query"
+        :data="curric_list"
+        @hit="selected_curric = $event"
+        placeholder="Search curricula.."
+    />
+</div>
 </template>
 
 <script>
@@ -77,15 +64,15 @@
 </script>
 
 <style>
-
-    .search-width {
+.search-width {
     input {
         height: 3rem;
         border-radius: 0;
         border: 0.04688rem solid #333;
     }
-    }
+}
 
-    .vbt-autcomplete-list { box-shadow: none !important; }
-
+.vbt-autcomplete-list {
+    box-shadow: none !important;
+}
 </style>
