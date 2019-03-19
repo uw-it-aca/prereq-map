@@ -310,62 +310,65 @@ ol, ul{
 
 
 
-/* ================== Footer ================== */
+/*** boilerplate ***/
+.prereq {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
 
-.footer, .page-wrap:after {
-  /* .push must be the same height as footer */
-	height: 5.625rem;
+.prereq-content {
+    flex: 1;
+}
+
+.prereq-footer {
+    height: 5.625rem;
     background: #eee;
-    border: 0rem;
+    border: 0;
     padding-top: 1.25rem;
-    -webkit-box-shadow: inset 0rem 0.25rem 0.5rem rgba(50, 50, 50, 0.2);
-    -moz-box-shadow:    inset 0rem 0.25rem 0.5rem rgba(50, 50, 50, 0.2);
-    box-shadow:         inset 0rem 0.25rem 0.5rem rgba(50, 50, 50, 0.2);
+    -webkit-box-shadow: inset 0 0.25rem 0.5rem rgba(50, 50, 50, 0.2);
+    -moz-box-shadow: inset 0 0.25rem 0.5rem rgba(50, 50, 50, 0.2);
+    box-shadow: inset 0 0.25rem 0.5rem rgba(50, 50, 50, 0.2);
+
+    a {
+        color: #2A6496;
+        font-size: 0.7em;
+    }
+
+    ul {
+        list-style: outside none none;
+        margin-bottom: 0.5rem;
+        padding: 0;
+        text-align: center;
+
+        li {
+            border-right: 0.0625rem solid #ccc;
+            display: inline-block;
+            margin-right: 0.3125rem;
+            padding-right: 0.625rem;
+
+            &:last-child {
+                border: 0;
+                margin-right: 0;
+                padding-right: 0;
+            }
+        }
+    }
+
+    .credit {
+        color: #444;
+        width: 100%;
+        margin-top: 0.625rem;
+        text-align: center;
+        font-size: 0.7rem;
+    }
 }
-
-.footer a {
-	color: #2A6496;
-	font-size: 0.7em;
-}
-
-.footer-links ul {
-    list-style: outside none none;
-    margin-bottom: 0.5rem;
-    padding: 0;
-    text-align: center;
-}
-
-.footer-links ul li {
-    border-right: 0.0625rem solid #ccc;
-    display: inline-block;
-    margin-right: 0.3125rem;
-    padding-right: 0.625rem;
-}
-
-.footer .footer-links ul li:last-child {
-    border: 0rem;
-    margin-right:0rem;
-    padding-right:0rem;
-}
-
-.credit {
-	color: #444;
-	width: 100%;
-	margin-top: 0.625rem;
-	text-align: center;
-	font-size: 0.7rem;
-}
-
-
 /**** vue utils ***/
-
 [v-cloak] {
-  display: none;
+    display: none;
 }
-
 /** vis styles **/
-
 .vis-network {
     border: 1px solid rgba(0,0,0,.125);
-    border-radius: .25rem;
+    border-radius: 0.25rem;
 }
