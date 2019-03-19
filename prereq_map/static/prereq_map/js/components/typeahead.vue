@@ -1,7 +1,7 @@
 <template>
 <div id="main-search" class="search-width">
     <vue-bootstrap-typeahead
-        class="woot"
+        class="mb-3"
         v-model="query"
         :data="curric_list"
         @hit="selected_curric = $event"
