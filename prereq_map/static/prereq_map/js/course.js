@@ -21,23 +21,12 @@ new Vue({
         'course-search': CourseSearch,
         'course-detail': CourseDetail,
     },
-    
     data() {
         return {
             course_param: '',
         }
     },
-
-    watch: {
-        '$route' (to, from) {
-          // react to route changes...
-           console.log("route changed")
-           console.log(this.$route.query.course)
-           this.course_param = this.$route.query.course
-        }
-    },
-
-    created: function () {
+    mounted() {
 
         //let uri = window.location.search.substring(1);
         //let params = new URLSearchParams(uri);
@@ -48,6 +37,13 @@ new Vue({
         this.course_param = this.$route.query.course
 
     },
-
+    watch: {
+        '$route' (to, from) {
+          // react to route changes...
+           console.log("route changed")
+           console.log(this.$route.query.course)
+           this.course_param = this.$route.query.course
+        }
+    },
 
 });

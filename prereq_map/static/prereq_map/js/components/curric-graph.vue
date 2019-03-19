@@ -1,6 +1,6 @@
 <template>
-    <div v-if="this.curric_param !== undefined ">
-        <div id="graph_container" style="width: 100%; height: 100%; border: 1px solid blue;"></div>
+    <div v-cloak v-if="this.curric_param !== undefined ">
+        <div id="graph_container"></div>
     </div>
 </template>
 
@@ -8,14 +8,14 @@
     const axios = require('axios');
     export default {
 
-        data: function () {
+        data() {
             return {
                 curric_param: '',
                 curric_data: undefined
             }
         },
 
-        mounted: function () {
+        mounted() {
 
             //console.log('FOOO');
             //let $this = this;
@@ -52,7 +52,3 @@
 
     }
 </script>
-
-<style>
-
-</style>

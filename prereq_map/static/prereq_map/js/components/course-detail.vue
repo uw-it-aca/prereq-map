@@ -91,13 +91,12 @@ export default {
             course_param: ''
         }
     },
-    created() {
+    mounted() {
         //let uri = window.location.search.substring(1);
         //let params = new URLSearchParams(uri);
         //this.course_param = params.get("course");
         this.course_param = this.$route.query.course
     },
-
     watch: {
         '$route'(to, from) {
             // react to route changes...
@@ -106,13 +105,5 @@ export default {
             this.course_param = this.$route.query.course
         }
     },
-
 }
 </script>
-
-<style scoped>
-.course-detail {
-    border: solid 1px red;
-    padding: 10px;
-}
-</style>

@@ -34,7 +34,7 @@
             VueBootstrapTypeahead
         },
 
-        data: function () {
+        data() {
             return {
                 query: '',
                 selected_curric: null,
@@ -42,9 +42,7 @@
                 curric_objs: null
             }
         },
-        methods: { },
-
-        mounted: function (){
+        mounted() {
             var self = this;
             axios.get('/api/curric_typeahead')
                 .then((res) => {

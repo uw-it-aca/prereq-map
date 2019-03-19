@@ -1,7 +1,5 @@
 <template>
-
-
-<div style="margin-bottom:25px;" class="course-search">
+<div class="course-search">
     <form id="signup-form" @submit.prevent="processForm">
         <div id="main-search" class="search-width">
             <div class="d-table-cell w-100">
@@ -13,8 +11,6 @@
         </div>
     </form>
 </div>
-
-
 </template>
 
 <script>
@@ -27,7 +23,7 @@ export default {
         }
     },
 
-    mounted: function () {
+    mounted() {
 
         //let $this = this;
         //let uri = window.location.search.substring(1);
@@ -50,10 +46,3 @@ export default {
 
 }
 </script>
-
-<style scoped>
-.course-search {
-    border: solid 1px lime;
-    padding: 10px;
-}
-</style>

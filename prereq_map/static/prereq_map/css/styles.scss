@@ -450,8 +450,15 @@ ol, ul{
     padding: 0.25rem 0.5rem;
 }
 
-/**** vue helpers ***/
-//Combine CSS rules to v-cloak
+/**** vue utils ***/
+
 [v-cloak] {
   display: none;
+}
+
+/** vis styles **/
+
+.vis-network {
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
 }

@@ -26,19 +26,9 @@ new Vue({
         'typeahead' : Typeahead,
         'curric-graph': Graph
     },
-
-    data: function () {
+    data() {
         return {
             curric_param: '',
-        }
-    },
-
-    watch: {
-        '$route'(to, from) {
-            // react to route changes...
-            //console.log("route changed")
-            //console.log(this.$route.query.curric)
-            this.curric_param = this.$route.query.curric
         }
     },
 
@@ -53,5 +43,12 @@ new Vue({
         this.curric_param = this.$route.query.curric
 
     },
-
+    watch: {
+        '$route'(to, from) {
+            // react to route changes...
+            //console.log("route changed")
+            //console.log(this.$route.query.curric)
+            this.curric_param = this.$route.query.curric
+        }
+    },
 });
