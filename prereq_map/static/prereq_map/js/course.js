@@ -8,9 +8,9 @@ Vue.use(VueRouter)
 
 var router = new VueRouter({
     mode: 'history',
-    routes: [{
-        path: '/course-search/', component: CourseSearch
-    }]
+    routes: [
+        { path: '/course-search/', component: CourseSearch },
+    ]
 });
 
 new Vue({

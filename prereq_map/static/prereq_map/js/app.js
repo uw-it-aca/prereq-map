@@ -64,7 +64,8 @@ function new_graph(graph_div, data){
         var ids = properties.nodes;
         var clickedNode = nodes.get(ids);
 
-        $(document).trigger('myCustomEvent', [clickedNode[0].id]);
+        // show course infobox for a given node (course id)
+        $(document).trigger('showCourseInfo', [clickedNode[0].id]);
     });
 
 }

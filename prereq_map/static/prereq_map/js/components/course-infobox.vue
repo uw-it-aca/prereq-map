@@ -44,22 +44,51 @@
 export default {
     data() {
         return {
-            course_code: ''
+            course_code: '',
+            last_selected: ''
         }
     },
     mounted() {
 
+        this.course_code = this.$route.query.course
+
         // global click handler for node click event
-        $(document).on('myCustomEvent', (event, course_code) => {
+        $(document).on('showCourseInfo', (event, course_code) => {
             //console.log(course_code)
             this.show(course_code)
+
         });
+
     },
     methods: {
         show: function (code) {
             this.course_code = code
+
+            this.$router.push({ query: Object.assign({}, this.$route.query, { course: this.course_code }) });
+
+        },
+    },
+
+    watch: {
+
+        /**
+        '$route'(to, from) {
+            // react to route changes...
+            console.log("route changed")
+            //console.log(this.$route.query.curric)
+
+        },**/
+
+        '$route.query.course': function () {
+
+            this.course_code = this.$route.query.course
+
+            console.log("course changed")
+            //this.curric_param = this.$route.query.curric
+            this.show(this.course_code)
         }
-    }
+
+    },
 }
 </script>
 

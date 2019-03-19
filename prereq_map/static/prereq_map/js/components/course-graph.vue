@@ -37,7 +37,7 @@ export default {
             show_graph(this.course_data.data)
         },
 
-        '$route'(to, from) {
+        '$route.query.course': function () {
             // react to route changes...
             //console.log("route changed")
             //console.log(this.course_data)
