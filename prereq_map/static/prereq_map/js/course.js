@@ -38,10 +38,11 @@ new Vue({
 
     },
     watch: {
-        '$route' (to, from) {
+
+        '$route.query.course': function () {
           // react to route changes...
-           console.log("route changed")
-           console.log(this.$route.query.course)
+           //console.log("route changed")
+           //console.log(this.$route.query.course)
            this.course_param = this.$route.query.course
         }
     },

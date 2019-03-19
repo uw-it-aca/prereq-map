@@ -14,8 +14,9 @@
 
     <div v-cloak v-if="this.course_param !== undefined ">[[ course_param ]]</div>
 
-    <div  v-cloak v-if="this.curric_param !== undefined" class="row mt-5 mb-5">
-        <course-search></course-search>
+    <course-search></course-search>
+
+    <div  v-cloak v-if="this.course_param !== undefined" class="row mt-5 mb-5">
         <course-detail></course-detail>
     </div>
 
