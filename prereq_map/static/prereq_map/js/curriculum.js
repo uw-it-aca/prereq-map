@@ -10,9 +10,9 @@ Vue.use(VueRouter)
 
 var router = new VueRouter({
     mode: 'history',
-    routes: [{
-        path: '/curriculum-search/', component: CourseInfoBox
-    }]
+    routes: [
+        { path: '/curriculum-search/', component: CourseInfoBox },
+    ]
 });
 
 new Vue({
@@ -44,11 +44,19 @@ new Vue({
 
     },
     watch: {
+
+        /**
         '$route'(to, from) {
             // react to route changes...
-            //console.log("route changed")
+            console.log("route changed")
             //console.log(this.$route.query.curric)
+
+        },**/
+
+        '$route.query.curric': function () {
+            console.log("curric changed")
             this.curric_param = this.$route.query.curric
         }
+
     },
 });

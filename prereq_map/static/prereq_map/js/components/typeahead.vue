@@ -63,12 +63,13 @@
     }
 </script>
 
-<style>
+<style lang="scss">
 .search-width {
     input {
         height: 3rem;
-        border-radius: 0;
-        border: 0.04688rem solid #333;
+        font-size: 1.25rem;
+        //border-radius: 0;
+        //border: 0.04688rem solid #333;
     }
 }
 
