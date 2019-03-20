@@ -23,13 +23,13 @@
                         <th class="w-25" scope="row">Has these prerequisites<span class="info-popover"><i class="fa fa-info-circle" aria-hidden="true" tabindex="0" data-placement="top" data-toggle="popover" data-trigger="focus" title="" data-content="#"
                                     data-original-title="Declared Majors"></i></span></th>
                         <td class="w-75">
-                            <ol class="list-group list-group-flush text-danger">
-                                <li class="#">ACCTG 225</li>
-                                <li class="#">ECON 200</li>
-                                <li class="#">
-                                    One of MATH 112, MATH 124, MATH 125, MATH 134, MATH 135, or Q SCI 291</li>
-                                <li class="#">One of ECON 311, IND E 315, QMETH 201, Q SCI 291, Q SCI 381, PSYCH 315, PSYCH 318, STAT 220, STAT 221/SOC 221/CS&SS 221, STAT 311, or STAT 390; </li>
-                            </ol>
+                            <ul class="list-inline comma-list text-danger">
+                                <li class="#">ABCD 123</li>
+                                <li class="#">ZYX 123</li>
+                                <li class="#">ABCD 123</li>
+                                <li class="#">ZYX 123</li>
+                                <li class="#">ABCD 123</li>
+                            </ul>
                         </td>
 
                     </tr>
