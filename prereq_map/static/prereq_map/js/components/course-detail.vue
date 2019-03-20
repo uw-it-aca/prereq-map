@@ -1,14 +1,14 @@
 <template>
 <div class="col course-detail" v-if="this.course_param !== undefined ">
 
-    <h2 class="pt-3">{{ course_param }} – {{ course_title }}</h2>
+    <h2 class="pt-3"><span>{{ course_param }}</span> – <span class="text-danger">{{ course_title }}</span></h2>
 
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sit amet consectetur dui. Donec ut enim lorem. Sed sed accumsan sem. Etiam felis mauris, pulvinar in felis id, aliquam scelerisque nisi. Nullam et euismod enim. Ut a elit a
+    <p class="text-danger">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sit amet consectetur dui. Donec ut enim lorem. Sed sed accumsan sem. Etiam felis mauris, pulvinar in felis id, aliquam scelerisque nisi. Nullam et euismod enim. Ut a elit a
         mi
         efficitur mattis. Mauris ac porta. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sit amet consectetur dui. </p>
 
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-5 pb-5">
 
             <div>
                 <course-graph></course-graph>
@@ -23,7 +23,7 @@
                         <th class="w-25" scope="row">Has these prerequisites<span class="info-popover"><i class="fa fa-info-circle" aria-hidden="true" tabindex="0" data-placement="top" data-toggle="popover" data-trigger="focus" title="" data-content="#"
                                     data-original-title="Declared Majors"></i></span></th>
                         <td class="w-75">
-                            <ol class="list-group list-group-flush">
+                            <ol class="list-group list-group-flush text-danger">
                                 <li class="#">ACCTG 225</li>
                                 <li class="#">ECON 200</li>
                                 <li class="#">
@@ -37,20 +37,7 @@
                         <th class="w-25" scope="row">Is a prerequisite for<span class="info-popover"><i class="fa fa-info-circle" aria-hidden="true" tabindex="0" data-placement="top" data-toggle="popover" data-trigger="focus" title="" data-content="#"
                                     data-original-title="Declared Majors"></i></span></th>
                         <td class="w-75">
-                            <ul class="list-inline comma-list">
-                                <li class="#">ABCD 123</li>
-                                <li class="#">ZYX 123</li>
-                                <li class="#">ABCD 123</li>
-                                <li class="#">ZYX 123</li>
-                                <li class="#">ABCD 123</li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr id="course-concurrent">
-                        <th class="w-25" scope="row">Can be taken concurrently with<span class="info-popover"><i class="fa fa-info-circle" aria-hidden="true" tabindex="0" data-placement="top" data-toggle="popover" data-trigger="focus" title=""
-                                    data-content="#" data-original-title="Declared Majors"></i></span></th>
-                        <td class="w-75">
-                            <ul class="list-inline comma-list">
+                            <ul class="list-inline comma-list text-danger">
                                 <li class="#">ABCD 123</li>
                                 <li class="#">ZYX 123</li>
                                 <li class="#">ABCD 123</li>
@@ -65,17 +52,6 @@
         </div>
     </div>
 
-
-    <h2 class="pt-3">See related Prerequisite Maps</h2>
-
-    <p>Click on the curriculum links to see related prerequisite maps. To see other campus curriculum, use the search bar on the Curriculum Search page.</p>
-    <h3 class="pt-3">College of Arts and Sciences</h3>
-    <ul class="list-group-flush" id="related-prereq">
-        <li class="#"><a href="#">Curriculum X</a></li>
-        <li class="#"><a href="#">Curriculum Y</a></li>
-        <li class="#"><a href="#">Curriculum Z</a></li>
-    </ul>
-
 </div>
 </template>
 
@@ -87,7 +63,7 @@ export default {
     },
     data() {
         return {
-            course_title: '',
+            course_title: 'Give me a course title',
             course_param: ''
         }
     },
