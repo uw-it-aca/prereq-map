@@ -1,15 +1,17 @@
 <template>
-<div class="course-search">
-    <form id="signup-form" @submit.prevent="processForm">
-        <div id="main-search" class="search-width">
-            <div class="input-group mb-3">
-                <input class="form-control form-control-lg form-styling" placeholder="e.g. BIOL 300" v-model="course">
-                <div class="input-group-append">
-                    <button class="btn btn-primary button-styling"><i class="py-1 fas fa-search"></i></button>
+<div class="row course-search">
+    <div class="col-md-9 offset-md-1">
+        <form id="signup-form" @submit.prevent="processForm">
+            <div id="main-search" class="search-width">
+                <div class="input-group mb-3">
+                    <input class="form-control form-control-lg form-styling" placeholder="e.g. BIOL 300" v-model="course">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary button-styling"><i class="py-1 fas fa-search"></i></button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 </template>
 

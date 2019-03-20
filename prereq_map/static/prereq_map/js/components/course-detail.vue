@@ -1,5 +1,5 @@
 <template>
-<div class="col mt-5 mb-5 course-detail" v-if="this.course_param !== undefined ">
+<div class="col course-detail" v-if="this.course_param !== undefined ">
 
     <h2 class="pt-3">{{ course_param }} – {{ course_title }}</h2>
 

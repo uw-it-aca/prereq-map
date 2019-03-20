@@ -1,12 +1,14 @@
 <template>
-<div id="main-search" class="search-width">
-    <vue-bootstrap-typeahead
-        class="mb-3"
-        v-model="query"
-        :data="curric_list"
-        @hit="selected_curric = $event"
-        placeholder="Search curricula.."
-    />
+<div class="row curric-search">
+    <div class="col-md-9 offset-md-1">
+        <vue-bootstrap-typeahead
+            class="mb-3"
+            v-model="query"
+            :data="curric_list"
+            @hit="selected_curric = $event"
+            placeholder="Search curricula.."
+        />
+    </div>
 </div>
 </template>
 
@@ -64,7 +66,7 @@
 </script>
 
 <style lang="scss">
-.search-width {
+.curric-search {
     input {
         height: 3rem;
         font-size: 1.25rem;
