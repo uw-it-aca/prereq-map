@@ -1,7 +1,7 @@
 window.show_graph = function(graph_data) {
     var initResult;
     var graph_div = $("<div/>", {id: "graph_div"});
-    $("#graph_container").append(graph_div);
+    $("#graph_container").html(graph_div);
     var el = graph_div;
 
     var graph = $("<div/>", {id: "graph"+el.id});
@@ -68,6 +68,34 @@ function new_graph(graph_div, data){
     // };
 
     var network = new vis.Network(graph_div, data, options);
+
+    // handle clicking on individual nodes
+    /**
+    network.on('click', function(properties) {
+        var ids = properties.nodes;
+        var clickedNodes = nodes.get(ids);
+
+        if (clickedNodes.length > 0) {
+            // console.log('clicked nodes:', clickedNodes[0].id);
+            // trigger the click event for the vue component
+            $(document).trigger('myCustomEvent', [clickedNodes[0].id]);
+        } else {
+            $(document).trigger('myCustomEvent', ['']);
+        }
+
+    });
+    **/
+
+    // actual selectNode event
+    network.on('selectNode', function(properties) {
+        console.log("node selected");
+        var ids = properties.nodes;
+        var clickedNode = nodes.get(ids);
+
+        // show course infobox for a given node (course id)
+        $(document).trigger('showCourseInfo', [clickedNode[0].id]);
+    });
+
 }
 
 

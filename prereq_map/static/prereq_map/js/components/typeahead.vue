@@ -1,26 +1,15 @@
 <template>
-
-    <div id="main-search" class="search-width">
-
+<div class="row curric-search">
+    <div class="col-md-9 offset-md-1">
         <vue-bootstrap-typeahead
-                class="woot"
-                v-model="query"
-                :data="curric_list"
-                @hit="selected_curric = $event"
-                placeholder="Search curricula.."
-        >
-            <template slot="suggestion" slot-scope="{ data, htmlText }">
-                <div class="d-flex align-items-center">
-                    <!-- Note: the v-html binding is used, as htmlText contains
-                         the suggestion text highlighted with <strong> tags -->
-                    <span class="ml-4" v-html="htmlText"></span>
-                </div>
-            </template>
-        </vue-bootstrap-typeahead>
-
-
+            class="mb-3"
+            v-model="query"
+            :data="curric_list"
+            @hit="selected_curric = $event"
+            placeholder="Search curricula.."
+        />
     </div>
-
+</div>
 </template>
 
 <script>
@@ -33,7 +22,16 @@
         components: {
             VueBootstrapTypeahead
         },
-        mounted: function (){
+
+        data() {
+            return {
+                query: '',
+                selected_curric: null,
+                curric_list: [],
+                curric_objs: null
+            }
+        },
+        mounted() {
             var self = this;
             axios.get('/api/curric_typeahead')
                 .then((res) => {
@@ -47,23 +45,18 @@
                 });
         },
 
-        data: function () {
-            return {
-                query: '',
-                selected_curric: null,
-                curric_list: [],
-                curric_objs: null
-            }
-        },
-        methods: {
-        },
-
         watch: {
             selected_curric(curric_query){
                 var curric_code = this.curric_objs[curric_query];
-                location.href = "?curric=" + curric_code;
+                //location.href = "?curric=" + curric_code;
+                this.$router.push('/curriculum-search/?curric=' + curric_code)
 
+            },
+
+            '$route'(to, from) {
+                // react to route changes...
             }
+
         },
 
         filters: {
@@ -72,16 +65,17 @@
     }
 </script>
 
-<style>
-
-    .search-width {
+<style lang="scss">
+.curric-search {
     input {
         height: 3rem;
-        border-radius: 0;
-        border: 0.04688rem solid #333;
+        font-size: 1.25rem;
+        //border-radius: 0;
+        //border: 0.04688rem solid #333;
     }
-    }
+}
 
-    .vbt-autcomplete-list { box-shadow: none !important; }
-
+.vbt-autcomplete-list {
+    box-shadow: none !important;
+}
 </style>

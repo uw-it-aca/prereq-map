@@ -9,11 +9,14 @@
 
 <div id="vue_course" class="container py-1 mt-2" role="main">
 
-  <h1 class="pt-4 pb-2">Course Search</h1>
-  <p class="instruction-text pb-4">See a course’s prerequisites, what it’s a prerequisite for, and other related curriculum.</p>
+    <h1 class="pt-4 pb-2">Course Search</h1>
+    <p class="instruction-text pb-4">See a course’s prerequisites, what it’s a prerequisite for, and other related curriculum.</p>
 
-  <course-search></course-search>
-  <course-detail></course-detail>
+    <course-search></course-search>
+
+    <div v-cloak v-if="this.course_param !== undefined" class="row">
+        <course-detail></course-detail>
+    </div>
 
 </div>
 
