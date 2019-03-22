@@ -2,9 +2,21 @@ sudo: false
 language: python
 python:
   - "3.6"
-install: pip install tox-travis
+install:
+  - sudo apt-get update && sudo apt-get install -y libxmlsec1-dev
+  - python setup.py -q install
 before_script:
-  - pip install coveralls
-script: tox
+  - pip install tox-travis
+  - pip install coverage
+  - pip install python-coveralls
+  - pip install .
+  - cp sampleproj/manage.py manage.py
+  - python manage.py migrate --noinput
+  - npm install
+  - npm list
+  - gem install coveralls-lcov
+script:
+  - npx jest --coverage && coveralls-lcov -v -n ./coverage/lcov.info > js-coverage.json
+  - tox
 after_success:
-  - coveralls
+  - coveralls --merge=js-coverage.json
