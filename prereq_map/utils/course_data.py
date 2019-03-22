@@ -8,26 +8,35 @@ FUTURE_TERMS_SEARCH_DEFAULT = 2
 PRIOR_TERMS_SEARCH_DEFAULT = 3
 
 
-def get_section_details(course_label):
-    section_labels = []
-    curric, course = split_course(course_label)
+def get_section_details(course_id):
+    terms = get_search_terms()
 
-    for section_label in section_labels:
+    for term in terms:
         try:
-            section = get_section_by_label(section_label)
+            section = get_section_for_term(course_id, term)
             return section
         except DataFailureException:
             pass
 
 
-def split_course(course_label):
-    parts = course_label.split()
+def get_section_for_term(course_id, term):
+    label = get_course_label(term, course_id)
+    section = get_section_by_label(label)
+    return section
+
+
+def split_course(course_id):
+    parts = course_id.split()
     curric = " ".join(parts[:-1])
     return curric, parts[-1]
 
 
-def get_course_label(year, quarter, curric, course):
-    return ",".join([str(year), quarter, curric, course])
+def get_course_label(term, course):
+    curric, course = split_course(course)
+    label = ",".join([str(term.year), term.quarter, curric, course])
+    # Assumes there is always an A section
+    label += "/A"
+    return label
 
 
 def get_prior_terms(term):
@@ -57,4 +66,13 @@ def get_future_terms(term):
             if ex.status == 404:
                 pass
 
+    return terms
+
+
+def get_search_terms():
+    terms = []
+    current_term = get_current_term()
+    terms.append(current_term)
+    terms.extend(get_prior_terms(current_term))
+    terms.extend(get_future_terms(current_term))
     return terms

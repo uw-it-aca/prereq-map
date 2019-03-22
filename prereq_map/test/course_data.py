@@ -1,5 +1,7 @@
 from django.test import TestCase, Client
-from prereq_map.utils.course_data import get_section_details, split_course, get_course_label
+from prereq_map.utils.course_data import get_section_details,\
+    split_course, get_course_label
+from uw_sws.term import get_term_by_year_and_quarter
 
 
 class TestCourse(TestCase):
@@ -10,6 +12,10 @@ class TestCourse(TestCase):
         self.assertEqual(split_course(course), ("B BIO", "123"))
 
     def test_course_label(self):
-        self.assertEqual(get_course_label(2019, "winter", "CSE", "142"),
-                         "2019,winter,CSE,142")
+        term = get_term_by_year_and_quarter(2013, 'spring')
+        self.assertEqual(get_course_label(term, "CSE 142"),
+                         "2013,spring,CSE,142/A")
 
+    def test_get_section(self):
+        section = get_section_details("CSE 142")
+        self.assertIsNotNone(section)
