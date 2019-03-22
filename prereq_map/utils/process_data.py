@@ -5,6 +5,7 @@ import pandas as pd
 import os
 import json
 from prereq_map.models.course_title import CourseTitle
+from prereq_map.utils.course_data import get_section_details
 # import igraph as ig
 
 """
@@ -65,6 +66,8 @@ def process_data(curric_filter=None, course_filter=None):
             response['course_title'] = title
         except CourseTitle.DoesNotExist:
             pass
+        section = get_section_details(course_filter)
+        response['course_description'] = section.course_description
 
         prereqs_to = prereqs.loc[
             prereqs['course_to'] == course_filter

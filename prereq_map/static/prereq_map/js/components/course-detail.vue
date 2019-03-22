@@ -3,9 +3,7 @@
 
     <h2 class="pt-3">{{ course_param }} – {{ course_title }}</h2>
 
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sit amet consectetur dui. Donec ut enim lorem. Sed sed accumsan sem. Etiam felis mauris, pulvinar in felis id, aliquam scelerisque nisi. Nullam et euismod enim. Ut a elit a
-        mi
-        efficitur mattis. Mauris ac porta. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sit amet consectetur dui. </p>
+    <p>{{course_description}}</p>
 
     <div class="row">
         <div class="col-md-5">
@@ -81,6 +79,7 @@
 
 <script>
 import Graph from "./course-graph.vue";
+import { dataBus } from "../course";
 export default {
     components: {
         'course-graph': Graph
@@ -88,7 +87,8 @@ export default {
     data() {
         return {
             course_title: '',
-            course_param: ''
+            course_param: '',
+            course_description: ''
         }
     },
     created() {
@@ -96,6 +96,10 @@ export default {
         //let params = new URLSearchParams(uri);
         //this.course_param = params.get("course");
         this.course_param = this.$route.query.course
+        dataBus.$on('course_data', (data) => {
+            this.course_description = data.course_description;
+            this.course_title = data.course_title;
+        });
     },
 
     watch: {
@@ -105,6 +109,7 @@ export default {
             //console.log(this.$route.query.course)
             this.course_param = this.$route.query.course
         }
+
     },
 
 }
