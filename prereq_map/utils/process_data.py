@@ -67,7 +67,10 @@ def process_data(curric_filter=None, course_filter=None):
         except CourseTitle.DoesNotExist:
             pass
         section = get_section_details(course_filter)
-        response['course_description'] = section.course_description
+        try:
+            response['course_description'] = section.course_description
+        except AttributeError:
+            pass
 
         prereqs_to = prereqs.loc[
             prereqs['course_to'] == course_filter

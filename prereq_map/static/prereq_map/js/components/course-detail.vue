@@ -22,11 +22,9 @@
                                     data-original-title="Declared Majors"></i></span></th>
                         <td class="w-75">
                             <ol class="list-group list-group-flush">
-                                <li class="#">ACCTG 225</li>
-                                <li class="#">ECON 200</li>
-                                <li class="#">
-                                    One of MATH 112, MATH 124, MATH 125, MATH 134, MATH 135, or Q SCI 291</li>
-                                <li class="#">One of ECON 311, IND E 315, QMETH 201, Q SCI 291, Q SCI 381, PSYCH 315, PSYCH 318, STAT 220, STAT 221/SOC 221/CS&SS 221, STAT 311, or STAT 390; </li>
+                                <li v-for="prereq in prereqs">
+                                    {{prereq}}
+                                </li>
                             </ol>
                         </td>
 
@@ -36,11 +34,9 @@
                                     data-original-title="Declared Majors"></i></span></th>
                         <td class="w-75">
                             <ul class="list-inline comma-list">
-                                <li class="#">ABCD 123</li>
-                                <li class="#">ZYX 123</li>
-                                <li class="#">ABCD 123</li>
-                                <li class="#">ZYX 123</li>
-                                <li class="#">ABCD 123</li>
+                                <li v-for="postreq in postreqs">
+                                    {{postreq}}
+                                </li>
                             </ul>
                         </td>
                     </tr>
@@ -49,11 +45,9 @@
                                     data-content="#" data-original-title="Declared Majors"></i></span></th>
                         <td class="w-75">
                             <ul class="list-inline comma-list">
-                                <li class="#">ABCD 123</li>
-                                <li class="#">ZYX 123</li>
-                                <li class="#">ABCD 123</li>
-                                <li class="#">ZYX 123</li>
-                                <li class="#">ABCD 123</li>
+                                <li v-for="concurrent in concurrents">
+                                    {{concurrent}}
+                                </li>
                             </ul>
                         </td>
                     </tr>
@@ -88,17 +82,26 @@ export default {
         return {
             course_title: '',
             course_param: '',
-            course_description: ''
+            course_description: '',
+            prereqs: [],
+            postreqs: [],
+            concurrents: []
         }
     },
     created() {
         //let uri = window.location.search.substring(1);
         //let params = new URLSearchParams(uri);
         //this.course_param = params.get("course");
-        this.course_param = this.$route.query.course
+        this.course_param = this.$route.query.course;
         dataBus.$on('course_data', (data) => {
             this.course_description = data.course_description;
             this.course_title = data.course_title;
+            this.prereqs = this.get_prereqs(this.course_param, data.x.edges.from);
+            this.postreqs = this.get_postreqs(this.course_param, data.x.edges.to);
+            this.concurrents = this.get_concurrent_courses(data);
+
+
+
         });
     },
 
@@ -111,6 +114,55 @@ export default {
         }
 
     },
+    methods: {
+        get_prereqs: function (course, from_list) {
+            var keys = Object.keys(from_list);
+            var from = [];
+            keys.forEach(function(key){
+                var value = from_list[key];
+                if(course !== value && !from.includes(value)){
+                    from.push(value)
+                }
+            });
+            return from;
+        },
+        get_postreqs: function (course, to_list){
+            var keys = Object.keys(to_list);
+            var to = [];
+            keys.forEach(function(key){
+                var value = to_list[key];
+                if(course !== value && !to.includes(value)){
+                    to.push(value)
+                }
+            });
+            return to;
+        },
+
+        get_concurrent_courses: function (course_data){
+            var concurrent_ids = this.get_concurrent_ids(course_data.x.edges.pr_concurrency);
+            var concurrent_courses = [];
+            concurrent_ids.forEach(function(id) {
+                if(id in course_data.x.edges.to){
+                    concurrent_courses.push(course_data.x.edges.to[id]);
+                }
+                else if (id in course_data.x.edges.from){
+                    concurrent_courses.push(course_data.x.edges.from[id]);
+                }
+            });
+            return concurrent_courses;
+
+        },
+
+        get_concurrent_ids: function (pr_concurrency){
+            var concurrent_ids = [];
+            Object.keys(pr_concurrency).forEach(function(id) {
+                if(pr_concurrency[id] === "Y"){
+                    concurrent_ids.push(id);
+                }
+            });
+            return concurrent_ids;
+        }
+    }
 
 }
 </script>
