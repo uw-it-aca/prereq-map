@@ -8,9 +8,9 @@ Vue.use(VueRouter)
 
 var router = new VueRouter({
     mode: 'history',
-    routes: [{
-        path: '/course-search/', component: CourseSearch
-    }]
+    routes: [
+        { path: '/course-search/', component: CourseSearch },
+    ]
 });
 
 export const dataBus = new Vue();
@@ -23,33 +23,30 @@ new Vue({
         'course-search': CourseSearch,
         'course-detail': CourseDetail,
     },
-
-    data: function () {
+    data() {
         return {
             course_param: '',
         }
     },
-
-    watch: {
-        '$route' (to, from) {
-          // react to route changes...
-           console.log("route changed")
-           console.log(this.$route.query.course)
-           this.course_param = this.$route.query.course
-        }
-    },
-
-    created: function () {
+    mounted() {
 
         //let uri = window.location.search.substring(1);
         //let params = new URLSearchParams(uri);
         //this.course_param = params.get("course");
 
         //console.log(this.course_param)
-        console.log(this.$route.query.course)
+        //console.log(this.$route.query.course)
         this.course_param = this.$route.query.course
 
     },
+    watch: {
 
+        '$route.query.course': function () {
+          // react to route changes...
+           //console.log("route changed")
+           //console.log(this.$route.query.course)
+           this.course_param = this.$route.query.course
+        }
+    },
 
 });

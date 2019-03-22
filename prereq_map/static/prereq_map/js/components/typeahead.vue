@@ -1,26 +1,15 @@
 <template>
-
-    <div id="main-search" class="search-width">
-
+<div class="row curric-search">
+    <div class="col-md-9 offset-md-1">
         <vue-bootstrap-typeahead
-                class="woot"
-                v-model="query"
-                :data="curric_list"
-                @hit="selected_curric = $event"
-                placeholder="Search curricula.."
-        >
-            <template slot="suggestion" slot-scope="{ data, htmlText }">
-                <div class="d-flex align-items-center">
-                    <!-- Note: the v-html binding is used, as htmlText contains
-                         the suggestion text highlighted with <strong> tags -->
-                    <span class="ml-4" v-html="htmlText"></span>
-                </div>
-            </template>
-        </vue-bootstrap-typeahead>
-
-
+            class="mb-3"
+            v-model="query"
+            :data="curric_list"
+            @hit="selected_curric = $event"
+            placeholder="Search curricula.."
+        />
     </div>
-
+</div>
 </template>
 
 <script>
@@ -34,7 +23,7 @@
             VueBootstrapTypeahead
         },
 
-        data: function () {
+        data() {
             return {
                 query: '',
                 selected_curric: null,
@@ -42,9 +31,7 @@
                 curric_objs: null
             }
         },
-        methods: { },
-
-        mounted: function (){
+        mounted() {
             var self = this;
             axios.get('/api/curric_typeahead')
                 .then((res) => {
@@ -78,16 +65,17 @@
     }
 </script>
 
-<style>
-
-    .search-width {
+<style lang="scss">
+.curric-search {
     input {
         height: 3rem;
-        border-radius: 0;
-        border: 0.04688rem solid #333;
+        font-size: 1.25rem;
+        //border-radius: 0;
+        //border: 0.04688rem solid #333;
     }
-    }
+}
 
-    .vbt-autcomplete-list { box-shadow: none !important; }
-
+.vbt-autcomplete-list {
+    box-shadow: none !important;
+}
 </style>

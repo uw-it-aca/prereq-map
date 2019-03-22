@@ -10,9 +10,9 @@ Vue.use(VueRouter)
 
 var router = new VueRouter({
     mode: 'history',
-    routes: [{
-        path: '/curriculum-search/', component: CourseInfoBox
-    }]
+    routes: [
+        { path: '/curriculum-search/', component: CourseInfoBox },
+    ]
 });
 
 new Vue({
@@ -26,23 +26,13 @@ new Vue({
         'typeahead' : Typeahead,
         'curric-graph': Graph
     },
-
-    data: function () {
+    data() {
         return {
             curric_param: '',
         }
     },
 
-    watch: {
-        '$route'(to, from) {
-            // react to route changes...
-            //console.log("route changed")
-            //console.log(this.$route.query.curric)
-            this.curric_param = this.$route.query.curric
-        }
-    },
-
-    created: function () {
+    mounted() {
 
         //let uri = window.location.search.substring(1);
         //let params = new URLSearchParams(uri);
@@ -53,5 +43,20 @@ new Vue({
         this.curric_param = this.$route.query.curric
 
     },
+    watch: {
 
+        /**
+        '$route'(to, from) {
+            // react to route changes...
+            console.log("route changed")
+            //console.log(this.$route.query.curric)
+
+        },**/
+
+        '$route.query.curric': function () {
+            console.log("curric changed")
+            this.curric_param = this.$route.query.curric
+        }
+
+    },
 });
