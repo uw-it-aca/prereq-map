@@ -23,7 +23,7 @@ before_script:
   - npm install
   - gem install coveralls-lcov
 script:
-  - npm jest --coverage && coveralls-lcov -v -n ./coverage/lcov.info > js-coverage.json
+  - npx jest --coverage && coveralls-lcov -v -n ./coverage/lcov.info > js-coverage.json
   - tox
 after_success:
   - coveralls --merge=js-coverage.json
