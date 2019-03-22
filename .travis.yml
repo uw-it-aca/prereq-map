@@ -3,6 +3,13 @@ sudo: false
 language: python
 python:
   - "3.6"
+addons:
+  chrome: stable
+before_install:
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+cache:
+  directories:
+    - node_modules
 install:
   - sudo apt-get update && sudo apt-get install -y libxmlsec1-dev
   - python setup.py -q install
@@ -16,7 +23,7 @@ before_script:
   - npm install
   - gem install coveralls-lcov
 script:
-  - npx jest --coverage && coveralls-lcov -v -n ./coverage/lcov.info > js-coverage.json
+  - npm jest --coverage && coveralls-lcov -v -n ./coverage/lcov.info > js-coverage.json
   - tox
 after_success:
   - coveralls --merge=js-coverage.json
