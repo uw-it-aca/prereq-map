@@ -14,7 +14,6 @@ before_script:
   - cp sampleproj/manage.py manage.py
   - python manage.py migrate --settings=sampleproj.settings.travis
   - npm install
-  - npm list
   - gem install coveralls-lcov
 script:
   - npx jest --coverage && coveralls-lcov -v -n ./coverage/lcov.info > js-coverage.json
