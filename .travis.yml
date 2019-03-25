@@ -5,11 +5,12 @@ python:
   - "3.6"
 addons:
   chrome: stable
+  hostname: localhost
 cache:
   directories:
     - node_modules
 before_install:
-  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=8123 http://localhost &
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 install:
   - sudo apt-get update && sudo apt-get install -y libxmlsec1-dev
   - python setup.py -q install
