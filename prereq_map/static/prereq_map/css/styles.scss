@@ -300,16 +300,6 @@ ol, ul{
 }
 
 
-#course-prereq-for .comma-list li::after, #course-concurrent .comma-list li::after {
-  content: ", ";
-}
-
-#course-prereq-for .comma-list li:last-child::after , #course-concurrent .comma-list li:last-child::after{
-    content: "";
-}
-
-
-
 /*** boilerplate ***/
 .prereq {
     display: flex;

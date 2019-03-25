@@ -1,5 +1,5 @@
 <template>
-<div class="col course-detail" v-if="this.course_param !== undefined ">
+<div class="col course-detail" v-cloak v-if="this.course_param !== undefined ">
 
     <h2 class="pt-3"><span>{{ course_param }}</span> – <span class="text-danger">{{ course_title }}</span></h2>
 
@@ -21,19 +21,21 @@
                         <th class="w-25" scope="row">Has these prerequisites<span class="info-popover"><i class="fa fa-info-circle" aria-hidden="true" tabindex="0" data-placement="top" data-toggle="popover" data-trigger="focus" title="" data-content="#"
                                     data-original-title="Declared Majors"></i></span></th>
                         <td class="w-75">
-                            <ol class="list-group list-group-flush">
+                            <ul class="">
+                                <li v-if="prereqs.length === 0">none</li>
                                 <li v-for="prereq in prereqs">
                                     {{prereq}}
                                 </li>
-                            </ol>
+                            </ul>
                         </td>
 
                     </tr>
-                    <tr id="course-prereq-for">
+                    <tr>
                         <th class="w-25" scope="row">Is a prerequisite for<span class="info-popover"><i class="fa fa-info-circle" aria-hidden="true" tabindex="0" data-placement="top" data-toggle="popover" data-trigger="focus" title="" data-content="#"
                                     data-original-title="Declared Majors"></i></span></th>
                         <td class="w-75">
-                            <ul class="list-inline comma-list">
+                            <ul class="">
+                                <li v-if="postreqs.length === 0">none</li>
                                 <li v-for="postreq in postreqs">
                                     {{postreq}}
                                 </li>
@@ -41,11 +43,12 @@
                         </td>
 
                     </tr>
-                    <tr id="course-prereq-for">
+                    <tr>
                         <th class="w-25" scope="row">Is a prerequisite for<span class="info-popover"><i class="fa fa-info-circle" aria-hidden="true" tabindex="0" data-placement="top" data-toggle="popover" data-trigger="focus" title="" data-content="#"
                                     data-original-title="Declared Majors"></i></span></th>
                         <td class="w-75">
-                            <ul class="list-inline comma-list">
+                            <ul class="">
+                                <li v-if="concurrents.length === 0">none</li>
                                 <li v-for="concurrent in concurrents">
                                     {{concurrent}}
                                 </li>
@@ -89,10 +92,9 @@ export default {
             this.prereqs = this.get_prereqs(this.course_param, data.x.edges.from);
             this.postreqs = this.get_postreqs(this.course_param, data.x.edges.to);
             this.concurrents = this.get_concurrent_courses(data);
-
-
-
         });
+
+        console.log(this.prereqs)
     },
     watch: {
         '$route'(to, from) {
