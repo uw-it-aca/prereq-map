@@ -21,40 +21,34 @@
                         </ol>
                         <div class="carousel-inner rounded-lg">
                             <div class="carousel-item active" style="background:purple;">
-                                <h2 class="text-white">Discover courses and plan your schedule more effectively</h2>
-                                <div class="text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce finibus mi placerat libero feugiat fermentum. Duis posuere, nibh quis scelerisque iaculis, lorem ante mollis ante, rhoncus hendrerit nulla turpis ut
-                                    est. Morbi vestibulum mi id sem vehicula sodales et in ex. Donec sit amet tincidunt massa. Nullam molestie, ligula a euismod laoreet, risus sem bibendum ante, ultricies condimentum ligula turpis nec lacus. Sed
-                                    convallis lacinia nisi, eu accumsan dui vulputate et. Morbi accumsan neque a tortor lobortis ornare. Nunc facilisis laoreet erat vehicula rutrum. Integer vel dapibus metus. Quisque facilisis turpis id libero
-                                    vulputate dictum. Fusce facilisis arcu congue aliquam molestie. Pellentesque eros justo, efficitur ut tortor vel, hendrerit porta ipsum. Cras posuere scelerisque massa sit amet pulvinar.</div>
+                                <h2 class="text-white mb-5">Discover courses and plan your schedule more effectively</h2>
+
+                                <p class="text-white">It can be tough figuring out which courses to take. How do you find courses similar to ones you’ve really enjoyed? Of the courses you’ve already taken, which ones provide a foundation for more advanced coursework? What sequence of courses is best? The Prereq Map helps you discover interesting courses and enables you to be strategic about planning your course schedule. (What’s a prereq? Prereq is short for prerequisites: the courses that act as a foundation for other courses.)</p>
+
+                                <p class="text-white">The Prereq Map shows current prerequisites. When planning several quarters out, keep in mind that prerequisites may change. Also note that the Prereq Map is based solely on course prerequisites and does not take into account specific requirements for graduation.</p>
+
+
 
                                 <div class="text-center mt-5">
-                                    <div><a href="#" target="_blank">Read further details on IT Connect</a></div>
+                                    <div><a href="#" target="_blank">Further details</a></div>
+                                </div>
+
+                                <div class="text-center mt-2">
+                                    <button v-on:click="accept" class="btn btn-primary">Got it!</button>
                                 </div>
 
                             </div>
                             <div class="carousel-item">
-                                <h2>See the prerequisite map for a curriculum (e.g. Biology, BIOL)</h2>
-                                <div>Sed nulla lacus, pharetra eget urna id, vestibulum dictum urna. Aliquam metus ipsum, aliquet ut ante eget, dapibus facilisis augue. Pellentesque urna nisi, cursus vitae scelerisque a, semper eget enim. Nullam
-                                    gravida consequat felis. Mauris quis lectus tellus. Donec vitae libero ipsum. Aliquam erat volutpat.</div>
+                                <h2 class="mb-5">See the prerequisite map for a curriculum (e.g. Biology, BIOL)</h2>
+                                <p>Begin exploring the Prereq Map by choosing a curricula (subjects comprising a course of study) you’re interested in. Follow the lines to see the prerequisites for courses. View courses that have prereqs and courses that are prereqs for other courses. </p>
                             </div>
                             <div class="carousel-item">
-                                <h2>Get more course info</h2>
-                                <div>Fusce ut semper dui. Vestibulum condimentum, arcu in imperdiet dapibus, sem lorem scelerisque metus, ut vestibulum nisl dolor dignissim neque. Fusce commodo lobortis orci sed blandit. Vestibulum ante ipsum primis
-                                    in faucibus orci luctus et ultrices posuere cubilia Curae; Cras lacinia libero nec enim rutrum, non pellentesque magna congue. In augue turpis, ultricies eget porta a, ornare sit amet quam. Quisque ut porttitor
-                                    ipsum. Duis a dolor in risus porttitor sagittis ut in urna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur sagittis varius lacus ut feugiat. Maecenas
-                                    placerat ex tempus odio imperdiet, pharetra varius tortor fringilla. Duis sit amet semper ligula. Fusce leo velit, posuere at varius sed, ultrices in massa. Aliquam auctor placerat lacinia. Maecenas vestibulum
-                                    cursus turpis, a posuere massa mattis ut. Nunc et semper odio.</div>
+                                <h2 class="mb-5">Get additional info about a course</h2>
+                                <p>Each node on the map represents a specific course. Click the node to view prerequisite information for the course. Click the links inside the node to learn more.</p>
                             </div>
                             <div class="carousel-item">
-                                <h2>Get more course details and find related curricula</h2>
-                                <div>Fusce ut semper dui. Vestibulum condimentum, arcu in imperdiet dapibus, sem lorem scelerisque metus, ut vestibulum nisl dolor dignUt non massa auctor, fermentum ipsum quis, porttitor ex. Nullam dignissim congue
-                                    ornare. Duis purus ipsum, mollis at luctus vel, aliquam id dui. Phasellus mattis ut mi at tincidunt. Aliquam a rhoncus augue, non tempus enim. Fusce vitae egestas ante. Morbi euismod arcu sed odio posuere
-                                    tincidunt.</div>
-
-                                <div class="text-center mt-5">
-                                    <button v-on:click="accept" class="btn btn-primary">Get Started!</button>
-                                </div>
-
+                                <h2 class="mb-5">Get more course detail and find related curricula.</h2>
+                                <p>On the Course Search page, click links to browse related course offerings. You can also explore related curricula and their prerequisite maps.</p>
                             </div>
                         </div>
                         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -111,6 +105,9 @@ export default {
 </script>
 
 <style lang="scss">
+
+@import '../../css/_mixins.scss';
+
 .modal-backdrop {
     opacity: 0.8 !important;
 }
@@ -138,7 +135,17 @@ export default {
 .carousel-item {
     height: 600px;
     overflow: scroll;
-    padding: 50px 100px !important;
+
+    padding: 40px 50px;
+
+    @include breakpoint(tablet) {
+        padding: 40px 70px !important;
+    }
+
+    @include breakpoint(desktop) {
+        padding: 40px 100px !important;
+    }
+
     border: none;
     background: #fff;
 }
