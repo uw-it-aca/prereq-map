@@ -155,11 +155,18 @@ def process_data(curric_filter=None, course_filter=None):
         "autoResize": True,
         "nodes": {
             "shape": "circle",
-            "size": 20,
+            "size": 25,
             "color": {
-                "background": "lime",
-                "border": "black"
+                "background": "#976CE1",
+                "border": "black",
+                "highlight": {
+                    "border": "black",
+                    "background": "#4d307f"
+                },
             },
+            "font": {
+                "color": "white"
+            }
         },
         "edges": {
             "arrows": "to",
@@ -171,8 +178,12 @@ def process_data(curric_filter=None, course_filter=None):
                 "direction": "DU"
             },
         },
+        "physics": {
+            "enabled": False,
+            "stabilization": False
+        },
         "interaction":{
-            "multiselect": True
+            "multiselect": False
         }
     }
 
