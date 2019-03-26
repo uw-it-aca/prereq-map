@@ -148,6 +148,7 @@ def process_data(curric_filter=None, course_filter=None):
     nodes['vis_lit_perf_arts'] = attr_obj.get('vis_lit_perf_arts')
     nodes['writing_crs'] = attr_obj.get('writing_crs')
 
+    '''
     options = {
         # "width": "100%",
         "height": "500px",      # [TODO] Fix.this
@@ -158,7 +159,7 @@ def process_data(curric_filter=None, course_filter=None):
             "size": 25,
             "color": {
                 "background": "#976CE1",
-                "border": "black",
+                "border": "lightgray",
                 "highlight": {
                     "border": "black",
                     "background": "#4d307f"
@@ -170,7 +171,7 @@ def process_data(curric_filter=None, course_filter=None):
         },
         "edges": {
             "arrows": "to",
-            "color": "gray"
+            "color": "black"
         },
         "layout": {
             "hierarchical": {
@@ -187,6 +188,45 @@ def process_data(curric_filter=None, course_filter=None):
             "dragNodes": False
         }
     }
+    '''
+
+    options = {
+        "height": "500px",
+        "autoResize": True,
+        "nodes": {
+            "borderWidth": 1,
+            "borderWidthSelected": 1,
+            "shape": "box",
+            "color": {
+                "border": 'lightgray',
+                "background": 'white',
+                "highlight": {
+                  "border": '#4d307f',
+                  "background": '#976CE1'
+                }
+            }
+        },
+        "edges": {
+            "arrows": "to",
+            "smooth": {
+                "type": 'cubicBezier',
+                "forceDirection": 'horizontal',
+                "roundness": 1
+            },
+            "color": 'lightgray'
+        },
+        "layout": {
+            "hierarchical": {
+                "direction": 'LR',
+                "nodeSpacing": 100
+            }
+        },
+        "interaction": {
+            "dragNodes": False
+        },
+        "physics": False
+    }
+
 
     response.update({'x': {'nodes': nodes,
                            'edges': edges,
