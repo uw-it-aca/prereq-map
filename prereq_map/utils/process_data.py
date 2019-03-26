@@ -175,7 +175,7 @@ def process_data(curric_filter=None, course_filter=None):
         "layout": {
             "hierarchical": {
                 "enabled": True,
-                "direction": "DU"
+                "direction": "LR"
             },
         },
         "physics": {
@@ -183,7 +183,8 @@ def process_data(curric_filter=None, course_filter=None):
             "stabilization": False
         },
         "interaction":{
-            "multiselect": False
+            "multiselect": False,
+            "dragNodes": False
         }
     }
 
