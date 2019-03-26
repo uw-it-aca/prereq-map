@@ -218,7 +218,10 @@ def process_data(curric_filter=None, course_filter=None):
         "layout": {
             "hierarchical": {
                 "direction": 'LR',
-                "nodeSpacing": 100
+                "nodeSpacing": 80,
+                "blockShifting": False,
+                "edgeMinimization": False,
+                "sortMethod": "directed"
             }
         },
         "interaction": {
