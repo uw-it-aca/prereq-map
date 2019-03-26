@@ -9,7 +9,7 @@
         <div class="card" id="infobox" v-if="course_code">
             <div class="card-header bg-white">
                 <h5 class="infobox-title">{{ course_code }}</h5>
-                <span class="card-close clickable close-icon" data-effect="fadeOut"><i class="fas fa-times"></i></span>
+                <span class="card-close clickable close-icon hidden" data-effect="fadeOut" v-on:click="close"><i class="fas fa-times"></i></span>
                 <p class="card-title text-danger">Lorem ipsum dolor set amet dapibus ac facilisis in</p>
             </div>
             <div class="card-header card-body">
@@ -52,21 +52,30 @@ export default {
 
         this.course_code = this.$route.query.course
 
-        // global click handler for node click event
+        // global click handler for show node event
         $(document).on('showCourseInfo', (event, course_code) => {
-            //console.log(course_code)
             this.show(course_code)
+        });
 
+        // global click handler for close node event
+        $(document).on('closeCourseInfo', (event) => {
+            this.close()
         });
 
     },
     methods: {
         show: function (code) {
             this.course_code = code
-
             this.$router.push({ query: Object.assign({}, this.$route.query, { course: this.course_code }) });
 
         },
+
+        close: function() {
+            this.course_code = ''
+            this.$router.replace({ query: Object.assign({}, this.$route.query, { course: undefined }) });
+            //window.network.nodes.unselectAll()
+        },
+
     },
 
     watch: {
