@@ -18,26 +18,25 @@
             <table class="table" id="prereq-table">
                 <tbody>
                     <tr>
-                        <th class="w-25" scope="row">Has these prerequisites<span class="info-popover"><i class="fa fa-info-circle" aria-hidden="true" tabindex="0" data-placement="top" data-toggle="popover" data-trigger="focus" title="" data-content="#"
-                                    data-original-title="Declared Majors"></i></span></th>
+                        <th class="w-25" scope="row">Has these prerequisites <span class="info-popover"><i class="fa fa-info-circle" tabindex="0" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."></i></span></th>
                         <td class="w-75">
                             <ul class="">
                                 <li v-if="prereqs.length === 0">none</li>
                                 <li v-for="prereq in prereqs">
-                                    {{prereq}}
+                                    <a v-bind:href="'/course-search/?course=' + prereq">{{prereq}}</a>
                                 </li>
                             </ul>
                         </td>
 
                     </tr>
                     <tr>
-                        <th class="w-25" scope="row">Is a prerequisite for<span class="info-popover"><i class="fa fa-info-circle" aria-hidden="true" tabindex="0" data-placement="top" data-toggle="popover" data-trigger="focus" title="" data-content="#"
-                                    data-original-title="Declared Majors"></i></span></th>
+
+                        <th class="w-25" scope="row">Is a prerequisite for <span class="info-popover"><i class="fa fa-info-circle" tabindex="0" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."></i></span></th>
                         <td class="w-75">
                             <ul class="">
                                 <li v-if="postreqs.length === 0">none</li>
                                 <li v-for="postreq in postreqs">
-                                    {{postreq}}
+                                    <a v-bind:href="'/course-search/?course=' + postreq">{{postreq}}</a>
                                 </li>
                             </ul>
                         </td>
@@ -93,10 +92,17 @@ export default {
             this.course_title = data.course_title;
             this.prereqs = this.get_prereqs(this.course_param, data.x.edges.from);
             this.postreqs = this.get_postreqs(this.course_param, data.x.edges.to);
-            this.concurrents = this.get_concurrent_courses(data);
+            //this.concurrents = this.get_concurrent_courses(data);
         });
 
-        console.log(this.prereqs)
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        });
+
+        $('.popover-dismiss').popover({
+          trigger: 'focus'
+        })
+
     },
     watch: {
 
@@ -132,6 +138,7 @@ export default {
             return to;
         },
 
+        /*
         get_concurrent_courses: function (course_data){
             var concurrent_ids = this.get_concurrent_ids(course_data.x.edges.pr_concurrency);
             var concurrent_courses = [];
@@ -144,7 +151,6 @@ export default {
                 }
             });
             return concurrent_courses;
-
         },
 
         get_concurrent_ids: function (pr_concurrency){
@@ -156,6 +162,7 @@ export default {
             });
             return concurrent_ids;
         }
+        */
     }
 
 }
