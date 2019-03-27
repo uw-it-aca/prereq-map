@@ -43,6 +43,7 @@
                         </td>
 
                     </tr>
+                    <!--
                     <tr>
                         <th class="w-25" scope="row">Is a co-requisite for<span class="info-popover"><i class="fa fa-info-circle" aria-hidden="true" tabindex="0" data-placement="top" data-toggle="popover" data-trigger="focus" title="" data-content="#"
                                     data-original-title="Declared Majors"></i></span></th>
@@ -55,6 +56,7 @@
                             </ul>
                         </td>
                     </tr>
+                    -->
                 </tbody>
             </table>
 
