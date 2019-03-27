@@ -9,8 +9,8 @@
         <div class="card" id="infobox" v-if="course_code">
             <div class="card-header bg-white">
                 <h5 class="infobox-title">{{ course_code }}</h5>
-                <span class="card-close clickable close-icon" data-effect="fadeOut"><i class="fas fa-times"></i></span>
-                <p class="card-title">{{ course_description }}</p>
+                <span class="card-close clickable close-icon hidden" data-effect="fadeOut" v-on:click="close"><i class="fas fa-times"></i></span>
+                <p class="card-title text-danger">{{ course_description }}</p>
             </div>
             <div class="card-header card-body">
                 <h6 class="card-title">Has these prerequisites<span class="info-popover"><i class="fa fa-info-circle" aria-hidden="true" tabindex="0" data-placement="top" data-toggle="popover" data-trigger="focus" title="" data-content="#"
@@ -59,9 +59,14 @@ export default {
             this.show(this.course_code);
         }
 
-        // global click handler for node click event
+        // global click handler for show node event
         $(document).on('showCourseInfo', (event, course_code) => {
             this.show(course_code);
+        });
+
+        // global click handler for close node event
+        $(document).on('closeCourseInfo', (event) => {
+            this.close();
         });
 
     },
@@ -100,6 +105,13 @@ export default {
             this.load_course(code);
 
         },
+
+        close: function() {
+            this.course_code = ''
+            this.$router.replace({ query: Object.assign({}, this.$route.query, { course: undefined }) });
+            //window.network.nodes.unselectAll()
+        },
+
     },
 
     watch: {
