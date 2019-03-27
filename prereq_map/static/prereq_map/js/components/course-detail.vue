@@ -20,7 +20,7 @@
                     <tr>
                         <th class="w-25" scope="row">Has these prerequisites <span class="info-popover"><i class="fa fa-info-circle" tabindex="0" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."></i></span></th>
                         <td class="w-75">
-                            <ul class="">
+                            <ul class="prereq-list">
                                 <li v-if="prereqs.length === 0">none</li>
                                 <li v-for="prereq in prereqs">
                                     <a v-bind:href="'/course-search/?course=' + prereq">{{prereq}}</a>
@@ -33,7 +33,7 @@
 
                         <th class="w-25" scope="row">Is a prerequisite for <span class="info-popover"><i class="fa fa-info-circle" tabindex="0" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."></i></span></th>
                         <td class="w-75">
-                            <ul class="">
+                            <ul class="prereq-list">
                                 <li v-if="postreqs.length === 0">none</li>
                                 <li v-for="postreq in postreqs">
                                     <a v-bind:href="'/course-search/?course=' + postreq">{{postreq}}</a>
@@ -100,7 +100,7 @@ export default {
         });
 
         $('.popover-dismiss').popover({
-          trigger: 'focus'
+            trigger: 'focus'
         })
 
 
@@ -168,3 +168,13 @@ export default {
 
 }
 </script>
+
+<style lang="scss">
+.prereq-list { list-style: none; padding: 0;
+
+    li { display: inline-block; margin-right: 5px;
+        &:after { content: ", "; }
+        &:last-child:after { content: ""; }
+    }
+}
+</style>
