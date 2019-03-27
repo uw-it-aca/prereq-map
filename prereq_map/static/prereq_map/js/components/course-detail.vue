@@ -94,7 +94,6 @@ export default {
             this.concurrents = this.get_concurrent_courses(data);
         });
 
-        console.log(this.prereqs)
     },
     watch: {
 

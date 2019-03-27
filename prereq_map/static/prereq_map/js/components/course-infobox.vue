@@ -10,27 +10,25 @@
             <div class="card-header bg-white">
                 <h5 class="infobox-title">{{ course_code }}</h5>
                 <span class="card-close clickable close-icon" data-effect="fadeOut"><i class="fas fa-times"></i></span>
-                <p class="card-title text-danger">Lorem ipsum dolor set amet dapibus ac facilisis in</p>
+                <p class="card-title">{{ course_description }}</p>
             </div>
             <div class="card-header card-body">
                 <h6 class="card-title">Has these prerequisites<span class="info-popover"><i class="fa fa-info-circle" aria-hidden="true" tabindex="0" data-placement="top" data-toggle="popover" data-trigger="focus" title="" data-content="#"
                             data-original-title="Declared Majors"></i></span></h6>
-                <ul class="list text-danger">
-                    <li class="#">ABCD 123</li>
-                    <li class="#">ZYX 123</li>
-                    <li class="#">ABCD 123</li>
-                    <li class="#">ZYX 123</li>
-                    <li class="#">ABCD 123</li>
+                <ul class="list">
+                    <li v-if="prereqs.length === 0">none</li>
+                    <li v-for="prereq in prereqs">
+                        {{prereq}}
+                    </li>
                 </ul>
             </div>
             <div class="card-header card-body">
                 <h5 class="card-title">Is a prerequisite for<span class="info-popover"><i class="fa fa-info-circle" aria-hidden="true" tabindex="0" data-placement="top" data-toggle="popover" data-trigger="focus" title="" data-content="#" data-original-title="Declared Majors"></i></span></h5>
-                <ul class="list text-danger">
-                    <li class="#">ABCD 123</li>
-                    <li class="#">ZYX 123</li>
-                    <li class="#">ABCD 123</li>
-                    <li class="#">ZYX 123</li>
-                    <li class="#">ABCD 123</li>
+                <ul class="list">
+                    <li v-if="postreqs.length === 0">none</li>
+                    <li v-for="postreq in postreqs">
+                        {{postreq}}
+                    </li>
                 </ul>
             </div>
             <div class="card-body text-center">
@@ -41,30 +39,65 @@
 </template>
 
 <script>
+import { dataBus } from "../course";
+const axios = require('axios');
 export default {
     data() {
         return {
             course_code: '',
-            last_selected: ''
+            last_selected: '',
+            prereqs: [],
+            postreqs: [],
+            course_data: undefined,
+            course_description: ''
         }
     },
     mounted() {
 
-        this.course_code = this.$route.query.course
+        this.course_code = this.$route.query.course;
+        if(this.course_code !== undefined){
+            this.show(this.course_code);
+        }
 
         // global click handler for node click event
         $(document).on('showCourseInfo', (event, course_code) => {
-            //console.log(course_code)
-            this.show(course_code)
-
+            this.show(course_code);
         });
 
     },
     methods: {
+        load_course: function(course_code) {
+            axios.get('/api/course/' + encodeURI(course_code))
+                .then(response => (
+                    this.course_data = response
+                ))
+        },
+        get_prereqs: function (course, from_list) {
+            var keys = Object.keys(from_list);
+            var from = [];
+            keys.forEach(function(key){
+                var value = from_list[key];
+                if(course !== value && !from.includes(value)){
+                    from.push(value)
+                }
+            });
+            return from;
+        },
+        get_postreqs: function (course, to_list){
+            var keys = Object.keys(to_list);
+            var to = [];
+            keys.forEach(function(key){
+                var value = to_list[key];
+                if(course !== value && !to.includes(value)){
+                    to.push(value)
+                }
+            });
+            return to;
+        },
         show: function (code) {
-            this.course_code = code
-
+            this.course_code = code;
             this.$router.push({ query: Object.assign({}, this.$route.query, { course: this.course_code }) });
+            this.load_course(code);
 
         },
     },
@@ -81,11 +114,16 @@ export default {
 
         '$route.query.course': function () {
 
-            this.course_code = this.$route.query.course
+            this.course_code = this.$route.query.course;
 
-            console.log("course changed")
             //this.curric_param = this.$route.query.curric
             this.show(this.course_code)
+        },
+        course_data: function () {
+            console.log(this.course_data);
+            this.prereqs = this.get_prereqs(this.course_code, this.course_data.data.x.edges.from);
+            this.postreqs = this.get_postreqs(this.course_code, this.course_data.data.x.edges.to);
+            this.course_description = this.course_data.data.course_title;
         }
 
     },
