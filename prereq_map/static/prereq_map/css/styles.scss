@@ -348,6 +348,22 @@ ol, ul{
         font-size: 0.7rem;
     }
 }
+
+/*** comma separated list ***/
+.prereq-list { list-style: none; padding: 0;
+
+    li { display: inline-block; margin-right: 5px;
+        &:after { content: ", "; }
+        &:last-child:after { content: ""; }
+    }
+}
+
+.info-popover i {
+    margin-left: 0.5rem;
+    color: #8f9bcc;
+    cursor: pointer;
+}
+
 /**** vue utils ***/
 [v-cloak] {
     display: none;

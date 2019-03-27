@@ -1,3 +1,13 @@
+// bootstrap related functions
+$(function () {
+    $('[data-toggle="popover"]').popover()
+});
+
+$('.popover-dismiss').popover({
+    trigger: 'focus'
+})
+
+// network graph
 window.show_graph = function(graph_data) {
     var initResult;
     var graph_div = $("<div/>", {id: "graph_div"});

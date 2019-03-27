@@ -6,28 +6,27 @@
             <li><a href="#" v-on:click.prevent="show('CSE 142')">CSE 142</a></li>
             <li><a href="#" v-on:click.prevent="show('CSE 143')">CSE 143</a></li>
         </ul> -->
-        <div class="card" id="infobox" v-if="course_code">
+        <div class="card" v-if="course_code">
             <div class="card-header bg-white">
                 <h5 class="infobox-title">{{ course_code }}</h5>
                 <span class="card-close clickable close-icon hidden" data-effect="fadeOut" v-on:click="close"><i class="fas fa-times"></i></span>
                 <p class="card-title text-danger">{{ course_description }}</p>
             </div>
             <div class="card-header card-body">
-                <h6 class="card-title">Has these prerequisites<span class="info-popover"><i class="fa fa-info-circle" aria-hidden="true" tabindex="0" data-placement="top" data-toggle="popover" data-trigger="focus" title="" data-content="#"
-                            data-original-title="Declared Majors"></i></span></h6>
-                <ul class="list">
+                <h5 class="card-title">Has these prerequisites <span class="info-popover"><i class="fa fa-info-circle" tabindex="0" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."></i></span></h5>
+                <ul class="prereq-list">
                     <li v-if="prereqs.length === 0">none</li>
                     <li v-for="prereq in prereqs">
-                        {{prereq}}
+                        <a v-bind:href="'/course-search/?course=' + prereq">{{prereq}}</a>
                     </li>
                 </ul>
             </div>
             <div class="card-header card-body">
-                <h5 class="card-title">Is a prerequisite for<span class="info-popover"><i class="fa fa-info-circle" aria-hidden="true" tabindex="0" data-placement="top" data-toggle="popover" data-trigger="focus" title="" data-content="#" data-original-title="Declared Majors"></i></span></h5>
-                <ul class="list">
+                <h5 class="card-title">Is a prerequisite for <span class="info-popover"><i class="fa fa-info-circle" tabindex="0" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."></i></span></h5>
+                <ul class="prereq-list">
                     <li v-if="postreqs.length === 0">none</li>
                     <li v-for="postreq in postreqs">
-                        {{postreq}}
+                        <a v-bind:href="'/course-search/?course=' + postreq">{{postreq}}</a>
                     </li>
                 </ul>
             </div>
@@ -220,13 +219,6 @@ export default {
 
 #infobox .comma-list li:last-child::after {
     content: "";
-}
-
-.info-popover i {
-    margin-left: 0.5rem;
-    font-size: 85%;
-    color: #8f9bcc;
-    cursor: pointer;
 }
 
 .card-close {

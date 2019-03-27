@@ -95,15 +95,6 @@ export default {
             //this.concurrents = this.get_concurrent_courses(data);
         });
 
-        $(function () {
-            $('[data-toggle="popover"]').popover()
-        });
-
-        $('.popover-dismiss').popover({
-            trigger: 'focus'
-        })
-
-
     },
     watch: {
 
@@ -168,13 +159,3 @@ export default {
 
 }
 </script>
-
-<style lang="scss">
-.prereq-list { list-style: none; padding: 0;
-
-    li { display: inline-block; margin-right: 5px;
-        &:after { content: ", "; }
-        &:last-child:after { content: ""; }
-    }
-}
-</style>
