@@ -18,7 +18,7 @@
             <table class="table" id="prereq-table">
                 <tbody>
                     <tr>
-                        <th class="w-25" scope="row">Has these prerequisites <span class="info-popover"><i class="fa fa-info-circle" tabindex="0" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."></i></span></th>
+                        <th class="w-25" scope="row">Has these prerequisites</th>
                         <td class="w-75">
                             <ul class="prereq-list">
                                 <li v-if="prereqs.length === 0">none</li>
@@ -31,7 +31,7 @@
                     </tr>
                     <tr>
 
-                        <th class="w-25" scope="row">Is a prerequisite for <span class="info-popover"><i class="fa fa-info-circle" tabindex="0" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."></i></span></th>
+                        <th class="w-25" scope="row">Is a prerequisite for</th>
                         <td class="w-75">
                             <ul class="prereq-list">
                                 <li v-if="postreqs.length === 0">none</li>

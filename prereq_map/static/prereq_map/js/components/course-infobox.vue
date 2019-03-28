@@ -13,7 +13,7 @@
                 <p class="card-title text-danger">{{ course_description }}</p>
             </div>
             <div class="card-header card-body">
-                <h5 class="card-title">Has these prerequisites <span class="info-popover"><i class="fa fa-info-circle" tabindex="0" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."></i></span></h5>
+                <h5 class="card-title">Has these prerequisites</h5>
                 <ul class="prereq-list">
                     <li v-if="prereqs.length === 0">none</li>
                     <li v-for="prereq in prereqs">
@@ -22,7 +22,7 @@
                 </ul>
             </div>
             <div class="card-header card-body">
-                <h5 class="card-title">Is a prerequisite for <span class="info-popover"><i class="fa fa-info-circle" tabindex="0" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."></i></span></h5>
+                <h5 class="card-title">Is a prerequisite for</h5>
                 <ul class="prereq-list">
                     <li v-if="postreqs.length === 0">none</li>
                     <li v-for="postreq in postreqs">
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { dataBus } from "../course";
+//import { dataBus } from "../course";
 const axios = require('axios');
 export default {
     data() {
@@ -101,12 +101,14 @@ export default {
         show: function (code) {
             this.course_code = code;
             this.$router.push({ query: Object.assign({}, this.$route.query, { course: this.course_code }) });
-            this.load_course(code);
 
+            if (this.course_code !== undefined) {
+                this.load_course(code);
+            }
         },
 
         close: function() {
-            this.course_code = ''
+            //this.course_code = ''
             this.$router.replace({ query: Object.assign({}, this.$route.query, { course: undefined }) });
             //window.network.nodes.unselectAll()
         },
@@ -131,7 +133,7 @@ export default {
             this.show(this.course_code)
         },
         course_data: function () {
-            console.log(this.course_data);
+            //console.log(this.course_data);
             this.prereqs = this.get_prereqs(this.course_code, this.course_data.data.x.edges.from);
             this.postreqs = this.get_postreqs(this.course_code, this.course_data.data.x.edges.to);
             this.course_description = this.course_data.data.course_title;
