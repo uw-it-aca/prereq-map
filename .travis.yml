@@ -25,7 +25,7 @@ before_script:
   - gem install coveralls-lcov
 script:
   - npx webpack
-  - npx jest --coverage && coveralls-lcov -v -n ./coverage/lcov.info > js-coverage.json
+  - npx test
   - tox
 after_success:
   - coveralls --merge=js-coverage.json
