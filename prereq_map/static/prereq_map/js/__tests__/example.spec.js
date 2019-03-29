@@ -14,7 +14,8 @@ describe('Example Component', () => {
 
     beforeAll(async () => {
         browser = await puppeteer.launch({
-          args: ['--no-sandbox']
+            headless: true,
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
     });
 
