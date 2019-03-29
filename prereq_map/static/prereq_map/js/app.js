@@ -81,7 +81,7 @@ function new_graph(graph_div, data){
 
     // actual selectNode event
     network.on('selectNode', function(properties) {
-        console.log("node selected");
+        //console.log("node selected");
         var ids = properties.nodes;
         var clickedNode = nodes.get(ids);
         // show course infobox for a given node (course id)
