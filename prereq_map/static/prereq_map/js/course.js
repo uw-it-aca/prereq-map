@@ -13,6 +13,8 @@ var router = new VueRouter({
     ]
 });
 
+export const dataBus = new Vue();
+
 new Vue({
     delimiters: ['[[', ']]'],
     el: '#vue_course',

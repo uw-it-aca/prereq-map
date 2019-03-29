@@ -7,8 +7,6 @@
 
 {% block content %}
 
-
-
 <div id="vue_curriculum" class="container py-1 mt-2" role="main">
 
     <h1 class="pt-4 pb-2">Curriculum Search</h1>
@@ -17,7 +15,10 @@
     <onboarding></onboarding>
     <typeahead></typeahead>
 
-    <div  v-cloak v-if="this.curric_param !== undefined" class="row mt-5 mb-5">
+    <div v-cloak v-if="this.curric_emtpy" class="row mt-5 mb-5">
+        This curriculum does not have any course data.
+    </div>
+    <div v-else class="row mt-5 mb-5">
         <div class="col-md-9 mb-3">
             <curric-graph></curric-graph>
         </div>
@@ -27,8 +28,6 @@
     </div>
 
 </div>
-
-
 
 <!-- load bundled vue files using webpack loader -->
 {% render_bundle 'vue_curriculum' %}

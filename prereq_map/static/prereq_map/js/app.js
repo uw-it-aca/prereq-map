@@ -1,3 +1,13 @@
+// bootstrap related functions
+$(function () {
+    $('[data-toggle="popover"]').popover()
+});
+
+$('.popover-dismiss').popover({
+    trigger: 'focus'
+})
+
+// network graph
 window.show_graph = function(graph_data) {
     var initResult;
     var graph_div = $("<div/>", {id: "graph_div"});
@@ -6,7 +16,6 @@ window.show_graph = function(graph_data) {
 
     var graph = $("<div/>", {id: "graph"+el.id});
     $("#graph_container").append(graph);
-    // build_graph(graph_div, data.x, initResult)
     new_graph(graph_div.get(0), graph_data.x)
 };
 
@@ -36,36 +45,51 @@ function new_graph(graph_div, data){
     var nodes = new vis.DataSet(node_list);
     var edges = new vis.DataSet(edge_list);
 
+    var options = data.options;       // [TODO] not resuse `data`?
 
     var data = {nodes: nodes, edges:edges};
-    var options = {height: '500px', width:'100%'};
+
+    // this is (apparently?) overwriting the settings in process_data.py
+    // I'm going to guess that I have a better understanding/chance of
+    // doing more dynamic changes in there rather than here
+    // ...exccccccccept that those options in that file don't seem
+    // to be percolating through (?)
+
+    // var options = {
+    //     nodes: {
+    //       shape: 'circle',
+    //       color: {
+    //         background: 'lime',
+    //         border: 'black'
+    //       },
+    //     },
+    //     edges: {
+    //       arrows: 'to',
+    //       color: 'black'
+    //     },
+    //     layout: {
+    //       hierarchical: {
+    //         enabled: true,
+    //         direction: 'DU'
+    //       },
+    //     },
+    //     height: '500px',
+    //     width:'100%'
+    // };
+
     var network = new vis.Network(graph_div, data, options);
-
-    // handle clicking on individual nodes
-    /**
-    network.on('click', function(properties) {
-        var ids = properties.nodes;
-        var clickedNodes = nodes.get(ids);
-
-        if (clickedNodes.length > 0) {
-            // console.log('clicked nodes:', clickedNodes[0].id);
-            // trigger the click event for the vue component
-            $(document).trigger('myCustomEvent', [clickedNodes[0].id]);
-        } else {
-            $(document).trigger('myCustomEvent', ['']);
-        }
-
-    });
-    **/
 
     // actual selectNode event
     network.on('selectNode', function(properties) {
-        console.log("node selected");
+        //console.log("node selected");
         var ids = properties.nodes;
         var clickedNode = nodes.get(ids);
-
         // show course infobox for a given node (course id)
         $(document).trigger('showCourseInfo', [clickedNode[0].id]);
+    });
+
+    network.on('deselectNode', function(properties) {
+        $(document).trigger('closeCourseInfo');
     });
 
 }
@@ -165,8 +189,6 @@ function build_graph(el, x, instance) {
     }
 
 
-
-
     // manipulation
 
     // var style = document.createElement('style');
@@ -188,7 +210,6 @@ function build_graph(el, x, instance) {
     //   <input type="button" value="cancel" id="cancelButton"></button>';
 
     // el_id.appendChild(div);
-
 
     var options = x.options;
 

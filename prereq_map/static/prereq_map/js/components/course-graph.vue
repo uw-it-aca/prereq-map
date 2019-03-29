@@ -6,6 +6,8 @@
 
 <script>
 const axios = require('axios');
+import { dataBus } from "../course";
+
 export default {
 
     data() {
@@ -23,7 +25,7 @@ export default {
         //this.course_param = params.get("course");
 
         //console.log("first load")
-        this.course_param = this.$route.query.course
+        this.course_param = this.$route.query.course;
         //console.log(this.course_param);
 
         if (this.course_param !== undefined) {
@@ -34,7 +36,8 @@ export default {
 
     watch: {
         course_data: function() {
-            show_graph(this.course_data.data)
+            show_graph(this.course_data.data);
+            dataBus.$emit("course_data", this.course_data.data)
         },
 
         '$route.query.course': function () {
@@ -42,7 +45,7 @@ export default {
             //console.log("route changed")
             //console.log(this.course_data)
 
-            this.course_param = this.$route.query.course
+            this.course_param = this.$route.query.course;
 
             if (this.course_param !== undefined) {
                 axios.get('/api/course/' + encodeURI(this.course_param))
