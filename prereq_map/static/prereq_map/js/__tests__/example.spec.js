@@ -14,7 +14,7 @@ describe('Example Component', () => {
 
     beforeAll(async () => {
         browser = await puppeteer.launch({
-          args: ['--disable-dev-shm-usage']
+          args: ['--no-sandbox']
         });
     });
 
