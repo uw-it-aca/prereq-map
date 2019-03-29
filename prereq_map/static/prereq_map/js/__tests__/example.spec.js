@@ -13,7 +13,9 @@ describe('Example Component', () => {
     let browser;
 
     beforeAll(async () => {
-        browser = await puppeteer.launch();
+        browser = await puppeteer.launch({
+          args: ['--disable-dev-shm-usage']
+        });
     });
 
     test('is a Vue instance', () => {
