@@ -35,8 +35,7 @@ class CurriculumSearch(TemplateView):
             # create/set accepted cookie value to false
             response.set_cookie("prereq-onboarding-accepted", "false")
             # create/set  term end date cookie and expire it in 1 week
-            response.set_cookie("prereq-onboarding-expires", term_end_date,
-                                max_age=604800)
+            response.set_cookie("prereq-onboarding-expires", term_end_date)
         return response
 
 

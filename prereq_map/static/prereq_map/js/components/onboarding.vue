@@ -95,6 +95,8 @@ export default {
             var expires = $cookies.get('prereq-onboarding-expires')
             // set the accept cookie value to true and set the expiration
             $cookies.set('prereq-onboarding-accepted', 'true', expires)
+            $cookies.remove("prereq-onboarding-expires");
+
             // hide the modal (until end of the current term)
             $('#onboardingModal').modal('hide')
         }
