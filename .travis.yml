@@ -9,13 +9,11 @@ cache:
   directories:
     - node_modules
 before_install:
-  #- google-chrome-stable --headless --disable-gpu --remote-debugging-port=8123 http://localhost &
     # Enable user namespace cloning
   - "sysctl kernel.unprivileged_userns_clone=1"
   # Tell Puppeteer to skip installing Chrome. We'll be using the installed package.
   - "export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true"
-  # Point Phantomas to Chrome stable binary provided by Travis
-  - "export PHANTOMAS_CHROMIUM_EXECUTABLE=`which google-chrome-stable`"
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=8123 http://localhost &
 install:
   - sudo apt-get update && sudo apt-get install -y libxmlsec1-dev
   - python setup.py -q install
