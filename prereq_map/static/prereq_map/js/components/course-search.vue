@@ -32,7 +32,7 @@ export default {
         //let params = new URLSearchParams(uri);
         //this.course_param = params.get("course");
 
-        this.course = this.$route.query.course
+        this.course = this.$route.query.course.toUpperCase()
     },
 
     methods: {
@@ -41,7 +41,7 @@ export default {
             // send course
             //location.href = "/course-search/?course=" + this.course;
             // /history.pushState( {} , '', '/course-search/?course=' + this.course );
-            this.$router.push('/course-search/?course=' + this.course)
+            this.$router.push('/course-search/?course=' + this.course.toUpperCase())
 
         }
     }
@@ -56,6 +56,7 @@ export default {
         font-size: 1.25rem;
         //border-radius: 0;
         //border: 0.04688rem solid #333;
+        text-transform: uppercase;
     }
 }
 </style>

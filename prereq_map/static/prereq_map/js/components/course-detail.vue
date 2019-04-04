@@ -1,9 +1,7 @@
 <template>
 <div class="col course-detail" v-cloak v-if="this.course_param !== undefined ">
 
-    <h2 class="pt-3"><span>{{ course_param }}</span> – <span class="text-danger">{{ course_title }}</span></h2>
 
-    <p>{{course_description}}</p>
 
     <div class="row">
         <div class="col-md-5 pb-5">
@@ -14,6 +12,10 @@
 
         </div>
         <div class="col-md-7">
+
+            <h2 class="pt-3"><span>{{ course_param }}</span> – <span class="text-danger">{{ course_title }}</span></h2>
+
+            <p>{{course_description}}</p>
 
             <table class="table" id="prereq-table">
                 <tbody>
@@ -86,7 +88,8 @@ export default {
         //let uri = window.location.search.substring(1);
         //let params = new URLSearchParams(uri);
         //this.course_param = params.get("course");
-        this.course_param = this.$route.query.course;
+        this.course_param = this.$route.query.course.toUpperCase()
+
         dataBus.$on('course_data', (data) => {
             this.course_description = data.course_description;
             this.course_title = data.course_title;
@@ -102,7 +105,7 @@ export default {
             // react to route changes...
             //console.log("route changed")
             //console.log(this.$route.query.course)
-            this.course_param = this.$route.query.course
+            this.course_param = this.$route.query.course.toUpperCase()
         }
 
     },
