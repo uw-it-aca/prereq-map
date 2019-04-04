@@ -60,13 +60,13 @@
             <div class="collapse navbar-collapse order-3 order-md-2" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="http://www.washington.edu/">UW.edu</a>
+                        <a class="nav-link" href="http://www.washington.edu/" target="_blank">UW.edu</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="https://my.uw.edu">MyUW</a>
+                        <a class="nav-link" href="https://my.uw.edu" target="_blank">MyUW</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="https://myplan.uw.edu/">MyPlan</a>
+                        <a class="nav-link" href="https://myplan.uw.edu/" target="_blank">MyPlan</a>
                     </li>
                 </ul>
             </div>
@@ -76,8 +76,8 @@
                 <img alt="PreReq Map" src="{% static '/prereq_map/img/gr-PreReqMap-logo.png' %}">
             </div>
             <div class="nav nav-pills nav-justified tabs-med">
-                <a class="nav-link {% if request.path == "/curriculum-search/" %}active{% endif %}" href="/curriculum-search/">Curriculum Search</a>
                 <a class="nav-link {% if request.path == "/course-search/" %}active{% endif %}" href="/course-search/">Course Search</a>
+                <a class="nav-link {% if request.path == "/curriculum-search/" %}active{% endif %}" href="/curriculum-search/">Curriculum Search</a>
             </div>
         </nav>
     </header>

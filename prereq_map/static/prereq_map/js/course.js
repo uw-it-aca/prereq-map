@@ -3,6 +3,7 @@ import VueRouter from 'vue-router/dist/vue-router.js'
 
 import CourseSearch from "./components/course-search.vue";
 import CourseDetail from "./components/course-detail.vue";
+import Onboarding from "./components/onboarding.vue";
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,7 @@ new Vue({
     components: {
         'course-search': CourseSearch,
         'course-detail': CourseDetail,
+        'onboarding' : Onboarding,
     },
     data() {
         return {
