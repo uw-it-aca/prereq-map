@@ -1,10 +1,11 @@
 dist: xenial
-sudo: false
+sudo: required
 language: python
 python:
   - "3.6"
 addons:
   chrome: stable
+  hostname: localhost
 cache:
   directories:
     - node_modules
