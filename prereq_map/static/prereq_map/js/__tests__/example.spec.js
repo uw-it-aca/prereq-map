@@ -13,10 +13,7 @@ describe('Example Component', () => {
     let browser;
 
     beforeAll(async () => {
-        browser = await puppeteer.launch({
-            headless: true,
-            args: ['--no-sandbox', '--disable-setuid-sandbox']
-        });
+        browser = await puppeteer.launch();
     });
 
     test('is a Vue instance', () => {
