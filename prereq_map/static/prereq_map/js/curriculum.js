@@ -49,7 +49,6 @@ new Vue({
                     } else {
                         this.curric_emtpy = true
                     }
-
                 })
                 .catch(error => {
                     console.log(error)

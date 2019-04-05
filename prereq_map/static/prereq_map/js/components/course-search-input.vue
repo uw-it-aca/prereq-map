@@ -4,7 +4,7 @@
         <form id="signup-form" @submit.prevent="processForm">
             <div id="main-search" class="search-width">
                 <div class="input-group mb-3">
-                    <input class="form-control form-control-lg form-styling" placeholder="e.g. BIOL 300" v-model="course">
+                    <input class="form-control form-control-lg form-styling" placeholder="e.g. BIOL 300" v-model="course_code">
                     <div class="input-group-append">
                         <button class="btn btn-primary button-styling"><i class="py-1 fas fa-search"></i></button>
                     </div>
@@ -21,27 +21,27 @@
 export default {
     data() {
         return {
-            course: '',
+            course_code: undefined,
         }
     },
 
     mounted() {
-
-        //let $this = this;
-        //let uri = window.location.search.substring(1);
-        //let params = new URLSearchParams(uri);
-        //this.course_param = params.get("course");
-
-        this.course = this.$route.query.course.toUpperCase()
+        this.course_code = this.$route.query.course
     },
+    watch: {
 
+    },
     methods: {
-        processForm: function() {
+        processForm: function(e) {
 
-            // send course
-            //location.href = "/course-search/?course=" + this.course;
-            // /history.pushState( {} , '', '/course-search/?course=' + this.course );
-            this.$router.push('/course-search/?course=' + this.course.toUpperCase())
+            e.preventDefault();
+
+            // don't allow empty searches
+            if (this.course_code === '' || this.course_code === undefined) {
+                this.$router.push('/course-search/')
+            } else {
+                this.$router.push('/course-search/?course=' + this.course_code.toUpperCase())
+            }
 
         }
     }
@@ -54,8 +54,6 @@ export default {
     input {
         height: 3rem;
         font-size: 1.25rem;
-        //border-radius: 0;
-        //border: 0.04688rem solid #333;
         text-transform: uppercase;
     }
 }

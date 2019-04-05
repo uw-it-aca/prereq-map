@@ -1,20 +1,15 @@
 <template>
-<div class="col course-detail" v-cloak v-if="this.course_param !== undefined ">
-
-
+<div class="col course-detail" v-cloak>
 
     <div class="row">
         <div class="col-md-5 pb-5">
-
             <div>
                 <course-graph></course-graph>
             </div>
-
         </div>
         <div class="col-md-7">
 
-            <h2 class="pt-3"><span>{{ course_param }}</span> – <span class="text-danger">{{ course_title }}</span></h2>
-
+            <h2 class="pt-3"><span>{{ courseParam }}</span> – <span class="text-danger">{{ course_title }}</span></h2>
             <p>{{course_description}}</p>
 
             <table class="table" id="prereq-table">
@@ -44,20 +39,6 @@
                         </td>
 
                     </tr>
-                    <!--
-                    <tr>
-                        <th class="w-25" scope="row">Is a co-requisite for<span class="info-popover"><i class="fa fa-info-circle" aria-hidden="true" tabindex="0" data-placement="top" data-toggle="popover" data-trigger="focus" title="" data-content="#"
-                                    data-original-title="Declared Majors"></i></span></th>
-                        <td class="w-75">
-                            <ul class="">
-                                <li v-if="concurrents.length === 0">none</li>
-                                <li v-for="concurrent in concurrents">
-                                    {{concurrent}}
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                    -->
                 </tbody>
             </table>
 
@@ -74,39 +55,39 @@ export default {
     components: {
         'course-graph': Graph
     },
+    props: {
+        courseParam: String,
+        courseData: Object
+    },
     data() {
         return {
             course_title: '',
-            course_param: '',
             course_description: '',
             prereqs: [],
             postreqs: [],
-            concurrents: []
+
         }
     },
     mounted() {
-        //let uri = window.location.search.substring(1);
-        //let params = new URLSearchParams(uri);
-        //this.course_param = params.get("course");
-        this.course_param = this.$route.query.course.toUpperCase()
+
+        console.log(this.courseParam)
+        console.log(this.courseData)
 
         dataBus.$on('course_data', (data) => {
-            this.course_description = data.course_description;
             this.course_title = data.course_title;
-            this.prereqs = this.get_prereqs(this.course_param, data.x.edges.from);
-            this.postreqs = this.get_postreqs(this.course_param, data.x.edges.to);
-            //this.concurrents = this.get_concurrent_courses(data);
+            this.course_description = data.course_description;
+            this.prereqs = this.get_prereqs(this.courseParam, data.x.edges.from);
+            this.postreqs = this.get_postreqs(this.courseParam, data.x.edges.to);
         });
 
+        /*
+        this.course_title = this.courseData.course_title;
+        this.course_description = this.courseData.course_description;
+        this.prereqs = this.get_prereqs(this.courseParam, this.courseData.x.edges.from);
+        this.postreqs = this.get_postreqs(this.courseParam, this.courseData.x.edges.to);
+        */
     },
     watch: {
-
-        '$route.query.course': function () {
-            // react to route changes...
-            //console.log("route changed")
-            //console.log(this.$route.query.course)
-            this.course_param = this.$route.query.course.toUpperCase()
-        }
 
     },
     methods: {
@@ -133,31 +114,6 @@ export default {
             return to;
         },
 
-        /*
-        get_concurrent_courses: function (course_data){
-            var concurrent_ids = this.get_concurrent_ids(course_data.x.edges.pr_concurrency);
-            var concurrent_courses = [];
-            concurrent_ids.forEach(function(id) {
-                if(id in course_data.x.edges.to){
-                    concurrent_courses.push(course_data.x.edges.to[id]);
-                }
-                else if (id in course_data.x.edges.from){
-                    concurrent_courses.push(course_data.x.edges.from[id]);
-                }
-            });
-            return concurrent_courses;
-        },
-
-        get_concurrent_ids: function (pr_concurrency){
-            var concurrent_ids = [];
-            Object.keys(pr_concurrency).forEach(function(id) {
-                if(pr_concurrency[id] === "Y"){
-                    concurrent_ids.push(id);
-                }
-            });
-            return concurrent_ids;
-        }
-        */
     }
 
 }
