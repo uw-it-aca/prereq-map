@@ -80,12 +80,6 @@ export default {
             this.postreqs = this.get_postreqs(this.courseParam, data.x.edges.to);
         });
 
-        /*
-        this.course_title = this.courseData.course_title;
-        this.course_description = this.courseData.course_description;
-        this.prereqs = this.get_prereqs(this.courseParam, this.courseData.x.edges.from);
-        this.postreqs = this.get_postreqs(this.courseParam, this.courseData.x.edges.to);
-        */
     },
     watch: {
 
