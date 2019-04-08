@@ -4,7 +4,10 @@
     <div class="row">
         <div class="col-md-5 pb-5">
             <div>
-                <course-graph></course-graph>
+                <course-graph
+                    v-bind:course-param="this.courseParam"
+                    v-bind:course-data="this.courseData"
+                ></course-graph>
             </div>
         </div>
         <div class="col-md-7">
@@ -65,14 +68,11 @@ export default {
             course_description: '',
             prereqs: [],
             postreqs: [],
-
         }
     },
     mounted() {
 
-        console.log(this.courseParam)
-        console.log(this.courseData)
-
+        // get the course title, desc, and prereqs from the databus
         dataBus.$on('course_data', (data) => {
             this.course_title = data.course_title;
             this.course_description = data.course_description;
