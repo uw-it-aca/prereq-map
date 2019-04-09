@@ -6,7 +6,7 @@
             v-model="query"
             :data="curric_list"
             @hit="selected_curric = $event"
-            placeholder="Search curricula.."
+            placeholder="Search curriculum..."
         />
     </div>
 </div>

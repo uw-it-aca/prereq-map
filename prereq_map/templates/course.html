@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load render_bundle from webpack_loader %}
+
+{% block title %}Course Search{% endblock %}
+
+{% block content %}
+
+<div id="vue_course" class="container py-1 mt-2" role="main">
+
+    <h1 class="pt-4 pb-2">Course Search</h1>
+    <p class="instruction-text pb-4">See a course’s prerequisites, what it’s a prerequisite for, and other related curriculum.</p>
+
+    <onboarding></onboarding>
+    <course-search-input></course-search-input>
+
+    <div v-cloak v-if="this.course_param !== undefined">
+
+        <div v-if="this.course_valid" class="row mt-5 mb-5">
+            <course-detail
+                v-bind:course-param="this.course_param"
+                v-bind:course-data="this.course_data"
+            ></course-detail>
+        </div>
+
+        <div v-cloak v-if="this.course_valid === false" class="row mt-5 mb-5">
+            The course you provided is not valid or has no data.
+        </div>
+
+    </div>
+
+</div>
+
+<!-- load bundled vue files using webpack loader -->
+{% render_bundle 'vue_course' %}
+
+{% endblock %}
