@@ -13,9 +13,9 @@
         </div>
         <div class="col-md-7">
 
-            <h2 class="pt-3"><span>{{ course_param }}</span> – <span class="text-danger">{{ course_title }}</span></h2>
+            <h2 class="pt-3"><span>{{ course_param }}</span> <span v-if="course_title">- {{ course_title }}</span></h2>
 
-            <p>{{course_description}}</p>
+            <p v-if="course_description">{{course_description}}</p>
 
             <table class="table" id="prereq-table">
                 <tbody>
