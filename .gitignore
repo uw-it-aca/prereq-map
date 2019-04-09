@@ -107,10 +107,6 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-# generated data files
-*.pkl
-*.csv
-
 # private connection settings
 constring.txt
 

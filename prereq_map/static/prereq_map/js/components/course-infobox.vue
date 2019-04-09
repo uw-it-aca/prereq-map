@@ -126,7 +126,7 @@ export default {
         course_data: function () {
             this.prereqs = this.get_prereqs(this.course_code, this.course_data.data.x.edges.from);
             this.postreqs = this.get_postreqs(this.course_code, this.course_data.data.x.edges.to);
-            this.course_description = this.course_data.data.course_title;
+            this.course_description = this.course_data.data.course_description;
         }
 
     },
