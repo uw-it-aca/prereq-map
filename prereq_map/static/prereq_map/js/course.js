@@ -1,7 +1,8 @@
 import Vue from 'vue/dist/vue.js'
 import VueRouter from 'vue-router/dist/vue-router.js'
+import axios from 'axios';
 
-import CourseSearch from "./components/course-search.vue";
+import CourseSearchInput from "./components/course-search-input.vue";
 import CourseDetail from "./components/course-detail.vue";
 import Onboarding from "./components/onboarding.vue";
 
@@ -10,7 +11,7 @@ Vue.use(VueRouter)
 var router = new VueRouter({
     mode: 'history',
     routes: [
-        { path: '/course-search/', component: CourseSearch },
+        { path: '/course-search/', component: CourseSearchInput },
     ]
 });
 
@@ -21,33 +22,60 @@ new Vue({
     el: '#vue_course',
     router,
     components: {
-        'course-search': CourseSearch,
+        'course-search-input': CourseSearchInput,
         'course-detail': CourseDetail,
         'onboarding' : Onboarding,
     },
     data() {
         return {
             course_param: '',
+            course_data: [],
+            course_number: '',
+            course_valid: undefined
+        }
+    },
+    methods: {
+
+        getCourse: function() {
+            return axios
+                .get('/api/course/' + encodeURI(this.course_param))
+                .then(response => {
+                    this.course_data = response.data
+                    this.course_number = this.course_data.x.nodes.course_number
+
+                    // check to see if course_list is empty
+                    if (Object.keys(this.course_number).length !== 0) {
+                        this.course_valid = true
+                    } else {
+                        this.course_valid = false
+                    }
+
+                })
+                .catch(error => {
+                    this.course_valid = false
+                    console.log("error " + error)
+                })
         }
     },
     mounted() {
 
-        //let uri = window.location.search.substring(1);
-        //let params = new URLSearchParams(uri);
-        //this.course_param = params.get("course");
-
-        //console.log(this.course_param)
-        //console.log(this.$route.query.course)
         this.course_param = this.$route.query.course
+
+        if (this.course_param !== undefined) {
+            this.getCourse()
+        }
 
     },
     watch: {
 
         '$route.query.course': function () {
-          // react to route changes...
-           //console.log("route changed")
-           //console.log(this.$route.query.course)
+
            this.course_param = this.$route.query.course
+
+           if (this.course_param !== undefined) {
+               this.getCourse()
+           }
+
         }
     },
 

@@ -12,7 +12,7 @@ class PageView(TemplateView):
 
 
 class CurriculumSearch(TemplateView):
-    template_name = "curriculum-search.html"
+    template_name = "curriculum.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -20,7 +20,7 @@ class CurriculumSearch(TemplateView):
 
 
 class CourseSearch(TemplateView):
-    template_name = "course-search.html"
+    template_name = "course.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -91,7 +91,6 @@ function new_graph(graph_div, data){
     network.on('deselectNode', function(properties) {
         $(document).trigger('closeCourseInfo');
     });
-
 }
 
 
