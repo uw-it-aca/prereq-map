@@ -27,7 +27,7 @@
 
                                 <p class="text-white">The Prereq Map shows current prerequisites. When planning several quarters out, keep in mind that prerequisites may change. Also note that the Prereq Map is based solely on course prerequisites and does not take into account specific requirements for graduation.</p>
 
-                                <div class="text-center mt-5">
+                                <div class="text-center mt-3">
                                     <div><a href="#" target="_blank">Further details</a></div>
                                 </div>
 
