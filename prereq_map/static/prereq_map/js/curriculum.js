@@ -2,6 +2,7 @@ import Vue from 'vue/dist/vue.js';
 import VueRouter from 'vue-router/dist/vue-router.js'
 import axios from 'axios';
 
+import Onboarding from "./components/onboarding.vue";
 import CourseInfoBox from "./components/course-infobox.vue";
 import Typeahead from "./components/typeahead.vue";
 import Graph from "./components/curric-graph.vue";
@@ -20,9 +21,9 @@ new Vue({
     el: '#vue_curriculum',
     router,
     components: {
+        'onboarding' : Onboarding,
         'course-infobox': CourseInfoBox,
         'typeahead': Typeahead,
-        'typeahead' : Typeahead,
         'curric-graph': Graph
     },
     data() {
