@@ -68,13 +68,13 @@ new Vue({
     },
     watch: {
 
-        '$route.query.course': function () {
+        '$route.query.course': function() {
 
-           this.course_param = this.$route.query.course
+            this.course_param = this.$route.query.course
 
-           if (this.course_param !== undefined) {
-               this.getCourse()
-           }
+            if (this.course_param !== undefined) {
+                this.getCourse()
+            }
 
         }
     },
