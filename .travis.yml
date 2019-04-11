@@ -3,9 +3,13 @@ sudo: false
 language: python
 python:
   - "3.6"
-install: pip install tox-travis
+install:
+  - pip install tox-travis
+  - pip install pycodestyle
 before_script:
   - pip install coveralls
-script: tox
+script:
+  - tox
+  - pycodestyle prereq_map/ --exclude=migrations,prereq_map/static
 after_success:
   - coveralls

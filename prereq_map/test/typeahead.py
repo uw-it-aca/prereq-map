@@ -28,4 +28,5 @@ class TestTypeahead(TestCase):
         CurricTitles.update_titles(dataframe)
         typeahead = get_curric_typeahead()
         self.assertEqual(len(typeahead), 2)
-        self.assertEqual(list(typeahead)[0], "Seattle: Computer Science And Education (CSE)")
+        self.assertEqual(list(typeahead)[0],
+                         "Seattle: Computer Science And Education (CSE)")
