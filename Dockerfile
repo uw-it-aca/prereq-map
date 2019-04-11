@@ -1,37 +1,48 @@
-#FROM acait/django-container:python3
-#RUN useradd aca
-#ADD --chown=aca docker/web/start.sh /start.sh
-#RUN chmod +x /start.sh
-#RUN mkdir /app/logs
-#RUN chown aca /app/logs
-#ADD --chown=aca prereq_map/VERSION /app/prereq_map/
-#ADD --chown=aca setup.py /app/
-#ADD --chown=aca requirements.txt /app/
-#RUN . /app/bin/activate && pip install -r requirements.txt
-#ADD --chown=aca /docker/web/apache2.conf /tmp/apache2.conf
-#RUN rm -rf /etc/apache2/sites-available/ && mkdir /etc/apache2/sites-available/ && \
-#    rm -rf /etc/apache2/sites-enabled/ && mkdir /etc/apache2/sites-enabled/ && \
-#    rm /etc/apache2/apache2.conf && \
-#    cp /tmp/apache2.conf /etc/apache2/apache2.conf &&\
-#    mkdir /etc/apache2/logs
-#RUN chown aca /etc/apache2/logs
-#ADD --chown=aca . /app/
-#ENV DB sqlite3
-#ADD docker /app/project/
-#USER aca
-#CMD ["/start.sh" ]
+FROM node:8.15.1-jessie AS wpack
+ADD . /app/
+WORKDIR /app/
+RUN npm install .
+RUN npx webpack
 
+FROM acait/django-container:develop
+RUN apt-get update && apt-get install mysql-client -y
+RUN mkdir /app/logs
+ADD prereq_map/VERSION /app/prereq_map/
+ADD setup.py /app/
+ADD requirements.txt /app/
+ENV LC_ALL C.UTF-8
+RUN . /app/bin/activate && pip install -r requirements.txt
+ADD /docker/web/apache2.conf /tmp/apache2.conf
+RUN rm -rf /etc/apache2/sites-available/ && \
+    mkdir /etc/apache2/sites-available/ && \
+    rm -rf /etc/apache2/sites-enabled/ && \
+    mkdir /etc/apache2/sites-enabled/ && \
+    rm /etc/apache2/apache2.conf && \
+    cp /tmp/apache2.conf /etc/apache2/apache2.conf && \
+    mkdir /etc/apache2/logs
+ADD . /app/
+ENV DB sqlite3
+ADD docker /app/project/
+ADD docker/web/start.sh /start.sh
+RUN chmod +x /start.sh
+RUN mkdir /static
 
+RUN groupadd -r prereq_map -g 1000 && \
+    useradd -u 1000 -rm -g prereq_map -d /home/prereq_map -s /bin/bash -c "container user" prereq_map &&\
+    chown -R prereq_map:prereq_map /app &&\
+    chown -R prereq_map:prereq_map /static &&\
+    chown -R prereq_map:prereq_map /var &&\
+    chown -R prereq_map:prereq_map /run &&\
+    mkdir /var/lock/apache2 &&\
+    chown -R prereq_map:prereq_map /var/lock/ &&\
+    chown -R prereq_map:prereq_map /home/prereq_map
+USER prereq_map
 
-FROM python:3.6
-ENV PYTHONUNBUFFERED 1
+COPY --from=wpack /app/prereq_map/static/prereq_map/bundles/* /app/prereq_map/static/prereq_map/bundles/
+COPY --from=wpack /app/prereq_map/static/ /static/
+COPY --from=wpack /app/webpack-stats.json /app/webpack-stats.json
 
-# copy contents of repo into an 'app' directory on container
-ADD . /app
-WORKDIR /app
+RUN . /app/bin/activate && pip install django-webpack-loader
 
-# install python dependency packages (via setup.py) on container
-RUN pip install -r requirements.txt
-
-# move manage.py out of sampleproj to root directory so that django can start
-COPY sampleproj/manage.py /app/manage.py
+ENV PORT 8000
+CMD ["/start.sh" ]
