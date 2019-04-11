@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import CourseSearchInput from "./components/course-search-input.vue";
 import CourseDetail from "./components/course-detail.vue";
-import Onboarding from "./components/onboarding.vue";
+
 
 Vue.use(VueRouter)
 
@@ -24,7 +24,7 @@ new Vue({
     components: {
         'course-search-input': CourseSearchInput,
         'course-detail': CourseDetail,
-        'onboarding' : Onboarding,
+        
     },
     data() {
         return {
@@ -68,13 +68,13 @@ new Vue({
     },
     watch: {
 
-        '$route.query.course': function () {
+        '$route.query.course': function() {
 
-           this.course_param = this.$route.query.course
+            this.course_param = this.$route.query.course
 
-           if (this.course_param !== undefined) {
-               this.getCourse()
-           }
+            if (this.course_param !== undefined) {
+                this.getCourse()
+            }
 
         }
     },

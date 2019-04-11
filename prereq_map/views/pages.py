@@ -18,16 +18,8 @@ class CurriculumSearch(TemplateView):
         context = super().get_context_data(**kwargs)
         return context
 
-
-class CourseSearch(TemplateView):
-    template_name = "course.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
     def render_to_response(self, context, **response_kwargs):
-        response = super(CourseSearch, self).render_to_response(
+        response = super(CurriculumSearch, self).render_to_response(
             context, **response_kwargs)
 
         # get the current term from the sws resource
@@ -44,3 +36,11 @@ class CourseSearch(TemplateView):
             # create/set  term end date cookie and expire it in 1 week
             response.set_cookie("prereq-onboarding-expires", term_end_date)
         return response
+
+
+class CourseSearch(TemplateView):
+    template_name = "course.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context

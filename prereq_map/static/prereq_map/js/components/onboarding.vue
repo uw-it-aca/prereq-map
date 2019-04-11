@@ -20,19 +20,19 @@
                             <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
                         </ol>
                         <div class="carousel-inner rounded-lg">
-                            <div class="carousel-item active prereq-blah" style="background-image:url('/static/prereq_map/img/modal-bg.jpg');">
+                            <div class="carousel-item active prereq-onboarding-main" style="background-image:url('/static/prereq_map/img/modal-bg.jpg');">
                                 <h2 class="text-white mb-5">Discover courses and plan your schedule more effectively</h2>
 
                                 <p class="text-white">It can be tough figuring out which courses to take. How do you find courses similar to ones you’ve really enjoyed? Of the courses you’ve already taken, which ones provide a foundation for more advanced coursework? What sequence of courses is best? The Prereq Map helps you discover interesting courses and enables you to be strategic about planning your course schedule. (What’s a prereq? Prereq is short for prerequisites: the courses that act as a foundation for other courses.)</p>
 
                                 <p class="text-white">The Prereq Map shows current prerequisites. When planning several quarters out, keep in mind that prerequisites may change. Also note that the Prereq Map is based solely on course prerequisites and does not take into account specific requirements for graduation.</p>
 
-                                <div class="text-center mt-5">
+                                <div class="text-center mt-3">
                                     <div><a href="#" target="_blank">Further details</a></div>
                                 </div>
 
                                 <div class="text-center mt-2">
-                                    <button v-on:click="accept" class="btn btn-primary">Got it!</button>
+                                    <button v-on:click="accept" class="btn btn-primary prereq-purple">Got it!</button>
                                 </div>
 
                             </div>
@@ -165,7 +165,14 @@ export default {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
 }
 
-.prereq-blah {
+.prereq-onboarding-main {
     background-size: cover;
 }
+
+.prereq-purple {
+    background-color: #4d307f;
+    border-color: #4d307f;
+}
+
+
 </style>

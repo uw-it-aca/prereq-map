@@ -12,7 +12,6 @@
     <h1 class="pt-4 pb-2">Course Search</h1>
     <p class="instruction-text pb-4">See a course’s prerequisites, what it’s a prerequisite for, and other related curriculum.</p>
 
-    <onboarding></onboarding>
     <course-search-input></course-search-input>
 
     <div v-cloak v-if="this.course_param !== undefined">
@@ -20,7 +19,6 @@
         <div v-if="this.course_valid" class="row mt-5 mb-5">
             <course-detail
                 v-bind:course-param="this.course_param"
-                v-bind:course-data="this.course_data"
             ></course-detail>
         </div>
 

@@ -6,7 +6,6 @@
             <div>
                 <course-graph
                     v-bind:course-param="this.courseParam"
-                    v-bind:course-data="this.courseData"
                 ></course-graph>
             </div>
         </div>
@@ -60,7 +59,6 @@ export default {
     },
     props: {
         courseParam: String,
-        courseData: Object
     },
     data() {
         return {

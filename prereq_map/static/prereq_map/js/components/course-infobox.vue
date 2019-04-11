@@ -86,7 +86,7 @@ export default {
                     from.push(value)
                 }
             });
-            return from;
+            return from.sort();
         },
         get_postreqs: function (course, to_list){
             var keys = Object.keys(to_list);
@@ -97,7 +97,7 @@ export default {
                     to.push(value)
                 }
             });
-            return to;
+            return to.sort();
         },
         show: function (code) {
 
