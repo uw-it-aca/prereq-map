@@ -81,17 +81,13 @@ def process_data(curric_filter=None, course_filter=None):
             ]
         prereqs = pd.concat([prereqs_to, prereqs_from])
 
-    course_data['course'] = "{} {}".format(course_data['department_abbrev'],
-                                           course_data['course_number'].map(
-                                               str
-                                           ))
+    course_data['course'] = (course_data['department_abbrev'] +
+                             " " + course_data['course_number'].map(str))
 
     # remove self-loops and delete some extraneous fields
     prereqs.drop(prereqs[(prereqs.course_to == prereqs.course_from)].index,
                  inplace=True)
-    prereqs.drop(list(prereqs.filter(regex='_spare')),
-                 axis=1,
-                 inplace=True)
+    prereqs.drop(list(prereqs.filter(regex='_spare')), axis=1, inplace=True)
     # prereqs.drop(columns = ['pr_last_update_dt'], inplace = True)
 
     course_data = course_data.loc[:, ['course',
@@ -122,21 +118,20 @@ def process_data(curric_filter=None, course_filter=None):
     clist = prereqs[['course_to', 'course_from']].drop_duplicates()
     clist.sort_values(['course_to', 'course_from'], inplace=True)
 
-    attribs = course_data[course_data['course'].isin(prereqs['course_to']) |
-                          course_data['course'].isin(prereqs['course_from'])]
+    attribs = course_data[
+        course_data['course'].isin(prereqs['course_to']) |
+        course_data['course'].isin(prereqs['course_from'])
+    ]
 
     ao = prereqs['pr_and_or'].apply(and_or)
     ao = prereqs['course_from'] + ao
     vlab_andor = ao.groupby(prereqs['course_to']).apply(lambda x: ' '.join(x))
 
-    attribs = pd.merge(attribs,
-                       vlab_andor.to_frame(name="vlab_prereqs"),
-                       how="left",
-                       left_on="course",
-                       right_on="course_to")
+    attribs = pd.merge(attribs, vlab_andor.to_frame(name="vlab_prereqs"),
+                       how="left", left_on="course", right_on="course_to")
     attribs.vlab_prereqs = attribs.vlab_prereqs.fillna('')
-    attribs['vlab'] = "{}<br>{}".format(attribs['long_course_title'],
-                                        attribs['vlab_prereqs'])
+    attribs['vlab'] = (attribs['long_course_title'] +
+                       "<br>" + attribs['vlab_prereqs'])
 
     # re-structuring data for graph
     pr_obj = json.loads(prereqs.to_json())
