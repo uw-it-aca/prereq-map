@@ -12,10 +12,10 @@ then
 fi
 
 python3 manage.py migrate
-python manage.py collectstatic
+python manage.py collectstatic --noinput
 python manage.py loaddata curric_titles.json
 
 
-#python manage.py runserver 0:8000
+#python manage.py runserver 0:8000 --insecure
 # Start Apache server in foreground
 exec /usr/sbin/apachectl -DFOREGROUND
