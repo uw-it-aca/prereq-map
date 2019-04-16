@@ -4,6 +4,7 @@
             This curriculum does not have any course data.
         </div>
         <div v-else>
+            <small class="text-secondary">Use the mouse scroll wheel to control zoom-in and zoom-out.</small>
             <div id="graph_container"></div>
         </div>
     </div>
