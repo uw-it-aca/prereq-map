@@ -37,13 +37,20 @@ def process_data(curric_filter=None, course_filter=None):
     data_path = os.path.join(os.path.dirname(__file__),
                              '..',
                              'data')
-    response = {}
 
     # vertex attributes
     course_data = pd.read_pickle(os.path.join(data_path, "course_data.pkl"))
     # edgelist
     prereqs = pd.read_pickle(os.path.join(data_path, "prereq_data.pkl"))
 
+    return _process_data(course_data, prereqs, curric_filter, course_filter)
+
+
+def _process_data(course_data,
+                  prereqs,
+                  curric_filter=None,
+                  course_filter=None):
+    response = {}
     # The database typically contains lots of whitespace for padding; remove it
     prereqs = prereqs.apply(
         lambda x: x.str.strip() if x.dtype == "object" else x)
