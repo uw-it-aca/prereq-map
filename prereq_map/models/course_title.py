@@ -8,7 +8,6 @@ class CourseTitle(models.Model):
     course_college = models.CharField(max_length=1)
     long_course_title = models.CharField(max_length=120)
 
-
     @staticmethod
     def update_titles(titles_dataframe):
         CourseTitle.objects.all().delete()
@@ -26,7 +25,7 @@ class CourseTitle(models.Model):
 
     @staticmethod
     def get_course_title(course_filter):
-        regex = re.compile('^([a-zA-Z\s]+)(\d+)')
+        regex = re.compile(r'^([a-zA-Z\s]+)(\d+)')
         match = regex.match(course_filter)
         dept_abbr = match.group(1).strip()
         course_num = match.group(2)

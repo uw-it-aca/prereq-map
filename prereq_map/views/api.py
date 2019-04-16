@@ -18,6 +18,7 @@ class CourseApiView(View):
         response = process_data(course_filter=course_code.upper())
         return HttpResponse(json.dumps(response))
 
+
 class CurricTypeaheadApiView(View):
     def get(self, request):
         response = get_curric_typeahead()

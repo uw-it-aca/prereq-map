@@ -24,7 +24,7 @@ setup(
     author_email="aca-it@uw.edu",
     include_package_data=True,
     install_requires=[
-        'django>=2.1,<3.0',
+        'django>=2.1,<2.2',
         'django_compressor',
         'django-pyscss',
         'django-webpack-loader',
