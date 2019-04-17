@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/uw-it-aca/prereq_map.svg?branch=master)](https://travis-ci.org/uw-it-aca/prereq_map)
+[![Build Status](https://travis-ci.com/uw-it-aca/prereq-map.svg?branch=master)](https://travis-ci.com/uw-it-aca/prereq-map) [![Coverage Status](https://coveralls.io/repos/github/uw-it-aca/prereq_map/badge.svg?branch=master)](https://coveralls.io/github/uw-it-aca/prereq_map?branch=master)
 # prereq-map
 Prerequisite Course Map
 
