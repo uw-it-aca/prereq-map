@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div v-cloak v-if="this.curric_emtpy" class="row mt-5 mb-5">
+    <div v-if="this.curric_param !== undefined">
+        <div v-cloak v-if="this.curric_emtpy">
             This curriculum does not have any course data.
         </div>
         <div v-else>
