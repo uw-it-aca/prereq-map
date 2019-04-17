@@ -4,7 +4,6 @@ rm -rf /run/httpd/* /tmp/httpd*
 
 source "/app/bin/activate"
 export DATABASE_NAME=`echo $BRANCH | sed 's/-/_/g' `
-echo $DATABASE_NAME
 
 if [ "$DB" = "mysql" ] && [ "$ENV" = "dev" ]
 then
@@ -15,7 +14,5 @@ python3 manage.py migrate
 python manage.py collectstatic --noinput
 python manage.py loaddata curric_titles.json
 
-
-#python manage.py runserver 0:8000 --insecure
 # Start Apache server in foreground
 exec /usr/sbin/apachectl -DFOREGROUND
