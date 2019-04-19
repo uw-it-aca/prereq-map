@@ -12,4 +12,4 @@ services:
       #- ./webpack-stats.json:/app/webpack-stats.json
     ports:
       - "8000:8000"
-    #command: bash -c ". /app/bin/activate && python manage.py migrate --settings=sampleproj.settings.local_defaults && python manage.py loaddata curric_titles.json --settings=sampleproj.settings.local_defaults && python manage.py runserver 0.0.0.0:8123 --settings=sampleproj.settings.local_defaults"
+    command: bash -c ". /app/bin/activate && python manage.py migrate --settings=sampleproj.settings.local && python manage.py loaddata curric_titles.json --settings=sampleproj.settings.local && python manage.py runserver 0.0.0.0:8000 --settings=sampleproj.settings.local"
