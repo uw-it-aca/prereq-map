@@ -1,9 +1,10 @@
 <template>
-    <div>
-        <div v-cloak v-if="this.curric_emtpy" class="row mt-5 mb-5">
+    <div v-if="this.curric_param !== undefined">
+        <div v-cloak v-if="this.curric_emtpy">
             This curriculum does not have any course data.
         </div>
         <div v-else>
+            <small class="text-secondary">Use the mouse scroll wheel to control zoom-in and zoom-out.</small>
             <div id="graph_container"></div>
         </div>
     </div>

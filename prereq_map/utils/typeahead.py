@@ -7,4 +7,3 @@ def get_curric_typeahead():
     for curric in currics:
         curric_data.update(curric.get_display_data())
     return curric_data
-

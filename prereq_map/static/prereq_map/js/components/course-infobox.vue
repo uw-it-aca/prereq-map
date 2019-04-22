@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="card" v-if="course_code">
+        <div class="card mt-4" v-if="course_code">
             <div class="card-header bg-white">
                 <h5 class="m-0">{{ course_code }}</h5>
                 <a href="#" class="prereq-infobox-close" v-on:click.stop.prevent="close"><i class="fas fa-times"></i></a>

@@ -2,7 +2,6 @@ from django.db import models
 from inflector import Inflector, English
 
 
-
 class CurricTitles(models.Model):
     SEATTLE = 0
     BOTHELL = 1
