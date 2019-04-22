@@ -21,35 +21,29 @@
                         </ol>
                         <div class="carousel-inner rounded-lg">
                             <div class="carousel-item active prereq-onboarding-main" style="background-image:url('/static/prereq_map/img/modal-bg.jpg');">
-
-                                <h2 class="mb-4" style="margin-top:260px;">Discover courses and plan your schedule more effectively</h2>
-
+                                <h2 class="mb-4" style="margin-top:200px;">Discover courses and plan your schedule more effectively</h2>
                                 <p>It can be tough figuring out which courses to take. How do you find courses similar to ones you’ve really enjoyed? Of the courses you’ve already taken, which ones provide a foundation for more advanced coursework? What sequence of courses is best? The <strong>Prereq Map</strong> helps you discover interesting courses and enables you to be strategic about planning your course schedule. (What’s a prereq? Prereq is short for prerequisites: the courses that act as a foundation for other courses.)</p>
-
                                 <p>The Prereq Map shows current prerequisites. When planning several quarters out, keep in mind that prerequisites may change. Also note that the Prereq Map is based solely on course prerequisites and does not take into account specific requirements for graduation.</p>
-
                                 <div class="text-center mt-3">
                                     <div><a href="#" target="_blank">Further details</a></div>
                                 </div>
-
                                 <div class="text-center mt-2">
                                     <button v-on:click="accept" class="btn btn-primary prereq-purple">Got it!</button>
                                 </div>
-
                             </div>
                             <div class="carousel-item">
                                 <img src="/static/prereq_map/img/onboarding-biol.png" style="width:600px; border:solid 2px #333;"/>
-                                <h2 class="mt-2 mb-4">See the prerequisite map for a curriculum (e.g. Biology, BIOL)</h2>
+                                <h2 class="mt-4 mb-4">See the prerequisite map for a curriculum (e.g. Biology, BIOL)</h2>
                                 <p>Begin exploring the Prereq Map by choosing a curricula (subjects comprising a course of study) you’re interested in. Follow the lines to see the prerequisites for courses. View courses that have prereqs and courses that are prereqs for other courses. </p>
                             </div>
                             <div class="carousel-item">
                                 <img src="/static/prereq_map/img/onboarding-infobox.png" style="width:600px; border:solid 2px #333;"/>
-                                <h2 class="mt-2 mb-4">Get additional info about a course</h2>
+                                <h2 class="mt-4 mb-4">Get additional info about a course</h2>
                                 <p>Each node on the map represents a specific course. Click the node to view prerequisite information for the course. Click the links inside the node to learn more.</p>
                             </div>
                             <div class="carousel-item">
                                 <img src="/static/prereq_map/img/onboarding-course-details.png" style="width:600px; border:solid 2px #333;"/>
-                                <h2 class="mt-2 mb-4">Get more course detail and find related curricula.</h2>
+                                <h2 class="mt-4 mb-4">Get more course detail and find related curricula.</h2>
                                 <p>On the Course Search page, click links to browse related course offerings. You can also explore related curricula and their prerequisite maps.</p>
                             </div>
                         </div>
@@ -147,7 +141,7 @@ export default {
     }
 
     @include breakpoint(desktop) {
-        padding: 40px 100px !important;
+        padding: 100px !important;
     }
 
     border: none;
