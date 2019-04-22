@@ -43,11 +43,13 @@
                                 <p>Begin exploring the Prereq Map by choosing a curricula (subjects comprising a course of study) you’re interested in. Follow the lines to see the prerequisites for courses. View courses that have prereqs and courses that are prereqs for other courses. </p>
                             </div>
                             <div class="carousel-item">
-                                <h2 class="mb-4">Get additional info about a course</h2>
+                                <img src="/static/prereq_map/img/onboarding-infobox.png" style="width:600px; border:solid 2px #333;"/>
+                                <h2 class="mt-2 mb-4">Get additional info about a course</h2>
                                 <p>Each node on the map represents a specific course. Click the node to view prerequisite information for the course. Click the links inside the node to learn more.</p>
                             </div>
                             <div class="carousel-item">
-                                <h2 class="mb-4">Get more course detail and find related curricula.</h2>
+                                <img src="/static/prereq_map/img/onboarding-course-details.png" style="width:600px; border:solid 2px #333;"/>
+                                <h2 class="mt-2 mb-4">Get more course detail and find related curricula.</h2>
                                 <p>On the Course Search page, click links to browse related course offerings. You can also explore related curricula and their prerequisite maps.</p>
                             </div>
                         </div>
