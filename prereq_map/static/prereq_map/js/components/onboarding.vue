@@ -21,11 +21,12 @@
                         </ol>
                         <div class="carousel-inner rounded-lg">
                             <div class="carousel-item active prereq-onboarding-main" style="background-image:url('/static/prereq_map/img/modal-bg.jpg');">
-                                <h2 class="text-white mb-5">Discover courses and plan your schedule more effectively</h2>
 
-                                <p class="text-white">It can be tough figuring out which courses to take. How do you find courses similar to ones you’ve really enjoyed? Of the courses you’ve already taken, which ones provide a foundation for more advanced coursework? What sequence of courses is best? The Prereq Map helps you discover interesting courses and enables you to be strategic about planning your course schedule. (What’s a prereq? Prereq is short for prerequisites: the courses that act as a foundation for other courses.)</p>
+                                <h2 class="mb-4" style="margin-top:260px;">Discover courses and plan your schedule more effectively</h2>
 
-                                <p class="text-white">The Prereq Map shows current prerequisites. When planning several quarters out, keep in mind that prerequisites may change. Also note that the Prereq Map is based solely on course prerequisites and does not take into account specific requirements for graduation.</p>
+                                <p>It can be tough figuring out which courses to take. How do you find courses similar to ones you’ve really enjoyed? Of the courses you’ve already taken, which ones provide a foundation for more advanced coursework? What sequence of courses is best? The <strong>Prereq Map</strong> helps you discover interesting courses and enables you to be strategic about planning your course schedule. (What’s a prereq? Prereq is short for prerequisites: the courses that act as a foundation for other courses.)</p>
+
+                                <p>The Prereq Map shows current prerequisites. When planning several quarters out, keep in mind that prerequisites may change. Also note that the Prereq Map is based solely on course prerequisites and does not take into account specific requirements for graduation.</p>
 
                                 <div class="text-center mt-3">
                                     <div><a href="#" target="_blank">Further details</a></div>
@@ -37,15 +38,16 @@
 
                             </div>
                             <div class="carousel-item">
-                                <h2 class="mb-5">See the prerequisite map for a curriculum (e.g. Biology, BIOL)</h2>
+                                <img src="/static/prereq_map/img/onboarding-biol.png" style="width:600px; border:solid 2px #333;"/>
+                                <h2 class="mt-2 mb-4">See the prerequisite map for a curriculum (e.g. Biology, BIOL)</h2>
                                 <p>Begin exploring the Prereq Map by choosing a curricula (subjects comprising a course of study) you’re interested in. Follow the lines to see the prerequisites for courses. View courses that have prereqs and courses that are prereqs for other courses. </p>
                             </div>
                             <div class="carousel-item">
-                                <h2 class="mb-5">Get additional info about a course</h2>
+                                <h2 class="mb-4">Get additional info about a course</h2>
                                 <p>Each node on the map represents a specific course. Click the node to view prerequisite information for the course. Click the links inside the node to learn more.</p>
                             </div>
                             <div class="carousel-item">
-                                <h2 class="mb-5">Get more course detail and find related curricula.</h2>
+                                <h2 class="mb-4">Get more course detail and find related curricula.</h2>
                                 <p>On the Course Search page, click links to browse related course offerings. You can also explore related curricula and their prerequisite maps.</p>
                             </div>
                         </div>
@@ -126,14 +128,14 @@ export default {
 }
 .modal-body {
     padding: 0;
-    height: 600px;
+    height: 800px;
 }
 
 .carousel-inner {
-    height: 600px;
+    height: 800px;
 }
 .carousel-item {
-    height: 600px;
+    height: 800px;
     overflow: scroll;
 
     padding: 40px 50px;
