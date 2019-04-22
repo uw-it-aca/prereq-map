@@ -100,22 +100,8 @@ def _process_data(course_data,
     course_data = course_data.loc[:, ['course',
                                       'department_abbrev',
                                       'course_number',
-                                      'last_eff_yr',
-                                      'last_eff_qtr',
-                                      'course_branch',
                                       'course_college',
-                                      'long_course_title',
-                                      'prq_lang_of_adm',
-                                      'prq_check_grads',
-                                      'pre_cancel_req',
-                                      'course_cat_omit',
-                                      'writing_crs',
-                                      'diversity_crs',
-                                      'english_comp',
-                                      'qsr',
-                                      'vis_lit_perf_arts',
-                                      'indiv_society',
-                                      'natural_world']]
+                                      'long_course_title']]
 
     # remove inactive courses from prereqs (keep them in the from field)
     # prereqs = prereqs[prereqs['course_from'].isin(course_data['course'])]
