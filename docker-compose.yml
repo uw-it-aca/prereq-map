@@ -9,7 +9,8 @@ services:
     volumes:
       - ./sampleproj:/app/sampleproj
       - ./prereq_map:/app/prereq_map
-      #- ./webpack-stats.json:/app/webpack-stats.json
+      # mount webpack-stats.json to keep track of local changes
+      - ./webpack-stats.json:/app/webpack-stats.json
     ports:
       - "8000:8000"
     command: bash -c ". /app/bin/activate && python manage.py migrate --settings=sampleproj.settings.local_defaults && python manage.py loaddata curric_titles.json --settings=sampleproj.settings.local_defaults && python manage.py runserver 0.0.0.0:8000 --settings=sampleproj.settings.local_defaults"
