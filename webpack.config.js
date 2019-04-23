@@ -33,7 +33,7 @@ module.exports = {
   },
 
   plugins: [
-    new BundleTracker({filename: './webpack-stats.json'}),
+    new BundleTracker({filename: './prereq_map/static/webpack-stats.json'}),
     new VueLoaderPlugin(),
   ],
 
