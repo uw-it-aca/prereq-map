@@ -3,6 +3,7 @@ ADD . /app/
 WORKDIR /app/
 RUN npm install .
 RUN npx webpack
+RUN ls /app/prereq_map/static
 
 FROM acait/django-container:develop
 RUN apt-get update && apt-get install mysql-client -y
@@ -40,7 +41,9 @@ USER prereq_map
 
 COPY --from=wpack /app/prereq_map/static/prereq_map/bundles/* /app/prereq_map/static/prereq_map/bundles/
 COPY --from=wpack /app/prereq_map/static/ /static/
-COPY --from=wpack /app/webpack-stats.json /app/webpack-stats.json
+COPY --from=wpack /app/prereq_map/static/webpack-stats.json /app/prereq_map/static/webpack-stats.json
+
+RUN ls /app/prereq_map/static
 
 RUN . /app/bin/activate && pip install django-webpack-loader
 
