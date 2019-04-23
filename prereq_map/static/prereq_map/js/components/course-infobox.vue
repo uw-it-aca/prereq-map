@@ -3,7 +3,7 @@
         <div class="card mt-4" v-if="course_code">
             <div class="card-header bg-white">
                 <h5 class="m-0">{{ course_code }}</h5>
-                <a href="#" class="prereq-infobox-close" v-on:click.stop.prevent="close"><i class="fas fa-times"></i></a>
+                <!--<a href="#" class="prereq-infobox-close" v-on:click.stop.prevent="close"><i class="fas fa-times"></i></a>-->
                 <p class="card-title" v-if="course_description" v-shave="{ height: 150 }">{{ course_description }}</p>
             </div>
             <div class="card-body bg-light">

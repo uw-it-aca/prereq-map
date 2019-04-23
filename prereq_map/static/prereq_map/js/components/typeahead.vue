@@ -6,7 +6,7 @@
             v-model="query"
             :data="curric_list"
             @hit="selected_curric = $event"
-            placeholder="Search curriculum..."
+            placeholder="E.G. ANTH"
         />
     </div>
 </div>
@@ -72,6 +72,8 @@
         font-size: 1.25rem;
         //border-radius: 0;
         //border: 0.04688rem solid #333;
+        //text-transform: uppercase;
+        color: #000;
     }
 }
 
