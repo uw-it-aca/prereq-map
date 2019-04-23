@@ -21,7 +21,7 @@
                         </ol>
                         <div class="carousel-inner rounded-lg">
                             <div class="carousel-item active prereq-onboarding-main" style="background-image:url('/static/prereq_map/img/modal-bg.jpg');">
-                                <h2 class="mb-4" style="margin-top:200px;">Discover courses and plan your schedule more effectively</h2>
+                                <h2 class="mb-4" style="margin-top:150px;">Discover courses and plan your schedule more effectively</h2>
                                 <p>It can be tough figuring out which courses to take. How do you find courses similar to ones you’ve really enjoyed? Of the courses you’ve already taken, which ones provide a foundation for more advanced coursework? What sequence of courses is best? The <strong>Prereq Map</strong> helps you discover interesting courses and enables you to be strategic about planning your course schedule. (What’s a prereq? Prereq is short for prerequisites: the courses that act as a foundation for other courses.)</p>
                                 <p>The Prereq Map shows current prerequisites. When planning several quarters out, keep in mind that prerequisites may change. Also note that the Prereq Map is based solely on course prerequisites and does not take into account specific requirements for graduation.</p>
                                 <div class="text-center mt-3">
