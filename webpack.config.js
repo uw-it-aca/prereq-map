@@ -2,6 +2,7 @@ const path = require("path")
 const webpack = require('webpack')
 const BundleTracker = require('webpack-bundle-tracker')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
 
@@ -33,6 +34,7 @@ module.exports = {
   },
 
   plugins: [
+    new CleanWebpackPlugin(),
     new BundleTracker({filename: './prereq_map/static/webpack-stats.json'}),
     new VueLoaderPlugin(),
   ],
