@@ -1,7 +1,7 @@
 <template>
     <div v-if="this.curric_param !== undefined">
         <div v-cloak v-if="this.curric_emtpy">
-            This curriculum does not have any course data.
+            This curriculum does not have any courses with prerequisites. Please consult an adviser.
         </div>
         <div v-else>
             <small class="text-secondary">Use the mouse scroll wheel to control zoom-in and zoom-out.</small>
