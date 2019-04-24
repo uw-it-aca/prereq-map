@@ -39,7 +39,7 @@
                             <div class="carousel-item">
                                 <img src="/static/prereq_map/img/onboarding-infobox.png" style="width:600px; border:solid 2px #333;"/>
                                 <h2 class="mt-4 mb-4">Get additional info about a course</h2>
-                                <p>Each node on the map represents a specific course. Click the node to view prerequisite information for the course. Click the links inside the node to learn more.</p>
+                                <p>Each square on the map represents a specific course. Click the square to view prerequisite information for the course. Click the links in the sidebar to learn more.</p>
                             </div>
                             <div class="carousel-item">
                                 <img src="/static/prereq_map/img/onboarding-course-details.png" style="width:600px; border:solid 2px #333;"/>
