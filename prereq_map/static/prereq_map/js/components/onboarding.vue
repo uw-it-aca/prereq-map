@@ -103,6 +103,7 @@ export default {
 
             var carouselLength = $('.carousel-item').length - 1;
             // If there is more than one item
+
             if (carouselLength) {
                 $('.carousel-control-next').removeClass('d-none');
             }
