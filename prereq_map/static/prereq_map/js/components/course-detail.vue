@@ -4,9 +4,7 @@
     <div class="row">
         <div class="col-md-5 pb-5">
             <div>
-                <course-graph
-                    v-bind:course-param="this.courseParam"
-                ></course-graph>
+                <course-graph v-bind:course-param="this.courseParam"></course-graph>
             </div>
         </div>
         <div class="col-md-7">

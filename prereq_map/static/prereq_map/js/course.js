@@ -24,11 +24,11 @@ new Vue({
     components: {
         'course-search-input': CourseSearchInput,
         'course-detail': CourseDetail,
-        
+
     },
     data() {
         return {
-            course_param: '',
+            course_param: undefined,
             course_data: [],
             course_number: '',
             course_valid: undefined

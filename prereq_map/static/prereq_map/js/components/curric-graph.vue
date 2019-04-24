@@ -1,6 +1,6 @@
 <template>
-    <div v-if="this.curric_param !== undefined">
-        <div v-cloak v-if="this.curric_emtpy">
+    <div v-if="curric_param !== undefined">
+        <div v-cloak v-if="curric_emtpy">
             This curriculum does not have any courses with prerequisites. Please consult an adviser.
         </div>
         <div v-else>
@@ -16,7 +16,7 @@ export default {
 
     data() {
         return {
-            curric_param: '',
+            curric_param: undefined,
             curric_data: [],
             course_list: [],
             curric_emtpy: undefined

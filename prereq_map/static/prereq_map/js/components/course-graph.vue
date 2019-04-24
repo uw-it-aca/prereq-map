@@ -1,5 +1,5 @@
 <template>
-<div v-cloak v-if="this.courseParam !== undefined ">
+<div v-cloak v-if="courseParam !== undefined ">
     <small class="text-secondary">Use the scroll function on your mouse or touchpad to zoom in and out</small>
     <div id="graph_container"></div>
 </div>

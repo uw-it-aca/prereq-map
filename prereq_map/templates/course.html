@@ -14,15 +14,13 @@
 
     <course-search-input></course-search-input>
 
-    <div v-cloak v-if="this.course_param !== undefined">
+    <div v-cloak v-if="course_param !== undefined">
 
-        <div v-if="this.course_valid" class="row mt-5 mb-5">
-            <course-detail
-                v-bind:course-param="this.course_param"
-            ></course-detail>
+        <div v-if="course_valid" class="row mt-5 mb-5">
+            <course-detail v-bind:course-param="course_param"></course-detail>
         </div>
 
-        <div v-cloak v-if="this.course_valid === false" class="row mt-5 mb-5">
+        <div v-cloak v-if="course_valid === false" class="row mt-5 mb-5">
             The course you entered does not exist or has no data
         </div>
 
