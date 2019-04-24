@@ -4,7 +4,7 @@
             This curriculum does not have any courses with prerequisites. Please consult an adviser.
         </div>
         <div v-else>
-            <small class="text-secondary">Use the mouse scroll wheel to control zoom-in and zoom-out.</small>
+            <small class="text-secondary">Use the scroll function on your mouse or touchpad to zoom in and out</small>
             <div id="graph_container"></div>
         </div>
     </div>
