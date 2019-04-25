@@ -7,18 +7,14 @@ from prereq_map.models.graph import CourseGraph, CurricGraph
 
 
 def build_graphs():
-    import datetime
-    start = datetime.datetime.now()
     curric_list = get_currics()
     curric_graphs = []
     for curric in curric_list:
-        graph_json = json.dumps(process_data(curric_filter=curric))
+        graph_json = json.dumps(process_data(curric_filter=curric.strip()))
         curric_graphs.append(CurricGraph(curric_id=curric,
                                          graph_data=graph_json))
     CurricGraph.objects.all().delete()
     CurricGraph.objects.bulk_create(curric_graphs)
-    end = datetime.datetime.now()
-    print(len(curric_graphs), end-start)
 
     course_list = get_courses()
     course_graphs = []
@@ -39,6 +35,10 @@ def get_currics():
 
 def get_courses():
     courses = []
+    course_data = _get_course_data()
+    course_data['course'] = (course_data['department_abbrev'] +
+                             " " + course_data['course_number'].map(str))
+    courses = course_data['course']
     return courses
 
 

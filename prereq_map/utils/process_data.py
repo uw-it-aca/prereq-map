@@ -6,6 +6,7 @@ import os
 import json
 from prereq_map.models.course_title import CourseTitle
 from prereq_map.utils.course_data import get_section_details
+from uw_sws.exceptions import InvalidSectionID
 
 """
 Unless we want to mess around with plots offline there should be no need to
@@ -74,7 +75,12 @@ def _process_data(course_data,
             response['course_title'] = title
         except CourseTitle.DoesNotExist:
             pass
-        section = get_section_details(course_filter)
+
+        try:
+            section = get_section_details(course_filter)
+        except InvalidSectionID:
+            section = None
+
         try:
             response['course_description'] = section.course_description
         except AttributeError:
