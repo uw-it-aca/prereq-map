@@ -32,6 +32,7 @@ COMPRESS_ENABLED = True
 COMPRESS_OFFLINE = False
 COMPRESS_OUTPUT_DIR = '/static'
 
+
 COMPRESS_CSS_FILTERS = [
     'compressor.filters.css_default.CssAbsoluteFilter',
     'compressor.filters.cssmin.CSSMinFilter'
