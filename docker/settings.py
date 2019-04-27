@@ -44,3 +44,4 @@ COMPRESS_JS_FILTERS = [
 
 if os.getenv("ENV") == "localdev":
     DEBUG = True
+
