@@ -41,3 +41,6 @@ COMPRESS_CSS_FILTERS = [
 COMPRESS_JS_FILTERS = [
     'compressor.filters.jsmin.JSMinFilter',
 ]
+
+if os.getenv("ENV") == "localdev":
+    DEBUG = True
