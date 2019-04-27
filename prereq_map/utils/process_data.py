@@ -35,16 +35,34 @@ D3 or vis.js later on.
 
 
 def process_data(curric_filter=None, course_filter=None):
+    course_data = get_course_data()
+    prereqs = get_prereq_data()
+
+    return _process_data(course_data, prereqs, curric_filter, course_filter)
+
+
+def get_course_data():
     data_path = os.path.join(os.path.dirname(__file__),
                              '..',
                              'data')
-
     # vertex attributes
     course_data = pd.read_pickle(os.path.join(data_path, "course_data.pkl"))
+    # strip whitespace
+    course_data = course_data.apply(
+        lambda x: x.str.strip() if x.dtype == "object" else x)
+    return course_data
+
+
+def get_prereq_data():
+    data_path = os.path.join(os.path.dirname(__file__),
+                             '..',
+                             'data')
     # edgelist
     prereqs = pd.read_pickle(os.path.join(data_path, "prereq_data.pkl"))
-
-    return _process_data(course_data, prereqs, curric_filter, course_filter)
+    # strip whitespace
+    prereqs = prereqs.apply(
+        lambda x: x.str.strip() if x.dtype == "object" else x)
+    return prereqs
 
 
 def _process_data(course_data,
@@ -52,11 +70,6 @@ def _process_data(course_data,
                   curric_filter=None,
                   course_filter=None):
     response = {}
-    # The database typically contains lots of whitespace for padding; remove it
-    prereqs = prereqs.apply(
-        lambda x: x.str.strip() if x.dtype == "object" else x)
-    course_data = course_data.apply(
-        lambda x: x.str.strip() if x.dtype == "object" else x)
     # create readable course from dept + #
     prereqs['course_to'] = prereqs['department_abbrev'] + " " + prereqs[
         'course_number'].map(str)
@@ -161,48 +174,6 @@ def _process_data(course_data,
     nodes['qsr'] = attr_obj.get('qsr')
     nodes['vis_lit_perf_arts'] = attr_obj.get('vis_lit_perf_arts')
     nodes['writing_crs'] = attr_obj.get('writing_crs')
-
-    '''
-    options = {
-        # "width": "100%",
-        "height": "500px",      # [TODO] Fix.this
-        # "height": "100%",
-        "autoResize": True,
-        "nodes": {
-            "shape": "circle",
-            "size": 25,
-            "color": {
-                "background": "#976CE1",
-                "border": "lightgray",
-                "highlight": {
-                    "border": "black",
-                    "background": "#4d307f"
-                },
-            },
-            "font": {
-                "color": "white"
-            }
-        },
-        "edges": {
-            "arrows": "to",
-            "color": "black"
-        },
-        "layout": {
-            "hierarchical": {
-                "enabled": True,
-                "direction": "LR"
-            },
-        },
-        "physics": {
-            "enabled": False,
-            "stabilization": False
-        },
-        "interaction":{
-            "multiselect": False,
-            "dragNodes": False
-        }
-    }
-    '''
 
     options = {
         "height": "500px",

@@ -2,11 +2,16 @@ import threading
 import os
 import json
 import pandas as pd
-from prereq_map.utils.process_data import process_data
+from prereq_map.utils.process_data import _process_data, get_prereq_data, \
+    get_course_data, process_data
 from prereq_map.models.graph import CourseGraph, CurricGraph
 
 
-def build_graphs():
+def reset_course_graphs():
+    CourseGraph.objects.all().update(needs_rebuild=True)
+
+
+def build_curric_graphs():
     curric_list = get_currics()
     curric_graphs = []
     for curric in curric_list:
@@ -16,21 +21,49 @@ def build_graphs():
     CurricGraph.objects.all().delete()
     CurricGraph.objects.bulk_create(curric_graphs)
 
-    course_list = get_courses()
-    course_graphs = []
-    for course in course_list:
-        graph_json = json.dumps(process_data(course_filter=course))
-        course_graphs.append(CourseGraph(course_id=course,
-                                         graph_data=graph_json))
-    CourseGraph.objects.all().delete()
-    CourseGraph.objects.bulk_create(course_graphs)
+
+def build_course_graphs(count):
+    # Update existing course models
+    courses = get_courses()
+    course_obj_to_update = CourseGraph.objects.filter(course_id__in=courses,
+                                                      needs_rebuild=True)
+    courses_saved = 0
+    course_data = get_course_data()
+    prereq_data = get_prereq_data()
+    for course_obj in course_obj_to_update[:count]:
+        graph_json = json.dumps(_process_data(
+            course_data,
+            prereq_data,
+            course_filter=course_obj.course_id
+        ))
+        course_obj.graph_data = graph_json
+        course_obj.needs_rebuild = False
+        course_obj.save()
+        courses_saved += 1
+
+    if courses_saved < count:
+        # Add courses w/o model
+        existing_courses = CourseGraph.objects.all().values_list('course_id',
+                                                                 flat=True)
+        new_courses = list(set(courses) - set(existing_courses))
+        new_graphs = []
+
+        for course in new_courses[:count - courses_saved]:
+            graph_json = json.dumps(_process_data(
+                course_data,
+                prereq_data,
+                course_filter=course
+            ))
+            new_graphs.append(CourseGraph(course_id=course,
+                                          graph_data=graph_json))
+        CourseGraph.objects.bulk_create(new_graphs)
 
 
 def get_currics():
     currics = []
     course_data = _get_course_data()
     currics = course_data['department_abbrev'].unique()
-    return currics
+    return currics.tolist()
 
 
 def get_courses():
@@ -39,7 +72,7 @@ def get_courses():
     course_data['course'] = (course_data['department_abbrev'] +
                              " " + course_data['course_number'].map(str))
     courses = course_data['course']
-    return courses
+    return courses.tolist()
 
 
 def _get_course_data():
