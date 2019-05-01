@@ -4,9 +4,7 @@
     <div class="row">
         <div class="col-md-5 pb-5">
             <div>
-                <course-graph
-                    v-bind:course-param="this.courseParam"
-                ></course-graph>
+                <course-graph v-bind:course-param="this.courseParam"></course-graph>
             </div>
         </div>
         <div class="col-md-7">
@@ -16,6 +14,7 @@
 
             <table class="table" id="prereq-table">
                 <tbody>
+                    <!--
                     <tr>
                         <th class="w-25" scope="row">Has these prerequisites</th>
                         <td class="w-75">
@@ -28,6 +27,7 @@
                         </td>
 
                     </tr>
+                    -->
                     <tr>
 
                         <th class="w-25" scope="row">Is a prerequisite for</th>

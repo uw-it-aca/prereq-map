@@ -11,20 +11,27 @@ INSTALLED_APPS += [
 WEBPACK_LOADER = {
     'DEFAULT': {
         'BUNDLE_DIR_NAME': 'prereq_map/bundles/',
-        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+        'STATS_FILE': os.path.join(BASE_DIR, 'prereq_map', 'static', 'webpack-stats.json'),
     }
 }
 
-
-COMPRESS_ROOT = '/static'
 
 COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'django_pyscss.compressor.DjangoScssFilter'),
 )
 
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
+
+DATA_ROOT = os.path.join(BASE_DIR, "prereq_map/data")
+
 COMPRESS_ENABLED = True
 COMPRESS_OFFLINE = False
-COMPRESS_OUTPUT_DIR = ''
+COMPRESS_OUTPUT_DIR = '/static'
+
 
 COMPRESS_CSS_FILTERS = [
     'compressor.filters.css_default.CssAbsoluteFilter',
@@ -34,3 +41,7 @@ COMPRESS_CSS_FILTERS = [
 COMPRESS_JS_FILTERS = [
     'compressor.filters.jsmin.JSMinFilter',
 ]
+
+if os.getenv("ENV") == "localdev":
+    DEBUG = True
+
