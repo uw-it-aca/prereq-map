@@ -6,6 +6,7 @@ import os
 import json
 from prereq_map.models.course_title import CourseTitle
 from prereq_map.utils.course_data import get_section_details
+from prereq_map.models.graph import CourseGraph, CurricGraph
 from uw_sws.exceptions import InvalidSectionID
 
 """
@@ -32,6 +33,21 @@ D3 or vis.js later on.
         }
 }
 """
+
+
+def get_graph(curric_filter=None, course_filter=None):
+    if curric_filter:
+        try:
+            graph = CurricGraph.objects.get(curric_id=curric_filter)
+            return json.loads(graph.graph_data)
+        except CurricGraph.DoesNotExist:
+            return process_data(curric_filter=curric_filter)
+    if course_filter:
+        try:
+            graph = CourseGraph.objects.get(course_id=course_filter)
+            return json.loads(graph.graph_data)
+        except CourseGraph.DoesNotExist:
+            return process_data(course_filter=course_filter)
 
 
 def process_data(curric_filter=None, course_filter=None):
@@ -107,6 +123,7 @@ def _process_data(course_data,
             ]
         prereqs = pd.concat([prereqs_to, prereqs_from])
 
+    pd.options.mode.chained_assignment = None
     course_data['course'] = (course_data['department_abbrev'] +
                              " " + course_data['course_number'].map(str))
 

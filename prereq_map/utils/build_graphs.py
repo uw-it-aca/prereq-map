@@ -2,9 +2,18 @@ import threading
 import os
 import json
 import pandas as pd
+import re
 from prereq_map.utils.process_data import _process_data, get_prereq_data, \
     get_course_data, process_data
 from prereq_map.models.graph import CourseGraph, CurricGraph
+
+
+def rebuild_graphs():
+    # to rebuild ALL graphs should be set higher than total UW course count
+    graphs_to_build = 900000
+    reset_course_graphs()
+    build_curric_graphs()
+    build_course_graphs(graphs_to_build)
 
 
 def reset_course_graphs():
@@ -49,6 +58,7 @@ def build_course_graphs(count):
         new_graphs = []
 
         for course in new_courses[:count - courses_saved]:
+            course = re.sub(' +', ' ', course)
             graph_json = json.dumps(_process_data(
                 course_data,
                 prereq_data,
