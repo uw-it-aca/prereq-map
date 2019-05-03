@@ -24,7 +24,8 @@ module.exports = {
                     name: "vendor",
                     priority: 10,
                     enforce: true
-                },
+                }
+                /*
                 extractVueStyles: {
                     test: m => {
                         return /\.vue\?vue&type=style/.test(m.identifier());
@@ -35,7 +36,7 @@ module.exports = {
                     // results in no vue-styles chunk
                     // Only a bundle.css file
                     enforce: false
-                },
+                },*/
             }
         }
     },
