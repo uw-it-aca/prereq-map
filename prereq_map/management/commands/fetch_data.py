@@ -33,3 +33,4 @@ class Command(BaseCommand):
 
         prereq.to_pickle(os.path.join(data_root, "prereq_data.pkl"))
         course_info.to_pickle(os.path.join(data_root, "course_data.pkl"))
+        curric_info.to_pickle(os.path.join(data_root, "curric_data.pkl"))
