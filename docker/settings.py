@@ -29,7 +29,7 @@ STATICFILES_FINDERS = (
 DATA_ROOT = os.path.join(BASE_DIR, "prereq_map/data")
 
 COMPRESS_ENABLED = True
-COMPRESS_OFFLINE = False
+COMPRESS_OFFLINE = True
 COMPRESS_OUTPUT_DIR = '/static'
 
 
