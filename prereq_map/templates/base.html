@@ -7,7 +7,6 @@
     <title>{% block title %}{% endblock %}</title>
 
     {% load static %}
-    {% load compress %}
     {% load render_bundle from webpack_loader %}
 
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, shrink-to-fit=no">
@@ -19,9 +18,7 @@
 
     <link href="https://unpkg.com/vue-bootstrap-typeahead/dist/VueBootstrapTypeahead.css" rel="stylesheet">
 
-    {% compress css %}
     <link rel="stylesheet" type="text/x-scss" href="{% static '/prereq_map/css/styles.scss' %}" />
-    {% endcompress %}
 
     <!-- base js frameworks -->
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
@@ -30,10 +27,8 @@
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js" ></script>-->
 
     <!-- app specific stuff -->
-    {% compress js %}
     <script src="{% static '/prereq_map/js/cluster.js' %}"></script>
     <script src="{% static '/prereq_map/js/app.js' %}"></script>
-    {% endcompress %}
 
     <!-- load bundled vendor files using webpack loader -->
     {% render_bundle 'vendor' %}
