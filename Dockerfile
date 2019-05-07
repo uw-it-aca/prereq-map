@@ -17,7 +17,7 @@ ADD --chown=acait:acait docker/ project/
 RUN chmod u+x /scripts/app_start.sh
 RUN . /app/bin/activate && pip install django-webpack-loader
 
-RUN . /app/bin/activate && python manage.py compress && python manage.py collectstatic
+RUN . /app/bin/activate && python manage.py compress && python manage.py collectstatic --noinput
 
 
 FROM node:8.15.1-jessie AS wpack
