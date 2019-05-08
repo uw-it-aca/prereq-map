@@ -50,6 +50,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 .search-width {
     input {
         height: 3rem;

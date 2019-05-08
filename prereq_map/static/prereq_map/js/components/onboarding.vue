@@ -135,7 +135,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 @import '../../css/_mixins.scss';
 
 .modal-backdrop {
