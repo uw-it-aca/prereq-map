@@ -67,9 +67,6 @@
 </script>
 
 <style lang="scss">
-
-@import '../../css/styles.scss';
-
 // char's note: scoped css is "broken" for this component because
 //  vue-bootstrap-typeahead is already a scoped component by default... so it
 // cannot be scoped again. just be aware of this in the future!

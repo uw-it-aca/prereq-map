@@ -135,9 +135,7 @@ export default {
 </script>
 
 <style lang="scss">
-
 @import '../../css/_mixins.scss';
-@import '../../css/styles.scss';
 
 .modal-backdrop {
     opacity: 0.8 !important;

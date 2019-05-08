@@ -50,7 +50,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../css/styles.scss';
 
 .search-width {
     input {
