@@ -7,6 +7,7 @@ addons:
   apt:
     packages:
     - gcc-4.8
+    - unixodbc-dev
 install:
   - pip install tox-travis
   - pip install pycodestyle
