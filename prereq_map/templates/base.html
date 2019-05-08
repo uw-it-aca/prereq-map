@@ -17,19 +17,13 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/fontawesome.css" integrity="sha384-4aon80D8rXCGx9ayDt85LbyUHeMWd3UiBaWliBlJ53yzm9hqN21A+o1pqoyK04h+" crossorigin="anonymous">
     <link href="https://unpkg.com/vue-bootstrap-typeahead/dist/VueBootstrapTypeahead.css" rel="stylesheet">
 
-    <!-- prereq-map theme -->
-    <link rel="stylesheet" type="text/css" href="{% static '/prereq_map/css/theme.css' %}" />
-
     <!-- base js libs -->
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
 
-    <!-- prereq-map js -->
-    <script src="{% static '/prereq_map/js/cluster.js' %}"></script>
-    <script src="{% static '/prereq_map/js/app.js' %}"></script>
-
     <!-- load bundled vendor files using webpack loader -->
+    {% render_bundle 'base' %}
     {% render_bundle 'vendor' %}
 
 </head>

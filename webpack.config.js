@@ -11,6 +11,7 @@ module.exports = {
     context: __dirname,
 
     entry: {
+        base: './prereq_map/static/prereq_map/js/base',
         vue_curriculum: './prereq_map/static/prereq_map/js/curriculum',
         vue_course: './prereq_map/static/prereq_map/js/course'
     },
