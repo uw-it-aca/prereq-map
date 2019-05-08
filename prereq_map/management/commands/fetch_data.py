@@ -13,7 +13,7 @@ class Command(BaseCommand):
         user = getattr(settings, "EDW_USER")
         data_root = getattr(settings, "DATA_ROOT")
         constring = "Driver={FreeTDS};" \
-                    "Server=edwpub.s.uw.edu;" \
+                    "SERVERNAME=sqlserver01;" \
                     "Database=UWSDBDataStore;" \
                     "Port=1433;" \
                     "TDS_Version=7.2;" \

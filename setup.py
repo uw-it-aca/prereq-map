@@ -31,6 +31,7 @@ setup(
         'pandas',
         'inflector',
         'UW-RestClients-SWS>=2.0.4,<3.0',
+        'pyodbc'
     ],
     license='Apache License, Version 2.0',
     description='A tool for visually displaying UW course prerequisites',
