@@ -1,124 +1,11 @@
-/* ==========================================================================
-   MAIN STYLE
-   ========================================================================== */
-/*boundless fonts*/
+/** global styles **/
 
-/**
-@font-face {
-  font-family: 'Encode Sans Compressed';
-  src: url('../../vendor/fonts/encodesanscondensed-400-regular-webfont.eot');
-  src: url('../../vendor/fonts/encodesanscondensed-400-regular-webfont.eot?#iefix') format('embedded-opentype'), url('../../vendor/fonts/encodesanscondensed-400-regular-webfont.woff') format('woff'), url('../../vendor/fonts/encodesanscondensed-400-regular-webfont.ttf') format('truetype'), url('../../vendor/fonts/encodesanscondensed-400-regular-webfont.svg#encodesanscondensed-400-regular-webfont') format('svg');
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Encode Sans Compressed';
-  src: url('../../vendor/fonts/encodesanscondensed-500-medium-webfont.eot');
-  src: url('../../vendor/fonts/encodesanscondensed-500-medium-webfont.eot?#iefix') format('embedded-opentype'), url('../../vendor/fonts/encodesanscondensed-500-medium-webfont.woff') format('woff'), url('../../vendor/fonts/encodesanscondensed-500-medium-webfont.ttf') format('truetype'), url('../../vendor/fonts/encodesanscondensed-500-medium-webfont.svg#encodesanscondensed-500-medium-webfont') format('svg');
-  font-weight: 500;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Encode Sans Compressed';
-  src: url('../../vendor/fonts/encodesanscompressed-600-semibold-webfont.eot');
-  src: url('../../vendor/fonts/encodesanscompressed-600-semibold-webfont.eot?#iefix') format('embedded-opentype'), url('../../vendor/fonts/encodesanscompressed-600-semibold-webfont.woff') format('woff'), url('../../vendor/fonts/encodesanscompressed-600-semibold-webfont.ttf') format('truetype'), url('../../vendor/fonts/encodesanscompressed-600-semibold-webfont.svg#encodesanscompressed-600-semibold-webfont') format('svg');
-  font-weight: 600;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Encode Sans Compressed';
-  src: url('../../vendor/fonts/encodesanscompressed-700-bold-webfont.eot');
-  src: url('../../vendor/fonts/encodesanscompressed-700-bold-webfont.eot?#iefix') format('embedded-opentype'), url('../../vendor/fonts/encodesanscompressed-700-bold-webfont.woff') format('woff'), url('../../vendor/fonts/encodesanscompressed-700-bold-webfont.ttf') format('truetype'), url('../../vendor/fonts/encodesanscompressed-700-bold-webfont.svg#encodesanscompressed-700-bold-webfont') format('svg');
-  font-weight: 700;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Encode Sans Compressed';
-  src: url('../../vendor/fonts/encodesanscompressed-800-extrabold-webfont.eot');
-  src: url('../../vendor/fonts/encodesanscompressed-800-extrabold-webfont.eot?#iefix') format('embedded-opentype'), url('../../vendor/fonts/encodesanscompressed-800-extrabold-webfont.woff') format('woff'), url('../../vendor/fonts/encodesanscompressed-800-extrabold-webfont.ttf') format('truetype'), url('../../vendor/fonts/encodesanscompressed-800-extrabold-webfont.svg#encodesanscompressed-800-extrabold-webfont') format('svg');
-  font-weight: 800;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Encode Sans Compressed';
-  src: url('../../vendor/fonts/encodesanscompressed-900-black-webfont.eot');
-  src: url('../../vendor/fonts/encodesanscompressed-900-black-webfont.eot?#iefix') format('embedded-opentype'), url('../../vendor/fonts/encodesanscompressed-900-black-webfont.woff') format('woff'), url('../../vendor/fonts/encodesanscompressed-900-black-webfont.ttf') format('truetype'), url('../../vendor/fonts/encodesanscompressed-900-black-webfont.svg#encodesanscompressed-900-black-webfont') format('svg');
-  font-weight: 900;
-  font-style: normal;
-}
-/*
-
-/* ++++++++++++++++++++++++++ GLOBAL ELEMENTS ++++++++++++++++++++++++++ */
-/* color: #cc721e; orange */
-/* color: #f7b670;  lite orange */
-/* color:#4b2e83;  UW Purple */
-
-/*********** Global Reset ***********/
 body {
     font-family: 'Open Sans', Helvetica, arial, san-serif;
     min-width: 320px !important;
 }
 
-/* Text structure */
-
-/**
-h1 {
-    font-size: 1.75rem;
-    font-weight: 600;
-    font-family: 'Open Sans', Helvetica, arial, san-serif;
-}
-
-h2 {
-    font-size: 1.5rem;
-    margin-top: 1rem;
-    margin-bottom: 0.6875rem;
-    font-family: 'Open Sans', Helvetica, arial, san-serif;
-}
-
-h3 {
-    font-size: 1.125rem;
-    font-weight: normal;
-    color: #333;
-    margin-top: 1rem;
-    margin-bottom: 0.6875rem;
-    font-family: 'Open Sans', Helvetica, arial, san-serif;
-}
-
-p{
-    font-family: 'Open Sans', Helvetica, arial, san-serif;
-    font-size: 0.875rem;
-}
-
-th{
-    font-family: 'Open Sans', Helvetica, arial, san-serif;
-    font-size: 0.875rem;
-    font-weight: 600;
-}
-
-ol, ul{
-    font-family: 'Open Sans', Helvetica, arial, san-serif;
-    font-size: 0.875rem;
-}
-
-.instruction-text{
-    font-family: 'Open Sans', Helvetica, arial, san-serif;
-    font-size: 1.0rem;
-    font-weight: 400;
-    line-height: 1.375rem;
-}
-
-.campus-style{
-    font-family: 'Open Sans', Helvetica, arial, san-serif;
-    font-size: 0.875rem;
-    color: #666;
-    font-style: italic;
-    padding-top: 0.625rem;
-    padding-bottom: 0.6875rem;
-}
-**/
-
 /* ================== Utility Navbar Bootstrap Override ================== */
-
 
 .navbar-dark{
     background-color: #444;
@@ -173,8 +60,6 @@ ol, ul{
         top: 2rem;
         z-index: 2;}
 }
-
-
 
 /* ================== Branding Bar ================== */
 
@@ -231,53 +116,6 @@ ol, ul{
     background-color:#fff !important
 }
 
-
-
-/* ================== Search Bar ================== */
-
-/**
-#main-search.search-width{
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-
-#main-search .form-styling{
-    height: 3rem;
-    border-radius: 0;
-    border: 0.046875rem solid #333;
-    border-right: 0;
-}
-
-#main-search .button-styling{
-    height: 3rem;
-    background: white;
-    border-radius: 0;
-    border: 0.046875rem solid #666;
-    border-left: 0;
-}
-
-#main-search .button-styling:hover{
-    background-color:#B7A57A;
-    border-radius: 0;
-    border: 0.046875rem solid #666;
-}
-
-#main-search i{
-    color: #444;
-}
-
-#main-search input:focus{
-  box-shadow: none;
-}
-
-@media (max-width: 768px){
-    #main-search.search-width{width: 100%}
-}
-
-**/
-
 /* ================== Course Search ================== */
 
 #prereq-table th, #prereq-table td{
@@ -294,8 +132,8 @@ ol, ul{
     margin-left: -2.325rem;
 }
 
-
 /*** boilerplate ***/
+
 .prereq {
     display: flex;
     min-height: 100vh;
@@ -350,6 +188,7 @@ ol, ul{
 }
 
 /*** comma separated list ***/
+
 .prereq-list { list-style: none; padding: 0;
 
     li { display: inline-block; margin-right: 5px;
@@ -365,6 +204,7 @@ ol, ul{
 }
 
 /**** vue utils ***/
+
 [v-cloak] {
     display: none;
 }
