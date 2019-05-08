@@ -25,18 +25,6 @@ module.exports = {
                     priority: 10,
                     enforce: true
                 }
-                /*
-                extractVueStyles: {
-                    test: m => {
-                        return /\.vue\?vue&type=style/.test(m.identifier());
-                    },
-                    name: "vue-styles",
-                    chunks: "all",
-                    // enforce: false
-                    // results in no vue-styles chunk
-                    // Only a bundle.css file
-                    enforce: false
-                },*/
             }
         }
     },
@@ -62,10 +50,6 @@ module.exports = {
                 test: /\.vue$/,
                 loader: 'vue-loader'
             },
-            /*{
-                test: /\.(css|scss)/,
-                loaders: ['style-loader', 'css-loader', 'sass-loader']
-            },*/
             {
                 test: /\.s[ac]ss$/,
                 use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
