@@ -39,7 +39,7 @@
 </template>
 
 <script>
-//import { dataBus } from "../course";
+//import { dataBus } from "../pages/course/";
 import Vue from 'vue/dist/vue.js'
 import VueShave from 'vue-shave';
 Vue.use( VueShave );
