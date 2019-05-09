@@ -12,8 +12,8 @@ module.exports = {
 
     entry: {
         base: './prereq_map/static/prereq_map/js/base.js',
-        curriculum: './prereq_map/static/prereq_map/js/pages/curriculum/',
-        course: './prereq_map/static/prereq_map/js/pages/course/'
+        curriculum: './prereq_map/static/prereq_map/js/pages/curriculum/index.js',
+        course: './prereq_map/static/prereq_map/js/pages/course/index.js'
     },
 
     optimization: {
