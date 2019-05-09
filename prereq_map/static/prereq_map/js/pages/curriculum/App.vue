@@ -1,25 +1,23 @@
 <template>
+<div id="curriculum" class="container py-1 mt-2" role="main">
 
-    <div id="curriculum" class="container py-1 mt-2" role="main">
+    <onboarding></onboarding>
 
-        <onboarding></onboarding>
+    <h1 class="pt-4 pb-2">Curriculum Search</h1>
+    <p class="instruction-text pb-4">View the prerequisite map of courses in a curriculum. </p>
 
-        <h1 class="pt-4 pb-2">Curriculum Search</h1>
-        <p class="instruction-text pb-4">View the prerequisite map of courses in a curriculum. </p>
+    <typeahead></typeahead>
 
-        <typeahead></typeahead>
-
-        <div class="row mt-5 mb-5">
-            <div class="col-md-9 mb-3">
-                <curric-graph></curric-graph>
-            </div>
-            <div class="col-sm-12 col-md-3">
-                <course-infobox ref="infobox"></course-infobox>
-            </div>
+    <div class="row mt-5 mb-5">
+        <div class="col-md-9 mb-3">
+            <curric-graph></curric-graph>
         </div>
-
+        <div class="col-sm-12 col-md-3">
+            <course-infobox ref="infobox"></course-infobox>
+        </div>
     </div>
 
+</div>
 </template>
 
 <script>

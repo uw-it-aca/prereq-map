@@ -1,26 +1,24 @@
 <template>
+<div id="course" class="container py-1 mt-2" role="main">
 
-  <div id="course" class="container py-1 mt-2" role="main">
+    <h1 class="pt-4 pb-2">Course Search</h1>
+    <p class="instruction-text pb-4">View course prerequisites and related curricula</p>
 
-      <h1 class="pt-4 pb-2">Course Search</h1>
-      <p class="instruction-text pb-4">View course prerequisites and related curricula</p>
+    <course-search-input></course-search-input>
 
-      <course-search-input></course-search-input>
+    <div v-cloak v-if="course_param !== undefined">
 
-      <div v-cloak v-if="course_param !== undefined">
+        <div v-if="course_valid" class="row mt-5 mb-5">
+            <course-detail v-bind:course-param="course_param"></course-detail>
+        </div>
 
-          <div v-if="course_valid" class="row mt-5 mb-5">
-              <course-detail v-bind:course-param="course_param"></course-detail>
-          </div>
+        <div v-cloak v-if="course_valid === false" class="row mt-5 mb-5">
+            The course you entered does not exist or has no data
+        </div>
 
-          <div v-cloak v-if="course_valid === false" class="row mt-5 mb-5">
-              The course you entered does not exist or has no data
-          </div>
+    </div>
 
-      </div>
-
-  </div>
-
+</div>
 </template>
 
 <script>

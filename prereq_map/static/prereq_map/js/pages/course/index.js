@@ -6,9 +6,9 @@ Vue.use(VueRouter)
 
 var router = new VueRouter({
     mode: 'history',
-    routes: [
-        { path: '/course-search/' },
-    ]
+    routes: [{
+        path: '/course-search/'
+    }, ]
 });
 
 export const dataBus = new Vue();
