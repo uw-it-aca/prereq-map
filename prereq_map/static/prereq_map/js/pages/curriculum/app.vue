@@ -4,7 +4,7 @@
     <onboarding></onboarding>
 
     <h1 class="pt-4 pb-2">Curriculum Search</h1>
-    <p class="instruction-text pb-4">View the prerequisite map of courses in a curriculum. </p>
+    <p class="instruction-text pb-4">View the prerequisite map of courses in a curriculum</p>
 
     <typeahead></typeahead>
 

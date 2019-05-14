@@ -23,6 +23,7 @@
                             <div class="carousel-item active prereq-onboarding-main" style="background-image:url('/static/prereq_map/img/modal-bg.jpg');">
                                 <h2 class="mb-4" style="margin-top:200px;">Discover courses and plan your schedule more effectively</h2>
                                 <p>It can be tough figuring out which courses to take. How do you find courses similar to ones you’ve really enjoyed? Of the courses you’ve already taken, which ones provide a foundation for more advanced coursework? What sequence of courses is best? The <strong>Prereq Map</strong> helps you discover interesting courses and enables you to be strategic about planning your course schedule. (What’s a prereq? Prereq is short for prerequisites: the courses that act as a foundation for other courses.)</p>
+                                <p>Remember to talk to your adviser when course planning.</p>
                                 <div class="text-center mt-3">
                                     <div><a href="https://itconnect.uw.edu/learn/tools/course-prereq-map/" target="_blank">Additional details</a></div>
                                 </div>
