@@ -1,13 +1,13 @@
 <template>
-    <div v-if="curric_param !== undefined">
-        <div v-cloak v-if="curric_emtpy">
-            This curriculum does not have any courses with prerequisites. Please consult an adviser.
-        </div>
-        <div v-else>
-            <small class="text-secondary">Use the scroll function on your mouse or touchpad to zoom in and out</small>
-            <div id="graph_container"></div>
-        </div>
+<div v-if="curric_param !== undefined">
+    <div v-cloak v-if="curric_emtpy">
+        This curriculum does not have any courses with prerequisites. Please consult an adviser.
     </div>
+    <div v-else>
+        <small class="text-secondary">Use the scroll function on your mouse or touchpad to zoom in and out</small>
+        <div id="graph_container"></div>
+    </div>
+</div>
 </template>
 
 <script>

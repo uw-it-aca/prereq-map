@@ -2,21 +2,23 @@ const path = require("path")
 const webpack = require('webpack')
 const BundleTracker = require('webpack-bundle-tracker')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const TerserJSPlugin = require('terser-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 module.exports = {
 
-    mode: "development",
     context: __dirname,
 
     entry: {
-        base: './prereq_map/static/prereq_map/js/base',
-        vue_curriculum: './prereq_map/static/prereq_map/js/curriculum',
-        vue_course: './prereq_map/static/prereq_map/js/course'
+        base: './prereq_map/static/prereq_map/js/base.js',
+        curriculum: './prereq_map/static/prereq_map/js/pages/curriculum/index.js',
+        course: './prereq_map/static/prereq_map/js/pages/course/index.js'
     },
 
     optimization: {
+        minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
         splitChunks: {
             cacheGroups: {
                 vendor: {
