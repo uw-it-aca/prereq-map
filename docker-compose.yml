@@ -20,4 +20,4 @@ services:
       - ./webpack.config.js:/devtools/prereq-map/webpack.config.js
       - ./prereq_map:/devtools/prereq-map/prereq_map
     working_dir: /devtools/prereq-map
-    command: bash -c "yes yes | npm install; npx webpack --watch"
+    command: bash -c "yes yes | npm install; npx webpack --watch --mode=development"

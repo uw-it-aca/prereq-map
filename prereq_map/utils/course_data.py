@@ -33,6 +33,10 @@ def split_course(course_id):
 
 def get_course_label(term, course):
     curric, course = split_course(course)
+    # handle 2 digit courses
+    if len(course) == 2:
+        course = "0" + course
+
     label = ",".join([str(term.year), term.quarter, curric, course])
     # Assumes there is always an A section
     label += "/A"
