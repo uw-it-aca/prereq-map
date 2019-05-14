@@ -27,8 +27,11 @@ class CourseTitle(models.Model):
     def get_course_title(course_filter):
         regex = re.compile(r'^([a-zA-Z\s]+)(\d+)')
         match = regex.match(course_filter)
-        dept_abbr = match.group(1).strip()
-        course_num = match.group(2)
-        course = CourseTitle.objects.get(department_abbrev=dept_abbr,
-                                         course_number=course_num)
-        return course.long_course_title
+        try:
+            dept_abbr = match.group(1).strip()
+            course_num = match.group(2)
+            course = CourseTitle.objects.get(department_abbrev=dept_abbr,
+                                             course_number=course_num)
+            return course.long_course_title
+        except AttributeError:
+            return ""
