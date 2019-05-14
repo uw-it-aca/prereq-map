@@ -13,7 +13,7 @@ class Command(BaseCommand):
         user = getattr(settings, "EDW_USER")
         data_root = getattr(settings, "DATA_ROOT")
         constring = "Driver={FreeTDS};" \
-                    "Server=edwpub.s.uw.edu;" \
+                    "SERVERNAME=sqlserver01;" \
                     "Database=UWSDBDataStore;" \
                     "Port=1433;" \
                     "TDS_Version=7.2;" \
@@ -33,3 +33,4 @@ class Command(BaseCommand):
 
         prereq.to_pickle(os.path.join(data_root, "prereq_data.pkl"))
         course_info.to_pickle(os.path.join(data_root, "course_data.pkl"))
+        curric_info.to_pickle(os.path.join(data_root, "curric_data.pkl"))
