@@ -5,7 +5,6 @@ import axios from 'axios';
 import CourseSearchInput from "./components/course-search-input.vue";
 import CourseDetail from "./components/course-detail.vue";
 
-
 Vue.use(VueRouter)
 
 var router = new VueRouter({
@@ -24,11 +23,11 @@ new Vue({
     components: {
         'course-search-input': CourseSearchInput,
         'course-detail': CourseDetail,
-        
+
     },
     data() {
         return {
-            course_param: '',
+            course_param: undefined,
             course_data: [],
             course_number: '',
             course_valid: undefined

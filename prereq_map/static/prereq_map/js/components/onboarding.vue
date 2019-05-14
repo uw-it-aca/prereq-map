@@ -12,7 +12,7 @@
                 </div>
                 <div class="modal-body">
 
-                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="false">
+                    <div id="carouselExampleIndicators" class="carousel slide">
                         <ol class="carousel-indicators">
                             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                             <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -21,39 +21,36 @@
                         </ol>
                         <div class="carousel-inner rounded-lg">
                             <div class="carousel-item active prereq-onboarding-main" style="background-image:url('/static/prereq_map/img/modal-bg.jpg');">
-                                <h2 class="text-white mb-5">Discover courses and plan your schedule more effectively</h2>
-
-                                <p class="text-white">It can be tough figuring out which courses to take. How do you find courses similar to ones you’ve really enjoyed? Of the courses you’ve already taken, which ones provide a foundation for more advanced coursework? What sequence of courses is best? The Prereq Map helps you discover interesting courses and enables you to be strategic about planning your course schedule. (What’s a prereq? Prereq is short for prerequisites: the courses that act as a foundation for other courses.)</p>
-
-                                <p class="text-white">The Prereq Map shows current prerequisites. When planning several quarters out, keep in mind that prerequisites may change. Also note that the Prereq Map is based solely on course prerequisites and does not take into account specific requirements for graduation.</p>
-
+                                <h2 class="mb-4" style="margin-top:200px;">Discover courses and plan your schedule more effectively</h2>
+                                <p>It can be tough figuring out which courses to take. How do you find courses similar to ones you’ve really enjoyed? Of the courses you’ve already taken, which ones provide a foundation for more advanced coursework? What sequence of courses is best? The <strong>Prereq Map</strong> helps you discover interesting courses and enables you to be strategic about planning your course schedule. (What’s a prereq? Prereq is short for prerequisites: the courses that act as a foundation for other courses.)</p>
                                 <div class="text-center mt-3">
-                                    <div><a href="#" target="_blank">Further details</a></div>
+                                    <div><a href="https://itconnect.uw.edu/learn/tools/course-prereq-map/" target="_blank">Additional details</a></div>
                                 </div>
-
                                 <div class="text-center mt-2">
                                     <button v-on:click="accept" class="btn btn-primary prereq-purple">Got it!</button>
                                 </div>
-
                             </div>
                             <div class="carousel-item">
-                                <h2 class="mb-5">See the prerequisite map for a curriculum (e.g. Biology, BIOL)</h2>
-                                <p>Begin exploring the Prereq Map by choosing a curricula (subjects comprising a course of study) you’re interested in. Follow the lines to see the prerequisites for courses. View courses that have prereqs and courses that are prereqs for other courses. </p>
+                                <img src="/static/prereq_map/img/onboarding-biol.png" style="width:600px; border:solid 2px #333;"/>
+                                <h2 class="mt-4 mb-4">See the prerequisite map for a curriculum <small>(e.g. Biology, BIOL)</small></h2>
+                                <p>Begin exploring the Prereq Map by choosing a curriculum (subjects comprising a course of study, e.g., Biology or BIOL) you’re interested in. Follow the lines to view prerequisites for courses. View courses that have prereqs and courses that are prereqs for other courses.</p>
                             </div>
                             <div class="carousel-item">
-                                <h2 class="mb-5">Get additional info about a course</h2>
-                                <p>Each node on the map represents a specific course. Click the node to view prerequisite information for the course. Click the links inside the node to learn more.</p>
+                                <img src="/static/prereq_map/img/onboarding-infobox.png" style="width:600px; border:solid 2px #333;"/>
+                                <h2 class="mt-4 mb-4">Get additional info about a course</h2>
+                                <p>Each square on the map represents a specific course. Click the square to view prerequisite information for the course. Click the links in the sidebar to learn more.</p>
                             </div>
                             <div class="carousel-item">
-                                <h2 class="mb-5">Get more course detail and find related curricula.</h2>
+                                <img src="/static/prereq_map/img/onboarding-course-details.png" style="width:600px; border:solid 2px #333;"/>
+                                <h2 class="mt-4 mb-4">Get more course detail and find related curricula</h2>
                                 <p>On the Course Search page, click links to browse related course offerings. You can also explore related curricula and their prerequisite maps.</p>
                             </div>
                         </div>
-                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <a class="carousel-control-prev d-none" href="#carouselExampleIndicators" role="button" data-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="sr-only">Previous</span>
                         </a>
-                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <a class="carousel-control-next d-none" href="#carouselExampleIndicators" role="button" data-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="sr-only">Next</span>
                         </a>
@@ -83,8 +80,11 @@ export default {
         if ($cookies.get('prereq-onboarding-accepted') == 'false') {
             // show the onboarding modal
             $('#onboardingModal').modal({backdrop: 'static', keyboard: false})
+            //
+            this.carouselConfig();
         }
     },
+
     methods: {
 
         // handle the 'get started' button click event
@@ -97,6 +97,36 @@ export default {
 
             // hide the modal (until end of the current term)
             $('#onboardingModal').modal('hide')
+        },
+
+        carouselConfig: function() {
+
+            var carouselLength = $('.carousel-item').length - 1;
+            // If there is more than one item
+
+            if (carouselLength) {
+                $('.carousel-control-next').removeClass('d-none');
+            }
+
+            $('.carousel').carousel({
+                interval: false,
+                wrap: false
+            }).on('slide.bs.carousel', function (e) {
+                // First one
+                if (e.to == 0) {
+                    $('.carousel-control-prev').addClass('d-none');
+                    $('.carousel-control-next').removeClass('d-none');
+                } // Last one
+                else if (e.to == carouselLength) {
+                    $('.carousel-control-prev').removeClass('d-none');
+                    $('.carousel-control-next').addClass('d-none');
+                } // The rest
+                else {
+                    $('.carousel-control-prev').removeClass('d-none');
+                    $('.carousel-control-next').removeClass('d-none');
+                }
+            });
+
         }
 
     }
@@ -105,7 +135,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 @import '../../css/_mixins.scss';
 
 .modal-backdrop {
@@ -126,14 +155,14 @@ export default {
 }
 .modal-body {
     padding: 0;
-    height: 600px;
+    height: 800px;
 }
 
 .carousel-inner {
-    height: 600px;
+    height: 800px;
 }
 .carousel-item {
-    height: 600px;
+    height: 800px;
     overflow: scroll;
 
     padding: 40px 50px;
@@ -143,7 +172,7 @@ export default {
     }
 
     @include breakpoint(desktop) {
-        padding: 40px 100px !important;
+        padding: 100px !important;
     }
 
     border: none;

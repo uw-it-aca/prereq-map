@@ -1,10 +1,10 @@
 <template>
-    <div v-if="this.curric_param !== undefined">
-        <div v-cloak v-if="this.curric_emtpy">
-            This curriculum does not have any course data.
+    <div v-if="curric_param !== undefined">
+        <div v-cloak v-if="curric_emtpy">
+            This curriculum does not have any courses with prerequisites. Please consult an adviser.
         </div>
         <div v-else>
-            <small class="text-secondary">Use the mouse scroll wheel to control zoom-in and zoom-out.</small>
+            <small class="text-secondary">Use the scroll function on your mouse or touchpad to zoom in and out</small>
             <div id="graph_container"></div>
         </div>
     </div>
@@ -16,7 +16,7 @@ export default {
 
     data() {
         return {
-            curric_param: '',
+            curric_param: undefined,
             curric_data: [],
             course_list: [],
             curric_emtpy: undefined

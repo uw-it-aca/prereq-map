@@ -6,7 +6,7 @@
             v-model="query"
             :data="curric_list"
             @hit="selected_curric = $event"
-            placeholder="Search curriculum..."
+            placeholder="E.G. ANTH"
         />
     </div>
 </div>
@@ -26,6 +26,7 @@
         data() {
             return {
                 query: '',
+                query2: '',
                 selected_curric: null,
                 curric_list: [],
                 curric_objs: null
@@ -66,16 +67,20 @@
 </script>
 
 <style lang="scss">
+// char's note: scoped css is "broken" for this component because
+//  vue-bootstrap-typeahead is already a scoped component by default... so it
+// cannot be scoped again. just be aware of this in the future!
+
 .curric-search {
+
     input {
         height: 3rem;
         font-size: 1.25rem;
-        //border-radius: 0;
-        //border: 0.04688rem solid #333;
+        color: #000;
     }
-}
 
-.vbt-autcomplete-list {
-    box-shadow: none !important;
+    .vbt-autcomplete-list {
+        box-shadow: none !important;
+    }
 }
 </style>
