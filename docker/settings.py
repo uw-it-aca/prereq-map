@@ -21,5 +21,24 @@ STATICFILES_FINDERS = (
 
 DATA_ROOT = os.path.join(BASE_DIR, "prereq_map/data")
 
+GOOGLE_ANALYTICS_KEY = os.getenv("GOOGLE_ANALYTICS_KEY")
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'debug':  True,
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'prereq_map.context_processors.google_analytics',
+            ],
+        }
+    }
+]
+
 if os.getenv("ENV") == "localdev":
     DEBUG = True
