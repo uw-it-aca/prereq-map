@@ -67,9 +67,14 @@ export default {
         // global click handler for show node event
         $(document).on('showCourseInfo', (event, course_code) => {
             this.show(course_code);
+
+            // https://developers.google.com/analytics/devguides/collection/analyticsjs/events
+            // google event category, action, label, value
+            this.$ga.event('curric map', 'clicked course node', course_code)
         });
 
         // global click handler for close node event
+
         $(document).on('closeCourseInfo', (event) => {
             this.close();
         });
