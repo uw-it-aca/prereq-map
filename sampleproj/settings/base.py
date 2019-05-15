@@ -19,15 +19,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ''
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
-ALLOWED_HOSTS = []
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -64,6 +55,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'prereq_map.context_processors.google_analytics',
             ],
         },
     },
@@ -133,9 +125,6 @@ STATICFILES_DIRS = [
 ]
 
 DATA_ROOT = os.path.join(BASE_DIR, "prereq_map/data")
-
-#EDW_PASSWORD = "XXXXX"
-#EDW_USER = "netid\\XXXXXXX"
 
 # webpack loader (vuejs)
 

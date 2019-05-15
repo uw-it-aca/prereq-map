@@ -23,6 +23,7 @@ Docker
     in the 'docker' directory.
 
         $ docker-compose up
+
 3. In the case that changes are made to the Dockerfile or docker-compose.yml file,
     you will need to rebuild the image. In this case, 'app' is the name of the
     Docker image for the Django project.
