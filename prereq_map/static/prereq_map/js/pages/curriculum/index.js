@@ -3,6 +3,8 @@ import VueRouter from 'vue-router/dist/vue-router.js'
 import VueAnalytics from 'vue-analytics'
 import App from './app.vue'
 
+const gaCode = $("body").data("google-analytics");
+
 Vue.use(VueRouter)
 
 var router = new VueRouter({
@@ -13,7 +15,7 @@ var router = new VueRouter({
 });
 
 Vue.use(VueAnalytics, {
-  id: 'UA-XXX-X',
+  id: gaCode,
   router,
   debug: {
     enabled: true
