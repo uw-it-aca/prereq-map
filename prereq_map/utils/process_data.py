@@ -235,6 +235,13 @@ def _process_data(course_data,
     response.update({'x': {'nodes': nodes,
                            'edges': edges,
                            'options': options}})
+
+    if course_filter:
+        data = json.dumps(response)
+        CourseGraph(graph_data=data, course_id=course_filter).save()
+    if curric_filter:
+        data = json.dumps(response)
+        CurricGraph(graph_data=data, curric_id=curric_filter).save()
     return response
 
 
