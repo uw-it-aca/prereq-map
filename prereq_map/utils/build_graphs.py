@@ -7,6 +7,9 @@ from prereq_map.utils.process_data import _process_data, get_prereq_data, \
     get_course_data, process_data
 from prereq_map.models.graph import CourseGraph, CurricGraph
 
+# Number of graphs to bulk_create at once
+GRAPH_SAVE_LIMIT = 1000
+
 
 def rebuild_graphs():
     # to rebuild ALL graphs should be set higher than total UW course count
@@ -66,6 +69,9 @@ def build_course_graphs(count):
             ))
             new_graphs.append(CourseGraph(course_id=course,
                                           graph_data=graph_json))
+            if len(new_graphs) == GRAPH_SAVE_LIMIT:
+                CourseGraph.objects.bulk_create(new_graphs)
+                new_graphs.clear()
         CourseGraph.objects.bulk_create(new_graphs)
 
 
