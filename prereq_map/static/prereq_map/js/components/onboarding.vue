@@ -24,12 +24,7 @@
                                 <h2 class="mb-4" style="margin-top:200px;">Discover courses and plan your schedule more effectively</h2>
                                 <p>It can be tough figuring out which courses to take. How do you find courses similar to ones you’ve really enjoyed? Of the courses you’ve already taken, which ones provide a foundation for more advanced coursework? What sequence of courses is best? The <strong>Prereq Map</strong> helps you discover interesting courses and enables you to be strategic about planning your course schedule. (What’s a prereq? Prereq is short for prerequisites: the courses that act as a foundation for other courses.)</p>
                                 <p>Remember to talk to your adviser when course planning.</p>
-                                <div class="text-center mt-3">
-                                    <div><a href="https://itconnect.uw.edu/learn/tools/course-prereq-map/" target="_blank">Additional details</a></div>
-                                </div>
-                                <div class="text-center mt-2">
-                                    <button v-on:click="accept" class="btn btn-primary prereq-purple">Got it!</button>
-                                </div>
+
                             </div>
                             <div class="carousel-item">
                                 <img src="/static/prereq_map/img/onboarding-biol.png" style="width:600px; border:solid 2px #333;"/>
@@ -45,6 +40,14 @@
                                 <img src="/static/prereq_map/img/onboarding-course-details.png" style="width:600px; border:solid 2px #333;"/>
                                 <h2 class="mt-4 mb-4">Get more course detail and find related curricula</h2>
                                 <p>On the Course Search page, click links to browse related course offerings. You can also explore related curricula and their prerequisite maps.</p>
+
+                                <div class="text-center mt-3">
+                                    <div><a href="https://itconnect.uw.edu/learn/tools/course-prereq-map/" target="_blank">Additional details</a></div>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <button v-on:click="accept" class="btn btn-primary prereq-purple">Got it!</button>
+                                </div>
+                                
                             </div>
                         </div>
                         <a class="carousel-control-prev d-none" href="#carouselExampleIndicators" role="button" data-slide="prev">
