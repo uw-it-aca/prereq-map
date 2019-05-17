@@ -1,6 +1,6 @@
 import os
 from setuptools import setup
-
+ 
 README = """
 See the README on `GitHub
 <https://github.com/uw-it-aca/prereq_map>`_.
