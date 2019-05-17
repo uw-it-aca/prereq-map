@@ -20,12 +20,14 @@
                             <li data-target="#carouselExampleIndicators" data-slide-to="3" v-on:click="$ga.event('onboarding', 'clicked', 'page 4 indicator')"></li>
                         </ol>
                         <div class="carousel-inner rounded-lg">
+
                             <div class="carousel-item active prereq-onboarding-main" style="background-image:url('/static/prereq_map/img/modal-bg.jpg');">
                                 <h2 class="mb-4" style="margin-top:200px;">Discover courses and plan your schedule more effectively</h2>
                                 <p>It can be tough figuring out which courses to take. How do you find courses similar to ones you’ve really enjoyed? Of the courses you’ve already taken, which ones provide a foundation for more advanced coursework? What sequence of courses is best? The <strong>Prereq Map</strong> helps you discover interesting courses and enables you to be strategic about planning your course schedule. (What’s a prereq? Prereq is short for prerequisites: the courses that act as a foundation for other courses.)</p>
                                 <p>Remember to talk to your adviser when course planning.</p>
 
                             </div>
+
                             <div class="carousel-item">
                                 <img src="/static/prereq_map/img/onboarding-biol.png" style="width:600px; border:solid 2px #333;"/>
                                 <h2 class="mt-4 mb-4">See the prerequisite map for a curriculum <small>(e.g. Biology, BIOL)</small></h2>
@@ -86,6 +88,14 @@ export default {
             $('#onboardingModal').modal({backdrop: 'static', keyboard: false})
             //
             this.carouselConfig();
+
+            // google analytics
+            this.$ga.page({
+              page: '/onboarding/page1',
+              title: 'onboarding home',
+              //location: window.location.href
+            })
+
         }
     },
 
