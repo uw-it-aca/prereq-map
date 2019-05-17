@@ -102,9 +102,9 @@ def _process_data(course_data,
             prereqs['department_abbrev'] == curric_filter]
 
     if course_filter:
-        course_data = course_data[course_data['course'] == course_filter]
-        #Drop course if no course data for it exists
-        if len(course_data.index) == 0:
+        # Drop course if no course data for it exists
+        filtered_course = course_data.loc[course_data['course'] == course_filter]
+        if len(filtered_course.index) == 0:
             return None
 
         try:
