@@ -6,7 +6,7 @@
 
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" v-on:click="$ga.event('onboarding', 'clicked', 'manual close button')">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -14,10 +14,10 @@
 
                     <div id="carouselExampleIndicators" class="carousel slide">
                         <ol class="carousel-indicators">
-                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active" v-on:click="$ga.event('onboarding', 'clicked', 'page 1 indicator')"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1" v-on:click="$ga.event('onboarding', 'clicked', 'page 2 indicator')"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2" v-on:click="$ga.event('onboarding', 'clicked', 'page 3 indicator')"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="3" v-on:click="$ga.event('onboarding', 'clicked', 'page 4 indicator')"></li>
                         </ol>
                         <div class="carousel-inner rounded-lg">
                             <div class="carousel-item active prereq-onboarding-main" style="background-image:url('/static/prereq_map/img/modal-bg.jpg');">
@@ -42,19 +42,19 @@
                                 <p>On the Course Search page, click links to browse related course offerings. You can also explore related curricula and their prerequisite maps.</p>
 
                                 <div class="text-center mt-3">
-                                    <div><a href="https://itconnect.uw.edu/learn/tools/course-prereq-map/" target="_blank">Additional details</a></div>
+                                    <div><a href="https://itconnect.uw.edu/learn/tools/course-prereq-map/" v-on:click="$ga.event('onboarding', 'clicked', 'myplan link (outbound)')" target="_blank">Additional details</a></div>
                                 </div>
                                 <div class="text-center mt-2">
                                     <button v-on:click="accept" class="btn btn-primary prereq-purple">Got it!</button>
                                 </div>
-                                
+
                             </div>
                         </div>
-                        <a class="carousel-control-prev d-none" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <a class="carousel-control-prev d-none" href="#carouselExampleIndicators" role="button" data-slide="prev" v-on:click="$ga.event('onboarding', 'clicked', 'previous arrow')">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="sr-only">Previous</span>
                         </a>
-                        <a class="carousel-control-next d-none" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <a class="carousel-control-next d-none" href="#carouselExampleIndicators" role="button" data-slide="next" v-on:click="$ga.event('onboarding', 'clicked', 'next arrow')">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="sr-only">Next</span>
                         </a>
@@ -101,6 +101,10 @@ export default {
 
             // hide the modal (until end of the current term)
             $('#onboardingModal').modal('hide')
+
+            // google analytics
+            this.$ga.event('onboarding', 'clicked', 'got it button')
+
         },
 
         carouselConfig: function() {
