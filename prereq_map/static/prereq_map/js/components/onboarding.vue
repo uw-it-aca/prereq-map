@@ -6,7 +6,7 @@
 
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" v-on:click="$ga.event('onboarding', 'clicked', 'manual close button')">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" v-on:click="$ga.event('onboarding', 'click', 'close button')">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -43,7 +43,7 @@
                                 <p>On the Course Search page, click links to browse related course offerings. You can also explore related curricula and their prerequisite maps.</p>
 
                                 <div class="text-center mt-3">
-                                    <div><a href="https://itconnect.uw.edu/learn/tools/course-prereq-map/" v-on:click="$ga.event('onboarding', 'clicked', 'myplan link (outbound)')" target="_blank">Additional details</a></div>
+                                    <div><a href="https://itconnect.uw.edu/learn/tools/course-prereq-map/" v-on:click="$ga.event('outbound', 'click', 'https://itconnect.uw.edu/learn/tools/course-prereq-map/')" target="_blank">Additional details</a></div>
                                 </div>
                                 <div class="text-center mt-2">
                                     <button v-on:click="accept" class="btn btn-primary prereq-purple">Got it!</button>
@@ -111,7 +111,7 @@ export default {
             $('#onboardingModal').modal('hide')
 
             // google analytics (category, action, label)
-            this.$ga.event('onboarding', 'clicked', 'got it button')
+            this.$ga.event('onboarding', 'click', 'got it button')
 
         },
 
