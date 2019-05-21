@@ -8,6 +8,7 @@ from prereq_map.models.course_title import CourseTitle
 from prereq_map.utils.course_data import get_section_details
 from prereq_map.models.graph import CourseGraph, CurricGraph
 from uw_sws.exceptions import InvalidSectionID
+from django.conf import settings
 
 """
 Unless we want to mess around with plots offline there should be no need to
@@ -35,17 +36,26 @@ D3 or vis.js later on.
 """
 
 
+CURRIC_BLACKLIST = ["TRAIN", "TTRAIN"]
+USE_CACHE = getattr(settings, 'USE_CACHE', False)
+
 def get_graph(curric_filter=None, course_filter=None):
     if curric_filter:
         try:
-            graph = CurricGraph.objects.get(curric_id=curric_filter)
-            return json.loads(graph.graph_data)
+            if USE_CACHE:
+                graph = CurricGraph.objects.get(curric_id=curric_filter)
+                return json.loads(graph.graph_data)
+            else:
+                return process_data(curric_filter=curric_filter)
         except CurricGraph.DoesNotExist:
             return process_data(curric_filter=curric_filter)
     if course_filter:
         try:
-            graph = CourseGraph.objects.get(course_id=course_filter)
-            return json.loads(graph.graph_data)
+            if USE_CACHE:
+                graph = CourseGraph.objects.get(course_id=course_filter)
+                return json.loads(graph.graph_data)
+            else:
+                return process_data(course_filter=course_filter)
         except CourseGraph.DoesNotExist:
             return process_data(course_filter=course_filter)
 
@@ -140,8 +150,14 @@ def _process_data(course_data,
                                       'long_course_title']]
 
     # remove inactive courses from prereqs (keep them in the from field)
-    # prereqs = prereqs[prereqs['course_from'].isin(course_data['course'])]
     prereqs = prereqs[prereqs['course_to'].isin(course_data['course'])]
+
+    # remove blacklisted currics
+    cd_mask = course_data['department_abbrev'].isin(CURRIC_BLACKLIST)
+    course_data = course_data[~cd_mask]
+    pr_mask = prereqs['department_abbrev'].isin(CURRIC_BLACKLIST)
+    prereqs = prereqs[~pr_mask]
+
 
     # vertex metadata
     clist = prereqs[['course_to', 'course_from']].drop_duplicates()
