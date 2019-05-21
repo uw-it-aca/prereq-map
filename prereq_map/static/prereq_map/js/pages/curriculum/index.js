@@ -16,12 +16,12 @@ var router = new VueRouter({
 });
 
 Vue.use(VueAnalytics, {
-  id: gaCode,
-  router,
-  debug: {
-    enabled: true
-    //enabled: !isProd
-  }
+    id: gaCode,
+    router,
+    debug: {
+        enabled: true
+        //enabled: !isProd
+    }
 })
 
 new Vue({
