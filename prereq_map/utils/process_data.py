@@ -91,6 +91,9 @@ def _process_data(course_data,
         'course_number'].map(str)
     prereqs['course_from'] = prereqs['pr_curric_abbr'] + " " + prereqs[
         'pr_course_no']
+    pd.options.mode.chained_assignment = None
+    course_data['course'] = (course_data['department_abbrev'] +
+                             " " + course_data['course_number'].map(str))
 
     if curric_filter:
         course_data = course_data.loc[
@@ -99,6 +102,11 @@ def _process_data(course_data,
             prereqs['department_abbrev'] == curric_filter]
 
     if course_filter:
+        # Drop course if no course data for it exists
+        filt_course = course_data.loc[course_data['course'] == course_filter]
+        if len(filt_course.index) == 0:
+            return None
+
         try:
             title = CourseTitle.get_course_title(course_filter)
             response['course_title'] = title
@@ -123,10 +131,6 @@ def _process_data(course_data,
             ]
         prereqs = pd.concat([prereqs_to, prereqs_from])
 
-    pd.options.mode.chained_assignment = None
-    course_data['course'] = (course_data['department_abbrev'] +
-                             " " + course_data['course_number'].map(str))
-
     # remove self-loops and delete some extraneous fields
     prereqs.drop(prereqs[(prereqs.course_to == prereqs.course_from)].index,
                  inplace=True)
@@ -146,7 +150,6 @@ def _process_data(course_data,
     # vertex metadata
     clist = prereqs[['course_to', 'course_from']].drop_duplicates()
     clist.sort_values(['course_to', 'course_from'], inplace=True)
-
     attribs = course_data[
         course_data['course'].isin(prereqs['course_to']) |
         course_data['course'].isin(prereqs['course_from'])
