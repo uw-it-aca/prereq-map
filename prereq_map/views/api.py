@@ -15,8 +15,6 @@ class CurricApiView(View):
             return error_404()
 
 
-
-
 class CourseApiView(View):
     def get(self, request, course_code):
         response = get_graph(course_filter=course_code.upper())
@@ -30,7 +28,6 @@ class CurricTypeaheadApiView(View):
     def get(self, request):
         response = get_curric_typeahead()
         return HttpResponse(json.dumps(response))
-
 
 
 def error_404():
