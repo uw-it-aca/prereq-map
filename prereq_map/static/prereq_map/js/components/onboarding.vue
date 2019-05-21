@@ -14,10 +14,10 @@
 
                     <div id="carouselExampleIndicators" class="carousel slide">
                         <ol class="carousel-indicators">
-                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active" v-on:click="$ga.event('onboarding', 'clicked', 'page 1 indicator')"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="1" v-on:click="$ga.event('onboarding', 'clicked', 'page 2 indicator')"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="2" v-on:click="$ga.event('onboarding', 'clicked', 'page 3 indicator')"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="3" v-on:click="$ga.event('onboarding', 'clicked', 'page 4 indicator')"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
                         </ol>
                         <div class="carousel-inner rounded-lg">
 
@@ -25,7 +25,6 @@
                                 <h2 class="mb-4" style="margin-top:200px;">Discover courses and plan your schedule more effectively</h2>
                                 <p>It can be tough figuring out which courses to take. How do you find courses similar to ones you’ve really enjoyed? Of the courses you’ve already taken, which ones provide a foundation for more advanced coursework? What sequence of courses is best? The <strong>Prereq Map</strong> helps you discover interesting courses and enables you to be strategic about planning your course schedule. (What’s a prereq? Prereq is short for prerequisites: the courses that act as a foundation for other courses.)</p>
                                 <p>Remember to talk to your adviser when course planning.</p>
-
                             </div>
 
                             <div class="carousel-item">
@@ -52,11 +51,11 @@
 
                             </div>
                         </div>
-                        <a class="carousel-control-prev d-none" href="#carouselExampleIndicators" role="button" data-slide="prev" v-on:click="$ga.event('onboarding', 'clicked', 'previous arrow')">
+                        <a class="carousel-control-prev d-none" href="#carouselExampleIndicators" role="button" data-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="sr-only">Previous</span>
                         </a>
-                        <a class="carousel-control-next d-none" href="#carouselExampleIndicators" role="button" data-slide="next" v-on:click="$ga.event('onboarding', 'clicked', 'next arrow')">
+                        <a class="carousel-control-next d-none" href="#carouselExampleIndicators" role="button" data-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="sr-only">Next</span>
                         </a>
@@ -89,11 +88,10 @@ export default {
             //
             this.carouselConfig();
 
-            // google analytics
+            // google analytics (vue syntax)
             this.$ga.page({
-              page: '/onboarding/page1',
-              title: 'onboarding home',
-              //location: window.location.href
+              page: '/onboarding/page-1/',
+              title: 'Onboarding introduction',
             })
 
         }
@@ -112,7 +110,7 @@ export default {
             // hide the modal (until end of the current term)
             $('#onboardingModal').modal('hide')
 
-            // google analytics
+            // google analytics (category, action, label)
             this.$ga.event('onboarding', 'clicked', 'got it button')
 
         },
@@ -134,14 +132,40 @@ export default {
                 if (e.to == 0) {
                     $('.carousel-control-prev').addClass('d-none');
                     $('.carousel-control-next').removeClass('d-none');
-                } // Last one
-                else if (e.to == carouselLength) {
-                    $('.carousel-control-prev').removeClass('d-none');
-                    $('.carousel-control-next').addClass('d-none');
-                } // The rest
-                else {
+
+                    // google anlytics (vanilla js syntax)
+                    ga('set', 'page', '/onboarding/page-1/');
+                    ga('set', 'title', 'Onboarding introduction');
+                    ga('send', 'pageview');
+
+                }
+                else if (e.to == 1) {
                     $('.carousel-control-prev').removeClass('d-none');
                     $('.carousel-control-next').removeClass('d-none');
+
+                    // google anlytics (vanilla js syntax)
+                    ga('set', 'page', '/onboarding/page-2/');
+                    ga('set', 'title', 'Onboarding curriculum search');
+                    ga('send', 'pageview');
+                }
+                else if (e.to == 2) {
+                    $('.carousel-control-prev').removeClass('d-none');
+                    $('.carousel-control-next').removeClass('d-none');
+
+                    // google anlytics (vanilla js syntax)
+                    ga('set', 'page', '/onboarding/page-3/');
+                    ga('set', 'title', 'Onboarding course details');
+                    ga('send', 'pageview');
+                }
+                // Last one
+                else if (e.to == 3) {
+                    $('.carousel-control-prev').removeClass('d-none');
+                    $('.carousel-control-next').addClass('d-none');
+
+                    // google anlytics (vanilla js syntax)
+                    ga('set', 'page', '/onboarding/page-4/');
+                    ga('set', 'title', 'Onboarding acceptance');
+                    ga('send', 'pageview');
                 }
             });
 

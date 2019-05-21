@@ -35,8 +35,7 @@ export default {
       'course-infobox': CourseInfoBox
   },
   mounted() {
-      this.$ga.page('/curriculum-search')
-      //this.$ga.event('category', 'action', 'label', 123)
+
   }
 }
 </script>
