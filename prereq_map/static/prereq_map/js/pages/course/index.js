@@ -4,6 +4,7 @@ import VueAnalytics from 'vue-analytics'
 import App from './app.vue'
 
 const gaCode = $("body").data("google-analytics");
+const localDev = $("body").data("localdev");
 
 Vue.use(VueRouter)
 
@@ -15,11 +16,11 @@ var router = new VueRouter({
 });
 
 Vue.use(VueAnalytics, {
-  id: gaCode,
-  router,
-  debug: {
-    enabled: true
-  }
+    id: gaCode,
+    router,
+    debug: {
+        enabled: localDev
+    }
 })
 
 export const dataBus = new Vue();

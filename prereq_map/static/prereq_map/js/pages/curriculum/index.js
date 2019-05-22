@@ -4,7 +4,7 @@ import VueAnalytics from 'vue-analytics'
 import App from './app.vue'
 
 const gaCode = $("body").data("google-analytics");
-const isProd = false
+const localDev = $("body").data("localdev");
 
 Vue.use(VueRouter)
 
@@ -19,8 +19,7 @@ Vue.use(VueAnalytics, {
     id: gaCode,
     router,
     debug: {
-        enabled: true
-        //enabled: !isProd
+        enabled: localDev
     }
 })
 

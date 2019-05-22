@@ -7,3 +7,11 @@ def google_analytics(request):
     return {
         'google_analytics': ga_key
     }
+
+
+def localdev(request):
+
+    localdev = getattr(settings, 'DEBUG', False)
+    return {
+        'localdev': localdev
+    }
