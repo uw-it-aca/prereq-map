@@ -19,8 +19,8 @@
                 <p>The course <strong>{{ course_param }}</strong> was not found. Here are some possible reasons:</p>
 
                 <ul>
-                    <li>The course code does not exist.</li>
-                    <li>The course is no longer offered by the university.</li>
+                    <li>The course code does not exist</li>
+                    <li>The course is no longer offered</li>
                 </ul>
 
                 <p>Remember to talk to your adviser when course planning.</p>
