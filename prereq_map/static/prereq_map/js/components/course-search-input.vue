@@ -4,7 +4,7 @@
         <form id="signup-form" @submit.prevent="processForm">
             <div id="main-search" class="search-width">
                 <div class="input-group mb-3">
-                    <input class="form-control form-control-lg form-styling" placeholder="e.g. BIOL 300" v-model="course_code">
+                    <input class="form-control form-control-lg form-styling" placeholder="e.g. MATH 124" v-model="course_code">
                     <div class="input-group-append">
                         <button class="btn btn-primary button-styling"><i class="py-1 fas fa-search"></i></button>
                     </div>

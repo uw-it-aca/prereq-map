@@ -30,7 +30,7 @@
                             <div class="carousel-item">
                                 <img src="/static/prereq_map/img/onboarding-biol.png" style="width:600px; border:solid 2px #333;"/>
                                 <h2 class="mt-4 mb-4">See the prerequisite map for a curriculum <small>(e.g. Biology, BIOL)</small></h2>
-                                <p>Begin exploring the Prereq Map by choosing a curriculum (subjects comprising a course of study, e.g., Biology or BIOL) you’re interested in. Follow the lines to view prerequisites for courses. View courses that have prereqs and courses that are prereqs for other courses.</p>
+                                <p>Begin exploring the Prereq Map by choosing a curriculum (subjects comprising a discipline, e.g., Biology or BIOL) you’re interested in. Follow the lines to view prerequisites for courses. View courses that have prereqs and courses that are prereqs for other courses.</p>
                             </div>
                             <div class="carousel-item">
                                 <img src="/static/prereq_map/img/onboarding-infobox.png" style="width:600px; border:solid 2px #333;"/>
