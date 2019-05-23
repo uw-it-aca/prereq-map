@@ -1,5 +1,6 @@
 from django.db import models
 from inflector import Inflector, English
+from prereq_map.utils.process_data import CURRIC_BLACKLIST
 
 
 class CurricTitles(models.Model):
@@ -20,6 +21,8 @@ class CurricTitles(models.Model):
         CurricTitles.objects.all().delete()
         title_objects = []
         for idx, row in titles_dataframe.iterrows():
+            if row['curric_abbr'].strip() in CURRIC_BLACKLIST:
+                continue
             inflect = Inflector(English)
             human_name = inflect.titleize(row['curric_full_nm'].strip())
             title_objects.append(
