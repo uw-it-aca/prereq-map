@@ -39,6 +39,7 @@ D3 or vis.js later on.
 CURRIC_BLACKLIST = ["TRAIN", "TTRAIN"]
 USE_CACHE = getattr(settings, 'USE_CACHE', False)
 
+
 def get_graph(curric_filter=None, course_filter=None):
     if curric_filter:
         try:
@@ -157,7 +158,6 @@ def _process_data(course_data,
     course_data = course_data[~cd_mask]
     pr_mask = prereqs['department_abbrev'].isin(CURRIC_BLACKLIST)
     prereqs = prereqs[~pr_mask]
-
 
     # vertex metadata
     clist = prereqs[['course_to', 'course_from']].drop_duplicates()
