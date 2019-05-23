@@ -8,7 +8,7 @@ $('.popover-dismiss').popover({
 })
 
 // network graph
-window.show_graph = function(graph_data) {
+window.show_graph = function(graph_data, course_param) {
     var initResult;
     var graph_div = $("<div/>", {id: "graph_div"});
     $("#graph_container").html(graph_div);
@@ -16,7 +16,9 @@ window.show_graph = function(graph_data) {
 
     var graph = $("<div/>", {id: "graph"+el.id});
     $("#graph_container").append(graph);
-    new_graph(graph_div.get(0), graph_data.x)
+
+    // draw the graph
+    new_graph(graph_div.get(0), graph_data.x, course_param)
 };
 
 function px(x) {
@@ -27,7 +29,7 @@ function px(x) {
 }
 
 // stab at refactor of graph
-function new_graph(graph_div, data){
+function new_graph(graph_div, data, course_param) {
     var node_list = [];
     for(var i = 0; i < Object.keys(data.nodes.course_number).length; i++){
         var course_id = data.nodes.department_abbrev[i] + " " + data.nodes.course_number[i];
@@ -91,6 +93,11 @@ function new_graph(graph_div, data){
     network.on('deselectNode', function(properties) {
         $(document).trigger('closeCourseInfo');
     });
+
+    // auto select course node if the course_param is passed
+    if (course_param) {
+      network.selectNodes([course_param]);
+    }
 }
 
 

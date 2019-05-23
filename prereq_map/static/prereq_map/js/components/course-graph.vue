@@ -28,9 +28,8 @@ export default {
 
     watch: {
 
-
         course_data: function() {
-            show_graph(this.course_data.data);
+            show_graph(this.course_data.data, this.courseParam);
             dataBus.$emit("course_data", this.course_data.data)
         },
 
