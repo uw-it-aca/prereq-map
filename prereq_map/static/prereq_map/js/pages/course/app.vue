@@ -13,7 +13,19 @@
         </div>
 
         <div v-cloak v-if="course_valid === false" class="row mt-5 mb-5">
-            The course you entered does not exist or has no data
+
+            <div class="col">
+
+                <p>The course <strong>{{ course_param }}</strong> was not found. Here are some possible reasons:</p>
+
+                <ul>
+                    <li>The course code does not exist.</li>
+                    <li>The course is no longer offered by the university.</li>
+                </ul>
+
+                <p>Remember to talk to your adviser when course planning.</p>
+            </div>
+
         </div>
 
     </div>
