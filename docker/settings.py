@@ -35,7 +35,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'prereq_map.context_processors.google_analytics',
-                'prereq_map.context_processors.localdev',
+                'prereq_map.context_processors.django_debug',
             ],
         }
     }

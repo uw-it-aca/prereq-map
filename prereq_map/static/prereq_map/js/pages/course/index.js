@@ -4,7 +4,7 @@ import VueAnalytics from 'vue-analytics'
 import App from './app.vue'
 
 const gaCode = $("body").data("google-analytics");
-const localDev = $("body").data("localdev");
+const debugMode = $("body").data("django-debug");
 
 Vue.use(VueRouter)
 
@@ -19,7 +19,7 @@ Vue.use(VueAnalytics, {
     id: gaCode,
     router,
     debug: {
-        enabled: localDev
+        enabled: debugMode
     }
 })
 

@@ -110,8 +110,11 @@ export default {
             // hide the modal (until end of the current term)
             $('#onboardingModal').modal('hide')
 
-            // google analytics (category, action, label)
-            this.$ga.event('onboarding', 'click', 'got it button')
+            // google analytics pageview
+            this.$ga.page({
+              page: '/onboarding/accepted/',
+              title: 'Onboarding accepted',
+            })
 
         },
 

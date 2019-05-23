@@ -9,9 +9,9 @@ def google_analytics(request):
     }
 
 
-def localdev(request):
+def django_debug(request):
 
-    localdev = getattr(settings, 'DEBUG', False)
+    django_debug = getattr(settings, 'DEBUG', False)
     return {
-        'localdev': localdev
+        'django_debug': django_debug
     }

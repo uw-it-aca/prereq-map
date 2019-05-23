@@ -27,16 +27,16 @@ import Typeahead from "../../components/typeahead.vue";
 import Graph from "../../components/curric-graph.vue";
 
 export default {
-  name: 'Curriculum',
-  components: {
-      'onboarding' : Onboarding,
-      'typeahead': Typeahead,
-      'curric-graph': Graph,
-      'course-infobox': CourseInfoBox
-  },
-  mounted() {
+    name: 'Curriculum',
+    components: {
+        'onboarding': Onboarding,
+        'typeahead': Typeahead,
+        'curric-graph': Graph,
+        'course-infobox': CourseInfoBox
+    },
+    mounted() {
 
-  }
+    }
 }
 </script>
 
