@@ -37,7 +37,6 @@ function new_graph(graph_div, data, course_param) {
                        label: course_id})
     };
 
-
     var edge_list = [];
     Object.keys(data.edges.from).forEach(function(key){
         var from = data.edges.from[key];
@@ -48,65 +47,57 @@ function new_graph(graph_div, data, course_param) {
     var edges = new vis.DataSet(edge_list);
 
     var options = data.options;       // [TODO] not resuse `data`?
-
     var data = {nodes: nodes, edges:edges};
-
-    // this is (apparently?) overwriting the settings in process_data.py
-    // I'm going to guess that I have a better understanding/chance of
-    // doing more dynamic changes in there rather than here
-    // ...exccccccccept that those options in that file don't seem
-    // to be percolating through (?)
-
-    // var options = {
-    //     nodes: {
-    //       shape: 'circle',
-    //       color: {
-    //         background: 'lime',
-    //         border: 'black'
-    //       },
-    //     },
-    //     edges: {
-    //       arrows: 'to',
-    //       color: 'black'
-    //     },
-    //     layout: {
-    //       hierarchical: {
-    //         enabled: true,
-    //         direction: 'DU'
-    //       },
-    //     },
-    //     height: '500px',
-    //     width:'100%'
-    // };
-
     var network = new vis.Network(graph_div, data, options);
 
-    // if course param is passed... assume we're on the course search page
-    if (course_param) {
+    // manipulation of network map based on location
+    if (window.location.pathname == '/curriculum-search/') {
 
-        // auto select course node
-        network.selectNodes([course_param]);
-
-        // disable de-select by keeping course node selected
-        network.on('deselectNode', function(properties) {
-            network.selectNodes([course_param]);
-        });
-
-    } else {
-
-        // actual selectNode event
+        // actual selectNode click event
         network.on('selectNode', function(properties) {
             //console.log("node selected");
             var ids = properties.nodes;
             var clickedNode = nodes.get(ids);
             // show course infobox for a given node (course id)
             $(document).trigger('showCourseInfo', [clickedNode[0].id]);
+            // animate to the course node and animate
+            network.focus(clickedNode[0].id, { scale: 1.25, animation: true});
         });
 
         network.on('deselectNode', function(properties) {
             // close infobox when deselected
             $(document).trigger('closeCourseInfo');
         });
+
+        // if course param was passed
+        if (course_param) {
+            // select and focus on that course node
+            network.selectNodes([course_param]);
+            network.focus(course_param, {
+                scale: 1.25,
+                animation: true
+            });
+
+        } else {
+            // default zoom for ONLY curric search (initial)
+            network.moveTo({
+                 position: { x: 0, y: 0 },
+                 scale: 0.85,
+             });
+        }
+
+    } else if (window.location.pathname == '/course-search/') {
+
+        if (course_param) {
+            // auto select course node and zoom to it
+            network.selectNodes([course_param]);
+            network.focus(course_param, { scale: 1.25});
+
+            // disable de-select by keeping course node selected
+            network.on('deselectNode', function(properties) {
+                network.selectNodes([course_param]);
+            });
+        }
 
     }
 

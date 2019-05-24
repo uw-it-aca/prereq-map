@@ -13,18 +13,7 @@
 
             <div v-if="loading">Loading.....</div>
             <div v-else>
-
-                <!--
-                  <h5 class="card-title">Has these prerequisites</h5>
-                  <ul class="prereq-list">
-                      <li v-if="prereqs.length === 0">none</li>
-                      <li v-for="prereq in prereqs">
-                          <a v-bind:href="'/course-search/?course=' + prereq">{{prereq}}</a>
-                      </li>
-                  </ul>
-                  -->
-
-                <h5 class="card-title">Is a prerequisite for</h5>
+                <h5 class="card-title h6">Is a prerequisite for:</h5>
                 <ul class="prereq-list">
                     <li v-if="postreqs.length === 0">none</li>
                     <li v-for="postreq in postreqs">
