@@ -164,10 +164,8 @@ def _process_data(course_data,
     prereqs = prereqs[~pr_mask]
 
     # remove graduate courses
-    course_data["course_number"] = course_data[course_data["course_number"]
-                                               <= 500]["course_number"]
+    course_data["course_number"] = course_data[course_data["course_number"] <= 500]["course_number"]
     course_data = course_data.dropna()
-    course_data["course_number"] = \
     prereqs[prereqs["course_number"] <= 500]["course_number"]
     prereqs = prereqs.dropna()
 
