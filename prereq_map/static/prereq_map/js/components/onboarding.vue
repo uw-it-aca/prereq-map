@@ -53,7 +53,7 @@
 
 
                                 <div class="text-center mt-3">
-                                    <div><a href="https://itconnect.uw.edu/learn/tools/course-prereq-map/" v-on:click="$ga.event('outbound', 'click', 'https://itconnect.uw.edu/learn/tools/course-prereq-map/')" target="_blank">Additional details</a></div>
+                                    <div><a href="https://itconnect.uw.edu/learn/tools/prereq-map/" v-on:click="$ga.event('outbound', 'click', 'https://itconnect.uw.edu/learn/tools/prereq-map/')" target="_blank">Additional details</a></div>
                                 </div>
                                 <div class="text-center mt-2">
                                     <button v-on:click="accept" class="btn btn-primary prereq-purple">Got it!</button>
