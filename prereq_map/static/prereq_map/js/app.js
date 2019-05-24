@@ -81,23 +81,35 @@ function new_graph(graph_div, data, course_param) {
 
     var network = new vis.Network(graph_div, data, options);
 
-    // actual selectNode event
-    network.on('selectNode', function(properties) {
-        //console.log("node selected");
-        var ids = properties.nodes;
-        var clickedNode = nodes.get(ids);
-        // show course infobox for a given node (course id)
-        $(document).trigger('showCourseInfo', [clickedNode[0].id]);
-    });
-
-    network.on('deselectNode', function(properties) {
-        $(document).trigger('closeCourseInfo');
-    });
-
-    // auto select course node if the course_param is passed
+    // if course param is passed... assume we're on the course search page
     if (course_param) {
-      network.selectNodes([course_param]);
+
+        // auto select course node
+        network.selectNodes([course_param]);
+
+        // disable de-select by keeping course node selected
+        network.on('deselectNode', function(properties) {
+            network.selectNodes([course_param]);
+        });
+
+    } else {
+
+        // actual selectNode event
+        network.on('selectNode', function(properties) {
+            //console.log("node selected");
+            var ids = properties.nodes;
+            var clickedNode = nodes.get(ids);
+            // show course infobox for a given node (course id)
+            $(document).trigger('showCourseInfo', [clickedNode[0].id]);
+        });
+
+        network.on('deselectNode', function(properties) {
+            // close infobox when deselected
+            $(document).trigger('closeCourseInfo');
+        });
+
     }
+
 }
 
 
