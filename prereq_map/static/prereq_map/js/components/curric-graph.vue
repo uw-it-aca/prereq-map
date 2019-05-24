@@ -17,6 +17,7 @@ export default {
     data() {
         return {
             curric_param: undefined,
+            course_param: undefined,
             curric_data: [],
             course_list: [],
             curric_emtpy: undefined
@@ -52,8 +53,8 @@ export default {
 
     mounted() {
 
-
         this.curric_param = this.$route.query.curric
+        this.course_param = this.$route.query.course
 
         if (this.curric_param !== undefined) {
             this.getCurric()
@@ -66,13 +67,14 @@ export default {
 
     watch: {
         curric_data: function() {
-            show_graph(this.curric_data)
+            show_graph(this.curric_data, this.course_param)
         },
 
         '$route.query.curric': function() {
             // react to route changes...
 
             this.curric_param = this.$route.query.curric
+            this.course_param = this.$route.query.course
 
             if (this.curric_param !== undefined) {
                 this.getCurric()

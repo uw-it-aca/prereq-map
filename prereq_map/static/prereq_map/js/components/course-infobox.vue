@@ -5,23 +5,15 @@
             <h5 class="m-0">{{ course_code }}</h5>
             <!--<a href="#" class="prereq-infobox-close" v-on:click.stop.prevent="close"><i class="fas fa-times"></i></a>-->
             <p class="card-title" v-if="course_description" v-shave="{ height: 150 }">{{ course_description }}</p>
+
+            <a v-bind:href="'/course-search/?course=' + course_code" class="btn btn-primary btn-sm prereq-infobox-button">More details</a>
+
         </div>
         <div class="card-body bg-light">
 
             <div v-if="loading">Loading.....</div>
             <div v-else>
-
-                <!--
-                  <h5 class="card-title">Has these prerequisites</h5>
-                  <ul class="prereq-list">
-                      <li v-if="prereqs.length === 0">none</li>
-                      <li v-for="prereq in prereqs">
-                          <a v-bind:href="'/course-search/?course=' + prereq">{{prereq}}</a>
-                      </li>
-                  </ul>
-                  -->
-
-                <h5 class="card-title">Is a prerequisite for</h5>
+                <h5 class="card-title h6">Is a prerequisite for:</h5>
                 <ul class="prereq-list">
                     <li v-if="postreqs.length === 0">none</li>
                     <li v-for="postreq in postreqs">
@@ -30,9 +22,6 @@
                 </ul>
 
             </div>
-        </div>
-        <div class="card-footer bg-white text-center">
-            <a v-bind:href="'/course-search/?course=' + course_code" class="btn btn-primary btn-lg  prereq-infobox-button">More details</a>
         </div>
     </div>
 </div>
