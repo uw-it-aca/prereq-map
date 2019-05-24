@@ -81,6 +81,10 @@ export default {
 
       if (this.course_param !== undefined) {
           this.getCourse()
+
+          // update page title
+          document.title = this.course_param + ' - Course Search - Prereq Map';
+
       }
 
   },
@@ -92,6 +96,8 @@ export default {
 
           if (this.course_param !== undefined) {
               this.getCourse()
+              // update page title
+              document.title = this.course_param + ' - Course Search - Prereq Map';
           }
 
       }

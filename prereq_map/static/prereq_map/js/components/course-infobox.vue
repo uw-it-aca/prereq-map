@@ -62,6 +62,10 @@ export default {
         this.course_code = this.$route.query.course;
         if(this.course_code !== undefined){
             this.show(this.course_code);
+
+            // update page title
+            document.title = this.course_code + ' - Curriculum Search - Prereq Map';
+
         }
 
         // global click handler for show node event
@@ -134,6 +138,8 @@ export default {
         '$route.query.course': function () {
             this.course_code = this.$route.query.course;
             this.show(this.course_code)
+            // update page title
+            document.title = this.course_code + ' - Curriculum Search - Prereq Map';
         },
         course_data: function () {
             this.prereqs = this.get_prereqs(this.course_code, this.course_data.data.x.edges.from);
