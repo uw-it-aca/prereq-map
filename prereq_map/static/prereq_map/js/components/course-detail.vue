@@ -9,41 +9,23 @@
         </div>
         <div class="col-md-7">
 
-            <h2 class="pt-3"><span>{{ courseParam }}</span> <span v-if="course_title">- {{ course_title }}</span></h2>
-            <p v-if="course_description">{{course_description}}</p>
+            <div class="mb-4">
+                <h2 class="pt-3"><span>{{ courseParam }}</span> <span v-if="course_title">- {{ course_title }}</span></h2>
+                <p v-if="course_description">{{course_description}}</p>
+            </div>
 
-            <table class="table" id="prereq-table">
-                <tbody>
-                    <!--
-                    <tr>
-                        <th class="w-25" scope="row">Has these prerequisites</th>
-                        <td class="w-75">
-                            <ul class="prereq-list">
-                                <li v-if="prereqs.length === 0">none</li>
-                                <li v-for="prereq in prereqs">
-                                    <a v-bind:href="'/course-search/?course=' + prereq">{{prereq}}</a>
-                                </li>
-                            </ul>
-                        </td>
+            <div class="mb-4">
 
-                    </tr>
-                    -->
-                    <tr>
+                <strong>Is a prerequisite for:</strong>
+                <ul class="prereq-list">
+                    <li v-if="postreqs.length === 0">none</li>
+                    <li v-for="postreq in postreqs">
+                        <a v-bind:href="'/course-search/?course=' + postreq">{{postreq}}</a>
+                    </li>
+                </ul>
+            </div>
 
-                        <th class="w-25" scope="row">Is a prerequisite for</th>
-                        <td class="w-75">
-                            <ul class="prereq-list">
-                                <li v-if="postreqs.length === 0">none</li>
-                                <li v-for="postreq in postreqs">
-                                    <a v-bind:href="'/course-search/?course=' + postreq">{{postreq}}</a>
-                                </li>
-                            </ul>
-                        </td>
-
-                    </tr>
-                </tbody>
-            </table>
-
+            <strong>Additional information:</strong>
             <p><a v-bind:href="'https://myplan.uw.edu/course/#/courses/' + courseParam" v-on:click="$ga.event('outbound', 'click', 'https://myplan.uw.edu/course/#/courses/' + courseParam)" target="_blank">View course details on MyPlan</a></p>
 
         </div>
