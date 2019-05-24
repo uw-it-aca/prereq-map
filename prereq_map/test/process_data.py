@@ -19,9 +19,9 @@ class TestProcessData(TestCase):
         prereqs = pd.DataFrame(
             {
                 'department_abbrev': ["CSE", "LAW"],
-                'course_number': ["143", "354"],
+                'course_number': [143, 354],
                 'pr_curric_abbr': ["CSE", "CSE"],
-                'pr_course_no': ["142", "143"],
+                'pr_course_no': [142, 143],
                 'pr_and_or': ["", ""],
                 "pr_concurrency": ["", ""],
                 "pr_cr_s": ["", ""],
@@ -51,9 +51,9 @@ class TestProcessData(TestCase):
         prereqs = pd.DataFrame(
             {
                 'department_abbrev': ["CSE", "LAW"],
-                'course_number': ["143", "354"],
+                'course_number': [143, 354],
                 'pr_curric_abbr': ["CSE", "CSE"],
-                'pr_course_no': ["142", "143"],
+                'pr_course_no': [142, 143],
                 'pr_and_or': ["", ""],
                 "pr_concurrency": ["", ""],
                 "pr_cr_s": ["", ""],
