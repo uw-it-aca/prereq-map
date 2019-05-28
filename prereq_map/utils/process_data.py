@@ -163,6 +163,13 @@ def _process_data(course_data,
     pr_mask = prereqs['department_abbrev'].isin(CURRIC_BLACKLIST)
     prereqs = prereqs[~pr_mask]
 
+    # remove graduate courses
+    course_data["course_number"] = course_data[course_data["course_number"]
+                                               <= 500]["course_number"]
+    course_data = course_data.dropna()
+    prereqs[prereqs["course_number"] <= 500]["course_number"]
+    prereqs = prereqs.dropna()
+
     # vertex metadata
     clist = prereqs[['course_to', 'course_from']].drop_duplicates()
     clist.sort_values(['course_to', 'course_from'], inplace=True)
