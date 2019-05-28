@@ -21,6 +21,7 @@
                 <ul>
                     <li>The course code does not exist</li>
                     <li>The course is no longer offered</li>
+                    <li>The course is graduate level</li>
                 </ul>
 
                 <p>Remember to talk to your adviser when course planning.</p>
