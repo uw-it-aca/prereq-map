@@ -26,7 +26,7 @@
             </div>
 
             <strong>Additional information:</strong>
-            <p><a v-bind:href="'https://myplan.uw.edu/course/#/courses/' + courseParam" v-on:click="$ga.event('outbound', 'click', 'https://myplan.uw.edu/course/#/courses/' + courseParam)" target="_blank">View course details on MyPlan</a></p>
+            <p><a v-bind:href="'https://myplan.uw.edu/course/#/courses/' + courseParam" v-on:click="$ga.event('outbound', 'click', 'https://myplan.uw.edu/course/#/courses/' + courseParam)" target="_blank">View {{courseParam}} course details and schedule on MyPlan</a></p>
 
         </div>
     </div>
