@@ -20,6 +20,8 @@
     "axios": "^0.18.0",
     "clean-webpack-plugin": "^2.0.1",
     "css-loader": "^2.1.0",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.2.2",
     "mini-css-extract-plugin": "^0.6.0",
     "node-sass": "^4.12.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
