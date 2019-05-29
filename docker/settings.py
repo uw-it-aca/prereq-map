@@ -21,7 +21,7 @@ STATICFILES_FINDERS = (
 
 DATA_ROOT = os.path.join(BASE_DIR, "prereq_map/data")
 
-GOOGLE_ANALYTICS_KEY = os.getenv("GOOGLE_ANALYTICS_KEY")
+GOOGLE_ANALYTICS_KEY = os.getenv("GOOGLE_ANALYTICS_KEY", default=" ")
 
 TEMPLATES = [
     {
