@@ -1,226 +1,229 @@
 /** global styles **/
 body {
-    font-family: 'Open Sans', Helvetica, arial, san-serif;
-    min-width: 320px !important;
+  font-family: 'Open Sans', Helvetica, arial, sans-serif;
+  min-width: 320px !important;
 }
 
 /* ================== Utility Navbar Bootstrap Override ================== */
 .navbar-dark {
-    background-color: #444;
-    min-height: 2rem;
-    padding-top: 0rem;
-    padding-bottom: 0rem;
-    border: 0rem;
+  background-color: #444;
+  min-height: 2rem;
+  padding-top: 0;
+  padding-bottom: 0;
+  border: 0;
 }
 
-.navbar-nav>li>a, .navbar-nav>a {
-    color: #fff;
-    font-size: 0.75rem;
-    padding-top: 0.375rem;
-    padding-right: 0.75rem;
-    padding-bottom: 0.375rem;
-    padding-left: 0.75rem;
+.navbar-nav > li > a,
+.navbar-nav > a {
+  color: #fff;
+  font-size: 0.75rem;
+  padding-top: 0.375rem;
+  padding-right: 0.75rem;
+  padding-bottom: 0.375rem;
+  padding-left: 0.75rem;
 }
 
 .navbar-toggler {
-    border: none;
-    margin-left: -1rem;
+  border: none;
+  margin-left: -1rem;
 }
 
 .navbar-toggler:focus {
-    outline: none;
+  outline: none;
 }
 
 .navbar-toggler-icon {
-    border: 0rem;
-    font-size: 0.7rem;
+  border: 0rem;
+  font-size: 0.7rem;
 }
 
 .nav-feedback {
-    padding-left: 0.125rem;
-    border-left: 0.0625rem dotted #999;
+  padding-left: 0.125rem;
+  border-left: 0.0625rem dotted #999;
 }
 
 @media (min-width: 768px) {
-    .navbar-dark {
-        padding: 0rem;
-    }
+  .navbar-dark {
+    padding: 0rem;
+  }
 
-    .navbar-nav>li {
-        border-right: 0.0625rem dotted #999;
-    }
+  .navbar-nav > li {
+    border-right: 0.0625rem dotted #999;
+  }
 
-    .navbar-dark .nav-item.active .nav-link,
-    .navbar-dark .nav-item:focus .nav-link,
-    .navbar-dark .nav-item:hover .nav-link {
-        color: #4b2f83;
-        background-color: #fff
-    }
+  .navbar-dark .nav-item.active .nav-link,
+  .navbar-dark .nav-item:focus .nav-link,
+  .navbar-dark .nav-item:hover .nav-link {
+    color: #4b2f83;
+    background-color: #fff;
+  }
 }
 
 @media (max-width: 768px) {
-    .line {
-        position: absolute;
-        width: 100%;
-        border: 0.046875rem dotted #999;
-        top: 2rem;
-        z-index: 2;
-    }
+  .line {
+    position: absolute;
+    width: 100%;
+    border: 0.046875rem dotted #999;
+    top: 2rem;
+    z-index: 2;
+  }
 }
 
 /* ================== Branding Bar ================== */
 .banner-row {
-    background-color: #4d307f;
-    height: 7.5rem;
+  background-color: #4d307f;
+  height: 7.5rem;
 }
 
 .logo-position {
-    position: absolute;
-    left: 1.25rem;
-    top: 50%;
-    transform: translate(0, -50%);
+  position: absolute;
+  left: 1.25rem;
+  top: 50%;
+  transform: translate(0, -50%);
 }
 
 @media (max-width: 768px) {
-    .logo-position {
-        position: absolute;
-        left: 1.25rem;
-        top: 25%;
-        transform: translate(0, -25%);
-    }
+  .logo-position {
+    position: absolute;
+    left: 1.25rem;
+    top: 25%;
+    transform: translate(0, -25%);
+  }
 
-    .logo-position>img {
-        width: 9.375rem;
-        height: auto
-    }
+  .logo-position > img {
+    width: 9.375rem;
+    height: auto;
+  }
 }
 
 /* ================== Navigation Pills ================== */
 .nav-pills {
-    position: absolute;
-    font-family: "Open Sans", Helvetica, Arial, sans-serif;
-    font-size: 1.063rem;
-    padding-bottom: 0rem;
-    bottom: 0rem;
+  position: absolute;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-size: 1.063rem;
+  padding-bottom: 0rem;
+  bottom: 0rem;
 }
 
-.nav-pills>.nav-link {
-    border-radius: 0.25rem 0.25rem 0rem 0rem;
-    color: #999;
+.nav-pills > .nav-link {
+  border-radius: 0.25rem 0.25rem 0rem 0rem;
+  color: #999;
 }
 
 .nav-pills .nav-link:hover {
-    color: #404040;
-    background-color: #B7A57A;
-    border: none;
+  color: #404040;
+  background-color: #b7a57a;
+  border: none;
 }
 
-.nav-link.active, .nav-pills .show>.nav-link {
-    color: #444 !important;
-    background-color: #fff !important
+.nav-link.active,
+.nav-pills .show > .nav-link {
+  color: #444 !important;
+  background-color: #fff !important;
 }
 
 /* ================== Course Search ================== */
-#prereq-table th, #prereq-table td {
-    border-top: none;
-    border-bottom: 0.0625rem solid #ccc;
+#prereq-table th,
+#prereq-table td {
+  border-top: none;
+  border-bottom: 0.0625rem solid #ccc;
 }
 
 #prereq-table ol {
-    margin-left: 1.1rem;
+  margin-left: 1.1rem;
 }
 
 #related-prereq li {
-    list-style-type: none;
-    margin-left: -2.325rem;
+  list-style-type: none;
+  margin-left: -2.325rem;
 }
 
 /*** boilerplate ***/
 .prereq {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
 
 .prereq-content {
-    flex: 1;
+  flex: 1;
 }
 
 .prereq-footer {
-    height: 5.625rem;
-    background: #eee;
-    border: 0;
-    padding-top: 1.25rem;
-    -webkit-box-shadow: inset 0 0.25rem 0.5rem rgba(50, 50, 50, 0.2);
-    -moz-box-shadow: inset 0 0.25rem 0.5rem rgba(50, 50, 50, 0.2);
-    box-shadow: inset 0 0.25rem 0.5rem rgba(50, 50, 50, 0.2);
+  height: 5.625rem;
+  background: #eee;
+  border: 0;
+  padding-top: 1.25rem;
+  -webkit-box-shadow: inset 0 0.25rem 0.5rem rgba(50, 50, 50, 0.2);
+  -moz-box-shadow: inset 0 0.25rem 0.5rem rgba(50, 50, 50, 0.2);
+  box-shadow: inset 0 0.25rem 0.5rem rgba(50, 50, 50, 0.2);
 }
 
 .prereq-footer a {
-    color: #2A6496;
-    font-size: 0.7em;
+  color: #2a6496;
+  font-size: 0.7em;
 }
 
 .prereq-footer ul {
-    list-style: outside none none;
-    margin-bottom: 0.5rem;
-    padding: 0;
-    text-align: center;
+  list-style: outside none none;
+  margin-bottom: 0.5rem;
+  padding: 0;
+  text-align: center;
 }
 
 .prereq-footer li {
-    border-right: 0.0625rem solid #ccc;
-    display: inline-block;
-    margin-right: 0.3125rem;
-    padding-right: 0.625rem;
+  border-right: 0.0625rem solid #ccc;
+  display: inline-block;
+  margin-right: 0.3125rem;
+  padding-right: 0.625rem;
 }
 
 .prereq-footer li:last-child {
-    border: 0;
-    margin-right: 0;
-    padding-right: 0;
+  border: 0;
+  margin-right: 0;
+  padding-right: 0;
 }
 
 .prereq-footer .credit {
-    color: #444;
-    width: 100%;
-    margin-top: 0.625rem;
-    text-align: center;
-    font-size: 0.7rem;
+  color: #444;
+  width: 100%;
+  margin-top: 0.625rem;
+  text-align: center;
+  font-size: 0.7rem;
 }
 
 /*** comma separated list ***/
 .prereq-list {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 .prereq-list li {
-    display: inline-block;
-    margin-right: 5px;
+  display: inline-block;
+  margin-right: 5px;
 }
 
 .prereq-list li:after {
-    content: ", ";
+  content: ", ";
 }
 
 .prereq-list li:last-child:after {
-    content: "";
+  content: "";
 }
 
 .info-popover i {
-    margin-left: 0.5rem;
-    color: #8f9bcc;
-    cursor: pointer;
+  margin-left: 0.5rem;
+  color: #8f9bcc;
+  cursor: pointer;
 }
 
 /**** vue utils ***/
 [v-cloak] {
-    display: none;
+  display: none;
 }
 
 /** vis styles **/
 .vis-network {
-    border: 1px solid rgba(0, 0, 0, .125);
-    border-radius: 0.25rem;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
 }
