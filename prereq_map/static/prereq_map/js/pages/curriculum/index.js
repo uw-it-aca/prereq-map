@@ -9,21 +9,21 @@ const debugMode = $("body").data("django-debug");
 Vue.use(VueRouter)
 
 var router = new VueRouter({
-    mode: 'history',
-    routes: [{
-        path: '/curriculum-search/'
-    },]
+  mode: 'history',
+  routes: [{
+    path: '/curriculum-search/'
+  },]
 });
 
 Vue.use(VueAnalytics, {
-    id: gaCode,
-    router,
-    debug: {
-        enabled: debugMode
-    }
+  id: gaCode,
+  router,
+  debug: {
+    enabled: debugMode
+  }
 })
 
 new Vue({
-    render: h => h(App),
-    router
+  render: h => h(App),
+  router
 }).$mount('#curriculum')

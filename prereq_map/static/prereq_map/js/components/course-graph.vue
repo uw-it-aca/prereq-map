@@ -8,40 +8,40 @@
 </template>
 
 <script>
-const axios = require("axios");
-import { dataBus } from "../pages/course/";
+  const axios = require("axios");
+  import { dataBus } from "../pages/course/";
 
-export default {
-  props: {
-    courseParam: String
-  },
-  data() {
-    return {
-      course_data: undefined
-    };
-  },
-  mounted() {
-    if (this.courseParam !== undefined) {
-      axios
-        .get("/api/course/" + encodeURI(this.courseParam))
-        .then(response => (this.course_data = response));
-    }
-  },
-
-  watch: {
-    course_data: function() {
-      show_graph(this.course_data.data, this.courseParam);
-      dataBus.$emit("course_data", this.course_data.data);
+  export default {
+    props: {
+      courseParam: String
     },
-
-    "$route.query.course": function() {
-      // react to route changes...
+    data() {
+      return {
+        course_data: undefined
+      };
+    },
+    mounted() {
       if (this.courseParam !== undefined) {
         axios
           .get("/api/course/" + encodeURI(this.courseParam))
           .then(response => (this.course_data = response));
       }
+    },
+
+    watch: {
+      course_data: function() {
+        show_graph(this.course_data.data, this.courseParam);
+        dataBus.$emit("course_data", this.course_data.data);
+      },
+
+      "$route.query.course": function() {
+        // react to route changes...
+        if (this.courseParam !== undefined) {
+          axios
+            .get("/api/course/" + encodeURI(this.courseParam))
+            .then(response => (this.course_data = response));
+        }
+      }
     }
-  }
-};
+  };
 </script>

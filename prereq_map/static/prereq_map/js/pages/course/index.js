@@ -9,23 +9,23 @@ const debugMode = $("body").data("django-debug");
 Vue.use(VueRouter)
 
 var router = new VueRouter({
-    mode: 'history',
-    routes: [{
-        path: '/course-search/'
-    },]
+  mode: 'history',
+  routes: [{
+    path: '/course-search/'
+  },]
 });
 
 Vue.use(VueAnalytics, {
-    id: gaCode,
-    router,
-    debug: {
-        enabled: debugMode
-    }
+  id: gaCode,
+  router,
+  debug: {
+    enabled: debugMode
+  }
 })
 
 export const dataBus = new Vue();
 
 new Vue({
-    render: h => h(App),
-    router
+  render: h => h(App),
+  router
 }).$mount('#course')
