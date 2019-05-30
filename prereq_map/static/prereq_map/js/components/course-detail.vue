@@ -1,9 +1,12 @@
 <template>
-  <div class="col course-detail" v-cloak>
+  <div 
+    v-cloak 
+    class="col course-detail"
+  >
     <div class="row">
       <div class="col-md-5 pb-5">
         <div>
-          <course-graph v-bind:course-param="this.courseParam"></course-graph>
+          <course-graph :course-param="courseParam" />
         </div>
       </div>
       <div class="col-md-7">
@@ -12,15 +15,22 @@
             <span>{{ courseParam }}</span>
             <span v-if="course_title">- {{ course_title }}</span>
           </h2>
-          <p v-if="course_description">{{course_description}}</p>
+          <p v-if="course_description">
+            {{ course_description }}
+          </p>
         </div>
 
         <div class="mb-4">
           <strong>Is a prerequisite for:</strong>
           <ul class="prereq-list">
-            <li v-if="postreqs.length === 0">none</li>
-            <li v-for="postreq in postreqs">
-              <a v-bind:href="'/course-search/?course=' + postreq">{{postreq}}</a>
+            <li v-if="postreqs.length === 0">
+              none
+            </li>
+            <li 
+              v-for="postreq in postreqs" 
+              :key="postreq"
+            >
+              <a :href="'/course-search/?course=' + postreq">{{ postreq }}</a>
             </li>
           </ul>
         </div>
@@ -28,10 +38,10 @@
         <strong>Additional information:</strong>
         <p>
           <a
-            v-bind:href="'https://myplan.uw.edu/course/#/courses/' + courseParam"
-            v-on:click="$ga.event('outbound', 'click', 'https://myplan.uw.edu/course/#/courses/' + courseParam)"
+            :href="'https://myplan.uw.edu/course/#/courses/' + courseParam"
             target="_blank"
-          >View {{courseParam}} course details and schedule on MyPlan</a>
+            @click="$ga.event('outbound', 'click', 'https://myplan.uw.edu/course/#/courses/' + courseParam)"
+          >View {{ courseParam }} course details and schedule on MyPlan</a>
         </p>
       </div>
     </div>
@@ -47,7 +57,10 @@
       "course-graph": Graph
     },
     props: {
-      courseParam: String
+      courseParam: {
+        type: String,
+        default: ''
+      },
     },
     data() {
       return {
@@ -57,6 +70,7 @@
         postreqs: []
       };
     },
+    watch: {},
     mounted() {
       // get the course title, desc, and prereqs from the databus
       dataBus.$on("course_data", data => {
@@ -66,7 +80,6 @@
         this.postreqs = this.get_postreqs(this.courseParam, data.x.edges.to);
       });
     },
-    watch: {},
     methods: {
       get_prereqs: function(course, from_list) {
         var keys = Object.keys(from_list);

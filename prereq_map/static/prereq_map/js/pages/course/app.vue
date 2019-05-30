@@ -1,16 +1,34 @@
 <template>
-  <div id="course" class="container py-1 mt-2" role="main">
-    <h1 class="pt-4 pb-2">Course Search</h1>
-    <p class="instruction-text pb-4">View course prerequisites and related curricula</p>
+  <div 
+    id="course" 
+    class="container py-1 mt-2" 
+    role="main"
+  >
+    <h1 class="pt-4 pb-2">
+      Course Search
+    </h1>
+    <p class="instruction-text pb-4">
+      View course prerequisites and related curricula
+    </p>
 
-    <course-search-input></course-search-input>
+    <course-search-input />
 
-    <div v-cloak v-if="course_param !== undefined">
-      <div v-if="course_valid" class="row mt-5 mb-5">
-        <course-detail v-bind:course-param="course_param"></course-detail>
+    <div 
+      v-cloak 
+      v-if="course_param !== undefined"
+    >
+      <div 
+        v-if="course_valid" 
+        class="row mt-5 mb-5"
+      >
+        <course-detail :course-param="course_param" />
       </div>
 
-      <div v-cloak v-if="course_valid === false" class="row mt-5 mb-5">
+      <div 
+        v-cloak 
+        v-if="course_valid === false" 
+        class="row mt-5 mb-5"
+      >
         <div class="col">
           <p>
             The course
@@ -49,6 +67,27 @@
         course_valid: undefined
       };
     },
+    watch: {
+      "$route.query.course": function() {
+        this.course_param = this.$route.query.course;
+
+        if (this.course_param !== undefined) {
+          this.getCourse();
+          // update page title
+          document.title = this.course_param + " - Course Search - Prereq Map";
+        }
+      }
+    },
+    mounted() {
+      this.course_param = this.$route.query.course;
+
+      if (this.course_param !== undefined) {
+        this.getCourse();
+
+        // update page title
+        document.title = this.course_param + " - Course Search - Prereq Map";
+      }
+    },
     methods: {
       getCourse: function() {
         return axios
@@ -66,29 +105,9 @@
           })
           .catch(error => {
             this.course_valid = false;
+            // eslint-disable-next-line no-console
             console.log("error " + error);
           });
-      }
-    },
-    mounted() {
-      this.course_param = this.$route.query.course;
-
-      if (this.course_param !== undefined) {
-        this.getCourse();
-
-        // update page title
-        document.title = this.course_param + " - Course Search - Prereq Map";
-      }
-    },
-    watch: {
-      "$route.query.course": function() {
-        this.course_param = this.$route.query.course;
-
-        if (this.course_param !== undefined) {
-          this.getCourse();
-          // update page title
-          document.title = this.course_param + " - Course Search - Prereq Map";
-        }
       }
     }
   };

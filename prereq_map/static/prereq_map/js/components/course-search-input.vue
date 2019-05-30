@@ -1,17 +1,23 @@
 <template>
   <div class="row course-search">
     <div class="col-md-9 offset-md-1">
-      <form id="signup-form" @submit.prevent="processForm">
-        <div id="main-search" class="search-width">
+      <form 
+        id="signup-form" 
+        @submit.prevent="processForm"
+      >
+        <div 
+          id="main-search" 
+          class="search-width"
+        >
           <div class="input-group mb-3">
             <input
+              v-model="course_code"
               class="form-control form-control-lg form-styling"
               placeholder="e.g. MATH 124"
-              v-model="course_code"
             >
             <div class="input-group-append">
               <button class="btn btn-primary button-styling">
-                <i class="py-1 fas fa-search"></i>
+                <i class="py-1 fas fa-search" />
               </button>
             </div>
           </div>
@@ -28,11 +34,10 @@
         course_code: undefined
       };
     },
-
+    watch: {},
     mounted() {
       this.course_code = this.$route.query.course;
     },
-    watch: {},
     methods: {
       processForm: function(e) {
         e.preventDefault();
@@ -53,8 +58,8 @@
 <style lang="scss">
   .search-width {
     input {
-      height: 3rem;
       font-size: 1.25rem;
+      height: 3rem;
       text-transform: uppercase;
     }
   }

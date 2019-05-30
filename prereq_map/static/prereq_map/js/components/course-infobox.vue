@@ -1,28 +1,45 @@
 <template>
   <div>
-    <div class="card mt-4" v-if="course_code">
+    <div 
+      v-if="course_code" 
+      class="card mt-4"
+    >
       <div class="card-header bg-white">
-        <h5 class="m-0">{{ course_code }}</h5>
-        <!--<a href="#" class="prereq-infobox-close" v-on:click.stop.prevent="close"><i class="fas fa-times"></i></a>-->
+        <h5 class="m-0">
+          {{ course_code }}
+        </h5>
         <p
-          class="card-title"
           v-if="course_description"
           v-shave="{ height: 150 }"
-        >{{ course_description }}</p>
+          class="card-title"
+        >
+          {{ course_description }}
+        </p>
 
         <a
-          v-bind:href="'/course-search/?course=' + course_code"
+          :href="'/course-search/?course=' + course_code"
           class="btn btn-primary btn-sm prereq-infobox-button"
         >More details</a>
       </div>
       <div class="card-body bg-light">
-        <div v-if="loading">Loading.....</div>
+        <div v-if="loading">
+          Loading.....
+        </div>
         <div v-else>
-          <h5 class="card-title h6">Is a prerequisite for:</h5>
+          <h5 class="card-title h6">
+            Is a prerequisite for:
+          </h5>
           <ul class="prereq-list">
-            <li v-if="postreqs.length === 0">none</li>
-            <li v-for="postreq in postreqs">
-              <a v-bind:href="'/course-search/?course=' + postreq">{{postreq}}</a>
+            <li v-if="postreqs.length === 0">
+              none
+            </li>
+            <li
+              v-for="postreq in postreqs" 
+              :key="postreq"
+            >
+              <a :href="'/course-search/?course=' + postreq">
+                {{ postreq }}
+              </a>
             </li>
           </ul>
         </div>
@@ -50,6 +67,26 @@
         course_description: ""
       };
     },
+
+    watch: {
+      "$route.query.course": function() {
+        this.course_code = this.$route.query.course;
+        this.show(this.course_code);
+        // update page title
+        document.title = this.course_code + " - Curriculum Search - Prereq Map";
+      },
+      course_data: function() {
+        this.prereqs = this.get_prereqs(
+          this.course_code,
+          this.course_data.data.x.edges.from
+        );
+        this.postreqs = this.get_postreqs(
+          this.course_code,
+          this.course_data.data.x.edges.to
+        );
+        this.course_description = this.course_data.data.course_description;
+      }
+    },
     mounted() {
       this.course_code = this.$route.query.course;
       if (this.course_code !== undefined) {
@@ -70,7 +107,7 @@
 
       // global click handler for close node event
 
-      $(document).on("closeCourseInfo", event => {
+      $(document).on("closeCourseInfo", () => {
         this.close();
       });
     },
@@ -123,40 +160,20 @@
           query: Object.assign({}, this.$route.query, { course: undefined })
         });
       }
-    },
-
-    watch: {
-      "$route.query.course": function() {
-        this.course_code = this.$route.query.course;
-        this.show(this.course_code);
-        // update page title
-        document.title = this.course_code + " - Curriculum Search - Prereq Map";
-      },
-      course_data: function() {
-        this.prereqs = this.get_prereqs(
-          this.course_code,
-          this.course_data.data.x.edges.from
-        );
-        this.postreqs = this.get_postreqs(
-          this.course_code,
-          this.course_data.data.x.edges.to
-        );
-        this.course_description = this.course_data.data.course_description;
-      }
     }
   };
 </script>
 
 <style lang="scss">
   .prereq-infobox-close {
-    position: absolute;
-    top: 0.375rem;
-    right: 0.375rem;
-    z-index: 10;
+    color: #000;
     display: block;
     padding: 0.25rem 0.5rem;
-    color: #000;
-
+    position: absolute;
+    right: 0.375rem;
+    top: 0.375rem;
+    z-index: 10;
+    
     &:hover {
       color: #666;
     }
