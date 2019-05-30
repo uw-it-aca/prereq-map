@@ -1,7 +1,10 @@
 {
+  // stylelint sass guidelines as the baseline
   "extends": "stylelint-config-sass-guidelines",
   "rules" : {
+    // enforce 2 space indentation
     "indentation" : [ 2, { "baseIndentLevel" : 1 } ],
+    // remove @import restrictions
     "scss/at-import-no-partial-leading-underscore" : null,
     "scss/at-import-partial-extension-blacklist": null
   }

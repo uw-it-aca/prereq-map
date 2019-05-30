@@ -1,16 +1,22 @@
 {
   "extends": [
+    // baseline eslint config
     "eslint:recommended",
+    // eslint-plugin-vue addition
     "plugin:vue/recommended"
   ],
   "rules": {
+    // always require semicolons
     "semi": [2, "always"],
+    // enforce vuejs 2 space indents
     "vue/script-indent" : ["error", 2, { "baseIndent": 1 }]
   },
   "env": {
+    // baseline supported environments
     "browser" : true,
     "commonjs" : true,
     "es6" : true,
+    // support for jquery
     "jquery" : true
   }
 }
