@@ -12,7 +12,7 @@ var router = new VueRouter({
     mode: 'history',
     routes: [{
         path: '/curriculum-search/'
-    }, ]
+    },]
 });
 
 Vue.use(VueAnalytics, {
