@@ -28,7 +28,7 @@ class Command(BaseCommand):
         curric_info = pandas.read_sql("select * from sec.sr_curric_code where "
                                       "curric_last_yr = 9999", con)
         con.close()
-        CurricTitles.update_titles(curric_info)
+        CurricTitles.update_titles(curric_info, course_info)
         CourseTitle.update_titles(course_info)
 
         prereq.to_pickle(os.path.join(data_root, "prereq_data.pkl"))
