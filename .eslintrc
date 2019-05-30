@@ -3,7 +3,8 @@
     "plugin:vue/strongly-recommended"
   ],
   "rules": {
-    "vue/script-indent" : ["error", 2, { "baseIndent": 1 }]
+    "vue/script-indent" : ["error", 2, { "baseIndent": 1 }],
+    "semi": [2, "always"]
   },
   "env": {
     "browser" : true,

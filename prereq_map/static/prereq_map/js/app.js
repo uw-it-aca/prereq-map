@@ -1,11 +1,11 @@
 // bootstrap related functions
 $(function () {
-  $('[data-toggle="popover"]').popover()
+  $('[data-toggle="popover"]').popover();
 });
 
 $('.popover-dismiss').popover({
   trigger: 'focus'
-})
+});
 
 // network graph
 window.show_graph = function (graph_data, course_param) {
@@ -18,7 +18,7 @@ window.show_graph = function (graph_data, course_param) {
   $("#graph_container").append(graph);
 
   // draw the graph
-  new_graph(graph_div.get(0), graph_data.x, course_param)
+  new_graph(graph_div.get(0), graph_data.x, course_param);
 };
 
 function px(x) {
@@ -36,7 +36,7 @@ function new_graph(graph_div, data, course_param) {
     node_list.push({
       id: course_id,
       label: course_id
-    })
+    });
   };
 
   var edge_list = [];
@@ -115,7 +115,7 @@ function build_graph(el, x, instance) {
 
     var tmpnodes;
     if (x.nodesToDataframe) { // data in data.frame
-      tmpnodes = visNetworkdataframeToD3(x.nodes, "nodes")
+      tmpnodes = visNetworkdataframeToD3(x.nodes, "nodes");
     } else { // data in list
       tmpnodes = x.nodes;
     }
@@ -165,7 +165,7 @@ function build_graph(el, x, instance) {
 
     var tmpedges;
     if (x.edgesToDataframe) { // data in data.frame
-      tmpedges = visNetworkdataframeToD3(x.edges, "edges")
+      tmpedges = visNetworkdataframeToD3(x.edges, "edges");
     } else { // data in list
       tmpedges = x.edges;
     }
