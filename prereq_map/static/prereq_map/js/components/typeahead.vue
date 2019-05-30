@@ -2,7 +2,7 @@
   <div class="row curric-search">
     <div class="col-md-9 offset-md-1">
       <vue-bootstrap-typeahead
-        class="mb-3"
+        class="mb-3" 
         v-model="query"
         :data="curric_list"
         @hit="selected_curric = $event"
