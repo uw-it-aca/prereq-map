@@ -22,32 +22,32 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      course_code: undefined
-    };
-  },
+  export default {
+    data() {
+      return {
+        course_code: undefined
+      };
+    },
 
-  mounted() {
-    this.course_code = this.$route.query.course;
-  },
-  watch: {},
-  methods: {
-    processForm: function(e) {
-      e.preventDefault();
+    mounted() {
+      this.course_code = this.$route.query.course;
+    },
+    watch: {},
+    methods: {
+      processForm: function(e) {
+        e.preventDefault();
 
-      // don't allow empty searches
-      if (this.course_code === "" || this.course_code === undefined) {
-        this.$router.push("/course-search/");
-      } else {
-        this.$router.push(
-          "/course-search/?course=" + this.course_code.toUpperCase()
-        );
+        // don't allow empty searches
+        if (this.course_code === "" || this.course_code === undefined) {
+          this.$router.push("/course-search/");
+        } else {
+          this.$router.push(
+            "/course-search/?course=" + this.course_code.toUpperCase()
+          );
+        }
       }
     }
-  }
-};
+  };
 </script>
 
 <style lang="scss">

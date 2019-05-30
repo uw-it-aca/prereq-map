@@ -39,58 +39,58 @@
 </template>
 
 <script>
-import Graph from "./course-graph.vue";
+  import Graph from "./course-graph.vue";
 
-import { dataBus } from "../pages/course/";
+  import { dataBus } from "../pages/course/";
 
-export default {
-  components: {
-    "course-graph": Graph
-  },
-  props: {
-    courseParam: String
-  },
-  data() {
-    return {
-      course_title: "",
-      course_description: "",
-      prereqs: [],
-      postreqs: []
-    };
-  },
-  mounted() {
-    // get the course title, desc, and prereqs from the databus
-    dataBus.$on("course_data", data => {
-      this.course_title = data.course_title;
-      this.course_description = data.course_description;
-      this.prereqs = this.get_prereqs(this.courseParam, data.x.edges.from);
-      this.postreqs = this.get_postreqs(this.courseParam, data.x.edges.to);
-    });
-  },
-  watch: {},
-  methods: {
-    get_prereqs: function(course, from_list) {
-      var keys = Object.keys(from_list);
-      var from = [];
-      keys.forEach(function(key) {
-        var value = from_list[key];
-        if (course !== value && !from.includes(value)) {
-          from.push(value);
-        }
-      });
-      return from;
+  export default {
+    components: {
+      "course-graph": Graph
     },
-    get_postreqs: function(course, to_list) {
-      var keys = Object.keys(to_list);
-      var to = [];
-      keys.forEach(function(key) {
-        var value = to_list[key];
-        if (course !== value && !to.includes(value)) {
-          to.push(value);
-        }
+    props: {
+      courseParam: String
+    },
+    data() {
+      return {
+        course_title: "",
+        course_description: "",
+        prereqs: [],
+        postreqs: []
+      };
+    },
+    mounted() {
+      // get the course title, desc, and prereqs from the databus
+      dataBus.$on("course_data", data => {
+        this.course_title = data.course_title;
+        this.course_description = data.course_description;
+        this.prereqs = this.get_prereqs(this.courseParam, data.x.edges.from);
+        this.postreqs = this.get_postreqs(this.courseParam, data.x.edges.to);
       });
-      return to;
+    },
+    watch: {},
+    methods: {
+      get_prereqs: function(course, from_list) {
+        var keys = Object.keys(from_list);
+        var from = [];
+        keys.forEach(function(key) {
+          var value = from_list[key];
+          if (course !== value && !from.includes(value)) {
+            from.push(value);
+          }
+        });
+        return from;
+      },
+      get_postreqs: function(course, to_list) {
+        var keys = Object.keys(to_list);
+        var to = [];
+        keys.forEach(function(key) {
+          var value = to_list[key];
+          if (course !== value && !to.includes(value)) {
+            to.push(value);
+          }
+        });
+        return to;
+      }
     }
-  }
-};
+  };
 </script>

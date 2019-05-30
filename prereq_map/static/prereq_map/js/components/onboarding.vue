@@ -125,103 +125,103 @@
 </template>
 
 <script>
-import Vue from "vue";
-import VueCookies from "vue-cookies";
-Vue.use(VueCookies);
+  import Vue from "vue";
+  import VueCookies from "vue-cookies";
+  Vue.use(VueCookies);
 
-export default {
-  data() {
-    return {};
-  },
-  mounted() {
-    // check if valid cookie exists and user has not yet accepted terms
-    if ($cookies.get("prereq-onboarding-accepted") == "false") {
-      // show the onboarding modal
-      $("#onboardingModal").modal({ backdrop: "static", keyboard: false });
-      //
-      this.carouselConfig();
+  export default {
+    data() {
+      return {};
+    },
+    mounted() {
+      // check if valid cookie exists and user has not yet accepted terms
+      if ($cookies.get("prereq-onboarding-accepted") == "false") {
+        // show the onboarding modal
+        $("#onboardingModal").modal({ backdrop: "static", keyboard: false });
+        //
+        this.carouselConfig();
 
-      // google analytics (vue syntax)
-      this.$ga.page({
-        page: "/onboarding/page-1/",
-        title: "Onboarding introduction"
-      });
-    }
-  },
-
-  methods: {
-    // handle the 'get started' button click event
-    accept: function(event) {
-      // get the end of term date and set as the expiration value
-      var expires = $cookies.get("prereq-onboarding-expires");
-      // set the accept cookie value to true and set the expiration
-      $cookies.set("prereq-onboarding-accepted", "true", expires);
-      $cookies.remove("prereq-onboarding-expires");
-
-      // hide the modal (until end of the current term)
-      $("#onboardingModal").modal("hide");
-
-      // google analytics pageview
-      this.$ga.page({
-        page: "/onboarding/accepted/",
-        title: "Onboarding accepted"
-      });
+        // google analytics (vue syntax)
+        this.$ga.page({
+          page: "/onboarding/page-1/",
+          title: "Onboarding introduction"
+        });
+      }
     },
 
-    carouselConfig: function() {
-      var carouselLength = $(".carousel-item").length - 1;
-      // If there is more than one item
+    methods: {
+      // handle the 'get started' button click event
+      accept: function(event) {
+        // get the end of term date and set as the expiration value
+        var expires = $cookies.get("prereq-onboarding-expires");
+        // set the accept cookie value to true and set the expiration
+        $cookies.set("prereq-onboarding-accepted", "true", expires);
+        $cookies.remove("prereq-onboarding-expires");
 
-      if (carouselLength) {
-        $(".carousel-control-next").removeClass("d-none");
-      }
+        // hide the modal (until end of the current term)
+        $("#onboardingModal").modal("hide");
 
-      $(".carousel")
-        .carousel({
-          interval: false,
-          wrap: false
-        })
-        .on("slide.bs.carousel", function(e) {
-          // First one
-          if (e.to == 0) {
-            $(".carousel-control-prev").addClass("d-none");
-            $(".carousel-control-next").removeClass("d-none");
-
-            // google anlytics (vanilla js syntax)
-            ga("set", "page", "/onboarding/page-1/");
-            ga("set", "title", "Onboarding introduction");
-            ga("send", "pageview");
-          } else if (e.to == 1) {
-            $(".carousel-control-prev").removeClass("d-none");
-            $(".carousel-control-next").removeClass("d-none");
-
-            // google anlytics (vanilla js syntax)
-            ga("set", "page", "/onboarding/page-2/");
-            ga("set", "title", "Onboarding curriculum search");
-            ga("send", "pageview");
-          } else if (e.to == 2) {
-            $(".carousel-control-prev").removeClass("d-none");
-            $(".carousel-control-next").removeClass("d-none");
-
-            // google anlytics (vanilla js syntax)
-            ga("set", "page", "/onboarding/page-3/");
-            ga("set", "title", "Onboarding course details");
-            ga("send", "pageview");
-          }
-          // Last one
-          else if (e.to == 3) {
-            $(".carousel-control-prev").removeClass("d-none");
-            $(".carousel-control-next").addClass("d-none");
-
-            // google anlytics (vanilla js syntax)
-            ga("set", "page", "/onboarding/page-4/");
-            ga("set", "title", "Onboarding acceptance");
-            ga("send", "pageview");
-          }
+        // google analytics pageview
+        this.$ga.page({
+          page: "/onboarding/accepted/",
+          title: "Onboarding accepted"
         });
+      },
+
+      carouselConfig: function() {
+        var carouselLength = $(".carousel-item").length - 1;
+        // If there is more than one item
+
+        if (carouselLength) {
+          $(".carousel-control-next").removeClass("d-none");
+        }
+
+        $(".carousel")
+          .carousel({
+            interval: false,
+            wrap: false
+          })
+          .on("slide.bs.carousel", function(e) {
+            // First one
+            if (e.to == 0) {
+              $(".carousel-control-prev").addClass("d-none");
+              $(".carousel-control-next").removeClass("d-none");
+
+              // google anlytics (vanilla js syntax)
+              ga("set", "page", "/onboarding/page-1/");
+              ga("set", "title", "Onboarding introduction");
+              ga("send", "pageview");
+            } else if (e.to == 1) {
+              $(".carousel-control-prev").removeClass("d-none");
+              $(".carousel-control-next").removeClass("d-none");
+
+              // google anlytics (vanilla js syntax)
+              ga("set", "page", "/onboarding/page-2/");
+              ga("set", "title", "Onboarding curriculum search");
+              ga("send", "pageview");
+            } else if (e.to == 2) {
+              $(".carousel-control-prev").removeClass("d-none");
+              $(".carousel-control-next").removeClass("d-none");
+
+              // google anlytics (vanilla js syntax)
+              ga("set", "page", "/onboarding/page-3/");
+              ga("set", "title", "Onboarding course details");
+              ga("send", "pageview");
+            }
+            // Last one
+            else if (e.to == 3) {
+              $(".carousel-control-prev").removeClass("d-none");
+              $(".carousel-control-next").addClass("d-none");
+
+              // google anlytics (vanilla js syntax)
+              ga("set", "page", "/onboarding/page-4/");
+              ga("set", "title", "Onboarding acceptance");
+              ga("send", "pageview");
+            }
+          });
+      }
     }
-  }
-};
+  };
 </script>
 
 <style lang="scss">

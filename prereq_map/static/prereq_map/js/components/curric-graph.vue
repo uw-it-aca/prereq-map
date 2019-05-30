@@ -14,62 +14,43 @@
 </template>
 
 <script>
-const axios = require("axios");
-export default {
-  data() {
-    return {
-      curric_param: undefined,
-      course_param: undefined,
-      curric_data: [],
-      course_list: [],
-      curric_emtpy: undefined
-    };
-  },
-  methods: {
-    getCurric: function() {
-      return axios
-        .get("/api/curric/" + encodeURI(this.curric_param))
-        .then(response => {
-          this.curric_data = response.data;
+  const axios = require("axios");
+  export default {
+    data() {
+      return {
+        curric_param: undefined,
+        course_param: undefined,
+        curric_data: [],
+        course_list: [],
+        curric_emtpy: undefined
+      };
+    },
+    methods: {
+      getCurric: function() {
+        return axios
+          .get("/api/curric/" + encodeURI(this.curric_param))
+          .then(response => {
+            this.curric_data = response.data;
 
-          //filter the data to just course_number
-          this.course_list = this.curric_data.x.nodes.course_number;
+            //filter the data to just course_number
+            this.course_list = this.curric_data.x.nodes.course_number;
 
-          // check to see if course_list is empty
-          if (Object.keys(this.course_list).length !== 0) {
-            this.curric_emtpy = false;
-          } else {
-            this.curric_emtpy = true;
-          }
+            // check to see if course_list is empty
+            if (Object.keys(this.course_list).length !== 0) {
+              this.curric_emtpy = false;
+            } else {
+              this.curric_emtpy = true;
+            }
 
-          this.loading = false;
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    }
-  },
-
-  mounted() {
-    this.curric_param = this.$route.query.curric;
-    this.course_param = this.$route.query.course;
-
-    if (this.curric_param !== undefined) {
-      this.getCurric();
-
-      // update page title
-      document.title = this.curric_param + " - Curriculum Search - Prereq Map";
-    }
-  },
-
-  watch: {
-    curric_data: function() {
-      show_graph(this.curric_data, this.course_param);
+            this.loading = false;
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
     },
 
-    "$route.query.curric": function() {
-      // react to route changes...
-
+    mounted() {
       this.curric_param = this.$route.query.curric;
       this.course_param = this.$route.query.course;
 
@@ -77,10 +58,29 @@ export default {
         this.getCurric();
 
         // update page title
-        document.title =
-          this.curric_param + " - Curriculum Search - Prereq Map";
+        document.title = this.curric_param + " - Curriculum Search - Prereq Map";
+      }
+    },
+
+    watch: {
+      curric_data: function() {
+        show_graph(this.curric_data, this.course_param);
+      },
+
+      "$route.query.curric": function() {
+        // react to route changes...
+
+        this.curric_param = this.$route.query.curric;
+        this.course_param = this.$route.query.course;
+
+        if (this.curric_param !== undefined) {
+          this.getCurric();
+
+          // update page title
+          document.title =
+            this.curric_param + " - Curriculum Search - Prereq Map";
+        }
       }
     }
-  }
-};
+  };
 </script>
