@@ -82,7 +82,7 @@ function new_graph(graph_div, data, course_param) {
             // default zoom for ONLY curric search (initial)
             network.moveTo({
                  position: { x: 0, y: 0 },
-                 scale: 0.85,
+                 scale: 0.65,
              });
         }
 
