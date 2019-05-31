@@ -101,6 +101,20 @@ function new_graph(graph_div, data, course_param) {
 
     }
 
+     //while zooming
+     network.on("zoom", function() {
+        if (network.getScale() <= 0.5) {
+            network.moveTo({ 
+                scale: 0.5 
+            });
+        }
+        if (network.getScale() >= 4.0) {
+            network.moveTo({ 
+                scale: 4.0 
+            });
+        }
+    });
+
 }
 
 
