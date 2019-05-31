@@ -18,14 +18,20 @@ class TestTypeahead(TestCase):
     def test_update_titles(self):
         typeahead = get_curric_typeahead()
         self.assertEqual(len(typeahead), 0)
-        dataframe = pd.DataFrame(
+        titles_dataframe = pd.DataFrame(
             {'curric_full_nm': ["COMPUTER SCIENCE AND EDUCATION",
-                                "COMMUNICATION OF PEOPLE"],
-             'curric_abbr': ['CSE', 'COM'],
-             'curric_branch': [0, 1]
+                                "COMMUNICATION OF PEOPLE",
+                                "GRADUATE CURRIC"],
+             'curric_abbr': ['CSE', 'COM', 'GRAD'],
+             'curric_branch': [0, 1, 2]
              }
         )
-        CurricTitles.update_titles(dataframe)
+        course_dataframe = pd.DataFrame(
+            {'course_number': [100, 344, 500],
+             'department_abbrev': ['CSE', 'COM', 'GRAD']
+             }
+        )
+        CurricTitles.update_titles(titles_dataframe, course_dataframe)
         typeahead = get_curric_typeahead()
         self.assertEqual(len(typeahead), 2)
         self.assertEqual(list(typeahead)[0],
