@@ -17,8 +17,7 @@ database:
 image:
   repository: 847518396864.dkr.ecr.us-west-2.amazonaws.com/prereq-map-provisioner-web-ecr
 repo: prereq-map
-branch: testbranch
-commitHash: 8ccccd3588be5398180b2b9e92d218bb30fd80fb
+branch: develop
 certs:
   mounted: true
   certPath: /certs/prereqmap.uw.edu-uwca.pem
