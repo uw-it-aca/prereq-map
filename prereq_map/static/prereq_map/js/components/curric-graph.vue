@@ -11,8 +11,8 @@
 
         <ul>
             <li>The curriculum code does not exist</li>
-            <li>The curriculum is only offered for graduate levels</li>
-            <li>The curriculum does not have courses with prequisites</li>
+            <li>The map does not display graduate curriculum</li>
+            <li>The curriculum does not have courses with prerequisites</li>
         </ul>
 
         <p>Remember to talk to your adviser when course planning.</p>
