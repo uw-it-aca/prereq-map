@@ -1,12 +1,23 @@
 <template>
 <div v-if="curric_param !== undefined">
-    <div v-cloak v-if="curric_emtpy">
-        This curriculum does not have any courses with prerequisites. Please consult an adviser.
-    </div>
-    <div v-else>
-        <small class="text-secondary">Use the scroll function on your mouse or touchpad to zoom in and out</small>
+
+    <div>
+        <small v-if="graph_error === false" class="text-secondary">Use the scroll function on your mouse or touchpad to zoom in and out</small>
         <div id="graph_container"></div>
     </div>
+    <div v-if="graph_error === true">
+
+        <p>The curriculum <strong>{{ curric_param }}</strong> did not display a graph. Here are some possible reasons:</p>
+
+        <ul>
+            <li>The curriculum code does not exist</li>
+            <li>The curriculum is only offered for graduate levels</li>
+            <li>The curriculum does not have courses with prequisites</li>
+        </ul>
+
+        <p>Remember to talk to your adviser when course planning.</p>
+    </div>
+
 </div>
 </template>
 
@@ -20,7 +31,7 @@ export default {
             course_param: undefined,
             curric_data: [],
             course_list: [],
-            curric_emtpy: undefined
+            graph_error: undefined,
         }
     },
     methods: {
@@ -30,22 +41,13 @@ export default {
                 .get('/api/curric/' + encodeURI(this.curric_param))
                 .then(response => {
                     this.curric_data = response.data
-
-                    //filter the data to just course_number
-                    this.course_list = this.curric_data.x.nodes.course_number
-
-                    // check to see if course_list is empty
-                    if (Object.keys(this.course_list).length !== 0) {
-                        this.curric_emtpy = false
-                    } else {
-                        this.curric_emtpy = true
-                    }
-
+                    
+                    this.graph_error = false
                     this.loading = false
 
                 })
                 .catch(error => {
-                    console.log(error)
+                    this.graph_error = true
                 })
         }
 
@@ -57,6 +59,7 @@ export default {
         this.course_param = this.$route.query.course
 
         if (this.curric_param !== undefined) {
+            
             this.getCurric()
 
             // update page title
@@ -66,6 +69,7 @@ export default {
     },
 
     watch: {
+        
         curric_data: function() {
             show_graph(this.curric_data, this.course_param)
         },
