@@ -26,3 +26,8 @@ certs:
 environmentVariables:
   - name: SWS_ENV
     value: PROD
+environmentVariablesSecrets:
+  gakey:
+    name: GOOGLE_ANALYTICS_KEY
+    secretName: prereq-google-analytics-prod 
+    secretKey: key
