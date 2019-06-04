@@ -1,14 +1,14 @@
 // bootstrap related functions
-$(function () {
+$(function() {
   $('[data-toggle="popover"]').popover();
 });
 
-$('.popover-dismiss').popover({
-  trigger: 'focus'
+$(".popover-dismiss").popover({
+  trigger: "focus"
 });
 
 // network graph
-window.show_graph = function (graph_data, course_param) {
+window.show_graph = function(graph_data, course_param) {
   var initResult;
   var graph_div = $("<div/>", { id: "graph_div" });
   $("#graph_container").html(graph_div);
@@ -22,25 +22,21 @@ window.show_graph = function (graph_data, course_param) {
 };
 
 function px(x) {
-  if (typeof (x) === "number")
-    return x + "px";
-  else
-    return x;
+  if (typeof x === "number") return x + "px";
+  else return x;
 }
 
 // stab at refactor of graph
 function new_graph(graph_div, data, course_param) {
   var node_list = [];
   for (var i = 0; i < Object.keys(data.nodes.course_number).length; i++) {
-    var course_id = data.nodes.department_abbrev[i] + " " + data.nodes.course_number[i];
-    node_list.push({
-      id: course_id,
-      label: course_id
-    });
-  };
+    var course_id =
+      data.nodes.department_abbrev[i] + " " + data.nodes.course_number[i];
+    node_list.push({ id: course_id, label: course_id });
+  }
 
   var edge_list = [];
-  Object.keys(data.edges.from).forEach(function (key) {
+  Object.keys(data.edges.from).forEach(function(key) {
     var from = data.edges.from[key];
     var to = data.edges.to[key];
     edge_list.push({ from: from, to: to });
@@ -48,27 +44,26 @@ function new_graph(graph_div, data, course_param) {
   var nodes = new vis.DataSet(node_list);
   var edges = new vis.DataSet(edge_list);
 
-  var options = data.options;       // [TODO] not resuse `data`?
+  var options = data.options; // [TODO] not resuse `data`?
   var data = { nodes: nodes, edges: edges };
   var network = new vis.Network(graph_div, data, options);
 
   // manipulation of network map based on location
-  if (window.location.pathname == '/curriculum-search/') {
-
+  if (window.location.pathname == "/curriculum-search/") {
     // actual selectNode click event
-    network.on('selectNode', function (properties) {
+    network.on("selectNode", function(properties) {
       //console.log("node selected");
       var ids = properties.nodes;
       var clickedNode = nodes.get(ids);
       // show course infobox for a given node (course id)
-      $(document).trigger('showCourseInfo', [clickedNode[0].id]);
+      $(document).trigger("showCourseInfo", [clickedNode[0].id]);
       // animate to the course node and animate
       network.focus(clickedNode[0].id, { scale: 1.25, animation: true });
     });
 
-    network.on('deselectNode', function (properties) {
+    network.on("deselectNode", function(properties) {
       // close infobox when deselected
-      $(document).trigger('closeCourseInfo');
+      $(document).trigger("closeCourseInfo");
     });
 
     // if course param was passed
@@ -79,44 +74,39 @@ function new_graph(graph_div, data, course_param) {
         scale: 1.25,
         animation: true
       });
-
     } else {
       // default zoom for ONLY curric search (initial)
       network.moveTo({
         position: { x: 0, y: 0 },
-        scale: 0.85,
+        scale: 0.65
       });
     }
-
-  } else if (window.location.pathname == '/course-search/') {
-
+  } else if (window.location.pathname == "/course-search/") {
     if (course_param) {
       // auto select course node and zoom to it
       network.selectNodes([course_param]);
       network.focus(course_param, { scale: 1.25 });
 
       // disable de-select by keeping course node selected
-      network.on('deselectNode', function (properties) {
+      network.on("deselectNode", function(properties) {
         network.selectNodes([course_param]);
       });
     }
-
   }
-
 }
-
 
 function build_graph(el, x, instance) {
   if (x.nodes) {
-
     // network
     nodes = new vis.DataSet();
     edges = new vis.DataSet();
 
     var tmpnodes;
-    if (x.nodesToDataframe) { // data in data.frame
+    if (x.nodesToDataframe) {
+      // data in data.frame
       tmpnodes = visNetworkdataframeToD3(x.nodes, "nodes");
-    } else { // data in list
+    } else {
+      // data in list
       tmpnodes = x.nodes;
     }
     // only one element
@@ -139,7 +129,9 @@ function build_graph(el, x, instance) {
         var scalex = (igclientWidth / 2) * zoomLevel;
         var scaley = scalex;
         if (x.igraphlayout.type !== "square") {
-          scaley = (document.getElementById("graph" + el.id).clientHeight / 2) * zoomLevel;
+          scaley =
+            (document.getElementById("graph" + el.id).clientHeight / 2) *
+            zoomLevel;
         }
       } else {
         // current div not visibled....
@@ -164,9 +156,11 @@ function build_graph(el, x, instance) {
     nodes.add(tmpnodes);
 
     var tmpedges;
-    if (x.edgesToDataframe) { // data in data.frame
+    if (x.edgesToDataframe) {
+      // data in data.frame
       tmpedges = visNetworkdataframeToD3(x.edges, "edges");
-    } else { // data in list
+    } else {
+      // data in list
       tmpedges = x.edges;
     }
     // only one element
@@ -188,7 +182,6 @@ function build_graph(el, x, instance) {
     //save data for re-use and update
     document.getElementById("graph" + el.id).nodes = nodes;
     document.getElementById("graph" + el.id).edges = edges;
-
   } else if (x.dot) {
     data = {
       dot: x.dot
@@ -198,7 +191,6 @@ function build_graph(el, x, instance) {
       gephi: x.gephi
     };
   }
-
 
   // manipulation
 
@@ -224,58 +216,75 @@ function build_graph(el, x, instance) {
 
   var options = x.options;
 
-  options.manipulation.addNode = function (data, callback) {
-    document.getElementById('operation').innerHTML = "Add Node";
-    document.getElementById('node-id').value = data.id;
-    document.getElementById('node-label').value = data.label;
-    document.getElementById('saveButton').onclick = saveNode.bind(this, data, callback, "addNode");
-    document.getElementById('cancelButton').onclick = clearPopUp.bind();
-    document.getElementById('network-popUp').style.display = 'block';
+  options.manipulation.addNode = function(data, callback) {
+    document.getElementById("operation").innerHTML = "Add Node";
+    document.getElementById("node-id").value = data.id;
+    document.getElementById("node-label").value = data.label;
+    document.getElementById("saveButton").onclick = saveNode.bind(
+      this,
+      data,
+      callback,
+      "addNode"
+    );
+    document.getElementById("cancelButton").onclick = clearPopUp.bind();
+    document.getElementById("network-popUp").style.display = "block";
   };
 
-  options.manipulation.editNode = function (data, callback) {
-    document.getElementById('operation').innerHTML = "Edit Node";
-    document.getElementById('node-id').value = data.id;
-    document.getElementById('node-label').value = data.label;
-    document.getElementById('saveButton').onclick = saveNode.bind(this, data, callback, "editNode");
-    document.getElementById('cancelButton').onclick = cancelEdit.bind(this, callback);
-    document.getElementById('network-popUp').style.display = 'block';
+  options.manipulation.editNode = function(data, callback) {
+    document.getElementById("operation").innerHTML = "Edit Node";
+    document.getElementById("node-id").value = data.id;
+    document.getElementById("node-label").value = data.label;
+    document.getElementById("saveButton").onclick = saveNode.bind(
+      this,
+      data,
+      callback,
+      "editNode"
+    );
+    document.getElementById("cancelButton").onclick = cancelEdit.bind(
+      this,
+      callback
+    );
+    document.getElementById("network-popUp").style.display = "block";
   };
 
-  options.manipulation.deleteNode = function (data, callback) {
-    var r = confirm("Do you want to delete " + data.nodes.length + " node(s) and " + data.edges.length + " edges ?");
+  options.manipulation.deleteNode = function(data, callback) {
+    var r = confirm(
+      "Do you want to delete " +
+        data.nodes.length +
+        " node(s) and " +
+        data.edges.length +
+        " edges ?"
+    );
     if (r === true) {
       deleteSubGraph(data, callback);
     }
   };
 
-  options.manipulation.deleteEdge = function (data, callback) {
+  options.manipulation.deleteEdge = function(data, callback) {
     var r = confirm("Do you want to delete " + data.edges.length + " edges ?");
     if (r === true) {
       deleteSubGraph(data, callback);
     }
   };
 
-  options.manipulation.addEdge = function (data, callback) {
+  options.manipulation.addEdge = function(data, callback) {
     if (data.from == data.to) {
       var r = confirm("Do you want to connect the node to itself?");
       if (r === true) {
         saveEdge(data, callback, "addEdge");
       }
-    }
-    else {
+    } else {
       saveEdge(data, callback, "addEdge");
     }
   };
 
-  options.manipulation.editEdge = function (data, callback) {
+  options.manipulation.editEdge = function(data, callback) {
     if (data.from == data.to) {
       var r = confirm("Do you want to connect the node to itself?");
       if (r === true) {
         saveEdge(data, callback, "editEdge");
       }
-    }
-    else {
+    } else {
       saveEdge(data, callback, "editEdge");
     }
   };
@@ -286,15 +295,17 @@ function build_graph(el, x, instance) {
 
 var getUrlParameter = function getUrlParameter(sParam) {
   var sPageURL = window.location.search.substring(1),
-    sURLVariables = sPageURL.split('&'),
+    sURLVariables = sPageURL.split("&"),
     sParameterName,
     i;
 
   for (i = 0; i < sURLVariables.length; i++) {
-    sParameterName = sURLVariables[i].split('=');
+    sParameterName = sURLVariables[i].split("=");
 
     if (sParameterName[0] === sParam) {
-      return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+      return sParameterName[1] === undefined
+        ? true
+        : decodeURIComponent(sParameterName[1]);
     }
   }
 };

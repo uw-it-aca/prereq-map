@@ -33,13 +33,11 @@
             <li v-if="postreqs.length === 0">
               none
             </li>
-            <li
+            <li 
               v-for="postreq in postreqs" 
               :key="postreq"
             >
-              <a :href="'/course-search/?course=' + postreq">
-                {{ postreq }}
-              </a>
+              <a :href="'/course-search/?course=' + postreq">{{ postreq }}</a>
             </li>
           </ul>
         </div>
@@ -49,7 +47,6 @@
 </template>
 
 <script>
-  //import { dataBus } from "../pages/course/";
   import Vue from "vue/dist/vue.js";
   import VueShave from "vue-shave";
   Vue.use(VueShave);
@@ -72,8 +69,15 @@
       "$route.query.course": function() {
         this.course_code = this.$route.query.course;
         this.show(this.course_code);
-        // update page title
-        document.title = this.course_code + " - Curriculum Search - Prereq Map";
+
+        if (this.course_code !== undefined) {
+          // update page title
+          document.title = this.course_code + " - Curriculum Search - Prereq Map";
+        } else {
+          // update page title
+          document.title =
+            this.$route.query.curric + " - Curriculum Search - Prereq Map";
+        }
       },
       course_data: function() {
         this.prereqs = this.get_prereqs(
@@ -99,14 +103,12 @@
       // global click handler for show node event
       $(document).on("showCourseInfo", (event, course_code) => {
         this.show(course_code);
-
-        // https://developers.google.com/analytics/devguides/collection/analyticsjs/events
+  
         // google event category, action, label, value
         this.$ga.event("curric map", "clicked course node", course_code);
       });
 
       // global click handler for close node event
-
       $(document).on("closeCourseInfo", () => {
         this.close();
       });
@@ -173,7 +175,7 @@
     right: 0.375rem;
     top: 0.375rem;
     z-index: 10;
-    
+
     &:hover {
       color: #666;
     }

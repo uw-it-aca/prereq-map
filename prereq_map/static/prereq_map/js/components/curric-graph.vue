@@ -1,16 +1,23 @@
 <template>
   <div v-if="curric_param !== undefined">
-    <div
-      v-cloak
-      v-if="curric_emtpy"
-    >
-      This curriculum does not have any courses with prerequisites. Please consult an adviser.
-    </div>
-    <div v-else>
+    <div>
       <small
+        v-if="graph_error === false"
         class="text-secondary"
       >Use the scroll function on your mouse or touchpad to zoom in and out</small>
       <div id="graph_container" />
+    </div>
+    <div v-if="graph_error === true">
+      <p>
+        The curriculum
+        <strong>{{ curric_param }}</strong> did not display a graph. Here are some possible reasons:
+      </p>
+      <ul>
+        <li>The curriculum code does not exist</li>
+        <li>The map does not display graduate curriculum</li>
+        <li>The curriculum does not have courses with prerequisites</li>
+      </ul>
+      <p>Remember to talk to your adviser when course planning.</p>
     </div>
   </div>
 </template>
@@ -24,7 +31,7 @@
         course_param: undefined,
         curric_data: [],
         course_list: [],
-        curric_emtpy: undefined
+        graph_error: undefined
       };
     },
 
@@ -32,9 +39,9 @@
       curric_data: function() {
         window.show_graph(this.curric_data, this.course_param);
       },
+
       "$route.query.curric": function() {
         // react to route changes...
-
         this.curric_param = this.$route.query.curric;
         this.course_param = this.$route.query.course;
 
@@ -47,6 +54,7 @@
         }
       }
     },
+
     mounted() {
       this.curric_param = this.$route.query.curric;
       this.course_param = this.$route.query.course;
@@ -65,21 +73,12 @@
           .then(response => {
             this.curric_data = response.data;
 
-            //filter the data to just course_number
-            this.course_list = this.curric_data.x.nodes.course_number;
-
-            // check to see if course_list is empty
-            if (Object.keys(this.course_list).length !== 0) {
-              this.curric_emtpy = false;
-            } else {
-              this.curric_emtpy = true;
-            }
-
+            this.graph_error = false;
             this.loading = false;
           })
+          // eslint-disable-next-line no-unused-vars
           .catch(error => {
-            // eslint-disable-next-line no-console
-            console.log(error);
+            this.graph_error = true;
           });
       }
     }

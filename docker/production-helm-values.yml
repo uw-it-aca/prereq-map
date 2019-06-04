@@ -1,0 +1,33 @@
+ingress:
+  enabled: true
+  tls:
+    prereq:
+      secretName: prereqmap.uw.edu
+      hosts:
+        - prereqmap.uw.edu
+  hosts:
+    prereq:
+      host: prereqmap.uw.edu
+      paths: 
+        - "/"
+database:
+  secretName: prereq-rds
+  hostname: prereq-rds.default.svc.cluster.local
+  name: prereq
+image:
+  repository: 847518396864.dkr.ecr.us-west-2.amazonaws.com/prereq-map-provisioner-web-ecr
+repo: prereq-map
+branch: develop
+certs:
+  mounted: true
+  certPath: /certs/prereqmap.uw.edu-uwca.pem
+  keyPath: /certs/prereqmap.uw.edu-uwca.key
+  secretName: prereq-uwca
+environmentVariables:
+  - name: SWS_ENV
+    value: PROD
+environmentVariablesSecrets:
+  gakey:
+    name: GOOGLE_ANALYTICS_KEY
+    secretName: prereq-google-analytics-prod 
+    secretKey: key

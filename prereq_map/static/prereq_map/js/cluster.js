@@ -653,7 +653,7 @@ function nodeAsHardToRead(node, groups, options, hideColor1, hideColor2, network
       node.label = undefined;
 
     } else {
-      node.setOptions({ hiddenLabel: node.options.label, label: undefined })
+      node.setOptions({ hiddenLabel: node.options.label, label: undefined });
     }
   }
 }
@@ -810,7 +810,8 @@ function indexOf(needle, str) {
     return index;
   };
   return indexOf.call(this, needle, str);
-};
+}
+
 // reset a html list
 function resetList(list_name, id, shiny_input_name) {
   var list = document.getElementById(list_name + id);
@@ -962,7 +963,7 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, treeParams,
 
           var finalFirstLevelNodes = [];
           for (j = 0; j < firstLevelNodes.length; j++) {
-            var findnode = network.clustering.findNode(firstLevelNodes[j])
+            var findnode = network.clustering.findNode(firstLevelNodes[j]);
             if (findnode.length === 1) {
               finalFirstLevelNodes = finalFirstLevelNodes.concat(firstLevelNodes[j]);
             } else {
@@ -972,7 +973,7 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, treeParams,
 
           var finalClusterNodes = [];
           for (j = 0; j < otherLevelNodes.length; j++) {
-            var findnode = network.clustering.findNode(otherLevelNodes[j])
+            var findnode = network.clustering.findNode(otherLevelNodes[j]);
             if (findnode.length === 1) {
               finalClusterNodes = finalClusterNodes.concat(otherLevelNodes[j]);
             } else {
@@ -1017,16 +1018,16 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, treeParams,
               // gestion des tree
               if (treeParams !== undefined) {
                 if (treeParams.updateShape) {
-                  clusterOptions.label = clusterOptions.labelClust
-                  clusterOptions.color = clusterOptions.colorClust
-                  clusterOptions.shape = treeParams.shapeY
+                  clusterOptions.label = clusterOptions.labelClust;
+                  clusterOptions.color = clusterOptions.colorClust;
+                  clusterOptions.shape = treeParams.shapeY;
                 }
               }
 
               if (clusterOptions.label !== undefined) {
-                clusterOptions.label = clusterOptions.label + ' (cluster)'
+                clusterOptions.label = clusterOptions.label + ' (cluster)';
               } else {
-                clusterOptions.label = '(cluster)'
+                clusterOptions.label = '(cluster)';
               }
 
               if (clusterOptions.borderWidth !== undefined) {
@@ -1055,7 +1056,7 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, treeParams,
             clusterNodeProperties: {
               allowSingleNodeCluster: false,
             }
-          }
+          };
           network.cluster(clusterOptions);
         }
       }
@@ -1069,7 +1070,7 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, treeParams,
       network.fit();
     }
   }
-};
+}
 
 function uncollapsedNetwork(nodes, fit, resetHighlight, network, elid) {
   var selectedNode;
@@ -1081,11 +1082,11 @@ function uncollapsedNetwork(nodes, fit, resetHighlight, network, elid) {
   if (Object.keys(nodes_in_clusters).length > 0) {
     nodes_in_clusters = Object.keys(nodes_in_clusters);
   } else {
-    nodes_in_clusters = []
+    nodes_in_clusters = [];
   }
 
   if (nodes !== undefined && nodes !== null) {
-    arr_nodes = nodes
+    arr_nodes = nodes;
   } else {
     arr_nodes = nodes_in_clusters;
   }
@@ -1094,14 +1095,14 @@ function uncollapsedNetwork(nodes, fit, resetHighlight, network, elid) {
     selectedNode = '' + arr_nodes[inodes];
     if (selectedNode !== undefined) {
       if (network.isCluster(selectedNode)) {
-        network.openCluster(selectedNode)
+        network.openCluster(selectedNode);
       } else {
         if (indexOf.call(nodes_in_clusters, selectedNode, true) > -1) {
           // not a cluster into a cluster...
           if (selectedNode.search(/^cluster/i) === -1) {
             cluster_node = network.clustering.findNode(selectedNode)[0];
             if (network.isCluster(cluster_node)) {
-              network.openCluster(cluster_node)
+              network.openCluster(cluster_node);
             }
           }
         }
@@ -1115,7 +1116,7 @@ function uncollapsedNetwork(nodes, fit, resetHighlight, network, elid) {
   if (fit) {
     network.fit();
   }
-};
+}
 
 //----------------------------------------------------------------
 // All available functions/methods with visNetworkProxy
