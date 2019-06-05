@@ -1,5 +1,5 @@
 dist: xenial
-sudo: false
+sudo: true
 language: python
 python:
   - "3.6"
@@ -13,10 +13,10 @@ install:
   - pip install pycodestyle
 before_script:
   - pip install coveralls
-  - npm install -g
+  - npm install
 script:
   - tox
   - pycodestyle prereq_map/ --exclude=migrations,prereq_map/static
-  - stylelint '**/*.vue' '**/*.css' '**/*.scss'
+  - ./node_modules/.bin/stylelint ‘**/*.vue’ ‘**/*.css’ ‘**/*.scss’
 after_success:
   - coveralls
