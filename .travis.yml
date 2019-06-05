@@ -18,5 +18,7 @@ script:
   - tox
   - pycodestyle prereq_map/ --exclude=migrations,prereq_map/static
   - ./node_modules/.bin/stylelint '**/*.vue' '**/*.css' '**/*.scss'
+  - ./node_modules/.bin/eslint --ext .js,.vue prereq_map/static/prereq_map/js/components/
+  - ./node_modules/.bin/eslint --ext .js,.vue prereq_map/static/prereq_map/js/pages/
 after_success:
   - coveralls
