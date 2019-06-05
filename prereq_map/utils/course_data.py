@@ -14,7 +14,10 @@ def get_course_details(course_id):
 
 def get_course_for_term(course_id, term):
     label = get_course_label(term, course_id)
+    import sys
+    sys.stderr.write('Label:', label)
     course = get_course_by_label(label)
+    sys.stderr.write('Course:', course)
     return course
 
 

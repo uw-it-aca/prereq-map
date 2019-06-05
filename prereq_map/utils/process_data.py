@@ -7,7 +7,7 @@ import json
 from prereq_map.models.course_title import CourseTitle
 from prereq_map.utils.course_data import get_course_details
 from prereq_map.models.graph import CourseGraph, CurricGraph
-from uw_sws.exceptions import InvalidSectionID
+from uw_sws.exceptions import InvalidCourseID
 from django.conf import settings
 
 """
@@ -126,7 +126,7 @@ def _process_data(course_data,
 
         try:
             course = get_course_details(course_filter)
-        except InvalidSectionID:
+        except InvalidCourseID:
             course = None
 
         try:
