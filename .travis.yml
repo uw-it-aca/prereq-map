@@ -1,5 +1,5 @@
 dist: xenial
-sudo: true
+sudo: false
 language: python
 python:
   - "3.6"
@@ -17,6 +17,6 @@ before_script:
 script:
   - tox
   - pycodestyle prereq_map/ --exclude=migrations,prereq_map/static
-  - ./node_modules/.bin/stylelint ‘**/*.vue’ ‘**/*.css’ ‘**/*.scss’
+  - ./node_modules/.bin/stylelint '**/*.vue' '**/*.css' '**/*.scss'
 after_success:
   - coveralls
