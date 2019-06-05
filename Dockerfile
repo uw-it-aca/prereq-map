@@ -22,7 +22,7 @@ FROM node:8.15.1-jessie AS wpack
 ADD . /app/
 WORKDIR /app/
 RUN npm install .
-RUN npx webpack
+RUN npx webpack --mode=production
 
 FROM django
 
