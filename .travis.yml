@@ -11,9 +11,9 @@ addons:
 install:
   - pip install tox-travis
   - pip install pycodestyle
-  - npm install 
 before_script:
   - pip install coveralls
+  - npm install
 script:
   - tox
   - pycodestyle prereq_map/ --exclude=migrations,prereq_map/static
