@@ -126,12 +126,12 @@ def _process_data(course_data,
             pass
 
         try:
-            section = get_section_details(course_filter)
+            section = get_course_details(course_filter)
         except (InvalidSectionID, DataFailureException):
             section = None
 
         try:
-            response['course_description'] = course.course_description
+            response['course_description'] = section.course_description
         except AttributeError:
             pass
 
