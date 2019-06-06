@@ -5,7 +5,7 @@ import pandas as pd
 import os
 import json
 from prereq_map.models.course_title import CourseTitle
-from prereq_map.utils.course_data import get_course_details
+from prereq_map.utils.course_data import get_section_details
 from prereq_map.models.graph import CourseGraph, CurricGraph
 from uw_sws.exceptions import InvalidSectionID
 from restclients_core.exceptions import DataFailureException
