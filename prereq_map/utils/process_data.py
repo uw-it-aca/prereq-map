@@ -154,7 +154,6 @@ def _process_data(course_data,
                                       'course_college',
                                       'long_course_title']]
 
-
     # remove blacklisted currics
     cd_mask = course_data['department_abbrev'].isin(CURRIC_BLACKLIST)
     course_data = course_data[~cd_mask]
