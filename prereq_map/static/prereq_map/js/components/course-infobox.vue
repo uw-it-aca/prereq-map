@@ -29,7 +29,9 @@
 
 <script>
 //import { dataBus } from "../pages/course/";
-import Vue from 'vue/dist/vue.js'
+import Vue from 'vue/dist/vue.esm.js';
+import VueShave from 'vue-shave';
+Vue.use( VueShave );
 
 const axios = require('axios');
 export default {
