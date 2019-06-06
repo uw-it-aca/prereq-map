@@ -1,5 +1,6 @@
 from django.views.generic import TemplateView
 from uw_sws.term import get_current_term
+from restclients_core.exceptions import DataFailureException
 import datetime
 
 
@@ -21,13 +22,18 @@ class CurriculumSearch(TemplateView):
     def render_to_response(self, context, **response_kwargs):
         response = super(CurriculumSearch, self).render_to_response(
             context, **response_kwargs)
-
-        # get the current term from the sws resource
-        term = get_current_term()
-        # set last_final_exam_date as the end of term date and format it
-        term_end_date = term.last_final_exam_date
-        # example format: Sat, 29 Mar 2019 12:25:57 GMT
-        term_end_date = term_end_date.strftime("%c")
+        try:
+            # get the current term from the sws resource
+            term = get_current_term()
+            # set last_final_exam_date as the end of term date and format it
+            term_end_date = term.last_final_exam_date
+            # example format: Sat, 29 Mar 2019 12:25:57 GMT
+            term_end_date = term_end_date.strftime("%c")
+            raise DataFailureException('foo', 123, 'baz')
+        except DataFailureException:
+            term_end_date = datetime.datetime.now() + \
+                            datetime.timedelta(days=7)
+            term_end_date.strftime("%c")
 
         # check to see if the onboarding cookie exists
         if 'prereq-onboarding-accepted' not in self.request.COOKIES:

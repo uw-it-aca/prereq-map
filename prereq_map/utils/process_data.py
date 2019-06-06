@@ -7,7 +7,8 @@ import json
 from prereq_map.models.course_title import CourseTitle
 from prereq_map.utils.course_data import get_course_details
 from prereq_map.models.graph import CourseGraph, CurricGraph
-from uw_sws.exceptions import InvalidCourseID
+from uw_sws.exceptions import InvalidSectionID
+from restclients_core.exceptions import DataFailureException
 from django.conf import settings
 
 """
@@ -125,9 +126,9 @@ def _process_data(course_data,
             pass
 
         try:
-            course = get_course_details(course_filter)
-        except InvalidCourseID:
-            course = None
+            section = get_section_details(course_filter)
+        except (InvalidSectionID, DataFailureException):
+            section = None
 
         try:
             response['course_description'] = course.course_description
