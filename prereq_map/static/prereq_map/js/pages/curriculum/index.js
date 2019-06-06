@@ -1,4 +1,4 @@
-import Vue from 'vue/dist/vue.js'
+import Vue from 'vue/dist/vue.esm.js'
 import VueRouter from 'vue-router/dist/vue-router.js'
 import VueAnalytics from 'vue-analytics'
 import App from './app.vue'
