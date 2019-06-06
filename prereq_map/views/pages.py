@@ -29,7 +29,6 @@ class CurriculumSearch(TemplateView):
             term_end_date = term.last_final_exam_date
             # example format: Sat, 29 Mar 2019 12:25:57 GMT
             term_end_date = term_end_date.strftime("%c")
-            raise DataFailureException('foo', 123, 'baz')
         except DataFailureException:
             term_end_date = datetime.datetime.now() + \
                             datetime.timedelta(days=7)
