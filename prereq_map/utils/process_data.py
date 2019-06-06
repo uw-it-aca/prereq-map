@@ -5,9 +5,9 @@ import pandas as pd
 import os
 import json
 from prereq_map.models.course_title import CourseTitle
-from prereq_map.utils.course_data import get_section_details
+from prereq_map.utils.course_data import get_course_details
 from prereq_map.models.graph import CourseGraph, CurricGraph
-from uw_sws.exceptions import InvalidSectionID
+from uw_sws.exceptions import InvalidCourseID
 from django.conf import settings
 
 """
@@ -125,12 +125,12 @@ def _process_data(course_data,
             pass
 
         try:
-            section = get_section_details(course_filter)
-        except InvalidSectionID:
-            section = None
+            course = get_course_details(course_filter)
+        except InvalidCourseID:
+            course = None
 
         try:
-            response['course_description'] = section.course_description
+            response['course_description'] = course.course_description
         except AttributeError:
             pass
 
