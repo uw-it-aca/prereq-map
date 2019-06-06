@@ -4,7 +4,7 @@
         <div class="card-header bg-white">
             <h5 class="m-0">{{ course_code }}</h5>
             <!--<a href="#" class="prereq-infobox-close" v-on:click.stop.prevent="close"><i class="fas fa-times"></i></a>-->
-            <p class="card-title" v-if="course_description" v-shave="{ height: 150 }">{{ course_description }}</p>
+            <p class="card-title" v-if="course_description">{{ course_description }}</p>
 
             <a v-bind:href="'/course-search/?course=' + course_code" class="btn btn-primary btn-sm prereq-infobox-button">More details</a>
 
@@ -30,8 +30,6 @@
 <script>
 //import { dataBus } from "../pages/course/";
 import Vue from 'vue/dist/vue.esm.js';
-import VueShave from 'vue-shave';
-Vue.use( VueShave );
 
 const axios = require('axios');
 export default {
