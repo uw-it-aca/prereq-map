@@ -166,7 +166,7 @@ def _process_data(course_data,
     course_data = course_data[course_data.course_number < 500]
 
     # Remove 'retired' courses
-    course_data = course_data[course_data.course_cat_omit == False]
+    course_data = course_data[course_data.course_cat_omit is False]
 
     # remove inactive courses from prereqs (keep them in the from field)
     prereqs = prereqs[prereqs['course_to'].isin(course_data['course'])]
