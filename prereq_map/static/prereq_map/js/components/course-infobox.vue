@@ -2,9 +2,13 @@
   <div>
     <div v-if="course_code" class="card mt-4">
       <div v-if="loading">
-        <div class="card-header bg-white">
-          Loading.....
+        <div class="pr-loading mt-5 mb-5">
+          <div class="pr-loading-inner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <span class="sr-only">Loading...</span>
+          </div>
         </div>
+
       </div>
       <div v-else>
         <div class="card-header bg-white">
