@@ -13,6 +13,7 @@ class TestProcessData(TestCase):
                                    'School of Arts and Sci'],
                 'long_course_title': ['Intro To Java', 'Bird Law',
                                       "Java II: More Coffee"],
+                'course_cat_omit': [False, False, False]
             }
         )
 
@@ -45,6 +46,7 @@ class TestProcessData(TestCase):
                                    'School of Arts and Sci'],
                 'long_course_title': ['Intro To Java', 'Bird Law',
                                       "Java II: More Coffee"],
+                'course_cat_omit': [False, False, False]
             }
         )
 
