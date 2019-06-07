@@ -153,7 +153,8 @@ def _process_data(course_data,
                                       'department_abbrev',
                                       'course_number',
                                       'course_college',
-                                      'long_course_title']]
+                                      'long_course_title',
+                                      'course_cat_omit']]
 
     # remove blacklisted currics
     cd_mask = course_data['department_abbrev'].isin(CURRIC_BLACKLIST)
@@ -163,6 +164,9 @@ def _process_data(course_data,
 
     # remove graduate courses
     course_data = course_data[course_data.course_number < 500]
+
+    # Remove 'retired' courses
+    course_data = course_data[course_data.course_cat_omit == False]  # noqa
 
     # remove inactive courses from prereqs (keep them in the from field)
     prereqs = prereqs[prereqs['course_to'].isin(course_data['course'])]
