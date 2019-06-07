@@ -5,10 +5,7 @@ from restclients_core.exceptions import DataFailureException
 
 def get_course_details(course_id):
     term = get_current_term()
-    try:
-        course = get_course_for_term(course_id, term)
-    except DataFailureException:
-        pass
+    course = get_course_for_term(course_id, term)
     return course
 
 
