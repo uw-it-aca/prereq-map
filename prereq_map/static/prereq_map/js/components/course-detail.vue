@@ -11,7 +11,7 @@
 
             <div class="mb-4">
                 <h2 class="pt-3"><span>{{ courseParam }}</span> <span v-if="course_title">- {{ course_title }}</span></h2>
-                <p v-if="course_description">{{course_description}}</p>
+                <p v-if="course_description" v-html="course_description">{{course_description}}</p>
             </div>
 
             <div class="mb-4">
@@ -60,6 +60,11 @@ export default {
         dataBus.$on('course_data', (data) => {
             this.course_title = data.course_title;
             this.course_description = data.course_description;
+            
+            // format the description hack!
+            this.course_description = this.course_description.replace("Offered: ", "<br /><br /><strong>Blah:</strong> ");   
+            console.log(this.course_description);
+
             this.prereqs = this.get_prereqs(this.courseParam, data.x.edges.from);
             this.postreqs = this.get_postreqs(this.courseParam, data.x.edges.to);
         });
