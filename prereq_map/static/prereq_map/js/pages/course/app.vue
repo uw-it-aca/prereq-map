@@ -56,7 +56,7 @@ export default {
   },
   data() {
     return {
-      loading: true,
+      loading: undefined,
       course_param: undefined,
       course_data: [],
       course_number: "",
