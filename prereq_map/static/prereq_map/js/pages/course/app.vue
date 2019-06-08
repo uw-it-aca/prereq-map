@@ -21,7 +21,7 @@
 
       <div
         v-cloak
-        v-if="course_valid === false && loading === false"
+        v-if="course_valid === false"
         class="row mt-5 mb-5"
       >
         <div class="col">
@@ -74,14 +74,17 @@ export default {
           // check to see if course_list is empty
           if (Object.keys(this.course_number).length !== 0) {
             this.course_valid = true;
-            this.loading = false;
           } else {
             this.course_valid = false;
-            this.loading = true;
           }
+
+          // hide the loading spinner to show responses
+          this.loading = false;
+
         })
         .catch(error => {
           this.course_valid = false;
+          // hide the loading spinner to show responses
           this.loading = false;
           console.log("error " + error);
         });
@@ -91,8 +94,10 @@ export default {
     this.course_param = this.$route.query.course;
 
     if (this.course_param !== undefined) {
-      this.getCourse();
 
+      // show the loading spinner when a course param is passed
+      this.loading = true;
+      this.getCourse();
       // update page title
       document.title = this.course_param + " - Course Search - Prereq Map";
     }
