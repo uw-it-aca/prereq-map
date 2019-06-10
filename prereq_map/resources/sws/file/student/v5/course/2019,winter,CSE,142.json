@@ -2,7 +2,7 @@
     "CourseCampus": "Seattle",
     "CourseCollege": "Engineering",
     "CourseComment": "CHG DESC",
-    "CourseDescription": "Basic programming-in-the-small abilities and concepts including procedural programming (methods, parameters, return, values), basic control structures (sequence, if/else, for loop, while loop), file processing, arrays, and an introduction to defining objects. Intended for students without prior programming experience.  Prerequisite: this is a test prereq string.  Offered: AWSpS.",
+    "CourseDescription": "Basic programming-in-the-small abilities and concepts including procedural programming (methods, parameters, return, values), basic control structures (sequence, if/else, for loop, while loop), file processing, arrays, and an introduction to defining objects. Intended for students without prior programming experience. Prerequisite: this is a test prereq string. Offered: AWSpS.",
     "CourseNumber": "142",
     "CourseTitle": "COMPUTER PRGRMNG I",
     "CourseTitleLong": "Computer Programming I",
