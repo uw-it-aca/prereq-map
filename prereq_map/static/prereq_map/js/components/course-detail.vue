@@ -61,14 +61,13 @@ export default {
             this.course_title = data.course_title;
             this.course_description = data.course_description;
             
-            // format the description (hack!)
-            this.course_description = this.course_description.replace("Prerequisite: ", "<br /><br /><strong>Prerequisite:</strong> ");   
-            console.log(this.course_description);
+            if (this.course_description) {
+                // format the description (hack!)
+                this.course_description = this.course_description.replace("Prerequisite: ", "<br /><br /><strong>Prerequisite:</strong> ");   
+                this.course_description = this.course_description.replace("Offered: ", "<br /><br /><strong>Offered:</strong> ");   
+            }
 
-            this.course_description = this.course_description.replace("Offered: ", "<br /><br /><strong>Offered:</strong> ");   
-            console.log(this.course_description);
-
-            this.prereqs = this.get_prereqs(this.courseParam, data.x.edges.from);
+            //this.prereqs = this.get_prereqs(this.courseParam, data.x.edges.from);
             this.postreqs = this.get_postreqs(this.courseParam, data.x.edges.to);
         });
 
