@@ -24,5 +24,6 @@ class TestCourse(TestCase):
                "return, values), basic control structures (sequence, " \
                "if/else, for loop, while loop), file processing, arrays," \
                " and an introduction to defining objects. Intended for " \
-               "students without prior programming experience. Offered: AWSpS."
+               "students without prior programming experience. Prerequisite:" \
+               "  this is a test prereq string.  Offered: AWSpS."
         self.assertEqual(section.course_description, desc)
