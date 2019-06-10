@@ -61,8 +61,11 @@ export default {
             this.course_title = data.course_title;
             this.course_description = data.course_description;
             
-            // format the description hack!
-            this.course_description = this.course_description.replace("Offered: ", "<br /><br /><strong>Blah:</strong> ");   
+            // format the description (hack!)
+            this.course_description = this.course_description.replace("Prerequisite: ", "<br /><br /><strong>Prerequisite:</strong> ");   
+            console.log(this.course_description);
+
+            this.course_description = this.course_description.replace("Offered: ", "<br /><br /><strong>Offered:</strong> ");   
             console.log(this.course_description);
 
             this.prereqs = this.get_prereqs(this.courseParam, data.x.edges.from);
