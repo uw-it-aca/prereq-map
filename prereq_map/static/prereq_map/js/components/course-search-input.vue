@@ -29,7 +29,11 @@ export default {
         this.course_code = this.$route.query.course
     },
     watch: {
-
+        
+        // make sure course codes persists between query param changes
+        "$route.query.course": function() {
+            this.course_code = this.$route.query.course
+        }
     },
     methods: {
         processForm: function(e) {
