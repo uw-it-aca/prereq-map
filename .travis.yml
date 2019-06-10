@@ -1,11 +1,20 @@
+dist: xenial
 sudo: false
 language: python
 python:
-  - "3.5"
   - "3.6"
-install: pip install tox-travis
+addons:
+  apt:
+    packages:
+    - gcc-4.8
+    - unixodbc-dev
+install:
+  - pip install tox-travis
+  - pip install pycodestyle
 before_script:
   - pip install coveralls
-script: tox
+script:
+  - tox
+  - pycodestyle prereq_map/ --exclude=migrations,prereq_map/static
 after_success:
   - coveralls

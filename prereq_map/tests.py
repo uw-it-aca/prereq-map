@@ -1,8 +1,4 @@
-from django.test import TestCase, Client
-
-
-class TestView(TestCase):
-    def test_page_view(self):
-        c = Client()
-        response = c.get("/")
-        self.assertEqual(response.status_code, 200)
+from prereq_map.test.course_data import TestCourse
+from prereq_map.test.typeahead import TestTypeahead
+from prereq_map.test.course_title import TestCourseTitle
+from prereq_map.test.process_data import TestProcessData

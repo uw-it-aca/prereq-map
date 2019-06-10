@@ -1,37 +1,32 @@
-#FROM acait/django-container:python3
-#RUN useradd aca
-#ADD --chown=aca docker/web/start.sh /start.sh
-#RUN chmod +x /start.sh
-#RUN mkdir /app/logs
-#RUN chown aca /app/logs
-#ADD --chown=aca prereq_map/VERSION /app/prereq_map/
-#ADD --chown=aca setup.py /app/
-#ADD --chown=aca requirements.txt /app/
-#RUN . /app/bin/activate && pip install -r requirements.txt
-#ADD --chown=aca /docker/web/apache2.conf /tmp/apache2.conf
-#RUN rm -rf /etc/apache2/sites-available/ && mkdir /etc/apache2/sites-available/ && \
-#    rm -rf /etc/apache2/sites-enabled/ && mkdir /etc/apache2/sites-enabled/ && \
-#    rm /etc/apache2/apache2.conf && \
-#    cp /tmp/apache2.conf /etc/apache2/apache2.conf &&\
-#    mkdir /etc/apache2/logs
-#RUN chown aca /etc/apache2/logs
-#ADD --chown=aca . /app/
-#ENV DB sqlite3
-#ADD docker /app/project/
-#USER aca
-#CMD ["/start.sh" ]
+FROM acait/django-container:feature-refactor as django
+
+USER root
+RUN apt-get update && apt-get install mysql-client libmysqlclient-dev -y
+USER acait
+
+ADD --chown=acait:acait prereq_map/VERSION /app/prereq_map/
+ADD --chown=acait:acait setup.py /app/
+ADD --chown=acait:acait requirements.txt /app/
+
+RUN . /app/bin/activate && pip install -r requirements.txt
+RUN . /app/bin/activate && pip install mysqlclient
+
+ADD --chown=acait:acait . /app/
+ADD --chown=acait:acait docker/app_deploy.sh /scripts/app_deploy.sh
+ADD --chown=acait:acait docker/ project/
+RUN chmod u+x /scripts/app_deploy.sh
+RUN . /app/bin/activate && pip install django-webpack-loader
 
 
+FROM node:8.15.1-jessie AS wpack
+ADD . /app/
+WORKDIR /app/
+RUN npm install .
+RUN npx webpack --mode=production
 
-FROM python:3.6
-ENV PYTHONUNBUFFERED 1
+FROM django
 
-# copy contents of repo into an 'app' directory on container
-ADD . /app
-WORKDIR /app
 
-# install python dependency packages (via setup.py) on container
-RUN pip install -r requirements.txt
-
-# move manage.py out of sampleproj to root directory so that django can start
-COPY sampleproj/manage.py /app/manage.py
+COPY --chown=acait:acait --from=wpack /app/prereq_map/static/prereq_map/bundles/* /app/prereq_map/static/prereq_map/bundles/
+COPY --chown=acait:acait --from=wpack /app/prereq_map/static/ /static/
+COPY --chown=acait:acait --from=wpack /app/prereq_map/static/webpack-stats.json /app/prereq_map/static/webpack-stats.json

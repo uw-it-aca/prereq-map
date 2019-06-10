@@ -1,3 +1,5 @@
+.DS_Store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -105,9 +107,12 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-# generated data files
-.pkl
-.csv
-
 # private connection settings
 constring.txt
+
+# node
+node_modules/
+
+# react + webpack
+bundles/
+webpack-stats.json

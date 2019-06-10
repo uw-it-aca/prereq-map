@@ -1,0 +1,92 @@
+{% load static %}
+{% load render_bundle from webpack_loader %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, shrink-to-fit=no">
+    <link rel="icon" href="{% static '/prereq_map/img/favicon.png' %}">
+    <title>{% block title %}{% endblock %} - PreReq Map</title>
+
+    <!-- base css libs -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/solid.css" integrity="sha384-r/k8YTFqmlOaqRkZuSiE9trsrDXkh07mRaoGBMoDcmA58OHILZPsk29i2BsFng1B" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/fontawesome.css" integrity="sha384-4aon80D8rXCGx9ayDt85LbyUHeMWd3UiBaWliBlJ53yzm9hqN21A+o1pqoyK04h+" crossorigin="anonymous">
+    <link href="https://unpkg.com/vue-bootstrap-typeahead/dist/VueBootstrapTypeahead.css" rel="stylesheet">
+
+    <!-- base js libs -->
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+
+    <!-- load bundled vendor files using webpack loader -->
+    {% render_bundle 'base' %}
+    {% render_bundle 'vendor' %}
+
+</head>
+
+<body class="prereq" {% if google_analytics %}data-google-analytics="{{ google_analytics }}"{% endif %} data-django-debug="{{ django_debug|lower}}">
+
+    <header>
+        <div class="line"></div> <!-- Separator on mobile nav -->
+
+        <nav class="navbar navbar-expand-md navbar-dark" aria-label="Utility Menu">
+            <div class="d-flex flex-row order-2 order-md-3">
+                <ul class="navbar-nav flex-row nav-feedback">
+                    <li class="nav-item"><a class="nav-link px-2"
+                          href="mailto:help@uw.edu?subject=PreReq%20Map%20&minus;%20Comment,%20Request,%20Suggestion&amp;body=Hello,%0A%0A%3CInclude%20your%20comment%20or%20question%20about%20the%20PreReq%20Map%20tool%20here%3e%0A%0A%0A"><i
+                              class="fa fa-envelope"></i> Send Us Feedback</a></li>
+                </ul>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <!-- <span class="close"><i class="material-icons">close</i></span>
+              <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"> -->
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse order-3 order-md-2" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://www.washington.edu/" target="_blank">UW.edu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://my.uw.edu" target="_blank">MyUW</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://myplan.uw.edu/" target="_blank">MyPlan</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <nav class="navbar navbar-expand navbar-dark banner-row flex-nowrap justify-content-center" aria-label="Main Menu">
+            <div class="logo-position">
+                <img alt="PreReq Map" src="{% static '/prereq_map/img/gr-PreReqMap-logo.png' %}">
+            </div>
+            <div class="nav nav-pills nav-justified tabs-med">
+                <a class="nav-link {% if request.path == "/curriculum-search/" %}active{% endif %}" href="/curriculum-search/">Curriculum Search</a>
+                <a class="nav-link {% if request.path == "/course-search/" %}active{% endif %}" href="/course-search/">Course Search</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="prereq-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="prereq-footer" role="contentinfo">
+        <div>
+            <div class="footer-links">
+                <ul>
+                    <li><a href="https://itconnect.uw.edu/learn/tools/prereq-map/" target="_blank">Help</a></li>
+                    <li><a href="mailto:help@uw.edu?subject=Prereq%20Map%20&minus;%20Comment,%20Request,%20Suggestion&amp;body=Hello,%0A%0A%3CInclude%20your%20comment%20or%20question%20about%20the%20PreReq%20Map%20tool%20here%3e%0A%0A%0A">
+                            Send Us Feedback</a></li>
+                </ul>
+            </div><!-- end of footer links -->
+            <p class="credit">&copy; {% now “Y” %} University of Washington</p>
+        </div><!-- end of footer content -->
+    </footer>
+
+</body>
+
+</html>

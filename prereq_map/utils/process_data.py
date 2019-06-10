@@ -4,7 +4,12 @@
 import pandas as pd
 import os
 import json
-# import igraph as ig
+from prereq_map.models.course_title import CourseTitle
+from prereq_map.utils.course_data import get_course_details
+from prereq_map.models.graph import CourseGraph, CurricGraph
+from uw_sws.exceptions import InvalidSectionID
+from restclients_core.exceptions import DataFailureException
+from django.conf import settings
 
 """
 Unless we want to mess around with plots offline there should be no need to
@@ -30,22 +35,77 @@ D3 or vis.js later on.
         }
 }
 """
-def process_data(curric_filter=None):
+
+
+CURRIC_BLACKLIST = ["TRAIN", "TTRAIN"]
+USE_CACHE = getattr(settings, 'USE_CACHE', False)
+
+
+def get_graph(curric_filter=None, course_filter=None):
+    if curric_filter:
+        try:
+            if USE_CACHE:
+                graph = CurricGraph.objects.get(curric_id=curric_filter)
+                return json.loads(graph.graph_data)
+            else:
+                return process_data(curric_filter=curric_filter)
+        except CurricGraph.DoesNotExist:
+            return process_data(curric_filter=curric_filter)
+    if course_filter:
+        try:
+            if USE_CACHE:
+                graph = CourseGraph.objects.get(course_id=course_filter)
+                return json.loads(graph.graph_data)
+            else:
+                return process_data(course_filter=course_filter)
+        except CourseGraph.DoesNotExist:
+            return process_data(course_filter=course_filter)
+
+
+def process_data(curric_filter=None, course_filter=None):
+    course_data = get_course_data()
+    prereqs = get_prereq_data()
+
+    return _process_data(course_data, prereqs, curric_filter, course_filter)
+
+
+def get_course_data():
     data_path = os.path.join(os.path.dirname(__file__),
                              '..',
                              'data')
-
-    os.chdir(os.getcwd())
     # vertex attributes
     course_data = pd.read_pickle(os.path.join(data_path, "course_data.pkl"))
-    # edgelist
-    prereqs = pd.read_pickle(os.path.join(data_path, "prereq_data.pkl"))
-
-    # The database typically contains lots of whitespace for padding; remove it
-    prereqs = prereqs.apply(
-        lambda x: x.str.strip() if x.dtype == "object" else x)
+    # strip whitespace
     course_data = course_data.apply(
         lambda x: x.str.strip() if x.dtype == "object" else x)
+    return course_data
+
+
+def get_prereq_data():
+    data_path = os.path.join(os.path.dirname(__file__),
+                             '..',
+                             'data')
+    # edgelist
+    prereqs = pd.read_pickle(os.path.join(data_path, "prereq_data.pkl"))
+    # strip whitespace
+    prereqs = prereqs.apply(
+        lambda x: x.str.strip() if x.dtype == "object" else x)
+    return prereqs
+
+
+def _process_data(course_data,
+                  prereqs,
+                  curric_filter=None,
+                  course_filter=None):
+    response = {}
+    # create readable course from dept + #
+    prereqs['course_to'] = prereqs['department_abbrev'] + " " + prereqs[
+        'course_number'].map(str)
+    prereqs['course_from'] = prereqs['pr_curric_abbr'] + " " + prereqs[
+        'pr_course_no']
+    pd.options.mode.chained_assignment = None
+    course_data['course'] = (course_data['department_abbrev'] +
+                             " " + course_data['course_number'].map(str))
 
     if curric_filter:
         course_data = course_data.loc[
@@ -53,44 +113,82 @@ def process_data(curric_filter=None):
         prereqs = prereqs.loc[
             prereqs['department_abbrev'] == curric_filter]
 
-    # create readable course from dept + #
-    prereqs['course_to'] = prereqs['department_abbrev'] + " " + prereqs['course_number'].map(str)
-    prereqs['course_from'] = prereqs['pr_curric_abbr'] + " " + prereqs['pr_course_no']
+    if course_filter:
+        # Drop course if no course data for it exists
+        filt_course = course_data.loc[course_data['course'] == course_filter]
+        if len(filt_course.index) == 0:
+            return None
 
-    course_data['course'] = course_data['department_abbrev'] + " " + course_data['course_number'].map(str)
+        try:
+            title = CourseTitle.get_course_title(course_filter)
+            response['course_title'] = title
+        except CourseTitle.DoesNotExist:
+            pass
+
+        try:
+            section = get_course_details(course_filter)
+        except (InvalidSectionID, DataFailureException):
+            section = None
+
+        try:
+            response['course_description'] = section.course_description
+        except AttributeError:
+            pass
+
+        prereqs_to = prereqs.loc[
+            prereqs['course_to'] == course_filter
+            ]
+        prereqs_from = prereqs.loc[
+            prereqs['course_from'] == course_filter
+            ]
+        prereqs = pd.concat([prereqs_to, prereqs_from])
 
     # remove self-loops and delete some extraneous fields
-    prereqs.drop(prereqs[(prereqs.course_to == prereqs.course_from)].index, inplace = True)
-    prereqs.drop(list(prereqs.filter(regex = '_spare')), axis = 1, inplace = True)
+    prereqs.drop(prereqs[(prereqs.course_to == prereqs.course_from)].index,
+                 inplace=True)
+    prereqs.drop(list(prereqs.filter(regex='_spare')), axis=1, inplace=True)
     # prereqs.drop(columns = ['pr_last_update_dt'], inplace = True)
 
-    course_data = course_data.loc[:, ['course', 'department_abbrev', 'course_number',
-                                      'last_eff_yr', 'last_eff_qtr', 'course_branch',
-                                      'course_college', 'long_course_title',
-                                      'prq_lang_of_adm', 'prq_check_grads', 'pre_cancel_req',
-                                      'course_cat_omit', 'writing_crs', 'diversity_crs',
-                                      'english_comp', 'qsr', 'vis_lit_perf_arts',
-                                      'indiv_society', 'natural_world']]
+    course_data = course_data.loc[:, ['course',
+                                      'department_abbrev',
+                                      'course_number',
+                                      'course_college',
+                                      'long_course_title',
+                                      'course_cat_omit']]
+
+    # remove blacklisted currics
+    cd_mask = course_data['department_abbrev'].isin(CURRIC_BLACKLIST)
+    course_data = course_data[~cd_mask]
+    pr_mask = prereqs['department_abbrev'].isin(CURRIC_BLACKLIST)
+    prereqs = prereqs[~pr_mask]
+
+    # remove graduate courses
+    course_data = course_data[course_data.course_number < 500]
+
+    # Remove 'retired' courses
+    course_data = course_data[course_data.course_cat_omit == False]  # noqa
 
     # remove inactive courses from prereqs (keep them in the from field)
-    # prereqs = prereqs[prereqs['course_from'].isin(course_data['course'])]
     prereqs = prereqs[prereqs['course_to'].isin(course_data['course'])]
+    prereqs = prereqs[prereqs['course_from'].isin(course_data['course'])]
 
     # vertex metadata
     clist = prereqs[['course_to', 'course_from']].drop_duplicates()
-    clist.sort_values(['course_to', 'course_from'], inplace = True)
-
-    attribs = course_data[course_data['course'].isin(prereqs['course_to']) | course_data['course'].isin(prereqs['course_from'])]
-
+    clist.sort_values(['course_to', 'course_from'], inplace=True)
+    attribs = course_data[
+        course_data['course'].isin(prereqs['course_to']) |
+        course_data['course'].isin(prereqs['course_from'])
+    ]
 
     ao = prereqs['pr_and_or'].apply(and_or)
     ao = prereqs['course_from'] + ao
     vlab_andor = ao.groupby(prereqs['course_to']).apply(lambda x: ' '.join(x))
 
-    attribs = pd.merge(attribs, vlab_andor.to_frame(name = "vlab_prereqs"),
-                    how = "left", left_on = "course", right_on = "course_to")
+    attribs = pd.merge(attribs, vlab_andor.to_frame(name="vlab_prereqs"),
+                       how="left", left_on="course", right_on="course_to")
     attribs.vlab_prereqs = attribs.vlab_prereqs.fillna('')
-    attribs['vlab'] = attribs['long_course_title'] + "<br>" + attribs['vlab_prereqs']
+    attribs['vlab'] = (attribs['long_course_title'] +
+                       "<br>" + attribs['vlab_prereqs'])
 
     # re-structuring data for graph
     pr_obj = json.loads(prereqs.to_json())
@@ -123,52 +221,63 @@ def process_data(curric_filter=None):
     nodes['writing_crs'] = attr_obj.get('writing_crs')
 
     options = {
-        "width": "100%",
-        "height": "100%",
+        "height": "500px",
+        "autoResize": True,
         "nodes": {
-            "physics": False,
-            "shape": "circle",
-            "size": 25,
-            "font": {
-                "size": 17
+            "borderWidth": 1,
+            "borderWidthSelected": 1,
+            "shape": "box",
+            "color": {
+                "border": 'lightgray',
+                "background": 'white',
+                "highlight": {
+                  "border": '#4d307f',
+                  "background": '#976CE1'
+                }
             }
         },
-        "manipulation": {
-            "enabled": False
-        },
         "edges": {
-            "smooth": False,
-            "arrows": "to"
-        },
-        "physics": {
-            "stabilization": False
-        },
-        "interaction": {
-            "hideEdgesOnDrag": True,
-            "hoverConnectedEdges": True,
-            "multiselect": True
+            "arrows": "to",
+            "smooth": {
+                "type": 'cubicBezier',
+                "forceDirection": 'horizontal',
+                "roundness": 1
+            },
+            "color": 'lightgray'
         },
         "layout": {
             "hierarchical": {
-                "enabled": True,
-                "levelSeparation": 40,
-                "nodeSpacing": 150,
-                "direction": "LR"
+                "direction": 'LR',
+                "nodeSpacing": 80,
+                "blockShifting": False,
+                "edgeMinimization": False,
+                "sortMethod": "directed"
             }
         },
-        "improvedLayout": False
+        "interaction": {
+            "dragNodes": False
+        },
+        "physics": False
     }
 
-    return {'x': {'nodes': nodes,
-                  'edges': edges,
-                  'options': options}}
+    response.update({'x': {'nodes': nodes,
+                           'edges': edges,
+                           'options': options}})
+
+    if course_filter:
+        data = json.dumps(response)
+        CourseGraph(graph_data=data, course_id=course_filter).save()
+    if curric_filter:
+        data = json.dumps(response)
+        CurricGraph(graph_data=data, curric_id=curric_filter).save()
+    return response
 
 
 # =============================================================================
 # Build up the text string for the prereq relationships
 #
 # =============================================================================
-def and_or(x = object):
+def and_or(x=object):
     if x == "O":
         return " Or"
     elif x == "A":
