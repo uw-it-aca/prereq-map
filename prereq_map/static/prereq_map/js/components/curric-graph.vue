@@ -5,10 +5,8 @@
         >Use the scroll function on your mouse or touchpad to zoom in and
         out</small
       >
-
       <div id="graph_container"></div>
-
-      <small
+      <small v-if="graph_error === false"
         >The map only displays prerequisite relationships within the selected
         curriculum. View course details to see prerequisites from other
         curricula.</small
