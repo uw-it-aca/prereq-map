@@ -9,7 +9,6 @@ services:
     build:
       context: .
     volumes:
-      - ./sampleproj:/app/sampleproj
       - ./prereq_map:/app/prereq_map
     ports:
       - "8000:8000"
