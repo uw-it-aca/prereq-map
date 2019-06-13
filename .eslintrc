@@ -1,0 +1,17 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:vue/recommended"
+  ],
+  "rules": {
+    "semi": [2, "always"],
+    "vue/max-attributes-per-line": "off",
+    "vue/script-indent" : ["error", 2, { "baseIndent": 1 }]
+  },
+  "env": {
+    "browser" : true,
+    "commonjs" : true,
+    "es6" : true,
+    "jquery" : true
+  }
+}

@@ -4,11 +4,10 @@
       <div v-if="loading">
         <div class="pr-loading mt-5 mb-5">
           <div class="pr-loading-inner">
-            <i class="fas fa-spinner fa-spin"></i>
+            <i class="fas fa-spinner fa-spin" />
             <span class="sr-only">Loading...</span>
           </div>
         </div>
-
       </div>
       <div v-else>
         <div class="card-header bg-white">
@@ -23,8 +22,9 @@
           <a
             :href="'/course-search/?course=' + course_code"
             class="btn btn-primary btn-sm prereq-infobox-button"
-            >More details</a
           >
+            More details
+          </a>
         </div>
         <div class="card-body bg-light">
           <h5 class="card-title h6">
@@ -45,144 +45,139 @@
 </template>
 
 <script>
-//import { dataBus } from "../pages/course/";
-import Vue from "vue/dist/vue.esm.js";
-
-const axios = require("axios");
-export default {
-  data() {
-    return {
-      loading: true,
-      course_code: "",
-      last_selected: "",
-      prereqs: [],
-      postreqs: [],
-      course_data: undefined,
-      course_description: ""
-    };
-  },
-  mounted() {
-    this.course_code = this.$route.query.course;
-    if (this.course_code !== undefined) {
-      this.show(this.course_code);
-
-      // update page title
-      document.title = this.course_code + " - Curriculum Search - Prereq Map";
-    }
-
-    // global click handler for show node event
-    $(document).on("showCourseInfo", (event, course_code) => {
-      this.show(course_code);
-
-      // https://developers.google.com/analytics/devguides/collection/analyticsjs/events
-      // google event category, action, label, value
-      this.$ga.event("curric map", "clicked course node", course_code);
-    });
-
-    // global click handler for close node event
-
-    $(document).on("closeCourseInfo", event => {
-      this.close();
-    });
-  },
-  methods: {
-    load_course: function(course_code) {
-      axios.get("/api/course/" + encodeURI(course_code)).then(response => {
-        this.course_data = response;
-        this.loading = false;
-      });
+  const axios = require("axios");
+  export default {
+    data() {
+      return {
+        loading: true,
+        course_code: "",
+        last_selected: "",
+        prereqs: [],
+        postreqs: [],
+        course_data: undefined,
+        course_description: ""
+      };
     },
-    get_prereqs: function(course, from_list) {
-      var keys = Object.keys(from_list);
-      var from = [];
-      keys.forEach(function(key) {
-        var value = from_list[key];
-        if (course !== value && !from.includes(value)) {
-          from.push(value);
+
+    watch: {
+      "$route.query.course": function() {
+        this.course_code = this.$route.query.course;
+        this.show(this.course_code);
+
+        if (this.course_code !== undefined) {
+          // update page title
+          document.title = this.course_code + " - Curriculum Search - Prereq Map";
+        } else {
+          // update page title
+          document.title =
+            this.$route.query.curric + " - Curriculum Search - Prereq Map";
         }
-      });
-      return from.sort();
-    },
-    get_postreqs: function(course, to_list) {
-      var keys = Object.keys(to_list);
-      var to = [];
-      keys.forEach(function(key) {
-        var value = to_list[key];
-        if (course !== value && !to.includes(value)) {
-          to.push(value);
-        }
-      });
-      return to.sort();
-    },
-    show: function(code) {
-      this.loading = true;
-      this.course_code = code;
-      this.$router.push({
-        query: Object.assign({}, this.$route.query, {
-          course: this.course_code
-        })
-      });
-
-      if (this.course_code !== undefined) {
-        this.load_course(code);
+      },
+      course_data: function() {
+        this.prereqs = this.get_prereqs(
+          this.course_code,
+          this.course_data.data.x.edges.from
+        );
+        this.postreqs = this.get_postreqs(
+          this.course_code,
+          this.course_data.data.x.edges.to
+        );
+        this.course_description = this.course_data.data.course_description;
       }
     },
-
-    close: function() {
-      // set course param to undefined in order to clear it out from query
-      this.$router.replace({
-        query: Object.assign({}, this.$route.query, { course: undefined })
-      });
-    }
-  },
-
-  watch: {
-    "$route.query.course": function() {
+    mounted() {
       this.course_code = this.$route.query.course;
-      this.show(this.course_code);
-
       if (this.course_code !== undefined) {
+        this.show(this.course_code);
+
         // update page title
         document.title = this.course_code + " - Curriculum Search - Prereq Map";
-      } else {
-        // update page title
-        document.title =
-          this.$route.query.curric + " - Curriculum Search - Prereq Map";
       }
+
+      // global click handler for show node event
+      $(document).on("showCourseInfo", (event, course_code) => {
+        this.show(course_code);
+        // google event category, action, label, value
+        this.$ga.event("curric map", "clicked course node", course_code);
+      });
+
+      // global click handler for close node event
+
+      $(document).on("closeCourseInfo", () => {
+        this.close();
+      });
     },
-    course_data: function() {
-      this.prereqs = this.get_prereqs(
-        this.course_code,
-        this.course_data.data.x.edges.from
-      );
-      this.postreqs = this.get_postreqs(
-        this.course_code,
-        this.course_data.data.x.edges.to
-      );
-      this.course_description = this.course_data.data.course_description;
+    methods: {
+      load_course: function(course_code) {
+        axios.get("/api/course/" + encodeURI(course_code)).then(response => {
+          this.course_data = response;
+          this.loading = false;
+        });
+      },
+      get_prereqs: function(course, from_list) {
+        var keys = Object.keys(from_list);
+        var from = [];
+        keys.forEach(function(key) {
+          var value = from_list[key];
+          if (course !== value && !from.includes(value)) {
+            from.push(value);
+          }
+        });
+        return from.sort();
+      },
+      get_postreqs: function(course, to_list) {
+        var keys = Object.keys(to_list);
+        var to = [];
+        keys.forEach(function(key) {
+          var value = to_list[key];
+          if (course !== value && !to.includes(value)) {
+            to.push(value);
+          }
+        });
+        return to.sort();
+      },
+      show: function(code) {
+        this.loading = true;
+        this.course_code = code;
+        this.$router.push({
+          query: Object.assign({}, this.$route.query, {
+            course: this.course_code
+          })
+        });
+
+        if (this.course_code !== undefined) {
+          this.load_course(code);
+        }
+      },
+
+      close: function() {
+        // set course param to undefined in order to clear it out from query
+        this.$router.replace({
+          query: Object.assign({}, this.$route.query, { course: undefined })
+        });
+      }
     }
-  }
-};
+  };
 </script>
 
 <style lang="scss">
-.prereq-infobox-close {
-  position: absolute;
-  top: 0.375rem;
-  right: 0.375rem;
-  z-index: 10;
-  display: block;
-  padding: 0.25rem 0.5rem;
-  color: #000;
+  .prereq-infobox-close {
+    color: #000;
+    display: block;
+    padding: 0.25rem 0.5rem;
+    position: absolute;
+    right: 0.375rem;
+    top: 0.375rem;
+    z-index: 10;
 
-  &:hover {
-    color: #666;
+    &:hover {
+      color: #666;
+    }
   }
-}
 
-.prereq-infobox-button {
-  background-color: #4d307f;
-  color: #fff;
-  border: none;
-}
+  .prereq-infobox-button {
+    background-color: #4d307f;
+    border: transparent;
+    color: #fff;
+  }
 </style>
