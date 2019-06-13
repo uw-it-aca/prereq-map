@@ -12,9 +12,10 @@
             <span>{{ courseParam }}</span>
             <span v-if="course_title">- {{ course_title }}</span>
           </h2>
-          <p v-if="course_description">
+          <!--  eslint-disable-next-line vue/no-v-html -->
+          <div v-if="course_description" v-html="course_description">
             {{ course_description }}
-          </p>
+          </div>
         </div>
 
         <div class="mb-4">
@@ -41,7 +42,8 @@
                 'https://myplan.uw.edu/course/#/courses/' + courseParam
               )
             "
-          >View {{ courseParam }} course details and schedule on MyPlan
+          >
+            View {{ courseParam }} course details and schedule on MyPlan
           </a>
         </p>
       </div>
@@ -78,6 +80,19 @@
       dataBus.$on("course_data", data => {
         this.course_title = data.course_title;
         this.course_description = data.course_description;
+
+        if (this.course_description) {
+          // format the description (hack!)
+          this.course_description = this.course_description.replace(
+            "Prerequisite: ",
+            "<br /><br /><strong>Prerequisite:</strong> "
+          );
+          this.course_description = this.course_description.replace(
+            "Offered: ",
+            "<br /><br /><strong>Offered:</strong> "
+          );
+        }
+
         this.prereqs = this.get_prereqs(this.courseParam, data.x.edges.from);
         this.postreqs = this.get_postreqs(this.courseParam, data.x.edges.to);
       });
