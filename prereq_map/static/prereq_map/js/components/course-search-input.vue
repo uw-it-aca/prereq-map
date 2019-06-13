@@ -28,7 +28,12 @@
         course_code: undefined
       };
     },
-    watch: {},
+    watch: {
+      // make sure course codes persists between query param changes
+      "$route.query.course": function() {
+        this.course_code = this.$route.query.course;
+      }
+    },
     mounted() {
       this.course_code = this.$route.query.course;
     },

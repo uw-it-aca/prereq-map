@@ -15,7 +15,8 @@
             {{ course_code }}
           </h5>
 
-          <p v-if="course_description" class="card-title">
+          <!--  eslint-disable-next-line vue/no-v-html -->
+          <p v-if="course_description" class="card-title" v-html="course_description">
             {{ course_description }}
           </p>
 
@@ -83,6 +84,19 @@
           this.course_data.data.x.edges.to
         );
         this.course_description = this.course_data.data.course_description;
+
+        if (this.course_description) {
+          // format the description (hack!)
+          this.course_description = this.course_description.replace(
+            "Prerequisite: ",
+            "<br /><br /><strong>Prerequisite:</strong> "
+          );
+          this.course_description = this.course_description.replace(
+            "Offered: ",
+            "<br /><br /><strong>Offered:</strong> "
+          );
+        }
+
       }
     },
     mounted() {
