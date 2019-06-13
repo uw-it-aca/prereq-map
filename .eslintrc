@@ -5,6 +5,7 @@
   ],
   "rules": {
     "semi": [2, "always"],
+    "vue/max-attributes-per-line": "off",
     "vue/script-indent" : ["error", 2, { "baseIndent": 1 }]
   },
   "env": {
