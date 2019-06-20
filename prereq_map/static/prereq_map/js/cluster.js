@@ -2,21 +2,23 @@
 // https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/bind#Compatibility
 // for fix some RStudio viewer bug (Desktop / windows)
 if (!Function.prototype.bind) {
-  Function.prototype.bind = function (oThis) {
+  Function.prototype.bind = function(oThis) {
     if (typeof this !== "function") {
       // closest thing possible to the ECMAScript 5 internal IsCallable function
-      throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+      throw new TypeError(
+        "Function.prototype.bind - what is trying to be bound is not callable"
+      );
     }
 
     var aArgs = Array.prototype.slice.call(arguments, 1),
-    fToBind = this,
-    fNOP = function () {},
-    fBound = function () {
-      return fToBind.apply(this instanceof fNOP && oThis
-                           ? this
-                           : oThis,
-                           aArgs.concat(Array.prototype.slice.call(arguments)));
-    };
+      fToBind = this,
+      fNOP = function() {},
+      fBound = function() {
+        return fToBind.apply(
+          this instanceof fNOP && oThis ? this : oThis,
+          aArgs.concat(Array.prototype.slice.call(arguments))
+        );
+      };
 
     fNOP.prototype = this.prototype;
     fBound.prototype = new fNOP();
@@ -30,15 +32,19 @@ if (!Function.prototype.bind) {
 //--------------------------------------------
 
 // for edges
-function edgeAsHardToRead(edge, hideColor1, hideColor2, network, type){
+function edgeAsHardToRead(edge, hideColor1, hideColor2, network, type) {
   //console.info("edgeAsHardToRead")
 
-  if(type === "edge"){
+  if (type === "edge") {
     //console.info("edge")
     //console.info(edge.id)
 
     // saving color information (if we have)
-    if (edge.hiddenColor === undefined && edge.color !== hideColor1 && edge.color !== hideColor2) {
+    if (
+      edge.hiddenColor === undefined &&
+      edge.color !== hideColor1 &&
+      edge.color !== hideColor2
+    ) {
       edge.hiddenColor = edge.color;
     }
     // set "hard to read" color
@@ -54,11 +60,15 @@ function edgeAsHardToRead(edge, hideColor1, hideColor2, network, type){
     //console.info(edge.id)
     //console.info(edge)
     // saving color information (if we have)
-    if (edge.hiddenColor === undefined && edge.color !== hideColor1 && edge.color !== hideColor2) {
+    if (
+      edge.hiddenColor === undefined &&
+      edge.color !== hideColor1 &&
+      edge.color !== hideColor2
+    ) {
       //network.clustering.updateEdge(edge.id, {hiddenColor : edge.color});
       edge.hiddenColor = edge.color;
     }
-    network.clustering.updateEdge(edge.id, {color : hideColor1});
+    network.clustering.updateEdge(edge.id, { color: hideColor1 });
     //edge.color = hideColor1;
     // reset and save label
     if (edge.hiddenLabel === undefined) {
@@ -67,11 +77,9 @@ function edgeAsHardToRead(edge, hideColor1, hideColor2, network, type){
     }
     edge.isHardToRead = true;
   }
-
 }
 
-function resetOneEdge(edge, hideColor1, hideColor2, type){
-
+function resetOneEdge(edge, hideColor1, hideColor2, type) {
   /*console.info("resetOneEdge")
   console.info(type)
   console.info(edge.id)
@@ -80,23 +88,30 @@ function resetOneEdge(edge, hideColor1, hideColor2, type){
   console.info(edge.hiddenColor)*/
 
   var treat_egde = false;
-  if(type === "cluster"){
-    if(edge.isHardToRead !== undefined){ // we have to reset this node
-      if(edge.isHardToRead){
+  if (type === "cluster") {
+    if (edge.isHardToRead !== undefined) {
+      // we have to reset this node
+      if (edge.isHardToRead) {
         treat_egde = true;
-      } else if(edge.isHardToRead === false && (edge.color.color === hideColor1 || edge.color.color === hideColor2)){
+      } else if (
+        edge.isHardToRead === false &&
+        (edge.color.color === hideColor1 || edge.color.color === hideColor2)
+      ) {
         treat_egde = true;
       }
-    } else if(edge.color.color === hideColor1 || edge.color.color === hideColor2){
+    } else if (
+      edge.color.color === hideColor1 ||
+      edge.color.color === hideColor2
+    ) {
       treat_egde = true;
     }
 
-    if(treat_egde){
+    if (treat_egde) {
       // get back color
       if (edge.hiddenColor !== undefined) {
         edge.color = edge.hiddenColor;
         edge.hiddenColor = undefined;
-      }else{
+      } else {
         delete edge.color;
       }
 
@@ -112,7 +127,7 @@ function resetOneEdge(edge, hideColor1, hideColor2, type){
     if (edge.hiddenColor !== undefined) {
       edge.color = edge.hiddenColor;
       edge.hiddenColor = undefined;
-    }else{
+    } else {
       edge.color = null;
     }
 
@@ -125,21 +140,20 @@ function resetOneEdge(edge, hideColor1, hideColor2, type){
   }
 }
 
-function resetAllEdges(edges, hideColor1, hideColor2, network){
-
+function resetAllEdges(edges, hideColor1, hideColor2, network) {
   var edgesToReset = edges.get({
-    fields: ['id', 'color', 'hiddenColor', 'label', 'hiddenLabel'],
-    filter: function (item) {
+    fields: ["id", "color", "hiddenColor", "label", "hiddenLabel"],
+    filter: function(item) {
       return item.isHardToRead === true;
     },
-    returnType :'Array'
+    returnType: "Array"
   });
 
   var is_cluster_edges = false;
   var edges_in_clusters;
-  if(network !== undefined){
+  if (network !== undefined) {
     edges_in_clusters = network.body.modules.clustering.clusteredEdges;
-    if(Object.keys(edges_in_clusters).length > 0){
+    if (Object.keys(edges_in_clusters).length > 0) {
       is_cluster_edges = true;
       edges_in_clusters = Object.keys(edges_in_clusters);
     } else {
@@ -150,40 +164,51 @@ function resetAllEdges(edges, hideColor1, hideColor2, network){
   var treat_edges_in_clusters = [];
   // all edges get their own color and their label back
   for (var i = 0; i < edgesToReset.length; i++) {
-    resetOneEdge(edgesToReset[i], hideColor1, hideColor2,type = "edge");
-    if(is_cluster_edges){
-      if(indexOf.call(edges_in_clusters, edgesToReset[i].id, true) > -1){
-        var tmp_cluster_id = network.clustering.getClusteredEdges(edgesToReset[i].id);
-        if(tmp_cluster_id.length > 1){
+    resetOneEdge(edgesToReset[i], hideColor1, hideColor2, (type = "edge"));
+    if (is_cluster_edges) {
+      if (indexOf.call(edges_in_clusters, edgesToReset[i].id, true) > -1) {
+        var tmp_cluster_id = network.clustering.getClusteredEdges(
+          edgesToReset[i].id
+        );
+        if (tmp_cluster_id.length > 1) {
           tmp_cluster_id = tmp_cluster_id[0];
           treat_edges_in_clusters.push(tmp_cluster_id);
-          resetOneEdge(network.body.edges[tmp_cluster_id].options, hideColor1, hideColor2, type = "cluster");
+          resetOneEdge(
+            network.body.edges[tmp_cluster_id].options,
+            hideColor1,
+            hideColor2,
+            (type = "cluster")
+          );
         }
       }
     }
   }
 
   // some misunderstood bug on some cluster edges... so have a (bad) fix...
-  var edges_in_clusters_ctrl = edges_in_clusters.filter(function(word,index){
-    if(word.match(/^clusterEdge/i)){
-      if(indexOf.call(treat_edges_in_clusters, word, true) === -1){
+  var edges_in_clusters_ctrl = edges_in_clusters.filter(function(word, index) {
+    if (word.match(/^clusterEdge/i)) {
+      if (indexOf.call(treat_edges_in_clusters, word, true) === -1) {
         return true;
       } else {
         return false;
       }
-
-    }else{
-        return false;
+    } else {
+      return false;
     }
   });
 
-  if(is_cluster_edges){
-    if(edges_in_clusters_ctrl.length > 0){
-       for (var j = 0; j < edges_in_clusters_ctrl.length; j++) {
-         if(network.body.edges[edges_in_clusters_ctrl[j]] !== undefined){
-           resetOneEdge(network.body.edges[edges_in_clusters_ctrl[j]].options, hideColor1, hideColor2, type = "cluster");
-         }
+  if (is_cluster_edges) {
+    if (edges_in_clusters_ctrl.length > 0) {
+      for (var j = 0; j < edges_in_clusters_ctrl.length; j++) {
+        if (network.body.edges[edges_in_clusters_ctrl[j]] !== undefined) {
+          resetOneEdge(
+            network.body.edges[edges_in_clusters_ctrl[j]].options,
+            hideColor1,
+            hideColor2,
+            (type = "cluster")
+          );
         }
+      }
     }
   }
 
@@ -195,35 +220,38 @@ function resetAllEdges(edges, hideColor1, hideColor2, network){
 //--------------------------------------------
 
 // for classic node
-function simpleResetNode(node, type){
-  if(type === "node"){
+function simpleResetNode(node, type) {
+  if (type === "node") {
     // get back color
     if (node.hiddenColor !== undefined) {
       node.color = node.hiddenColor;
       node.hiddenColor = undefined;
-    }else{
-      if(node.group !== undefined){
+    } else {
+      if (node.group !== undefined) {
         node.color = undefined;
       } else {
         node.color = null;
       }
     }
   } else {
-    if (Object.keys(node.options.hiddenColor).length > 2){
-      node.setOptions({color : node.options.hiddenColor, hiddenColor : undefined});
-    }else{
-      if(node.options.group !== undefined){
-        node.setOptions({color : undefined});
+    if (Object.keys(node.options.hiddenColor).length > 2) {
+      node.setOptions({
+        color: node.options.hiddenColor,
+        hiddenColor: undefined
+      });
+    } else {
+      if (node.options.group !== undefined) {
+        node.setOptions({ color: undefined });
       } else {
-        node.setOptions({color : null});
+        node.setOptions({ color: null });
       }
     }
   }
 }
 
 // for icon node
-function simpleIconResetNode(node, type){
-  if(type === "node"){
+function simpleIconResetNode(node, type) {
+  if (type === "node") {
     // icon color
     node.icon.color = node.hiddenColor;
     node.hiddenColor = undefined;
@@ -231,36 +259,42 @@ function simpleIconResetNode(node, type){
     if (node.hiddenColorForLabel !== undefined) {
       node.color = node.hiddenColorForLabel;
       node.hiddenColorForLabel = undefined;
-    }else{
-      if(node.group !== undefined){
+    } else {
+      if (node.group !== undefined) {
         node.color = undefined;
       } else {
         node.color = null;
       }
     }
   } else {
-    node.setOptions({icon : { color : node.options.hiddenColor}, hiddenColor : undefined});
+    node.setOptions({
+      icon: { color: node.options.hiddenColor },
+      hiddenColor: undefined
+    });
     if (node.options.hiddenColorForLabel !== undefined) {
-      node.setOptions({color : node.options.hiddenColorForLabel, hiddenColorForLabel : undefined});
-    }else{
-      if(node.options.group !== undefined){
-        node.setOptions({color : undefined});
+      node.setOptions({
+        color: node.options.hiddenColorForLabel,
+        hiddenColorForLabel: undefined
+      });
+    } else {
+      if (node.options.group !== undefined) {
+        node.setOptions({ color: undefined });
       } else {
-        node.setOptions({color : null});
+        node.setOptions({ color: null });
       }
     }
   }
 }
 
 // for image node
-function simpleImageResetNode(node, imageType, type){
-  if(type === "node"){
+function simpleImageResetNode(node, imageType, type) {
+  if (type === "node") {
     // get back color
     if (node.hiddenColor !== undefined) {
       node.color = node.hiddenColor;
       node.hiddenColor = undefined;
-    }else{
-      if(node.group !== undefined){
+    } else {
+      if (node.group !== undefined) {
         node.color = undefined;
       } else {
         node.color = null;
@@ -270,67 +304,76 @@ function simpleImageResetNode(node, imageType, type){
     node.shape = imageType;
   } else {
     if (Object.keys(node.options.hiddenColor).length > 2) {
-      node.setOptions({color : node.options.hiddenColor, hiddenColor : undefined});
-    }else{
-      if(node.options.group !== undefined){
-        node.setOptions({color : undefined});
+      node.setOptions({
+        color: node.options.hiddenColor,
+        hiddenColor: undefined
+      });
+    } else {
+      if (node.options.group !== undefined) {
+        node.setOptions({ color: undefined });
       } else {
-        node.setOptions({color : null});
+        node.setOptions({ color: null });
       }
     }
-    node.setOptions({shape : imageType});
+    node.setOptions({ shape: imageType });
   }
 }
 
 // Global function to reset one cluster
-function resetOneCluster(node, groups, options, network){
-  if(node !== undefined){
-    if(node.options.isHardToRead !== undefined){ // we have to reset this node
-      if(node.options.isHardToRead){
+function resetOneCluster(node, groups, options, network) {
+  if (node !== undefined) {
+    if (node.options.isHardToRead !== undefined) {
+      // we have to reset this node
+      if (node.options.isHardToRead) {
         var final_shape;
         var shape_group = false;
         var is_group = false;
-  	  // have a group information & a shape defined in group ?
-        if(node.options.group !== undefined){
-          if(groups.groups[node.options.group] !== undefined){
+        // have a group information & a shape defined in group ?
+        if (node.options.group !== undefined) {
+          if (groups.groups[node.options.group] !== undefined) {
             is_group = true;
-            if(groups.groups[node.options.group].shape !== undefined){
+            if (groups.groups[node.options.group].shape !== undefined) {
               shape_group = true;
             }
           }
         }
         // have a global shape in nodes options ?
         var shape_options = false;
-        if(options.nodes !== undefined){
-          if(options.nodes.shape !== undefined){
+        if (options.nodes !== undefined) {
+          if (options.nodes.shape !== undefined) {
             shape_options = true;
           }
         }
         // set final shape (individual > group > global)
-        if(node.options.hiddenImage !== undefined){
+        if (node.options.hiddenImage !== undefined) {
           final_shape = node.options.hiddenImage;
-        } else if(node.options.shape !== undefined){
+        } else if (node.options.shape !== undefined) {
           final_shape = node.options.shape;
-        } else if(shape_group){
+        } else if (shape_group) {
           final_shape = groups.groups[node.options.group].shape;
-        } else if(shape_options){
+        } else if (shape_options) {
           final_shape = options.nodes.shape;
         }
 
-        node.setOptions({bodyHiddenColor : network.body.nodes[node.id].options.color});
+        node.setOptions({
+          bodyHiddenColor: network.body.nodes[node.id].options.color
+        });
         // and call good reset function
-        if(final_shape === "icon"){
+        if (final_shape === "icon") {
           simpleIconResetNode(node, "cluster");
-        } else if(final_shape === "image"){
+        } else if (final_shape === "image") {
           simpleImageResetNode(node, "image", "cluster");
-        } else if(final_shape === "circularImage"){
+        } else if (final_shape === "circularImage") {
           simpleImageResetNode(node, "circularImage", "cluster");
         } else {
           simpleResetNode(node, "cluster");
         }
-    	 // finally, get back label
+        // finally, get back label
         if (node.options.hiddenLabel !== undefined) {
-          node.setOptions({label : node.options.hiddenLabel, hiddenLabel : undefined});
+          node.setOptions({
+            label: node.options.hiddenLabel,
+            hiddenLabel: undefined
+          });
         }
         node.options.isHardToRead = false;
       }
@@ -339,37 +382,38 @@ function resetOneCluster(node, groups, options, network){
 }
 
 // Global function to reset one node
-function resetOneNode(node, groups, options, network){
-  if(node !== undefined){
-    if(node.isHardToRead !== undefined){ // we have to reset this node
-      if(node.isHardToRead){
+function resetOneNode(node, groups, options, network) {
+  if (node !== undefined) {
+    if (node.isHardToRead !== undefined) {
+      // we have to reset this node
+      if (node.isHardToRead) {
         var final_shape;
         var shape_group = false;
         var is_group = false;
-  	  // have a group information & a shape defined in group ?
-        if(node.group !== undefined){
-          if(groups.groups[node.group] !== undefined){
+        // have a group information & a shape defined in group ?
+        if (node.group !== undefined) {
+          if (groups.groups[node.group] !== undefined) {
             is_group = true;
-            if(groups.groups[node.group].shape !== undefined){
+            if (groups.groups[node.group].shape !== undefined) {
               shape_group = true;
             }
           }
         }
         // have a global shape in nodes options ?
         var shape_options = false;
-        if(options.nodes !== undefined){
-          if(options.nodes.shape !== undefined){
+        if (options.nodes !== undefined) {
+          if (options.nodes.shape !== undefined) {
             shape_options = true;
           }
         }
         // set final shape (individual > group > global)
-        if(node.hiddenImage !== undefined){
+        if (node.hiddenImage !== undefined) {
           final_shape = node.hiddenImage;
-        } else if(node.shape !== undefined){
+        } else if (node.shape !== undefined) {
           final_shape = node.shape;
-        } else if(shape_group){
+        } else if (shape_group) {
           final_shape = groups.groups[node.group].shape;
-        } else if(shape_options){
+        } else if (shape_options) {
           final_shape = options.nodes.shape;
         }
 
@@ -377,17 +421,17 @@ function resetOneNode(node, groups, options, network){
         network.body.nodes[node.id].options.color = node.bodyHiddenColor;
 
         // and call good reset function
-        if(final_shape === "icon"){
+        if (final_shape === "icon") {
           simpleIconResetNode(node, "node");
-        } else if(final_shape === "image"){
+        } else if (final_shape === "image") {
           simpleImageResetNode(node, "image", "node");
-        } else if(final_shape === "circularImage"){
+        } else if (final_shape === "circularImage") {
           simpleImageResetNode(node, "circularImage", "node");
         } else {
           simpleResetNode(node, "node");
         }
-    	 // finally, get back label
-    	  if (node.hiddenLabel !== undefined) {
+        // finally, get back label
+        if (node.hiddenLabel !== undefined) {
           node.label = node.hiddenLabel;
           node.hiddenLabel = undefined;
         }
@@ -398,19 +442,19 @@ function resetOneNode(node, groups, options, network){
 }
 
 // Global function to reset all node
-function resetAllNodes(nodes, update, groups, options, network){
+function resetAllNodes(nodes, update, groups, options, network) {
   var nodesToReset = nodes.get({
-    filter: function (item) {
+    filter: function(item) {
       return item.isHardToRead === true;
     },
-    returnType :'Array'
+    returnType: "Array"
   });
 
   var have_cluster_nodes = false;
   var nodes_in_clusters;
-  if(network !== undefined){
+  if (network !== undefined) {
     nodes_in_clusters = network.body.modules.clustering.clusteredNodes;
-    if(Object.keys(nodes_in_clusters).length > 0){
+    if (Object.keys(nodes_in_clusters).length > 0) {
       have_cluster_nodes = true;
       nodes_in_clusters = Object.keys(nodes_in_clusters);
     } else {
@@ -419,21 +463,26 @@ function resetAllNodes(nodes, update, groups, options, network){
   }
 
   for (var i = 0; i < nodesToReset.length; i++) {
-    resetOneNode(nodesToReset[i], groups, options, network, type = "node");
-	// reset coordinates
+    resetOneNode(nodesToReset[i], groups, options, network, (type = "node"));
+    // reset coordinates
     nodesToReset[i].x = undefined;
     nodesToReset[i].y = undefined;
-    if(have_cluster_nodes){
-      if(indexOf.call(nodes_in_clusters, nodesToReset[i].id, true) > -1){
+    if (have_cluster_nodes) {
+      if (indexOf.call(nodes_in_clusters, nodesToReset[i].id, true) > -1) {
         var tmp_cluster_id = network.clustering.findNode(nodesToReset[i].id);
         // in case of multiple cluster...
-        for(var j = 0; j < (tmp_cluster_id.length-1); j++) {
-          resetOneCluster(network.body.nodes[tmp_cluster_id[j]], groups, options, network);
+        for (var j = 0; j < tmp_cluster_id.length - 1; j++) {
+          resetOneCluster(
+            network.body.nodes[tmp_cluster_id[j]],
+            groups,
+            options,
+            network
+          );
         }
       }
     }
   }
-  if(update){
+  if (update) {
     nodes.update(nodesToReset);
   }
 }
@@ -443,13 +492,15 @@ function resetAllNodes(nodes, update, groups, options, network){
 //--------------------------------------------
 
 // for classic node
-function simpleNodeAsHardToRead(node, hideColor1, hideColor2, type){
-
-
+function simpleNodeAsHardToRead(node, hideColor1, hideColor2, type) {
   // classic nodes
-  if(type === "node"){
+  if (type === "node") {
     // saving color information (if we have)
-    if (node.hiddenColor === undefined && node.color !== hideColor1 && node.color !== hideColor2) {
+    if (
+      node.hiddenColor === undefined &&
+      node.color !== hideColor1 &&
+      node.color !== hideColor2
+    ) {
       node.hiddenColor = node.color;
     }
 
@@ -460,30 +511,35 @@ function simpleNodeAsHardToRead(node, hideColor1, hideColor2, type){
       node.hiddenLabel = node.label;
       node.label = undefined;
     }
-  // cluster
+    // cluster
   } else {
     // saving color information (if we have)
-    if (node.options.hiddenColor === undefined && node.options.color !== hideColor1 && node.options.color !== hideColor2) {
-      node.setOptions({hiddenColor : node.options.color});
+    if (
+      node.options.hiddenColor === undefined &&
+      node.options.color !== hideColor1 &&
+      node.options.color !== hideColor2
+    ) {
+      node.setOptions({ hiddenColor: node.options.color });
     }
     // set "hard to read" color
-    node.setOptions({color : hideColor1});
+    node.setOptions({ color: hideColor1 });
     // reset and save label
     if (node.options.hiddenLabel === undefined) {
-      node.setOptions({hiddenLabel : node.options.label});
-      node.setOptions({label : undefined});
+      node.setOptions({ hiddenLabel: node.options.label });
+      node.setOptions({ label: undefined });
     }
   }
 }
 
 // for icon node
-function iconsNodeAsHardToRead(node, hideColor1, hideColor2, icon_color, type){
+function iconsNodeAsHardToRead(node, hideColor1, hideColor2, icon_color, type) {
   // classic nodes
-  if(type === "node"){
+  if (type === "node") {
     // individual information
-    if(node.icon !== undefined && node.icon !== null && node.icon !== {}){
+    if (node.icon !== undefined && node.icon !== null && node.icon !== {}) {
       node.iconDefined = true;
-    } else { // information in group : have to as individual
+    } else {
+      // information in group : have to as individual
       node.icon = {};
       node.iconDefined = false;
     }
@@ -491,7 +547,11 @@ function iconsNodeAsHardToRead(node, hideColor1, hideColor2, icon_color, type){
     node.icon.color = hideColor1;
     node.hiddenColor = icon_color;
     // for edges....saving color information (if we have)
-    if (node.hiddenColorForLabel === undefined && node.color !== hideColor1 && node.color !== hideColor2) {
+    if (
+      node.hiddenColorForLabel === undefined &&
+      node.color !== hideColor1 &&
+      node.color !== hideColor2
+    ) {
       node.hiddenColorForLabel = node.color;
     }
     // set "hard to read" color
@@ -503,32 +563,45 @@ function iconsNodeAsHardToRead(node, hideColor1, hideColor2, icon_color, type){
     }
   } else {
     // individual information
-    if(node.options.icon !== undefined && node.options.icon !== null && node.options.icon !== {}){
-      node.setOptions({iconDefined : true});
-    } else { // information in group : have to as individual
-      node.setOptions({iconDefined : false, icon:{}});
+    if (
+      node.options.icon !== undefined &&
+      node.options.icon !== null &&
+      node.options.icon !== {}
+    ) {
+      node.setOptions({ iconDefined: true });
+    } else {
+      // information in group : have to as individual
+      node.setOptions({ iconDefined: false, icon: {} });
     }
     // set "hard to read" color
-    node.setOptions({hiddenColor : icon_color, icon:{color : hideColor1}});
+    node.setOptions({ hiddenColor: icon_color, icon: { color: hideColor1 } });
     // for edges....saving color information (if we have)
-    if (node.options.hiddenColorForLabel === undefined && node.options.color !== hideColor1 && node.options.color !== hideColor2) {
-      node.setOptions({hiddenColorForLabel : node.options.color});
+    if (
+      node.options.hiddenColorForLabel === undefined &&
+      node.options.color !== hideColor1 &&
+      node.options.color !== hideColor2
+    ) {
+      node.setOptions({ hiddenColorForLabel: node.options.color });
     }
     // set "hard to read" color
-    node.setOptions({color : hideColor1});
+    node.setOptions({ color: hideColor1 });
     // reset and save label
     if (node.options.hiddenLabel === undefined) {
-      node.setOptions({hiddenLabel : node.options.label, label : undefined});
+      node.setOptions({ hiddenLabel: node.options.label, label: undefined });
     }
   }
 }
 
 // for image node
-function imageNodeAsHardToRead(node, imageType, hideColor1, hideColor2, type){
+function imageNodeAsHardToRead(node, imageType, hideColor1, hideColor2, type) {
   // classic nodes
-  if(type === "node"){
+  if (type === "node") {
     // saving color information (if we have)
-    if (node.hiddenColor === undefined && node.color !== hideColor1 && node.color !== hideColor2) {
+    if (
+      node.hiddenColor === undefined &&
+      node.color !== hideColor1 &&
+      node.color !== hideColor2
+    ) {
       node.hiddenColor = node.color;
     }
     // set "hard to read" color
@@ -539,121 +612,143 @@ function imageNodeAsHardToRead(node, imageType, hideColor1, hideColor2, type){
       node.label = undefined;
     }
     // keep shape information, and set a new
-    if(imageType === "image"){
+    if (imageType === "image") {
       node.hiddenImage = imageType;
       node.shape = "square";
-    }else if(imageType === "circularImage"){
+    } else if (imageType === "circularImage") {
       node.hiddenImage = imageType;
       node.shape = "dot";
     }
   } else {
     // saving color information (if we have)
-    if (node.options.hiddenColor === undefined && node.options.color !== hideColor1 && node.options.color !== hideColor2) {
-      node.setOptions({hiddenColor : node.options.color});
+    if (
+      node.options.hiddenColor === undefined &&
+      node.options.color !== hideColor1 &&
+      node.options.color !== hideColor2
+    ) {
+      node.setOptions({ hiddenColor: node.options.color });
     }
     // set "hard to read" color
-    node.setOptions({color : hideColor1});
+    node.setOptions({ color: hideColor1 });
     // reset and save label
     if (node.options.hiddenLabel === undefined) {
-      node.setOptions({hiddenLabel : node.options.label, label : undefined});
+      node.setOptions({ hiddenLabel: node.options.label, label: undefined });
     }
-    if(imageType === "image"){
-      node.setOptions({hiddenImage : "image", shape : "square"});
-    } else if(imageType === "circularImage"){
-      node.setOptions({hiddenImage : "circularImage", shape : "dot"});
+    if (imageType === "image") {
+      node.setOptions({ hiddenImage: "image", shape: "square" });
+    } else if (imageType === "circularImage") {
+      node.setOptions({ hiddenImage: "circularImage", shape: "dot" });
     }
     node.hiddenImage = imageType;
   }
 }
 
 // Global function to set one node as hard to read
-function nodeAsHardToRead(node, groups, options, hideColor1, hideColor2, network, type){
+function nodeAsHardToRead(
+  node,
+  groups,
+  options,
+  hideColor1,
+  hideColor2,
+  network,
+  type
+) {
   var final_shape;
   var shape_group = false;
   var is_group = false;
 
-  if(node.isHardToRead === false || node.isHardToRead === undefined){
-
+  if (node.isHardToRead === false || node.isHardToRead === undefined) {
     // have a group information & a shape defined in group ?
-    if(node.group !== undefined){
-      if(groups.groups[node.group] !== undefined){
+    if (node.group !== undefined) {
+      if (groups.groups[node.group] !== undefined) {
         is_group = true;
-        if(groups.groups[node.group].shape !== undefined){
+        if (groups.groups[node.group].shape !== undefined) {
           shape_group = true;
         }
       }
     }
     // have a group information & a shape defined in group ?
     var shape_options = false;
-    if(options.nodes !== undefined){
-      if(options.nodes.shape !== undefined){
+    if (options.nodes !== undefined) {
+      if (options.nodes.shape !== undefined) {
         shape_options = true;
       }
     }
     // set final shape (individual > group > global)
-    if(node.shape !== undefined){
+    if (node.shape !== undefined) {
       final_shape = node.shape;
-    } else if(shape_group){
+    } else if (shape_group) {
       final_shape = groups.groups[node.group].shape;
-    } else if(shape_options){
+    } else if (shape_options) {
       final_shape = options.nodes.shape;
     }
 
     // information save in body nodes
-    if(type === "node"){
+    if (type === "node") {
       node.bodyHiddenColor = clone(network.body.nodes[node.id].options.color);
     } else {
-      node.setOptions({bodyHiddenColor : clone(network.body.nodes[node.id].options.color)});
+      node.setOptions({
+        bodyHiddenColor: clone(network.body.nodes[node.id].options.color)
+      });
     }
 
     // and call good function
-    if(final_shape === "icon"){
+    if (final_shape === "icon") {
       // find color for icon
       var icon_color = "#2B7CE9";
       var find_color = false;
       // in nodes ?
-      if(node.icon !== undefined){
-        if(node.icon.color !== undefined){
+      if (node.icon !== undefined) {
+        if (node.icon.color !== undefined) {
           icon_color = node.icon.color;
           find_color = true;
         }
       }
       // or in group ?
-      if(find_color === false && is_group && groups.groups[node.group].icon !== undefined){
-        if(groups.groups[node.group].icon.color !== undefined){
+      if (
+        find_color === false &&
+        is_group &&
+        groups.groups[node.group].icon !== undefined
+      ) {
+        if (groups.groups[node.group].icon.color !== undefined) {
           icon_color = groups.groups[node.group].icon.color;
           find_color = true;
         }
       }
       // in global node ?
-      if(find_color === false && options.nodes.icon !== undefined){
-        if(options.nodes.icon.color !== undefined){
+      if (find_color === false && options.nodes.icon !== undefined) {
+        if (options.nodes.icon.color !== undefined) {
           icon_color = options.nodes.icon.color;
         }
       }
       iconsNodeAsHardToRead(node, hideColor1, hideColor2, icon_color, type);
-    } else if(final_shape === "image"){
+    } else if (final_shape === "image") {
       imageNodeAsHardToRead(node, "image", hideColor1, hideColor2, type);
-    } else if(final_shape === "circularImage"){
-      imageNodeAsHardToRead(node, "circularImage", hideColor1, hideColor2, type);
+    } else if (final_shape === "circularImage") {
+      imageNodeAsHardToRead(
+        node,
+        "circularImage",
+        hideColor1,
+        hideColor2,
+        type
+      );
     } else {
       simpleNodeAsHardToRead(node, hideColor1, hideColor2, type);
     }
 
     // finally set isHardToRead
-    if(type === "node"){
+    if (type === "node") {
       node.isHardToRead = true;
     } else {
-      node.setOptions({isHardToRead : true});
+      node.setOptions({ isHardToRead: true });
     }
-  // special case of just to label
-  } else if(node.isHardToRead === true && node.label !== undefined){
-    if(type === "node"){
+    // special case of just to label
+  } else if (node.isHardToRead === true && node.label !== undefined) {
+    if (type === "node") {
       node.hiddenLabel = node.label;
       node.label = undefined;
-
     } else {
-      node.setOptions({hiddenLabel : node.options.label, label : undefined})
+      node.setOptions({ hiddenLabel: node.options.label, label: undefined });
     }
   }
 }
@@ -663,10 +758,31 @@ function nodeAsHardToRead(node, groups, options, hideColor1, hideColor2, network
 // properties directly in data.frame (color.background) for example
 //----------------------------------------------------------------
 function visNetworkdataframeToD3(df, type) {
-
   // variables we have specially to control
-  var nodesctrl = ["color", "fixed", "font", "icon", "shadow", "scaling", "shapeProperties", "chosen", "heightConstraint", "image", "margin", "widthConstraint"];
-  var edgesctrl = ["color", "font", "arrows", "shadow", "smooth", "scaling", "chosen", "widthConstraint"];
+  var nodesctrl = [
+    "color",
+    "fixed",
+    "font",
+    "icon",
+    "shadow",
+    "scaling",
+    "shapeProperties",
+    "chosen",
+    "heightConstraint",
+    "image",
+    "margin",
+    "widthConstraint"
+  ];
+  var edgesctrl = [
+    "color",
+    "font",
+    "arrows",
+    "shadow",
+    "smooth",
+    "scaling",
+    "chosen",
+    "widthConstraint"
+  ];
 
   var names = [];
   var colnames = [];
@@ -675,79 +791,85 @@ function visNetworkdataframeToD3(df, type) {
   var ctrlname;
 
   for (var name in df) {
-    if (df.hasOwnProperty(name))
-      colnames.push(name);
-      ctrlname = name.split(".");
-      if(ctrlname.length === 1){
-        names.push( new Array(name));
+    if (df.hasOwnProperty(name)) colnames.push(name);
+    ctrlname = name.split(".");
+    if (ctrlname.length === 1) {
+      names.push(new Array(name));
+    } else {
+      if (type === "nodes") {
+        toctrl = indexOf.call(nodesctrl, ctrlname[0], true);
+      } else if (type === "edges") {
+        toctrl = indexOf.call(edgesctrl, ctrlname[0], true);
+      }
+      if (toctrl > -1) {
+        names.push(ctrlname);
       } else {
-        if(type === "nodes"){
-         toctrl = indexOf.call(nodesctrl, ctrlname[0], true);
-        } else if(type === "edges"){
-         toctrl = indexOf.call(edgesctrl, ctrlname[0], true);
-        }
-        if(toctrl > -1){
-          names.push(ctrlname);
-        } else {
-          names.push(new Array(name));
-        }
+        names.push(new Array(name));
       }
-      if (typeof(df[name]) !== "object" || typeof(df[name].length) === "undefined") {
-          throw new Error("All fields must be arrays");
-      } else if (typeof(length) !== "undefined" && length !== df[name].length) {
-          throw new Error("All fields must be arrays of the same length");
-      }
-      length = df[name].length;
+    }
+    if (
+      typeof df[name] !== "object" ||
+      typeof df[name].length === "undefined"
+    ) {
+      throw new Error("All fields must be arrays");
+    } else if (typeof length !== "undefined" && length !== df[name].length) {
+      throw new Error("All fields must be arrays of the same length");
+    }
+    length = df[name].length;
   }
 
   var results = [];
   var item;
-    for (var row = 0; row < length; row++) {
-      item = {};
-      for (var col = 0; col < names.length; col++) {
-        if(df[colnames[col]][row] !== null){
-          if(names[col].length === 1){
-            if(names[col][0] === "dashes"){
-              item[names[col]] = eval(df[colnames[col]][row]);
-            } else {
-              item[names[col]] = df[colnames[col]][row];
-            }
-          } else if(names[col].length === 2){
-            if(item[names[col][0]] === undefined){
-              item[names[col][0]] = {};
-            }
-            if(names[col][0] === "icon" && names[col][1] === "code"){
-              item[names[col][0]][names[col][1]] = JSON.parse( '"'+'\\u' + df[colnames[col]][row] + '"');
-            } else if(names[col][0] === "icon" && names[col][1] === "color"){
-              item.color = df[colnames[col]][row];
-              item[names[col][0]][names[col][1]] = df[colnames[col]][row];
-            } else{
-              item[names[col][0]][names[col][1]] = df[colnames[col]][row];
-            }
-          } else if(names[col].length === 3){
-            if(item[names[col][0]] === undefined){
-              item[names[col][0]] = {};
-            }
-            if(item[names[col][0]][names[col][1]] === undefined){
-              item[names[col][0]][names[col][1]] = {};
-            }
-            item[names[col][0]][names[col][1]][names[col][2]] = df[colnames[col]][row];
-          } else if(names[col].length === 4){
-            if(item[names[col][0]] === undefined){
-              item[names[col][0]] = {};
-            }
-            if(item[names[col][0]][names[col][1]] === undefined){
-              item[names[col][0]][names[col][1]] = {};
-            }
-            if(item[names[col][0]][names[col][1]][names[col][2]] === undefined){
-              item[names[col][0]][names[col][1]][names[col][2]] = {};
-            }
-            item[names[col][0]][names[col][1]][names[col][2]][names[col][3]] = df[colnames[col]][row];
+  for (var row = 0; row < length; row++) {
+    item = {};
+    for (var col = 0; col < names.length; col++) {
+      if (df[colnames[col]][row] !== null) {
+        if (names[col].length === 1) {
+          if (names[col][0] === "dashes") {
+            item[names[col]] = eval(df[colnames[col]][row]);
+          } else {
+            item[names[col]] = df[colnames[col]][row];
           }
+        } else if (names[col].length === 2) {
+          if (item[names[col][0]] === undefined) {
+            item[names[col][0]] = {};
+          }
+          if (names[col][0] === "icon" && names[col][1] === "code") {
+            item[names[col][0]][names[col][1]] = JSON.parse(
+              '"' + "\\u" + df[colnames[col]][row] + '"'
+            );
+          } else if (names[col][0] === "icon" && names[col][1] === "color") {
+            item.color = df[colnames[col]][row];
+            item[names[col][0]][names[col][1]] = df[colnames[col]][row];
+          } else {
+            item[names[col][0]][names[col][1]] = df[colnames[col]][row];
+          }
+        } else if (names[col].length === 3) {
+          if (item[names[col][0]] === undefined) {
+            item[names[col][0]] = {};
+          }
+          if (item[names[col][0]][names[col][1]] === undefined) {
+            item[names[col][0]][names[col][1]] = {};
+          }
+          item[names[col][0]][names[col][1]][names[col][2]] =
+            df[colnames[col]][row];
+        } else if (names[col].length === 4) {
+          if (item[names[col][0]] === undefined) {
+            item[names[col][0]] = {};
+          }
+          if (item[names[col][0]][names[col][1]] === undefined) {
+            item[names[col][0]][names[col][1]] = {};
+          }
+          if (item[names[col][0]][names[col][1]][names[col][2]] === undefined) {
+            item[names[col][0]][names[col][1]][names[col][2]] = {};
+          }
+          item[names[col][0]][names[col][1]][names[col][2]][names[col][3]] =
+            df[colnames[col]][row];
         }
       }
-      results.push(item);
     }
+    results.push(item);
+  }
   return results;
 }
 
@@ -758,11 +880,11 @@ function visNetworkdataframeToD3(df, type) {
 //unique element in array
 function uniqueArray(arr, exclude_cluster, network) {
   var a = [];
-  for (var i=0, l=arr.length; i<l; i++){
-    if (a.indexOf(arr[i]) === -1 && arr[i] !== ''){
-      if(exclude_cluster === false){
+  for (var i = 0, l = arr.length; i < l; i++) {
+    if (a.indexOf(arr[i]) === -1 && arr[i] !== "") {
+      if (exclude_cluster === false) {
         a.push(arr[i]);
-      } else if(network.isCluster(arr[i]) === false){
+      } else if (network.isCluster(arr[i]) === false) {
         a.push(arr[i]);
       }
     }
@@ -772,63 +894,62 @@ function uniqueArray(arr, exclude_cluster, network) {
 }
 // clone an object
 function clone(obj) {
-    if(obj === null || typeof(obj) != 'object')
-        return obj;
-    var temp = new obj.constructor();
-    for(var key in obj)
-        temp[key] = clone(obj[key]);
-    return temp;
+  if (obj === null || typeof obj != "object") return obj;
+  var temp = new obj.constructor();
+  for (var key in obj) temp[key] = clone(obj[key]);
+  return temp;
 }
 // update a list
 function update(source, target) {
-	Object.keys(target).forEach(function (k) {
-		if (typeof target[k] === 'object' && k !== "container") {
-			source[k] = source[k] || {};
-			update(source[k], target[k]);
-		} else {
-			source[k] = target[k];
-		}
-	});
+  Object.keys(target).forEach(function(k) {
+    if (typeof target[k] === "object" && k !== "container") {
+      source[k] = source[k] || {};
+      update(source[k], target[k]);
+    } else {
+      source[k] = target[k];
+    }
+  });
 }
 // for find element
 function indexOf(needle, str) {
-        indexOf = function(needle, str) {
-            var i = -1, index = -1;
-            if(str){
-                  needle = ''+needle;
-            }
-            for(i = 0; i < this.length; i++) {
-                var val = this[i];
-                if(str){
-                  val = ''+val;
-                }
-                if(val === needle) {
-                    index = i;
-                    break;
-                }
-            }
-            return index;
-        };
-    return indexOf.call(this, needle, str);
-};
+  indexOf = function(needle, str) {
+    var i = -1,
+      index = -1;
+    if (str) {
+      needle = "" + needle;
+    }
+    for (i = 0; i < this.length; i++) {
+      var val = this[i];
+      if (str) {
+        val = "" + val;
+      }
+      if (val === needle) {
+        index = i;
+        break;
+      }
+    }
+    return index;
+  };
+  return indexOf.call(this, needle, str);
+}
 // reset a html list
 function resetList(list_name, id, shiny_input_name) {
   var list = document.getElementById(list_name + id);
   list.value = "";
-  if (window.Shiny){
-    Shiny.onInputChange(id + '_' + shiny_input_name, "");
+  if (window.Shiny) {
+    Shiny.onInputChange(id + "_" + shiny_input_name, "");
   }
 }
 // id node list selection init
-function setNodeIdList(selectList, params, nodes){
-  if(params.style !== undefined){
-    selectList.setAttribute('style', params.style);
+function setNodeIdList(selectList, params, nodes) {
+  if (params.style !== undefined) {
+    selectList.setAttribute("style", params.style);
   }
-  selectList.style.display = 'inline';
+  selectList.style.display = "inline";
 
   option = document.createElement("option");
   option.value = "";
-  if(params.main === undefined){
+  if (params.main === undefined) {
     option.text = "Select by id";
   } else {
     option.text = params.main;
@@ -837,37 +958,37 @@ function setNodeIdList(selectList, params, nodes){
   selectList.appendChild(option);
 
   // have to set for all nodes ?
-  if(params.values === undefined){
+  if (params.values === undefined) {
     var info_node_list = nodes.get({
-      fields: ['id', 'label'],
-      returnType :'Array'
+      fields: ["id", "label"],
+      returnType: "Array"
     });
     for (var i = 0; i < info_node_list.length; i++) {
       option = document.createElement("option");
       option.value = info_node_list[i].id;
-      if(info_node_list[i].label && params.useLabels){
+      if (info_node_list[i].label && params.useLabels) {
         option.text = info_node_list[i].label;
-      }else{
+      } else {
         option.text = info_node_list[i].id;
       }
       selectList.appendChild(option);
     }
   } else {
     var tmp_node;
-    for(var tmp_id = 0 ; tmp_id < params.values.length; tmp_id++){
+    for (var tmp_id = 0; tmp_id < params.values.length; tmp_id++) {
       tmp_node = nodes.get({
-        fields: ['id', 'label'],
-        filter: function (item) {
-          return (item.id === params.values[tmp_id]) ;
+        fields: ["id", "label"],
+        filter: function(item) {
+          return item.id === params.values[tmp_id];
         },
-        returnType :'Array'
+        returnType: "Array"
       });
-      if(tmp_node !== undefined){
+      if (tmp_node !== undefined) {
         option = document.createElement("option");
         option.value = tmp_node[0].id;
-        if(tmp_node[0].label && params.useLabels){
+        if (tmp_node[0].label && params.useLabels) {
           option.text = tmp_node[0].label;
-        }else{
+        } else {
           option.text = tmp_node[0].id;
         }
         selectList.appendChild(option);
@@ -880,7 +1001,7 @@ function setNodeIdList(selectList, params, nodes){
 // Collapsed function
 //----------------------------------------------------------------
 
-function networkOpenCluster(params){
+function networkOpenCluster(params) {
   if (params.nodes.length === 1) {
     if (this.isCluster(params.nodes[0]) === true) {
       var elid = this.body.container.id.substring(5);
@@ -888,30 +1009,35 @@ function networkOpenCluster(params){
       var resetHighlight = document.getElementById(elid).collapseResetHighlight;
       this.openCluster(params.nodes[0]);
 
-      if(resetHighlight){
-        document.getElementById("nodeSelect"+elid).value = "";
-        document.getElementById("nodeSelect"+elid).onchange();
+      if (resetHighlight) {
+        document.getElementById("nodeSelect" + elid).value = "";
+        document.getElementById("nodeSelect" + elid).onchange();
       }
-      if(fit){
+      if (fit) {
         this.fit();
       }
     }
   }
 }
 
-function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, treeParams, network, elid) {
-
+function collapsedNetwork(
+  nodes,
+  fit,
+  resetHighlight,
+  clusterParams,
+  treeParams,
+  network,
+  elid
+) {
   var set_position = true;
   var selectedNode;
   var j;
 
-  if(nodes[0] !== undefined){
-
+  if (nodes[0] !== undefined) {
     for (var inodes = 0; inodes < nodes.length; inodes++) {
-
       selectedNode = nodes[inodes];
-      if(selectedNode !== undefined){
-        if(network.isCluster(selectedNode)){
+      if (selectedNode !== undefined) {
+        if (network.isCluster(selectedNode)) {
           //network.openCluster(selectedNode)
           /*instance.network.openCluster(selectedNode,
           {releaseFunction : function(clusterPosition, containedNodesPositions) {
@@ -924,17 +1050,17 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, treeParams,
           var connectedToNodes = [];
 
           item = network.body.data.nodes.get({
-            filter: function (item) {
+            filter: function(item) {
               return item.id == selectedNode;
             }
           });
 
           connectedToNodes = network.body.data.edges.get({
-          fields: ['id','to'],
-            filter: function (item) {
+            fields: ["id", "to"],
+            filter: function(item) {
               return item.from == selectedNode;
             },
-            returnType :'Array'
+            returnType: "Array"
           });
 
           for (j = 0; j < connectedToNodes.length; j++) {
@@ -942,29 +1068,43 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, treeParams,
           }
 
           var currentConnectedToNodes = firstLevelNodes;
-          while(currentConnectedToNodes.length !== 0){
+          while (currentConnectedToNodes.length !== 0) {
             connectedToNodes = network.body.data.edges.get({
-              fields: ['id', 'to'],
-                filter: function (item) {
-                  return indexOf.call(currentConnectedToNodes, item.from, true) > -1;
-                },
-                returnType :'Array'
+              fields: ["id", "to"],
+              filter: function(item) {
+                return (
+                  indexOf.call(currentConnectedToNodes, item.from, true) > -1
+                );
+              },
+              returnType: "Array"
             });
 
             currentConnectedToNodes = [];
             var currentlength = otherLevelNodes.length;
             for (j = 0; j < connectedToNodes.length; j++) {
-              otherLevelNodes = uniqueArray(otherLevelNodes.concat(connectedToNodes[j].to), false, network);
-              currentConnectedToNodes = uniqueArray(currentConnectedToNodes.concat(connectedToNodes[j].to), false, network);
+              otherLevelNodes = uniqueArray(
+                otherLevelNodes.concat(connectedToNodes[j].to),
+                false,
+                network
+              );
+              currentConnectedToNodes = uniqueArray(
+                currentConnectedToNodes.concat(connectedToNodes[j].to),
+                false,
+                network
+              );
             }
-            if (otherLevelNodes.length === currentlength) { break; }
+            if (otherLevelNodes.length === currentlength) {
+              break;
+            }
           }
 
           var finalFirstLevelNodes = [];
           for (j = 0; j < firstLevelNodes.length; j++) {
-            var findnode = network.clustering.findNode(firstLevelNodes[j])
-            if(findnode.length === 1){
-              finalFirstLevelNodes = finalFirstLevelNodes.concat(firstLevelNodes[j]);
+            var findnode = network.clustering.findNode(firstLevelNodes[j]);
+            if (findnode.length === 1) {
+              finalFirstLevelNodes = finalFirstLevelNodes.concat(
+                firstLevelNodes[j]
+              );
             } else {
               finalFirstLevelNodes = finalFirstLevelNodes.concat(findnode[0]);
             }
@@ -972,104 +1112,107 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, treeParams,
 
           var finalClusterNodes = [];
           for (j = 0; j < otherLevelNodes.length; j++) {
-            var findnode = network.clustering.findNode(otherLevelNodes[j])
-            if(findnode.length === 1){
+            var findnode = network.clustering.findNode(otherLevelNodes[j]);
+            if (findnode.length === 1) {
               finalClusterNodes = finalClusterNodes.concat(otherLevelNodes[j]);
             } else {
               finalClusterNodes = finalClusterNodes.concat(findnode[0]);
             }
           }
 
-          if(set_position){
+          if (set_position) {
             network.storePositions();
           }
 
           var clusterOptions = {
-            joinCondition: function (nodesOptions) {
-              return nodesOptions.id === selectedNode || indexOf.call(finalFirstLevelNodes, nodesOptions.id, true) > -1 ||
-                  indexOf.call(finalClusterNodes, nodesOptions.id, true) > -1;
-              },
-              processProperties: function(clusterOptions, childNodes) {
-                var click_node = network.body.data.nodes.get({
-                  filter: function (item) {
-                    return item.id == selectedNode;
-                  },
-                  returnType :'Array'
-                });
+            joinCondition: function(nodesOptions) {
+              return (
+                nodesOptions.id === selectedNode ||
+                indexOf.call(finalFirstLevelNodes, nodesOptions.id, true) >
+                  -1 ||
+                indexOf.call(finalClusterNodes, nodesOptions.id, true) > -1
+              );
+            },
+            processProperties: function(clusterOptions, childNodes) {
+              var click_node = network.body.data.nodes.get({
+                filter: function(item) {
+                  return item.id == selectedNode;
+                },
+                returnType: "Array"
+              });
 
-                var is_hard_to_read = false;
-                if(click_node[0].isHardToRead !== undefined){
-                  is_hard_to_read = click_node[0].isHardToRead;
-                }
+              var is_hard_to_read = false;
+              if (click_node[0].isHardToRead !== undefined) {
+                is_hard_to_read = click_node[0].isHardToRead;
+              }
 
-                for (var i in click_node[0]) {
-                  if(i !== "id" && i !== "isHardToRead"){
-                    if(i === "label" && is_hard_to_read){
-                      clusterOptions[i]=  click_node[0]["hiddenLabel"];
-                    } else if(i === "color" && is_hard_to_read) {
-                      clusterOptions[i]=  click_node[0]["hiddenColor"];
-                    } else {
-                       clusterOptions[i]=  click_node[0][i];
-                    }
+              for (var i in click_node[0]) {
+                if (i !== "id" && i !== "isHardToRead") {
+                  if (i === "label" && is_hard_to_read) {
+                    clusterOptions[i] = click_node[0]["hiddenLabel"];
+                  } else if (i === "color" && is_hard_to_read) {
+                    clusterOptions[i] = click_node[0]["hiddenColor"];
+                  } else {
+                    clusterOptions[i] = click_node[0][i];
                   }
                 }
+              }
 
-                // gestion des tree
-                if(treeParams !== undefined){
-                  if(treeParams.updateShape){
-                    clusterOptions.label = clusterOptions.labelClust
-                    clusterOptions.color = clusterOptions.colorClust
-                    clusterOptions.shape = treeParams.shapeY
-                  }
+              // gestion des tree
+              if (treeParams !== undefined) {
+                if (treeParams.updateShape) {
+                  clusterOptions.label = clusterOptions.labelClust;
+                  clusterOptions.color = clusterOptions.colorClust;
+                  clusterOptions.shape = treeParams.shapeY;
                 }
+              }
 
-                if(clusterOptions.label !== undefined){
-                  clusterOptions.label = clusterOptions.label + ' (cluster)'
-                } else {
-                  clusterOptions.label =  '(cluster)'
-                }
+              if (clusterOptions.label !== undefined) {
+                clusterOptions.label = clusterOptions.label + " (cluster)";
+              } else {
+                clusterOptions.label = "(cluster)";
+              }
 
-                if(clusterOptions.borderWidth !== undefined){
-                  clusterOptions.borderWidth = clusterOptions.borderWidth * 3;
-                } else {
-                  clusterOptions.borderWidth =  3;
-                }
+              if (clusterOptions.borderWidth !== undefined) {
+                clusterOptions.borderWidth = clusterOptions.borderWidth * 3;
+              } else {
+                clusterOptions.borderWidth = 3;
+              }
 
-                if(set_position){
-                  if(click_node[0].x !== undefined){
-                    clusterOptions.x = click_node[0].x;
-                  }
-                  if(click_node[0].y !== undefined){
-                    clusterOptions.y = click_node[0].y;
-                  }
+              if (set_position) {
+                if (click_node[0].x !== undefined) {
+                  clusterOptions.x = click_node[0].x;
                 }
+                if (click_node[0].y !== undefined) {
+                  clusterOptions.y = click_node[0].y;
+                }
+              }
 
-                if(clusterParams !== undefined){
-                  for (var j in clusterParams) {
-                    clusterOptions[j]=  clusterParams[j];
-                  }
+              if (clusterParams !== undefined) {
+                for (var j in clusterParams) {
+                  clusterOptions[j] = clusterParams[j];
                 }
+              }
 
               return clusterOptions;
             },
             clusterNodeProperties: {
-              allowSingleNodeCluster: false,
+              allowSingleNodeCluster: false
             }
-          }
+          };
           network.cluster(clusterOptions);
         }
       }
-
     }
-    if(resetHighlight){
-      document.getElementById("nodeSelect"+elid).value = "";
-      document.getElementById("nodeSelect"+elid).onchange();
+    if (resetHighlight) {
+      document.getElementById("nodeSelect" + elid).value = "";
+      document.getElementById("nodeSelect" + elid).onchange();
     }
-    if(fit){
+    if (fit) {
       network.fit();
     }
   }
-};
+}
 
 function uncollapsedNetwork(nodes, fit, resetHighlight, network, elid) {
   var selectedNode;
@@ -1078,44 +1221,44 @@ function uncollapsedNetwork(nodes, fit, resetHighlight, network, elid) {
   var cluster_node;
 
   var nodes_in_clusters = network.body.modules.clustering.clusteredNodes;
-  if(Object.keys(nodes_in_clusters).length > 0){
+  if (Object.keys(nodes_in_clusters).length > 0) {
     nodes_in_clusters = Object.keys(nodes_in_clusters);
   } else {
-    nodes_in_clusters = []
+    nodes_in_clusters = [];
   }
 
-  if(nodes !== undefined && nodes !== null){
-    arr_nodes = nodes
+  if (nodes !== undefined && nodes !== null) {
+    arr_nodes = nodes;
   } else {
     arr_nodes = nodes_in_clusters;
   }
 
   for (var inodes = 0; inodes < arr_nodes.length; inodes++) {
-    selectedNode = '' + arr_nodes[inodes];
-    if(selectedNode !== undefined){
-        if(network.isCluster(selectedNode)){
-          network.openCluster(selectedNode)
-        } else {
-          if(indexOf.call(nodes_in_clusters, selectedNode, true) > -1){
-            // not a cluster into a cluster...
-            if(selectedNode.search(/^cluster/i) === -1){
-              cluster_node = network.clustering.findNode(selectedNode)[0];
-              if(network.isCluster(cluster_node)){
-                network.openCluster(cluster_node)
-              }
+    selectedNode = "" + arr_nodes[inodes];
+    if (selectedNode !== undefined) {
+      if (network.isCluster(selectedNode)) {
+        network.openCluster(selectedNode);
+      } else {
+        if (indexOf.call(nodes_in_clusters, selectedNode, true) > -1) {
+          // not a cluster into a cluster...
+          if (selectedNode.search(/^cluster/i) === -1) {
+            cluster_node = network.clustering.findNode(selectedNode)[0];
+            if (network.isCluster(cluster_node)) {
+              network.openCluster(cluster_node);
             }
           }
         }
       }
     }
-  if(resetHighlight){
-    document.getElementById("nodeSelect"+elid).value = "";
-    document.getElementById("nodeSelect"+elid).onchange();
   }
-  if(fit){
+  if (resetHighlight) {
+    document.getElementById("nodeSelect" + elid).value = "";
+    document.getElementById("nodeSelect" + elid).onchange();
+  }
+  if (fit) {
     network.fit();
   }
-};
+}
 
 //----------------------------------------------------------------
 // All available functions/methods with visNetworkProxy
