@@ -20,6 +20,9 @@ var router = new VueRouter({
 Vue.use(VueAnalytics, {
   id: gaCode,
   router,
+  set: [
+    { field: 'anonymizeIp', value: true }
+  ],
   debug: {
     enabled: debugMode
   }
