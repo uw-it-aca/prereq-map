@@ -11,7 +11,7 @@ addons:
       - gcc-4.8
       - unixodbc-dev
 before_install:
-  - docker build
+  - docker build .
 install:
   - pip install pycodestyle
 before_script:
