@@ -13,6 +13,7 @@ install:
 before_script:
   - pip install coveralls
   - npm install
+  - pip install .
   - cp travis/manage.py manage.py
 script:
   - pycodestyle prereq_map/ --exclude=migrations,prereq_map/static
