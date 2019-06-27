@@ -13,7 +13,7 @@ install:
 before_script:
   - pip install coveralls
   - npm install
-  - cp travis-ci/manage.py manage.py
+  - cp travis/manage.py manage.py
 script:
   - pycodestyle prereq_map/ --exclude=migrations,prereq_map/static
   - ./node_modules/.bin/stylelint '**/*.vue' '**/*.css' '**/*.scss'
