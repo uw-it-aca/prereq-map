@@ -1,8 +1,6 @@
 dist: xenial
 sudo: false
 language: python
-services:
-  - docker
 python:
   - "3.6"
 addons:
@@ -10,19 +8,16 @@ addons:
     packages:
       - gcc-4.8
       - unixodbc-dev
-before_install:
-  - docker build .
 install:
   - pip install pycodestyle
 before_script:
   - pip install coveralls
   - npm install
 script:
-#  - pycodestyle prereq_map/ --exclude=migrations,prereq_map/static
-#  - ./node_modules/.bin/stylelint '**/*.vue' '**/*.css' '**/*.scss'
-#  - ./node_modules/.bin/eslint --ext .js,.vue prereq_map/static/prereq_map/js/components/
-#  - ./node_modules/.bin/eslint --ext .js,.vue prereq_map/static/prereq_map/js/pages/
-
-  - docker run coverage run --source=prereq_map/ --omit=prereq_map/migrations/* manage.py test prereq_map
+  - pycodestyle prereq_map/ --exclude=migrations,prereq_map/static
+  - ./node_modules/.bin/stylelint '**/*.vue' '**/*.css' '**/*.scss'
+  - ./node_modules/.bin/eslint --ext .js,.vue prereq_map/static/prereq_map/js/components/
+  - ./node_modules/.bin/eslint --ext .js,.vue prereq_map/static/prereq_map/js/pages/
+  - coverage run --source=prereq_map/ --omit=prereq_map/migrations/* manage.py test prereq_map
 after_success:
   - coveralls
