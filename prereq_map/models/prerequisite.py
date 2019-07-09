@@ -1,7 +1,8 @@
 from django.db import models
+from django_prometheus.models import ExportModelOperationsMixin
 
 
-class Prerequisite(models.Model):
+class Prerequisite(ExportModelOperationsMixin('Prerequisite'), models.Model):
     course_branch = models.SmallIntegerField()
     department_abbrev = models.CharField(max_length=32)
     course_number = models.SmallIntegerField()
