@@ -1,8 +1,9 @@
 import re
 from django.db import models
+from django_prometheus.models import ExportModelOperationsMixin
 
 
-class CourseTitle(models.Model):
+class CourseTitle(ExportModelOperationsMixin('CourseTitle'), models.Model):
     department_abbrev = models.CharField(max_length=6)
     course_number = models.SmallIntegerField()
     course_college = models.CharField(max_length=1)

@@ -1,9 +1,10 @@
 from django.db import models
 from inflector import Inflector, English
 from prereq_map.utils.process_data import CURRIC_BLACKLIST
+from django_prometheus.models import ExportModelOperationsMixin
 
 
-class CurricTitles(models.Model):
+class CurricTitles(ExportModelOperationsMixin('CurricTitles'), models.Model):
     SEATTLE = 0
     BOTHELL = 1
     TACOMA = 2
