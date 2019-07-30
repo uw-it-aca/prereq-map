@@ -29,7 +29,8 @@ setup(
         'pandas',
         'inflector',
         'UW-RestClients-SWS>=2.1.1,<3.0',
-        'django-prometheus'
+        'django-prometheus',
+        'prometheus_client'
     ],
     license='Apache License, Version 2.0',
     description='A tool for visually displaying UW course prerequisites',
