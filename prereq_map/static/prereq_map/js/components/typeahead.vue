@@ -5,7 +5,7 @@
         v-model="query"
         class="mb-3"
         :data="curric_list"
-        placeholder="E.G. BLAJ"
+        placeholder="E.G. ANTH"
         @hit="selected_curric = $event"
       />
     </div>
