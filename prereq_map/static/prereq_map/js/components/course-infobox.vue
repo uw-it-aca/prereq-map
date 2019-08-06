@@ -33,7 +33,7 @@
           </h5>
           <ul class="prereq-list">
             <li v-if="postreqs.length === 0">
-              none
+              No other courses
             </li>
             <li v-for="postreq in postreqs" :key="postreq">
               <a :href="'/course-search/?course=' + postreq">{{ postreq }}</a>

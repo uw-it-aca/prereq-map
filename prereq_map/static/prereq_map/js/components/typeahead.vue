@@ -5,7 +5,7 @@
         v-model="query"
         class="mb-3"
         :data="curric_list"
-        placeholder="E.G. ANTH"
+        placeholder="E.G. MATH"
         @hit="selected_curric = $event"
       />
     </div>
@@ -36,7 +36,7 @@
         var curric_code = this.curric_objs[curric_query];
         //location.href = "?curric=" + curric_code;
         this.$router.push("/curriculum-search/?curric=" + curric_code);
-      },
+      }
     },
     mounted() {
       axios.get("/api/curric_typeahead").then(res => {
@@ -48,6 +48,27 @@
         });
         this.curric_list = curric_list;
       });
+
+      this.scrollList();
+    },
+
+    methods: {
+
+      // handle up/down arrow events for keyboard navigating typeahead list
+      // allows user to use tab and arrow buttons to move up and down to change focus selection
+      scrollList: function() {
+        $(".vbt-autcomplete-list").keydown(function(e) {
+          if (e.keyCode == 38) {
+            // up
+            $(".vbst-item:focus").prev().focus();
+          }
+          if (e.keyCode == 40) {
+            // down
+            $(".vbst-item:focus").next().focus();
+          }
+        });
+
+      }
     }
   };
 </script>
