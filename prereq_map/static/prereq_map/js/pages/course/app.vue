@@ -24,12 +24,12 @@
       <div v-cloak v-if="course_valid === false" class="row mt-5 mb-5">
         <div class="col">
           <p>
-            No prerequisites for <strong>{{ course_param }}</strong> were found. Here
+            No prerequisite information for <strong>{{ course_param }}</strong> was found. Here
             are some possible reasons:
           </p>
 
           <ul>
-            <li>It has no prerequisites</li>
+            <li>It does not have prereqs and/or isn't a prereq for other courses</li>
             <li>It is no longer offered</li>
             <li>It is a graduate level course</li>
             <li>You made a typo – the course code doesn't exist</li>
