@@ -198,7 +198,7 @@
 </template>
 
 <script>
-  import Vue from "vue/dist/vue.esm.js";
+  import Vue from 'vue';
   import VueCookies from "vue-cookies";
   Vue.use(VueCookies);
 
@@ -207,6 +207,7 @@
       return {};
     },
     mounted() {
+
       // check if valid cookie exists and user has not yet accepted terms
       if (this.$cookies.get("prereq-onboarding-accepted") == "false") {
         // show the onboarding modal
