@@ -1,17 +1,17 @@
 <template>
-  <div class="container py-1 mt-2" role="main">
-    index
+  <div id="index" class="container py-1 mt-2" role="main">
+    <nav>
+      <router-link to="/">Home</router-link>
+      <router-link to="/register/">Register</router-link>
+      <router-link to="/login/">Login</router-link>
+      <router-link to="/curriculum/">Curriculum</router-link>
+    </nav>
+    <router-view />
   </div>
 </template>
 
 <script>
-  export default {
-    name: "Index",
-    components: {
-
-    },
-    mounted() {}
-  };
+  export default {};
 </script>
 
 <style lang="scss">

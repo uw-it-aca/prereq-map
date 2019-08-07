@@ -48,7 +48,7 @@
   import CourseDetail from "../../components/course-detail.vue";
 
   export default {
-    name: "Curriculum",
+    name: "Course",
     components: {
       "course-search-input": CourseSearchInput,
       "course-detail": CourseDetail

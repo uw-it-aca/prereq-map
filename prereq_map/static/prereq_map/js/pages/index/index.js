@@ -1,7 +1,14 @@
-import Vue from "vue/dist/vue.esm.js";
-import VueRouter from "vue-router/dist/vue-router.js";
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 import VueAnalytics from "vue-analytics";
+
 import App from "./app.vue";
+import Home from './home.vue';
+import Register from './register.vue';
+import Login from './login.vue';
+
+import Curriculum from '../curriculum/app.vue';
+//import Course from '../course/app.vue';
 
 const gaCode = $("body").data("google-analytics");
 const debugMode = $("body").data("django-debug");
@@ -11,9 +18,10 @@ Vue.use(VueRouter);
 var router = new VueRouter({
   mode: "history",
   routes: [
-    {
-      path: "/"
-    }
+    { path: '/', component: Home },
+    { path: '/register/', component: Register },
+    { path: '/login/', component: Login },
+    { path: '/curriculum/', component: Curriculum },
   ]
 });
 
@@ -29,6 +37,6 @@ Vue.use(VueAnalytics, {
 });
 
 new Vue({
-  render: h => h(App),
-  router
+  router,
+  render: h => h(App)
 }).$mount("#index");
