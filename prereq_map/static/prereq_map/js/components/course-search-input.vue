@@ -43,10 +43,10 @@
 
         // don't allow empty searches
         if (this.course_code === "" || this.course_code === undefined) {
-          this.$router.push("/course-search/");
+          this.$router.push("/course/");
         } else {
           this.$router.push(
-            "/course-search/?course=" + this.course_code.toUpperCase()
+            "/course/?course=" + this.course_code.toUpperCase()
           );
         }
       }

@@ -53,8 +53,7 @@
 
 <script>
   import Graph from "./course-graph.vue";
-
-  import { dataBus } from "../pages/course/";
+  import { dataBus } from "../pages/index/";
 
   export default {
     components: {

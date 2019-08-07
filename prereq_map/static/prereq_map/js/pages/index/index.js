@@ -4,9 +4,6 @@ import VueAnalytics from "vue-analytics";
 
 import App from "./app.vue";
 import Home from './home.vue';
-import Register from './register.vue';
-import Login from './login.vue';
-
 import Curriculum from './curriculum.vue';
 import Course from './course.vue';
 
@@ -19,8 +16,6 @@ var router = new VueRouter({
   mode: "history",
   routes: [
     { path: '/', component: Home },
-    { path: '/register/', component: Register },
-    { path: '/login/', component: Login },
     { path: '/curriculum/', component: Curriculum },
     { path: '/course/', component: Course },
   ]
@@ -36,6 +31,8 @@ Vue.use(VueAnalytics, {
     enabled: debugMode
   }
 });
+
+export const dataBus = new Vue();
 
 new Vue({
   router,
