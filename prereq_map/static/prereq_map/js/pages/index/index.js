@@ -7,8 +7,8 @@ import Home from './home.vue';
 import Register from './register.vue';
 import Login from './login.vue';
 
-import Curriculum from '../curriculum/app.vue';
-//import Course from '../course/app.vue';
+import Curriculum from './curriculum.vue';
+import Course from './course.vue';
 
 const gaCode = $("body").data("google-analytics");
 const debugMode = $("body").data("django-debug");
@@ -22,6 +22,7 @@ var router = new VueRouter({
     { path: '/register/', component: Register },
     { path: '/login/', component: Login },
     { path: '/curriculum/', component: Curriculum },
+    { path: '/course/', component: Course },
   ]
 });
 

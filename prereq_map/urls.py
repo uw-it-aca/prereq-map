@@ -7,7 +7,6 @@ from prereq_map.views.api import CurricApiView, CourseApiView, \
 
 urlpatterns = [
     #path('', RedirectView.as_view(url='/curriculum-search/')),
-   
     path('curriculum-search/', CurriculumSearch.as_view()),
     path('course-search/', CourseSearch.as_view()),
     re_path(r'^api/curric/(?P<curric_code>.*)', CurricApiView.as_view()),
