@@ -1,11 +1,21 @@
 <template>
   <div id="index" class="container py-1 mt-2" role="main">
     <nav>
-      <router-link to="/">Home</router-link>
-      <router-link to="/register/">Register</router-link>
-      <router-link to="/login/">Login</router-link>
-      <router-link to="/curriculum/">Curriculum</router-link>
-      <router-link to="/course/">Course</router-link>
+      <router-link to="/">
+        Home
+      </router-link>
+      <router-link to="/register/">
+        Register
+      </router-link>
+      <router-link to="/login/">
+        Login
+      </router-link>
+      <router-link to="/curriculum/">
+        Curriculum
+      </router-link>
+      <router-link to="/course/">
+        Course
+      </router-link>
     </nav>
     <router-view />
   </div>
