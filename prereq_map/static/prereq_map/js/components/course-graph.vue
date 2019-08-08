@@ -9,7 +9,7 @@
 
 <script>
   const axios = require("axios");
-  import { dataBus } from "../pages/course/";
+  import { dataBus } from "../pages/index/";
 
   export default {
     props: {

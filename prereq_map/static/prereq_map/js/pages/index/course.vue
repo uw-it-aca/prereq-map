@@ -47,13 +47,13 @@
 <script>
   import axios from "axios";
   import CourseSearchInput from "../../components/course-search-input.vue";
-  //import CourseDetail from "../../components/course-detail.vue";
+  import CourseDetail from "../../components/course-detail.vue";
 
   export default {
     name: "Course",
     components: {
       "course-search-input": CourseSearchInput,
-      //"course-detail": CourseDetail
+      "course-detail": CourseDetail
     },
     data() {
       return {
