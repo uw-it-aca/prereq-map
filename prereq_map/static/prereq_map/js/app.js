@@ -81,7 +81,7 @@ function new_graph(graph_div, data, course_param) {
         scale: 0.65
       });
     }
-  } else if (window.location.pathname == "/course-search/") {
+  } else if (window.location.pathname == "/course/") {
     if (course_param) {
       // auto select course node and zoom to it
       network.selectNodes([course_param]);
