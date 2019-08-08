@@ -170,7 +170,7 @@
         // set course param to undefined in order to clear it out from query
         this.$router.replace({
           query: Object.assign({}, this.$route.query, { course: undefined })
-        });
+        }).catch(err => {});
       }
     }
   };

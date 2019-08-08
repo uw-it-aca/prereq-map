@@ -42,8 +42,13 @@
       };
     },
     watch: {
+
       curric_data: function() {
-        window.show_graph(this.curric_data, this.course_param);
+        if (this.curric_data.length != 0) {
+          window.show_graph(this.curric_data, this.course_param);
+        } else {
+          this.graph_error = true;
+        }
       },
 
       "$route.query.curric": function() {
@@ -56,8 +61,7 @@
           this.getCurric();
 
           // update page title
-          document.title =
-            this.curric_param + " - Curriculum Search - Prereq Map";
+          document.title = this.curric_param + " - Curriculum Search - Prereq Map";
         }
       }
     },
