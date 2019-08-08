@@ -3,7 +3,6 @@ import VueRouter from 'vue-router';
 import VueAnalytics from "vue-analytics";
 
 import App from "./app.vue";
-import Home from './home.vue';
 import Curriculum from './curriculum.vue';
 import Course from './course.vue';
 
@@ -15,7 +14,7 @@ Vue.use(VueRouter);
 var router = new VueRouter({
   mode: "history",
   routes: [
-    { path: '/', component: Home },
+    { path: '/', redirect: '/curriculum/' },
     { path: '/curriculum/', component: Curriculum },
     { path: '/course/', component: Course },
   ]
