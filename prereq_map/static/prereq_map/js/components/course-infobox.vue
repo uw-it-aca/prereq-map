@@ -154,11 +154,12 @@
       show: function(code) {
         this.loading = true;
         this.course_code = code;
+
         this.$router.push({
           query: Object.assign({}, this.$route.query, {
             course: this.course_code
           })
-        });
+        }).catch(err => {});
 
         if (this.course_code !== undefined) {
           this.load_course(code);
