@@ -35,7 +35,7 @@
       selected_curric(curric_query) {
         var curric_code = this.curric_objs[curric_query];
         //location.href = "?curric=" + curric_code;
-        this.$router.push("/curriculum-search/?curric=" + curric_code);
+        this.$router.push("/curriculum/?curric=" + curric_code);
       }
     },
     mounted() {
