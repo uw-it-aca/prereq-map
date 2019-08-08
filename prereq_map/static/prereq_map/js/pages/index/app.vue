@@ -16,7 +16,28 @@
 </template>
 
 <script>
-  export default {};
+  export default {
+    watch: {
+      $route(to) {
+        if (to.path == "/curriculum/") {
+          $(".nav-curric").addClass("active");
+          $(".nav-course").removeClass("active");
+        } else if (to.path == "/course/") {
+          $(".nav-curric").removeClass("active");
+          $(".nav-course").addClass("active");
+        }
+      }
+    },
+    mounted() {
+      if (this.$route.path == "/curriculum/") {
+        $(".nav-curric").addClass("active");
+        $(".nav-course").removeClass("active");
+      } else if (this.$route.path == "/course/") {
+        $(".nav-curric").removeClass("active");
+        $(".nav-course").addClass("active");
+      }
+    }
+  };
 </script>
 
 <style lang="scss">
