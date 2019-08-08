@@ -55,7 +55,7 @@
 
 <script>
   import Graph from "./course-graph.vue";
-  import { dataBus } from "../pages/index/";
+  import { dataBus } from "../pages/index/main.js";
 
   export default {
     name: "CourseDetail",
