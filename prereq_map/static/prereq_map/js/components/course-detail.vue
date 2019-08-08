@@ -56,6 +56,7 @@
   import { dataBus } from "../pages/index/";
 
   export default {
+    name: "CourseDetail",
     components: {
       "course-graph": Graph
     },

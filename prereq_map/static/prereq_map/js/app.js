@@ -49,7 +49,7 @@ function new_graph(graph_div, data, course_param) {
   var network = new vis.Network(graph_div, data, options);
 
   // manipulation of network map based on location
-  if (window.location.pathname == "/curriculum-search/") {
+  if (window.location.pathname == "/curriculum/") {
     // actual selectNode click event
     network.on("selectNode", function(properties) {
       //console.log("node selected");

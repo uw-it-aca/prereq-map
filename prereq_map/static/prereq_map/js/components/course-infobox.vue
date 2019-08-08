@@ -21,7 +21,7 @@
           </p>
 
           <a
-            :href="'/course-search/?course=' + course_code"
+            :href="'/course/?course=' + course_code"
             class="btn btn-primary btn-sm prereq-infobox-button"
           >
             More details
@@ -36,7 +36,7 @@
               No other courses
             </li>
             <li v-for="postreq in postreqs" :key="postreq">
-              <a :href="'/course-search/?course=' + postreq">{{ postreq }}</a>
+              <a :href="'/course/?course=' + postreq">{{ postreq }}</a>
             </li>
           </ul>
         </div>
@@ -101,9 +101,9 @@
     },
     mounted() {
       this.course_code = this.$route.query.course;
+      
       if (this.course_code !== undefined) {
         this.show(this.course_code);
-
         // update page title
         document.title = this.course_code + " - Curriculum Search - Prereq Map";
       }
@@ -116,7 +116,6 @@
       });
 
       // global click handler for close node event
-
       $(document).on("closeCourseInfo", () => {
         this.close();
       });
