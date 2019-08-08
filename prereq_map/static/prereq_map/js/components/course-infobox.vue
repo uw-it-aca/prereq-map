@@ -20,12 +20,12 @@
             {{ course_description }}
           </p>
 
-          <a
-            :href="'/course/?course=' + course_code"
+          <router-link
+            :to="'/course/?course=' + course_code"
             class="btn btn-primary btn-sm prereq-infobox-button"
           >
             More details
-          </a>
+          </router-link>
         </div>
         <div class="card-body bg-light">
           <h5 class="card-title h6">
@@ -36,7 +36,9 @@
               No other courses
             </li>
             <li v-for="postreq in postreqs" :key="postreq">
-              <a :href="'/course/?course=' + postreq">{{ postreq }}</a>
+              <router-link :to="'/course/?course=' + postreq">
+                {{ postreq }}
+              </router-link>
             </li>
           </ul>
         </div>
@@ -101,7 +103,7 @@
     },
     mounted() {
       this.course_code = this.$route.query.course;
-      
+
       if (this.course_code !== undefined) {
         this.show(this.course_code);
         // update page title
