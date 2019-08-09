@@ -46,8 +46,8 @@
 
 <script>
   import axios from "axios";
-  import CourseSearchInput from "../../components/course-search-input.vue";
-  import CourseDetail from "../../components/course-detail.vue";
+  import CourseSearchInput from "../components/course-search-input.vue";
+  import CourseDetail from "../components/course-detail.vue";
 
   export default {
     name: "Course",

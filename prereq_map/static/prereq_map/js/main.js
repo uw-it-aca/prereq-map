@@ -2,9 +2,10 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueAnalytics from "vue-analytics";
 
-import App from "./app.vue";
-import Curriculum from './curriculum.vue';
-import Course from './course.vue';
+import App from "./App.vue";
+
+import Curriculum from './pages/curriculum.vue';
+import Course from './pages/course.vue';
 
 const gaCode = $("body").data("google-analytics");
 const debugMode = $("body").data("django-debug");
@@ -16,8 +17,8 @@ var router = new VueRouter({
   routes: [
     { path: '/', redirect: '/curriculum/' },
     { path: '/curriculum-search/', redirect: '/curriculum/' },
-    { path: '/curriculum/', component: Curriculum },
     { path: '/course-search/', redirect: '/course/' },
+    { path: '/curriculum/', component: Curriculum },
     { path: '/course/', component: Course },
   ]
 });

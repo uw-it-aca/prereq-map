@@ -12,7 +12,7 @@ module.exports = {
 
     entry: {
         base: './prereq_map/static/prereq_map/js/base.js',
-        main: './prereq_map/static/prereq_map/js/pages/index/main.js'
+        main: './prereq_map/static/prereq_map/js/main.js'
     },
 
     optimization: {

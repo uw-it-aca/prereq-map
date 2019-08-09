@@ -25,10 +25,10 @@
 </template>
 
 <script>
-  import Onboarding from "../../components/onboarding.vue";
-  import CourseInfoBox from "../../components/course-infobox.vue";
-  import Typeahead from "../../components/typeahead.vue";
-  import Graph from "../../components/curric-graph.vue";
+  import Onboarding from "../components/onboarding.vue";
+  import CourseInfoBox from "../components/course-infobox.vue";
+  import Typeahead from "../components/typeahead.vue";
+  import Graph from "../components/curric-graph.vue";
 
   export default {
     name: "Curriculum",
