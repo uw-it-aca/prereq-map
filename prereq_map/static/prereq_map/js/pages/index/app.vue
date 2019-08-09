@@ -11,11 +11,7 @@
         <div class="d-flex flex-row order-2 order-md-3">
           <ul class="navbar-nav flex-row nav-feedback">
             <li class="nav-item">
-              <a
-                class="nav-link px-2"
-                href="mailto:help@uw.edu?subject=PreReq%20Map%20&minus;%20Comment,%20Request,%20Suggestion&amp;body=Hello,%0A%0A%3CInclude%20your%20comment%20or%20question%20about%20the%20PreReq%20Map%20tool%20here%3e%0A%0A%0A"
-                ><i class="fa fa-envelope"></i> Send Us Feedback</a
-              >
+              <a class="nav-link px-2" href="mailto:help@uw.edu?subject=PreReq%20Map%20&minus;%20Comment,%20Request,%20Suggestion&amp;body=Hello,%0A%0A%3CInclude%20your%20comment%20or%20question%20about%20the%20PreReq%20Map%20tool%20here%3e%0A%0A%0A"><i class="fa fa-envelope" /> Send Us Feedback</a>
             </li>
           </ul>
         </div>
@@ -30,30 +26,18 @@
         >
           <!-- <span class="close"><i class="material-icons">close</i></span>
           <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"> -->
-          <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon" />
         </button>
-        <div
-          class="collapse navbar-collapse order-3 order-md-2"
-          id="navbarSupportedContent"
-        >
+        <div id="navbarSupportedContent" class="collapse navbar-collapse order-3 order-md-2">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a
-                class="nav-link"
-                href="http://www.washington.edu/"
-                target="_blank"
-                >UW.edu</a
-              >
+              <a class="nav-link" href="http://www.washington.edu/" target="_blank">UW.edu</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="https://my.uw.edu" target="_blank"
-                >MyUW</a
-              >
+              <a class="nav-link" href="https://my.uw.edu" target="_blank">MyUW</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="https://myplan.uw.edu/" target="_blank"
-                >MyPlan</a
-              >
+              <a class="nav-link" href="https://myplan.uw.edu/" target="_blank">MyPlan</a>
             </li>
           </ul>
         </div>

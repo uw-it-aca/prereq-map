@@ -1,15 +1,14 @@
-const path = require("path")
-const webpack = require('webpack')
-const BundleTracker = require('webpack-bundle-tracker')
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
-const TerserJSPlugin = require('terser-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const path = require("path");
+const BundleTracker = require('webpack-bundle-tracker');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const TerserJSPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
 
-    context: __dirname,
+    //context: __dirname,
 
     entry: {
         base: './prereq_map/static/prereq_map/js/base.js',
@@ -67,4 +66,4 @@ module.exports = {
         extensions: ['.js']
     }
 
-}
+};
