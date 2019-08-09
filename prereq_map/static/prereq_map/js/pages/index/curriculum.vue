@@ -38,7 +38,9 @@
       "curric-graph": Graph,
       "course-infobox": CourseInfoBox
     },
-    mounted() {}
+    mounted() {
+      document.title = "Curriculum Search - Prereq Map";
+    }
   };
 </script>
 

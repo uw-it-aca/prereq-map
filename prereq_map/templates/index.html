@@ -1,14 +1,38 @@
-{% extends "base.html" %}
-
 {% load static %}
 {% load render_bundle from webpack_loader %}
 
-{% block title %}Index Page{% endblock %}
+<!DOCTYPE html>
+<html>
 
-{% block content %}
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, shrink-to-fit=no">
+    <link rel="icon" href="{% static '/prereq_map/img/favicon.png' %}">
+    <title>PreReq Map</title>
 
-<!-- vue page components will be injected here -->
-<div id="index"></div>
-{% render_bundle 'index' %}
+    <!-- base css libs -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/solid.css" integrity="sha384-r/k8YTFqmlOaqRkZuSiE9trsrDXkh07mRaoGBMoDcmA58OHILZPsk29i2BsFng1B" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/fontawesome.css" integrity="sha384-4aon80D8rXCGx9ayDt85LbyUHeMWd3UiBaWliBlJ53yzm9hqN21A+o1pqoyK04h+" crossorigin="anonymous">
+    <link href="https://unpkg.com/vue-bootstrap-typeahead/dist/VueBootstrapTypeahead.css" rel="stylesheet">
 
-{% endblock %}
+    <!-- base js libs -->
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+
+    <!-- load bundled vendor files using webpack loader -->
+    {% render_bundle 'base' %}
+    {% render_bundle 'vendor' %}
+
+</head>
+
+<body class="prereq" {% if google_analytics %}data-google-analytics="{{ google_analytics }}"{% endif %} data-django-debug="{{ django_debug|lower}}">
+
+    <!-- vue page components will be injected here -->
+    <div id="index"></div>
+    {% render_bundle 'index' %}
+    
+</body>
+
+</html>
