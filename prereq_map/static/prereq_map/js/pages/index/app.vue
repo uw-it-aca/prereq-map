@@ -47,7 +47,7 @@
         aria-label="Main Menu"
       >
         <div class="logo-position">
-          <img alt="PreReq Map" src="{% static '/prereq_map/img/gr-PreReqMap-logo.png' %}">
+          <img alt="PreReq Map" src="/static/prereq_map/img/gr-PreReqMap-logo.png">
         </div>
         <div class="nav nav-pills nav-justified tabs-med">
           <router-link to="/curriculum/" class="nav-link nav-curric">
