@@ -15,7 +15,9 @@ var router = new VueRouter({
   mode: "history",
   routes: [
     { path: '/', redirect: '/curriculum/' },
+    { path: '/curriculum-search/', redirect: '/curriculum/' },
     { path: '/curriculum/', component: Curriculum },
+    { path: '/course-search/', redirect: '/course/' },
     { path: '/course/', component: Course },
   ]
 });
