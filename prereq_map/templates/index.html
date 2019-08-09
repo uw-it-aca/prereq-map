@@ -24,14 +24,15 @@
     <!-- load bundled vendor files using webpack loader -->
     {% render_bundle 'base' %}
     {% render_bundle 'vendor' %}
+    {% render_bundle 'main' 'css' %}
 
 </head>
 
-<body class="prereq" {% if google_analytics %}data-google-analytics="{{ google_analytics }}"{% endif %} data-django-debug="{{ django_debug|lower}}">
+<body {% if google_analytics %}data-google-analytics="{{ google_analytics }}"{% endif %} data-django-debug="{{ django_debug|lower}}">
 
-    <!-- vue page components will be injected here -->
-    <div id="index"></div>
-    {% render_bundle 'index' %}
+    <!-- vue app will be injected here -->
+    <div id="main"></div>
+    {% render_bundle 'main' 'js' %}
     
 </body>
 

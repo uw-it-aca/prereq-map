@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="prereq">
     <header>
       <div class="line" />
       <!-- Separator on mobile nav -->

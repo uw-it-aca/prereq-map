@@ -35,7 +35,8 @@ Vue.use(VueAnalytics, {
 
 export const dataBus = new Vue();
 
+// vue app will be rendered inside of #main div found in index.html using webpack_loader
 new Vue({
   router,
   render: h => h(App)
-}).$mount("#index");
+}).$mount("#main");
