@@ -88,29 +88,13 @@
 </template>
 
 <script>
-  export default {
-    watch: {
-      $route(to) {
-        if (to.path == "/curriculum/") {
-          $(".nav-curric").addClass("active");
-          $(".nav-course").removeClass("active");
-        } else if (to.path == "/course/") {
-          $(".nav-curric").removeClass("active");
-          $(".nav-course").addClass("active");
-        }
-      }
-    },
-    mounted() {
-      if (this.$route.path == "/curriculum/") {
-        $(".nav-curric").addClass("active");
-        $(".nav-course").removeClass("active");
-      } else if (this.$route.path == "/course/") {
-        $(".nav-curric").removeClass("active");
-        $(".nav-course").addClass("active");
-      }
-    }
-  };
+  export default {};
 </script>
 
 <style lang="scss">
+  // vue router-links styling overrides
+  .router-link-active {
+    background-color: #fff !important;
+    color: #000 !important;
+  }
 </style>

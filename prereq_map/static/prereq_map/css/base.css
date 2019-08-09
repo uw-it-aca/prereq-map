@@ -50,13 +50,6 @@ body {
   .navbar-nav > li {
     border-right: 0.0625rem dotted #999;
   }
-
-  .navbar-dark .nav-item.active .nav-link,
-  .navbar-dark .nav-item:focus .nav-link,
-  .navbar-dark .nav-item:hover .nav-link {
-    background-color: #fff;
-    color: #4b2f83;
-  }
 }
 
 @media (max-width: 768px) {
@@ -114,12 +107,6 @@ body {
   background-color: #b7a57a;
   border: transparent;
   color: #404040;
-}
-
-.nav-link.active,
-.nav-pills .show > .nav-link {
-  background-color: #fff !important;
-  color: #444 !important;
 }
 
 /*** boilerplate ***/
