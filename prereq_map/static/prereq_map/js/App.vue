@@ -50,10 +50,10 @@
           <img alt="PreReq Map" src="/static/prereq_map/img/gr-PreReqMap-logo.png">
         </div>
         <div class="nav nav-pills nav-justified tabs-med">
-          <router-link to="/curriculum/" class="nav-link nav-curric">
+          <router-link to="/curriculum/" class="nav-link">
             Curriculum
           </router-link>
-          <router-link to="/course/" class="nav-link nav-course">
+          <router-link to="/course/" class="nav-link">
             Course
           </router-link>
         </div>
