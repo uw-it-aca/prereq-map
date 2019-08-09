@@ -159,6 +159,7 @@
           query: Object.assign({}, this.$route.query, {
             course: this.course_code
           })
+        // eslint-disable-next-line no-unused-vars
         }).catch(err => {});
 
         if (this.course_code !== undefined) {
@@ -170,6 +171,7 @@
         // set course param to undefined in order to clear it out from query
         this.$router.replace({
           query: Object.assign({}, this.$route.query, { course: undefined })
+        // eslint-disable-next-line no-unused-vars
         }).catch(err => {});
       }
     }

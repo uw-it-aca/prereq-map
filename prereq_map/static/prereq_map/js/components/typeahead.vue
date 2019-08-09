@@ -34,7 +34,7 @@
     watch: {
       selected_curric(curric_query) {
         var curric_code = this.curric_objs[curric_query];
-        //location.href = "?curric=" + curric_code;
+        // eslint-disable-next-line no-unused-vars
         this.$router.push("/curriculum/?curric=" + curric_code).catch(err => {});
       }
     },
@@ -77,7 +77,6 @@
   // char's note: scoped css is "broken" for this component because
   //  vue-bootstrap-typeahead is already a scoped component by default... so it
   // cannot be scoped again. just be aware of this in the future!
-
   .curric-search {
     input {
       color: #000;
