@@ -34,7 +34,6 @@
         <p>
           <a
             :href="'https://myplan.uw.edu/course/#/courses/' + courseParam"
-            target="_blank"
             @click="
               $ga.event(
                 'outbound',
@@ -42,6 +41,14 @@
                 'https://myplan.uw.edu/course/#/courses/' + courseParam
               )
             "
+            @keydown="
+              $ga.event(
+                'outbound',
+                'click',
+                'https://myplan.uw.edu/course/#/courses/' + courseParam
+              )
+            "
+            target="_blank"
           >
             View {{ courseParam }} course details and schedule on MyPlan
           </a>
