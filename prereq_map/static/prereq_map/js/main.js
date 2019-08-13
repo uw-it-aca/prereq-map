@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueAnalytics from "vue-analytics";
+import VueAnnouncer from 'vue-announcer';
 
 import App from "./App.vue";
 
@@ -11,6 +12,7 @@ const gaCode = $("body").data("google-analytics");
 const debugMode = $("body").data("django-debug");
 
 Vue.use(VueRouter);
+Vue.use(VueAnnouncer);
 
 var router = new VueRouter({
   mode: "history",
@@ -22,6 +24,8 @@ var router = new VueRouter({
     { path: '/course/', component: Course },
   ]
 });
+
+Vue.use(VueAnnouncer, {}, router);
 
 Vue.use(VueAnalytics, {
   id: gaCode,

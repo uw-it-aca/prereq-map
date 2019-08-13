@@ -34,6 +34,7 @@
     "terser-webpack-plugin": "^1.2.3",
     "vue": "^2.6.7",
     "vue-analytics": "^5.16.4",
+    "vue-announcer": "^1.0.4",
     "vue-bootstrap-typeahead": "^0.2.6",
     "vue-cookies": "^1.5.12",
     "vue-loader": "^15.6.4",
