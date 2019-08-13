@@ -63,7 +63,10 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['.js']
+        extensions: ['.js', '.vue'],
+        alias: {
+            'vue$': 'vue/dist/vue.runtime.esm.js'
+        }
     }
 
 };
