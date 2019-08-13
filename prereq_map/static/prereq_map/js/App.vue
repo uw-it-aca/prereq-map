@@ -64,7 +64,7 @@
       <router-view />
     </main>
 
-    <footer class="prereq-footer" role="contentinfo">
+    <footer class="prereq-footer">
       <div>
         <div class="footer-links">
           <ul>
