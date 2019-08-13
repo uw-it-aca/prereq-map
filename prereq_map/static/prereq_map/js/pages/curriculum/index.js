@@ -1,5 +1,5 @@
-import Vue from "vue/dist/vue.esm.js";
-import VueRouter from "vue-router/dist/vue-router.js";
+import Vue from "vue";
+import VueRouter from "vue-router";
 import VueAnalytics from "vue-analytics";
 import App from "./app.vue";
 
