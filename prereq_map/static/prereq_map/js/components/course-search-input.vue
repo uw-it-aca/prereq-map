@@ -11,7 +11,7 @@
               aria-label="Course Search"
             >
             <div class="input-group-append">
-              <button class="btn btn-primary button-styling">
+              <button class="btn btn-primary button-styling" aria-label="Submit course search">
                 <i class="py-1 fas fa-search" />
               </button>
             </div>
