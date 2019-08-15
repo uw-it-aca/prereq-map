@@ -2,9 +2,9 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueAnalytics from "vue-analytics";
 import VueAnnouncer from 'vue-announcer';
+import BootstrapVue from 'bootstrap-vue';
 
 import App from "./App.vue";
-
 import Curriculum from './pages/curriculum.vue';
 import Course from './pages/course.vue';
 
@@ -13,6 +13,7 @@ const debugMode = $("body").data("django-debug");
 
 Vue.use(VueRouter);
 Vue.use(VueAnnouncer);
+Vue.use(BootstrapVue);
 
 var router = new VueRouter({
   mode: "history",
