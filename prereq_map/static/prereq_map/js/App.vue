@@ -1,13 +1,7 @@
 <template>
   <div class="prereq">
     <header>
-      <div class="line" />
-      <!-- Separator on mobile nav -->
-
-      <nav
-        class="navbar navbar-expand-md navbar-dark"
-        aria-label="Utility Menu"
-      >
+      <nav class="navbar navbar-expand-md navbar-dark prereq-bar" aria-label="Utility Menu">
         <div class="d-flex flex-row order-2 order-md-3">
           <ul class="navbar-nav flex-row nav-feedback">
             <li class="nav-item">
@@ -24,13 +18,11 @@
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <!-- <span class="close"><i class="material-icons">close</i></span>
-          <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"> -->
           <span class="navbar-toggler-icon" />
         </button>
         <div id="navbarSupportedContent" class="collapse navbar-collapse order-3 order-md-2">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
+            <li class="nav-item border-0">
               <a class="nav-link" href="http://www.washington.edu/" target="_blank">UW.edu</a>
             </li>
             <li class="nav-item">
@@ -43,7 +35,7 @@
         </div>
       </nav>
       <nav
-        class="navbar navbar-expand navbar-dark banner-row flex-nowrap justify-content-center"
+        class="navbar navbar-dark flex-nowrap justify-content-center prereq-banner"
         aria-label="Main Menu"
       >
         <div class="logo-position">

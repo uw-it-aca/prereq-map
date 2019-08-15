@@ -4,7 +4,36 @@ body {
   min-width: 320px !important;
 }
 
-/* ================== Utility Navbar Bootstrap Override ================== */
+.prereq {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* prereq bar (dark) */
+.prereq-bar {
+  background-color: #444;
+  font-size: 0.75rem;
+  padding: 0 0.15rem;
+}
+
+.prereq-bar button { font-size: 0.75rem; }
+
+.prereq-bar a {
+  color: #ccc !important;
+
+  &:hover {
+    background-color: #fff;
+    color: #4b2f83 !important;
+  }
+}
+
+.prereq-bar .nav-item {
+  border-left: dotted 1px #999;
+}
+
+
+/* ================== Utility Navbar Bootstrap Override ==================
 .navbar-dark {
   background-color: #444;
   border: transparent;
@@ -69,8 +98,9 @@ body {
   }
 }
 
-/* ================== Branding Bar ================== */
-.banner-row {
+/* banner */
+
+.prereq-banner {
   background-color: #4d307f;
   height: 7.5rem;
 }
@@ -122,17 +152,11 @@ body {
   color: #444 !important;
 }
 
-/*** boilerplate ***/
-.prereq {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
 .prereq-content {
   flex: 1;
 }
 
+/* prereq footer */
 .prereq-footer {
   background: #eee;
   border: 0;
