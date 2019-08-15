@@ -1,7 +1,7 @@
 // curriculum.vue
 
 <template>
-  <div id="curriculum" class="container py-1 mt-2" role="main">
+  <div id="curriculum" class="container py-1 mt-2">
     <onboarding />
 
     <h1 class="pt-4 pb-2">

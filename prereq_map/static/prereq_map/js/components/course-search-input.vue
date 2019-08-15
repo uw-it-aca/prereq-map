@@ -8,6 +8,7 @@
               v-model="course_code"
               class="form-control form-control-lg form-styling"
               placeholder="e.g. MATH 124"
+              aria-label="Course Search"
             >
             <div class="input-group-append">
               <button class="btn btn-primary button-styling">

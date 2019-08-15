@@ -1,7 +1,7 @@
 // course.vue
 
 <template>
-  <div id="course" class="container py-1 mt-2" role="main">
+  <div id="course" class="container py-1 mt-2">
     <h1 class="pt-4 pb-2">
       Course Search
     </h1>
