@@ -25,7 +25,7 @@
               No other courses
             </li>
             <li v-for="postreq in postreqs" :key="postreq">
-              <router-link :to="'/course/?course=' + postreq">
+              <router-link :to="'/course/?course=' + postreq" exact>
                 {{ postreq }}
               </router-link>
             </li>
