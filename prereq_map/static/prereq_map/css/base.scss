@@ -1,9 +1,9 @@
-@import "_mixins.scss";
-@import "_variables.scss";
+@import '_mixins.scss';
+@import '_variables.scss';
 
 /** global **/
 body {
-  font-family: "Open Sans", Helvetica, arial, sans-serif;
+  font-family: 'Open Sans', Helvetica, arial, sans-serif;
   min-width: 320px !important;
 }
 
@@ -103,7 +103,7 @@ body {
 
 .nav-pills {
   bottom: 0;
-  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
   font-size: 1.063rem;
   padding-bottom: 0;
   position: absolute;
@@ -185,11 +185,11 @@ body {
 }
 
 .prereq-list li::after {
-  content: ", ";
+  content: ', ';
 }
 
 .prereq-list li:last-child::after {
-  content: "";
+  content: '';
 }
 
 .info-popover i {
