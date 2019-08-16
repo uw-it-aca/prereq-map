@@ -1,201 +1,202 @@
 <template>
-  <div v-cloak>
-    <!-- Modal -->
-    <div
-      id="onboardingModal"
-      class="modal fade"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby=""
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button
-              @click="$ga.event('onboarding', 'click', 'close button')"
-              @keydown="$ga.event('onboarding', 'click', 'close button')"
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div id="carouselExampleIndicators" class="carousel slide">
-              <ol class="carousel-indicators">
-                <li
-                  data-target="#carouselExampleIndicators"
-                  data-slide-to="0"
-                  class="active"
-                />
-                <li
-                  data-target="#carouselExampleIndicators"
-                  data-slide-to="1"
-                />
-                <li
-                  data-target="#carouselExampleIndicators"
-                  data-slide-to="2"
-                />
-                <li
-                  data-target="#carouselExampleIndicators"
-                  data-slide-to="3"
-                />
-              </ol>
-              <div class="carousel-inner rounded-lg">
-                <div
-                  class="carousel-item active prereq-onboarding-main"
-                  style="background-image: url('/static/prereq_map/img/modal-bg.jpg');"
+  <!-- Modal -->
+  <div
+    id="onboardingModal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby=""
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button
+            @click="$ga.event('onboarding', 'click', 'close button')"
+            @keydown="$ga.event('onboarding', 'click', 'close button')"
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="carouselExampleIndicators" class="carousel slide">
+            <ol class="carousel-indicators">
+              <li
+                data-target="#carouselExampleIndicators"
+                data-slide-to="0"
+                class="active"
+              />
+              <li
+                data-target="#carouselExampleIndicators"
+                data-slide-to="1"
+              />
+              <li
+                data-target="#carouselExampleIndicators"
+                data-slide-to="2"
+              />
+              <li
+                data-target="#carouselExampleIndicators"
+                data-slide-to="3"
+              />
+            </ol>
+            <div class="carousel-inner rounded-lg">
+              <h1 class="sr-only">
+                Welcome to Prereq Map!
+              </h1>
+              <div
+                class="carousel-item active prereq-onboarding-main"
+                style="background-image: url('/static/prereq_map/img/modal-bg.jpg');"
+              >
+                <h2 class="mb-4" style="margin-top: 200px;">
+                  Discover courses and plan your schedule more effectively
+                </h2>
+                <p>
+                  It can be tough figuring out which courses to take. How do
+                  you find courses similar to ones you’ve really enjoyed? Of
+                  the courses you’ve already taken, which ones provide a
+                  foundation for more advanced coursework? What sequence of
+                  courses is best? The <strong>Prereq Map</strong> helps you
+                  discover interesting courses and enables you to be strategic
+                  about planning your course schedule. (What’s a prereq?
+                  Prereq is short for prerequisites: the courses that act as a
+                  foundation for other courses.)
+                </p>
+                <p>Remember to talk to your adviser when course planning.</p>
+              </div>
+
+              <div class="carousel-item">
+                <img
+                  src="/static/prereq_map/img/onboarding-biol.png"
+                  style="border: solid 2px #333;
+                    width: 600px;"
+                  alt="Onboarding curriculum example"
                 >
-                  <h2 class="mb-4" style="margin-top: 200px;">
-                    Discover courses and plan your schedule more effectively
-                  </h2>
-                  <p>
-                    It can be tough figuring out which courses to take. How do
-                    you find courses similar to ones you’ve really enjoyed? Of
-                    the courses you’ve already taken, which ones provide a
-                    foundation for more advanced coursework? What sequence of
-                    courses is best? The <strong>Prereq Map</strong> helps you
-                    discover interesting courses and enables you to be strategic
-                    about planning your course schedule. (What’s a prereq?
-                    Prereq is short for prerequisites: the courses that act as a
-                    foundation for other courses.)
-                  </p>
-                  <p>Remember to talk to your adviser when course planning.</p>
-                </div>
+                <h2 class="mt-4 mb-4 h3">
+                  See the prerequisite map for a curriculum
+                  <small>(e.g. Biology, BIOL)</small>
+                </h2>
+                <p>
+                  Begin exploring the Prereq Map by choosing a curriculum
+                  (subjects comprising a discipline, e.g., Biology or BIOL)
+                  you’re interested in. Follow the lines to view prerequisites
+                  for courses. View courses that have prereqs and courses that
+                  are prereqs for other courses.
+                </p>
+              </div>
+              <div class="carousel-item">
+                <img
+                  src="/static/prereq_map/img/onboarding-infobox.png"
+                  style="border: solid 2px #333;
+                    width: 600px;"
+                  alt="Onboarding Infobox example"
+                >
+                <h2 class="mt-4 mb-4 h3">
+                  Get additional info about a course
+                </h2>
+                <p>
+                  Each square on the map represents a specific course. Click
+                  the square to view prerequisite information for the course.
+                  Click the links in the sidebar to learn more.
+                </p>
+              </div>
+              <div class="carousel-item">
+                <img
+                  src="/static/prereq_map/img/onboarding-course-details.png"
+                  style="border: solid 2px #333;
+                    width: 600px;"
+                  alt="Onboarding course details example"
+                >
+                <h2 class="mt-4 mb-4 h3">
+                  Get more course detail and find related curricula
+                </h2>
+                <p>
+                  On the Course Search page, click links to browse related
+                  course offerings. You can also explore related curricula and
+                  their prerequisite maps.
+                </p>
 
-                <div class="carousel-item">
-                  <img
-                    src="/static/prereq_map/img/onboarding-biol.png"
-                    style="border: solid 2px #333;
-                      width: 600px;"
-                    alt="Onboarding curriculum example"
-                  >
-                  <h2 class="mt-4 mb-4 h3">
-                    See the prerequisite map for a curriculum
-                    <small>(e.g. Biology, BIOL)</small>
-                  </h2>
-                  <p>
-                    Begin exploring the Prereq Map by choosing a curriculum
-                    (subjects comprising a discipline, e.g., Biology or BIOL)
-                    you’re interested in. Follow the lines to view prerequisites
-                    for courses. View courses that have prereqs and courses that
-                    are prereqs for other courses.
-                  </p>
-                </div>
-                <div class="carousel-item">
-                  <img
-                    src="/static/prereq_map/img/onboarding-infobox.png"
-                    style="border: solid 2px #333;
-                      width: 600px;"
-                    alt="Onboarding Infobox example"
-                  >
-                  <h2 class="mt-4 mb-4 h3">
-                    Get additional info about a course
-                  </h2>
-                  <p>
-                    Each square on the map represents a specific course. Click
-                    the square to view prerequisite information for the course.
-                    Click the links in the sidebar to learn more.
-                  </p>
-                </div>
-                <div class="carousel-item">
-                  <img
-                    src="/static/prereq_map/img/onboarding-course-details.png"
-                    style="border: solid 2px #333;
-                      width: 600px;"
-                    alt="Onboarding course details example"
-                  >
-                  <h2 class="mt-4 mb-4 h3">
-                    Get more course detail and find related curricula
-                  </h2>
-                  <p>
-                    On the Course Search page, click links to browse related
-                    course offerings. You can also explore related curricula and
-                    their prerequisite maps.
-                  </p>
+                <p class="h6">
+                  <strong>Important notes:</strong>
+                </p>
 
-                  <h3 class="h6">
-                    <strong>Important notes:</strong>
-                  </h3>
+                <ul>
+                  <li>
+                    Prereq Map shows current prerequisites. When planning
+                    several quarters out, keep in mind that prerequisites may
+                    change over time.
+                  </li>
+                  <li>
+                    Prereq Map is based solely on course prerequisites and
+                    does not take into account specific requirements for
+                    graduation.
+                  </li>
+                  <li>
+                    Not all equivalencies (e.g. placement tests) are
+                    represented in the map – just courses. You can find some
+                    equivalencies in the text description.
+                  </li>
+                  <li>
+                    Remember to talk to your adviser when course planning.
+                  </li>
+                </ul>
 
-                  <ul>
-                    <li>
-                      Prereq Map shows current prerequisites. When planning
-                      several quarters out, keep in mind that prerequisites may
-                      change over time.
-                    </li>
-                    <li>
-                      Prereq Map is based solely on course prerequisites and
-                      does not take into account specific requirements for
-                      graduation.
-                    </li>
-                    <li>
-                      Not all equivalencies (e.g. placement tests) are
-                      represented in the map – just courses. You can find some
-                      equivalencies in the text description.
-                    </li>
-                    <li>
-                      Remember to talk to your adviser when course planning.
-                    </li>
-                  </ul>
-
-                  <div class="text-center mt-3">
-                    <div>
-                      <a
-                        @click="
-                          $ga.event(
-                            'outbound',
-                            'click',
-                            'https://itconnect.uw.edu/learn/tools/prereq-map/'
-                          )
-                        "
-                        @keydown="
-                          $ga.event(
-                            'outbound',
-                            'click',
-                            'https://itconnect.uw.edu/learn/tools/prereq-map/'
-                          )
-                        "
-                        href="https://itconnect.uw.edu/learn/tools/prereq-map/"
-                        target="_blank"
-                      >
-                        Additional details
-                      </a>
-                    </div>
-                  </div>
-                  <div class="text-center mt-2">
-                    <button
-                      @click="accept"
-                      @keydown="accept"
-                      class="btn btn-primary prereq-purple"
+                <div class="text-center mt-3">
+                  <div>
+                    <a
+                      @click="
+                        $ga.event(
+                          'outbound',
+                          'click',
+                          'https://itconnect.uw.edu/learn/tools/prereq-map/'
+                        )
+                      "
+                      @keydown="
+                        $ga.event(
+                          'outbound',
+                          'click',
+                          'https://itconnect.uw.edu/learn/tools/prereq-map/'
+                        )
+                      "
+                      href="https://itconnect.uw.edu/learn/tools/prereq-map/"
+                      target="_blank"
                     >
-                      Got it!
-                    </button>
+                      Additional details
+                    </a>
                   </div>
+                </div>
+                <div class="text-center mt-2">
+                  <button
+                    @click="accept"
+                    @keydown="accept"
+                    class="btn btn-primary prereq-purple"
+                  >
+                    Got it!
+                  </button>
                 </div>
               </div>
-              <a
-                class="carousel-control-prev d-none"
-                href="#carouselExampleIndicators"
-                role="button"
-                data-slide="prev"
-              >
-                <span class="carousel-control-prev-icon" aria-hidden="true" />
-                <span class="sr-only">Previous</span>
-              </a>
-              <a
-                class="carousel-control-next d-none"
-                href="#carouselExampleIndicators"
-                role="button"
-                data-slide="next"
-              >
-                <span class="carousel-control-next-icon" aria-hidden="true" />
-                <span class="sr-only">Next</span>
-              </a>
             </div>
+            <a
+              class="carousel-control-prev d-none"
+              href="#carouselExampleIndicators"
+              role="button"
+              data-slide="prev"
+            >
+              <span class="carousel-control-prev-icon" aria-hidden="true" />
+              <span class="sr-only">Previous</span>
+            </a>
+            <a
+              class="carousel-control-next d-none"
+              href="#carouselExampleIndicators"
+              role="button"
+              data-slide="next"
+            >
+              <span class="carousel-control-next-icon" aria-hidden="true" />
+              <span class="sr-only">Next</span>
+            </a>
           </div>
         </div>
       </div>
