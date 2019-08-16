@@ -86,8 +86,8 @@
 <style lang="scss">
 
   // import custom bootstrap theme and base styling for app
-  @import "../css/custom.scss";
-  @import "../css/base.scss";
+  @import '../css/custom.scss';
+  @import '../css/base.scss';
 
   // vue router-links styling overrides
   .router-link-active {
