@@ -11,9 +11,9 @@
       </div>
       <div v-else>
         <div class="card-header bg-white">
-          <h5 class="m-0">
+          <h2 class="m-0 h5">
             {{ course_code }}
-          </h5>
+          </h2>
 
           <!--  eslint-disable-next-line vue/no-v-html -->
           <p
@@ -32,9 +32,9 @@
           </router-link>
         </div>
         <div class="card-body bg-light">
-          <h5 class="card-title h6">
+          <h3 class="card-title h6">
             Is a prerequisite for:
-          </h5>
+          </h3>
           <ul class="prereq-list">
             <li v-if="postreqs.length === 0">
               No other courses
