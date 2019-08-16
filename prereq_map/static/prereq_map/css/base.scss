@@ -1,3 +1,6 @@
+@import '_mixins.scss';
+@import '_variables.scss';
+
 /** global styles **/
 body {
   font-family: 'Open Sans', Helvetica, arial, sans-serif;
@@ -13,11 +16,19 @@ body {
 /* prereq bar (dark) */
 .prereq-bar {
   background-color: #444;
+  border-bottom: dotted 0.046875rem #999;
   font-size: 0.75rem;
-  padding: 0 0.15rem;
+  padding: 0;
+  @include breakpoint(tablet) {
+    padding: 0 0.15rem;
+  }
 }
 
-.prereq-bar button { font-size: 0.75rem; }
+.prereq-bar button {
+  font-size: 0.75rem;
+  margin-left: 0.75rem;
+  padding: 0;
+}
 
 .prereq-bar a {
   color: #ccc !important;
@@ -28,74 +39,27 @@ body {
   }
 }
 
+.prereq-bar .navbar-collapse {
+  border-top: dotted 0.046875rem #999;
+  @include breakpoint(tablet) {
+    border-top: transparent;
+  }
+
+  .navbar-nav {
+    margin-left: 0.75rem;
+    @include breakpoint(tablet) {
+      margin-left: 0;
+    }
+
+  }
+}
+
+.prereq-bar .nav-feedback .nav-item {
+  border-left: dotted 0.046875rem #999;
+}
+
 .prereq-bar .nav-item {
-  border-left: dotted 1px #999;
-}
-
-
-/* ================== Utility Navbar Bootstrap Override ==================
-.navbar-dark {
-  background-color: #444;
-  border: transparent;
-  min-height: 2rem;
-  padding-bottom: 0;
-  padding-top: 0;
-}
-
-.navbar-nav > li > a,
-.navbar-nav > a {
-  color: #fff;
-  font-size: 0.75rem;
-  padding-bottom: 0.375rem;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-  padding-top: 0.375rem;
-}
-
-.navbar-toggler {
-  border: transparent;
-  margin-left: -1rem;
-}
-
-.navbar-toggler:focus {
-  outline: none;
-}
-
-.navbar-toggler-icon {
-  border: 0;
-  font-size: 0.7rem;
-}
-
-.nav-feedback {
-  border-left: 0.0625rem dotted #999;
-  padding-left: 0.125rem;
-}
-
-@media (min-width: 768px) {
-  .navbar-dark {
-    padding: 0;
-  }
-
-  .navbar-nav > li {
-    border-right: 0.0625rem dotted #999;
-  }
-
-  .navbar-dark .nav-item.active .nav-link,
-  .navbar-dark .nav-item:focus .nav-link,
-  .navbar-dark .nav-item:hover .nav-link {
-    background-color: #fff;
-    color: #4b2f83;
-  }
-}
-
-@media (max-width: 768px) {
-  .line {
-    border: 0.046875rem dotted #999;
-    position: absolute;
-    top: 2rem;
-    width: 100%;
-    z-index: 2;
-  }
+  @include breakpoint(tablet) { border-left: dotted 0.046875rem #999;}
 }
 
 /* banner */

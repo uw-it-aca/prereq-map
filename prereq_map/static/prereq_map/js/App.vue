@@ -10,7 +10,7 @@
           </ul>
         </div>
         <button
-          class="navbar-toggler"
+          class="navbar-toggler border-0"
           type="button"
           data-toggle="collapse"
           data-target="#navbarSupportedContent"
