@@ -1,9 +1,9 @@
-@import '_mixins.scss';
-@import '_variables.scss';
+@import "_mixins.scss";
+@import "_variables.scss";
 
-/** global styles **/
+/** global **/
 body {
-  font-family: 'Open Sans', Helvetica, arial, sans-serif;
+  font-family: "Open Sans", Helvetica, arial, sans-serif;
   min-width: 320px !important;
 }
 
@@ -13,12 +13,13 @@ body {
   min-height: 100vh;
 }
 
-/* prereq bar (dark) */
+/* dark bar */
 .prereq-bar {
   background-color: #444;
   border-bottom: dotted 0.046875rem #999;
   font-size: 0.75rem;
   padding: 0;
+
   @include breakpoint(tablet) {
     padding: 0 0.15rem;
   }
@@ -41,16 +42,17 @@ body {
 
 .prereq-bar .navbar-collapse {
   border-top: dotted 0.046875rem #999;
+
   @include breakpoint(tablet) {
     border-top: transparent;
   }
 
   .navbar-nav {
     margin-left: 0.75rem;
+
     @include breakpoint(tablet) {
       margin-left: 0;
     }
-
   }
 }
 
@@ -59,46 +61,49 @@ body {
 }
 
 .prereq-bar .nav-item {
-  @include breakpoint(tablet) { border-left: dotted 0.046875rem #999;}
+  @include breakpoint(tablet) {
+    border-left: dotted 0.046875rem #999;
+  }
 }
 
-/* banner */
-
+/* branding */
 .prereq-banner {
   background-color: #4d307f;
   height: 7.5rem;
 }
 
 .prereq-banner .nav-pills {
-  a { color: #ccc; }
+  a {
+    color: #ccc;
+  }
 }
 
-
-.logo-position {
+.prereq-banner .logo-position {
   left: 1.25rem;
   position: absolute;
-  top: 50%;
-  transform: translate(0, -50%);
-}
+  top: 25%;
+  transform: translate(0, -25%);
 
-@media (max-width: 768px) {
-  .logo-position {
+  @include breakpoint(tablet) {
     left: 1.25rem;
     position: absolute;
-    top: 25%;
-    transform: translate(0, -25%);
-  }
-
-  .logo-position > img {
-    height: auto;
-    width: 9.375rem;
+    top: 50%;
+    transform: translate(0, -50%);
   }
 }
 
-/* ================== Navigation Pills ================== */
+.prereq-banner img {
+  height: auto;
+  width: 9.375rem;
+
+  @include breakpoint(tablet) {
+    width: auto;
+  }
+}
+
 .nav-pills {
   bottom: 0;
-  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
   font-size: 1.063rem;
   padding-bottom: 0;
   position: absolute;
@@ -121,18 +126,18 @@ body {
   color: #444 !important;
 }
 
+/* content */
 .prereq-content {
   flex: 1;
 }
 
-/* prereq footer */
+/* footer */
 .prereq-footer {
   background: #eee;
   border: 0;
   box-shadow: inset 0 0.25rem 0.5rem rgba(50, 50, 50, 0.2);
   height: 5.625rem;
   padding-top: 1.25rem;
-
 }
 
 .prereq-footer a {
@@ -166,7 +171,6 @@ body {
   margin-top: 0.625rem;
   text-align: center;
   width: 100%;
-
 }
 
 /*** comma separated list ***/
@@ -181,11 +185,11 @@ body {
 }
 
 .prereq-list li::after {
-  content: ', ';
+  content: ", ";
 }
 
 .prereq-list li:last-child::after {
-  content: '';
+  content: "";
 }
 
 .info-popover i {
