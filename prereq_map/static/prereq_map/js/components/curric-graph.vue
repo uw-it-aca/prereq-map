@@ -2,8 +2,7 @@
   <div v-if="curric_param !== undefined">
     <div>
       <small v-if="graph_error === false" class="text-secondary">
-        Use the scroll function on your mouse or touchpad to zoom in and
-        out
+        Use the scroll function on your mouse or touchpad to zoom in and out
       </small>
       <div id="graph_container" />
       <small v-if="graph_error === false">
@@ -42,7 +41,6 @@
       };
     },
     watch: {
-
       curric_data: function() {
         if (this.curric_data.length != 0) {
           window.show_graph(this.curric_data, this.course_param);
@@ -61,7 +59,8 @@
           this.getCurric();
 
           // update page title
-          document.title = this.curric_param + " - Curriculum Search - Prereq Map";
+          document.title =
+            this.curric_param + " - Curriculum Search - Prereq Map";
         }
       }
     },
