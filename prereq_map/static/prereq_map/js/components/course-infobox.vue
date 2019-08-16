@@ -16,7 +16,11 @@
           </h5>
 
           <!--  eslint-disable-next-line vue/no-v-html -->
-          <p v-if="course_description" v-html="course_description" class="card-title">
+          <p
+            v-if="course_description"
+            v-html="course_description"
+            class="card-title"
+          >
             {{ course_description }}
           </p>
 
@@ -98,7 +102,6 @@
             "<br /><br /><strong>Offered:</strong> "
           );
         }
-
       }
     },
     mounted() {
@@ -155,12 +158,14 @@
         this.loading = true;
         this.course_code = code;
 
-        this.$router.push({
-          query: Object.assign({}, this.$route.query, {
-            course: this.course_code
+        this.$router
+          .push({
+            query: Object.assign({}, this.$route.query, {
+              course: this.course_code
+            })
           })
-        // eslint-disable-next-line no-unused-vars
-        }).catch(err => {});
+          // eslint-disable-next-line no-unused-vars
+          .catch(err => {});
 
         if (this.course_code !== undefined) {
           this.load_course(code);
@@ -169,10 +174,12 @@
 
       close: function() {
         // set course param to undefined in order to clear it out from query
-        this.$router.replace({
-          query: Object.assign({}, this.$route.query, { course: undefined })
-        // eslint-disable-next-line no-unused-vars
-        }).catch(err => {});
+        this.$router
+          .replace({
+            query: Object.assign({}, this.$route.query, { course: undefined })
+          })
+          // eslint-disable-next-line no-unused-vars
+          .catch(err => {});
       }
     }
   };

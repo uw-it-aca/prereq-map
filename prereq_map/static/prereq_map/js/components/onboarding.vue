@@ -183,10 +183,7 @@
                 role="button"
                 data-slide="prev"
               >
-                <span
-                  class="carousel-control-prev-icon"
-                  aria-hidden="true"
-                />
+                <span class="carousel-control-prev-icon" aria-hidden="true" />
                 <span class="sr-only">Previous</span>
               </a>
               <a
@@ -195,10 +192,7 @@
                 role="button"
                 data-slide="next"
               >
-                <span
-                  class="carousel-control-next-icon"
-                  aria-hidden="true"
-                />
+                <span class="carousel-control-next-icon" aria-hidden="true" />
                 <span class="sr-only">Next</span>
               </a>
             </div>
@@ -210,7 +204,7 @@
 </template>
 
 <script>
-  import Vue from 'vue';
+  import Vue from "vue";
   import VueCookies from "vue-cookies";
   Vue.use(VueCookies);
 
@@ -219,7 +213,6 @@
       return {};
     },
     mounted() {
-
       // check if valid cookie exists and user has not yet accepted terms
       if (this.$cookies.get("prereq-onboarding-accepted") == "false") {
         // show the onboarding modal

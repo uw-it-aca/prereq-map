@@ -11,7 +11,10 @@
               aria-label="Course Search"
             >
             <div class="input-group-append">
-              <button class="btn btn-primary button-styling" aria-label="Submit course search">
+              <button
+                class="btn btn-primary button-styling"
+                aria-label="Submit course search"
+              >
                 <i class="py-1 fas fa-search" />
               </button>
             </div>
@@ -47,10 +50,10 @@
           // eslint-disable-next-line no-unused-vars
           this.$router.push("/course/").catch(err => {});
         } else {
-          this.$router.push(
-            "/course/?course=" + this.course_code.toUpperCase()
-          // eslint-disable-next-line no-unused-vars
-          ).catch(err => {});
+          this.$router
+            .push("/course/?course=" + this.course_code.toUpperCase())
+            // eslint-disable-next-line no-unused-vars
+            .catch(err => {});
         }
       }
     }

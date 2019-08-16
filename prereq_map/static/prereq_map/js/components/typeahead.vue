@@ -53,21 +53,23 @@
     },
 
     methods: {
-
       // handle up/down arrow events for keyboard navigating typeahead list
       // allows user to use tab and arrow buttons to move up and down to change focus selection
       scrollList: function() {
         $(".vbt-autcomplete-list").keydown(function(e) {
           if (e.keyCode == 38) {
             // up
-            $(".vbst-item:focus").prev().focus();
+            $(".vbst-item:focus")
+              .prev()
+              .focus();
           }
           if (e.keyCode == 40) {
             // down
-            $(".vbst-item:focus").next().focus();
+            $(".vbst-item:focus")
+              .next()
+              .focus();
           }
         });
-
       }
     }
   };
