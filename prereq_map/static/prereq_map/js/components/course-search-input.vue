@@ -1,26 +1,24 @@
 <template>
   <div class="row course-search">
     <div class="col-md-9 offset-md-1">
-      <form id="signup-form" @submit.prevent="processForm">
-        <div id="main-search" class="search-width">
-          <div class="input-group mb-3">
-            <input
-              v-model="course_code"
-              class="form-control form-control-lg form-styling"
-              placeholder="e.g. MATH 124"
-              aria-label="Course Search"
-            >
-            <div class="input-group-append">
-              <button
-                class="btn btn-primary button-styling"
-                aria-label="Submit course search"
-              >
-                <i class="py-1 fas fa-search" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </form>
+      <b-form @submit.prevent="processForm">
+        <b-input-group class="mt-3">
+          <b-form-input
+            v-model="course_code"
+            :formatter="uppercase"
+            type="text"
+            aria-label="Enter a course code... (e.g MATH 124)"
+            placeholder="Enter a course code... (e.g MATH 124)"
+            size="lg"
+            autocomplete="off"
+          />
+          <b-input-group-append>
+            <b-button variant="primary" type="submit">
+              Search
+            </b-button>
+          </b-input-group-append>
+        </b-input-group>
+      </b-form>
     </div>
   </div>
 </template>
@@ -44,7 +42,6 @@
     methods: {
       processForm: function(e) {
         e.preventDefault();
-
         // don't allow empty searches
         if (this.course_code === "" || this.course_code === undefined) {
           // eslint-disable-next-line no-unused-vars
@@ -55,17 +52,13 @@
             // eslint-disable-next-line no-unused-vars
             .catch(err => {});
         }
+      },
+      uppercase(value) {
+        return value.toUpperCase();
       }
     }
   };
 </script>
 
 <style lang="scss">
-  .search-width {
-    input {
-      font-size: 1.25rem;
-      height: 3rem;
-      text-transform: uppercase;
-    }
-  }
 </style>
