@@ -1,43 +1,43 @@
 <template>
   <div class="row curric-search">
     <div class="col-md-9 offset-md-1">
-      <vue-bootstrap-typeahead
-        v-model="query"
-        :data="curric_list"
-        @hit="selected_curric = $event"
-        class="mb-3"
-        placeholder="E.G. MATH"
-      />
+      <b-form @submit.prevent="processForm">
+        <b-input-group class="mt-3">
+          <b-form-input
+            v-model="query"
+            type="text"
+            aria-label="Enter a curric code... (e.g MATH)"
+            placeholder="Enter a curric code... (e.g MATH)"
+            size="lg"
+            list="my-list-id"
+            autocomplete="off"
+          />
+          <b-form-datalist id="my-list-id" :options="curric_list" />
+          <b-input-group-append>
+            <b-button variant="primary" type="submit">
+              Search
+            </b-button>
+          </b-input-group-append>
+        </b-input-group>
+      </b-form>
     </div>
   </div>
 </template>
 
 <script>
   const axios = require("axios");
-  import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
 
   export default {
-    components: {
-      VueBootstrapTypeahead
-    },
     filters: {},
     data() {
       return {
         query: "",
-        query2: "",
         selected_curric: null,
         curric_list: [],
         curric_objs: null
       };
     },
 
-    watch: {
-      selected_curric(curric_query) {
-        var curric_code = this.curric_objs[curric_query];
-        // eslint-disable-next-line no-unused-vars
-        this.$router.push("/curriculum/?curric=" + curric_code).catch(err => {});
-      }
-    },
     mounted() {
       axios.get("/api/curric_typeahead").then(res => {
         this.curric_objs = res.data;
@@ -48,46 +48,25 @@
         });
         this.curric_list = curric_list;
       });
-
-      this.scrollList();
     },
 
     methods: {
-      // handle up/down arrow events for keyboard navigating typeahead list
-      // allows user to use tab and arrow buttons to move up and down to change focus selection
-      scrollList: function() {
-        $(".vbt-autcomplete-list").keydown(function(e) {
-          if (e.keyCode == 38) {
-            // up
-            $(".vbst-item:focus")
-              .prev()
-              .focus();
-          }
-          if (e.keyCode == 40) {
-            // down
-            $(".vbst-item:focus")
-              .next()
-              .focus();
-          }
-        });
-      }
+      processForm: function(e) {
+        e.preventDefault();
+
+        var curric_code = this.curric_objs[this.query];
+
+        if (curric_code !== undefined){
+          // eslint-disable-next-line no-unused-vars
+          this.$router.push("/curriculum/?curric=" + curric_code).catch(err => {});
+        } else {
+          // eslint-disable-next-line no-unused-vars
+          this.$router.push("/curriculum/").catch(err => {});
+        }
+      },
     }
   };
 </script>
 
 <style lang="scss">
-  // char's note: scoped css is "broken" for this component because
-  //  vue-bootstrap-typeahead is already a scoped component by default... so it
-  // cannot be scoped again. just be aware of this in the future!
-  .curric-search {
-    input {
-      color: #000;
-      font-size: 1.25rem;
-      height: 3rem;
-    }
-
-    .vbt-autcomplete-list {
-      box-shadow: none !important;
-    }
-  }
 </style>
