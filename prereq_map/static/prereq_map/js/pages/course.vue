@@ -9,7 +9,7 @@
       View course prerequisites and related curricula
     </p>
 
-    <course-search-input />
+    <course-search />
 
     <div v-if="loading" class="pr-loading mt-5 mb-5">
       <div>
@@ -49,13 +49,13 @@
 
 <script>
   import axios from "axios";
-  import CourseSearchInput from "../components/course-search-input.vue";
+  import CourseSearch from "../components/course-search.vue";
   import CourseDetail from "../components/course-detail.vue";
 
   export default {
     name: "Course",
     components: {
-      "course-search-input": CourseSearchInput,
+      "course-search": CourseSearch,
       "course-detail": CourseDetail
     },
     data() {

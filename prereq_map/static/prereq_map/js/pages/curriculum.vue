@@ -11,7 +11,7 @@
       View the prerequisite map of courses in a curriculum
     </p>
 
-    <typeahead />
+    <curric-typeahead />
 
     <div class="row mt-5 mb-5">
       <div class="col-md-9 mb-3">
@@ -27,14 +27,14 @@
 <script>
   import Onboarding from "../components/onboarding.vue";
   import CourseInfoBox from "../components/course-infobox.vue";
-  import Typeahead from "../components/typeahead.vue";
+  import Typeahead from "../components/curric-typeahead.vue";
   import Graph from "../components/curric-graph.vue";
 
   export default {
     name: "Curriculum",
     components: {
-      onboarding: Onboarding,
-      typeahead: Typeahead,
+      "onboarding": Onboarding,
+      "curric-typeahead": Typeahead,
       "curric-graph": Graph,
       "course-infobox": CourseInfoBox
     },
