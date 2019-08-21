@@ -9,18 +9,9 @@
             </li>
           </ul>
         </div>
-        <button
-          class="navbar-toggler border-0"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon" />
-        </button>
-        <div id="navbarSupportedContent" class="collapse navbar-collapse order-3 order-md-2">
+
+        <b-navbar-toggle class="border-0" target="navbarSupportedContent" />
+        <b-collapse id="navbarSupportedContent" is-nav class="order-3 order-md-2">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item border-0">
               <a class="nav-link" href="http://www.washington.edu/" target="_blank">UW.edu</a>
@@ -32,12 +23,10 @@
               <a class="nav-link" href="https://myplan.uw.edu/" target="_blank">MyPlan</a>
             </li>
           </ul>
-        </div>
+        </b-collapse>
       </nav>
-      <nav
-        class="navbar navbar-dark flex-nowrap justify-content-center prereq-banner"
-        aria-label="Main Menu"
-      >
+
+      <nav class="navbar navbar-dark flex-nowrap justify-content-center prereq-banner" aria-label="Main Menu">
         <div class="logo-position">
           <img alt="PreReq Map" src="/static/prereq_map/img/gr-PreReqMap-logo.png">
         </div>
