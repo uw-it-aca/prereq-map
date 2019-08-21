@@ -1,4 +1,5 @@
 // bootstrap related functions
+/*
 $(function() {
   $('[data-toggle="popover"]').popover();
 });
@@ -6,6 +7,7 @@ $(function() {
 $(".popover-dismiss").popover({
   trigger: "focus"
 });
+*/
 
 // network graph
 window.show_graph = function(graph_data, course_param) {
