@@ -1,140 +1,157 @@
 <template>
   <div>
-    <b-modal id="bv-modal-example" size="lg" centered hide-header hide-footer>
-      <div class="d-block">
-        <b-carousel
-          id="carousel-1"
-          :interval="0"
-          controls
-          indicators
-          img-width="1024"
-          img-height="880"
-        >
-          <!-- Slides with custom text -->
-          <b-carousel-slide img-src="/static/prereq_map/img/modal-bg.jpg" img-alt="fsdaasdf">
-            <div class="text-left text-dark">
-              <p class="mb-4 h2">
-                Discover courses and plan your schedule more effectively
-              </p>
-              <p>
-                It can be tough figuring out which courses to take. How do
-                you find courses similar to ones you’ve really enjoyed? Of
-                the courses you’ve already taken, which ones provide a
-                foundation for more advanced coursework? What sequence of
-                courses is best? The <strong>Prereq Map</strong> helps you
-                discover interesting courses and enables you to be strategic
-                about planning your course schedule. (What’s a prereq?
-                Prereq is short for prerequisites: the courses that act as a
-                foundation for other courses.)
-              </p>
-              <p>Remember to talk to your adviser when course planning.</p>
-            </div>
-          </b-carousel-slide>
+    <b-modal id="bv-modal-example" size="lg" centered hide-header hide-footer scrollable>
+      <b-carousel
+        id="carousel-1"
+        :interval="0"
+        controls
+        indicators
+        img-width="1024"
+        img-height="1000"
+        no-animation
+      >
+        <!-- Slides with custom text -->
+        <b-carousel-slide img-blank img-alt="Blank image" class="baaaaaa">
+          <div class="text-left text-dark">
+            <p class="h2">
+              Discover courses and plan your schedule more effectively
+            </p>
+            <p>
+              It can be tough figuring out which courses to take. How do
+              you find courses similar to ones you’ve really enjoyed? Of
+              the courses you’ve already taken, which ones provide a
+              foundation for more advanced coursework? What sequence of
+              courses is best? The <strong>Prereq Map</strong> helps you
+              discover interesting courses and enables you to be strategic
+              about planning your course schedule. (What’s a prereq?
+              Prereq is short for prerequisites: the courses that act as a
+              foundation for other courses.)
+            </p>
+            <p>Remember to talk to your adviser when course planning.</p>
+          </div>
+        </b-carousel-slide>
 
-          <!-- Slides with custom text -->
-          <b-carousel-slide img-src="/static/prereq_map/img/modal-bg.jpg" img-alt="fsdaasdf">
-            <div class="text-left text-dark">
-              <p class="mt-4 mb-4 h3">
-                See the prerequisite map for a curriculum
-                <small>(e.g. Biology, BIOL)</small>
-              </p>
-              <p>
-                Begin exploring the Prereq Map by choosing a curriculum
-                (subjects comprising a discipline, e.g., Biology or BIOL)
-                you’re interested in. Follow the lines to view prerequisites
-                for courses. View courses that have prereqs and courses that
-                are prereqs for other courses.
-              </p>
-            </div>
-          </b-carousel-slide>
+        <!-- Slides with custom text -->
+        <b-carousel-slide img-blank img-alt="Blank image">
+          <div class="text-left text-dark">
+            <b-img 
+              src="/static/prereq_map/img/onboarding-biol.png" 
+              fluid 
+              alt="Onboarding curriculum example"
+              style="border: solid 2px #333;"
+            />
+            <p class="mt-4 mb-4 h3">
+              See the prerequisite map for a curriculum
+              <small>(e.g. Biology, BIOL)</small>
+            </p>
+            <p>
+              Begin exploring the Prereq Map by choosing a curriculum
+              (subjects comprising a discipline, e.g., Biology or BIOL)
+              you’re interested in. Follow the lines to view prerequisites
+              for courses. View courses that have prereqs and courses that
+              are prereqs for other courses.
+            </p>
+          </div>
+        </b-carousel-slide>
 
-          <!-- Slides with custom text -->
-          <b-carousel-slide img-src="/static/prereq_map/img/modal-bg.jpg" img-alt="fsdaasdf">
-            <div class="text-left text-dark">
-              <p class="mt-4 mb-4 h3">
-                Get additional info about a course
-              </p>
-              <p>
-                Each square on the map represents a specific course. Click
-                the square to view prerequisite information for the course.
-                Click the links in the sidebar to learn more.
-              </p>
-            </div>
-          </b-carousel-slide>
+        <!-- Slides with custom text -->
+        <b-carousel-slide img-blank img-alt="Blank image">
+          <div class="text-left text-dark">
+            <b-img 
+              src="/static/prereq_map/img/onboarding-infobox.png" 
+              fluid 
+              alt="Onboarding Infobox example"
+              style="border: solid 2px #333;"
+            />
+            <p class="mt-4 mb-4 h3">
+              Get additional info about a course
+            </p>
+            <p>
+              Each square on the map represents a specific course. Click
+              the square to view prerequisite information for the course.
+              Click the links in the sidebar to learn more.
+            </p>
+          </div>
+        </b-carousel-slide>
 
-          <!-- Slide with blank fluid image to maintain slide aspect ratio -->
-          <b-carousel-slide img-src="/static/prereq_map/img/modal-bg.jpg" img-alt="asdfad">
-            <div class="text-left text-dark">
-              <p class="mt-4 mb-4 h3">
-                Get more course detail and find related curricula
-              </p>
-              <p>
-                On the Course Search page, click links to browse related
-                course offerings. You can also explore related curricula and
-                their prerequisite maps.
-              </p>
+        <!-- Slide with blank fluid image to maintain slide aspect ratio -->
+        <b-carousel-slide img-blank img-alt="Blank image">
+          <div class="text-left text-dark">
+            <b-img 
+              src="/static/prereq_map/img/onboarding-course-details.png" 
+              fluid 
+              alt="Onboarding course details example"
+              style="border: solid 2px #333;"
+            />
+            <p class="mt-4 mb-4 h3">
+              Get more course detail and find related curricula
+            </p>
+            <p>
+              On the Course Search page, click links to browse related
+              course offerings. You can also explore related curricula and
+              their prerequisite maps.
+            </p>
 
-              <p class="h6">
-                <strong>Important notes:</strong>
-              </p>
+            <p class="h6">
+              <strong>Important notes:</strong>
+            </p>
 
-              <ul>
-                <li>
-                  Prereq Map shows current prerequisites. When planning
-                  several quarters out, keep in mind that prerequisites may
-                  change over time.
-                </li>
-                <li>
-                  Prereq Map is based solely on course prerequisites and
-                  does not take into account specific requirements for
-                  graduation.
-                </li>
-                <li>
-                  Not all equivalencies (e.g. placement tests) are
-                  represented in the map – just courses. You can find some
-                  equivalencies in the text description.
-                </li>
-                <li>
-                  Remember to talk to your adviser when course planning.
-                </li>
-              </ul>
-              <div class="text-center mt-3">
-                <div>
-                  <a
-                    @click="
-                      $ga.event(
-                        'outbound',
-                        'click',
-                        'https://itconnect.uw.edu/learn/tools/prereq-map/'
-                      )
-                    "
-                    @keydown="
-                      $ga.event(
-                        'outbound',
-                        'click',
-                        'https://itconnect.uw.edu/learn/tools/prereq-map/'
-                      )
-                    "
-                    href="https://itconnect.uw.edu/learn/tools/prereq-map/"
-                    target="_blank"
-                  >
-                    Additional details
-                  </a>
-                </div>
-              </div>
-              <div class="text-center mt-2">
-                <button
-                  @click="accept"
-                  @keydown="accept"
-                  class="btn btn-primary prereq-purple"
+            <ul>
+              <li>
+                Prereq Map shows current prerequisites. When planning
+                several quarters out, keep in mind that prerequisites may
+                change over time.
+              </li>
+              <li>
+                Prereq Map is based solely on course prerequisites and
+                does not take into account specific requirements for
+                graduation.
+              </li>
+              <li>
+                Not all equivalencies (e.g. placement tests) are
+                represented in the map – just courses. You can find some
+                equivalencies in the text description.
+              </li>
+              <li>
+                Remember to talk to your adviser when course planning.
+              </li>
+            </ul>
+            <div class="text-center mt-3">
+              <div>
+                <a
+                  @click="
+                    $ga.event(
+                      'outbound',
+                      'click',
+                      'https://itconnect.uw.edu/learn/tools/prereq-map/'
+                    )
+                  "
+                  @keydown="
+                    $ga.event(
+                      'outbound',
+                      'click',
+                      'https://itconnect.uw.edu/learn/tools/prereq-map/'
+                    )
+                  "
+                  href="https://itconnect.uw.edu/learn/tools/prereq-map/"
+                  target="_blank"
                 >
-                  Got it!
-                </button>
+                  Additional details
+                </a>
               </div>
             </div>
-          </b-carousel-slide>
-        </b-carousel>
-      </div>
+            <div class="text-center mt-2">
+              <button
+                @click="accept"
+                @keydown="accept"
+                class="btn btn-primary prereq-purple"
+              >
+                Got it!
+              </button>
+            </div>
+          </div>
+        </b-carousel-slide>
+      </b-carousel>
     </b-modal>
   </div>
 
@@ -463,8 +480,21 @@
     opacity: 0.8;
   }
 
+  .modal-body {
+    padding: 0 !important;
+  }
+
+  .carousel-caption {
+    bottom: auto;
+    top: 20px !important;
+  }
+
   .carousel-item {
     background: #fff !important;
+  }
+
+  .carousel-inner {
+    overflow-y: scroll;
   }
 
   .carousel-control-prev-icon {
@@ -475,6 +505,9 @@
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3e%3cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3e%3c/svg%3e");
   }
 
+  .carousel-indicators li {
+    background-color: #000;
+  }
 
   /*
 
@@ -549,4 +582,9 @@
     border-color: #4d307f;
   }
   */
+
+  .baaaaaa {
+    background-image: url('/static/prereq_map/img/modal-bg.jpg') !important;
+    background-size: cover !important;
+  }
 </style>
