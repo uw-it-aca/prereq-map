@@ -1,17 +1,16 @@
 <template>
   <div>
-    <b-modal id="bv-modal-example" size="lg" centered hide-header hide-footer scrollable>
+    <b-modal id="bv-modal-example" size="lg" title="Onboarding" centered scrollable>
       <b-carousel
         id="carousel-1"
         :interval="0"
         controls
         indicators
-        img-width="1024"
-        img-height="1000"
+        img-height="600"
         no-animation
       >
         <!-- Slides with custom text -->
-        <b-carousel-slide img-blank img-alt="Blank image" class="baaaaaa">
+        <b-carousel-slide img-blank img-alt="Blank image">
           <div class="text-left text-dark">
             <p class="h2">
               Discover courses and plan your schedule more effectively
@@ -493,9 +492,10 @@
     background: #fff !important;
   }
 
+  /*
   .carousel-inner {
     overflow-y: scroll;
-  }
+  }*/
 
   .carousel-control-prev-icon {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
@@ -584,7 +584,6 @@
   */
 
   .baaaaaa {
-    background-image: url('/static/prereq_map/img/modal-bg.jpg') !important;
-    background-size: cover !important;
+    img { height: 1000px !important; }
   }
 </style>
