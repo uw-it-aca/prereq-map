@@ -1,5 +1,6 @@
-@import '_mixins.scss';
 @import '_variables.scss';
+@import 'node_modules/bootstrap/scss/mixins';
+
 
 /** global **/
 body {
@@ -20,7 +21,7 @@ body {
   font-size: 0.75rem;
   padding: 0;
 
-  @include breakpoint(tablet) {
+  @include media-breakpoint-up(sm) {
     padding: 0 0.15rem;
   }
 }
@@ -43,14 +44,14 @@ body {
 .prereq-bar .navbar-collapse {
   border-top: dotted 0.046875rem #999;
 
-  @include breakpoint(tablet) {
+  @include media-breakpoint-up(sm) {
     border-top: transparent;
   }
 
   .navbar-nav {
     margin-left: 0.75rem;
 
-    @include breakpoint(tablet) {
+    @include media-breakpoint-up(sm) {
       margin-left: 0;
     }
   }
@@ -61,7 +62,8 @@ body {
 }
 
 .prereq-bar .nav-item {
-  @include breakpoint(tablet) {
+
+  @include media-breakpoint-up(sm) {
     border-left: dotted 0.046875rem #999;
   }
 }
@@ -70,6 +72,12 @@ body {
 .prereq-banner {
   background-color: #4d307f;
   height: 7.5rem;
+
+  @include media-breakpoint-up(sm) {
+    // Larger than sm: 576px
+    background-color: rgba(255, 0, 0, 0.89) !important;
+  }
+
 }
 
 .prereq-banner .nav-pills {
@@ -84,7 +92,7 @@ body {
   top: 25%;
   transform: translate(0, -25%);
 
-  @include breakpoint(tablet) {
+  @include media-breakpoint-up(sm) {
     left: 1.25rem;
     position: absolute;
     top: 50%;
@@ -96,7 +104,7 @@ body {
   height: auto;
   width: 9.375rem;
 
-  @include breakpoint(tablet) {
+  @include media-breakpoint-up(sm) {
     width: auto;
   }
 }

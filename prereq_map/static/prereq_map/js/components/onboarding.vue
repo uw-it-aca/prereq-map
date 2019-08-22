@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-modal id="bv-modal-example" size="lg" title="Welcome to Prereq Map" centered scrollable>  
+    <b-modal id="bv-modal-example" size="lg" title="Welcome to Prereq Map" centered scrollable>
       <div class="text-left p-4">
         <p>Here are some important notes before using Prereq Map:</p>
         <ul>
@@ -56,9 +56,9 @@
 
         <b-carousel-slide>
           <div class="text-left text-dark">
-            <b-img 
-              src="/static/prereq_map/img/onboarding-biol.png" 
-              fluid 
+            <b-img
+              src="/static/prereq_map/img/onboarding-biol.png"
+              fluid
               alt="Onboarding curriculum example"
               style="border: solid 2px #333;"
             />
@@ -78,9 +78,9 @@
 
         <b-carousel-slide>
           <div class="text-left text-dark">
-            <b-img 
-              src="/static/prereq_map/img/onboarding-infobox.png" 
-              fluid 
+            <b-img
+              src="/static/prereq_map/img/onboarding-infobox.png"
+              fluid
               alt="Onboarding Infobox example"
               style="border: solid 2px #333;"
             />
@@ -97,9 +97,9 @@
 
         <b-carousel-slide>
           <div class="text-left text-dark">
-            <b-img 
-              src="/static/prereq_map/img/onboarding-course-details.png" 
-              fluid 
+            <b-img
+              src="/static/prereq_map/img/onboarding-course-details.png"
+              fluid
               alt="Onboarding course details example"
               style="border: solid 2px #333;"
             />
@@ -173,7 +173,6 @@
         </b-carousel-slide>
       </b-carousel>
       -->
-
     </b-modal>
   </div>
 
@@ -395,13 +394,13 @@
     },
     mounted() {
 
-      
+
 
       // check if valid cookie exists and user has not yet accepted terms
       if (this.$cookies.get("prereq-onboarding-accepted") == "false") {
 
         // show the onboarding modal
-        
+
         /*
         $("#onboardingModal").modal({ backdrop: "static", keyboard: false });
         this.carouselConfig();
@@ -489,14 +488,14 @@
             }
           });
       }
-      */ 
+      */
 
     }
   };
 </script>
 
 <style lang="scss">
-  @import '../../css/_mixins.scss';
+  @import 'node_modules/bootstrap/scss/mixins';
 
   .modal-backdrop {
     opacity: 0.8;
@@ -504,110 +503,5 @@
 
   .modal-body {
     padding: 0 !important;
-  }
-
-  .carousel-caption {
-    top: 20px !important;
-    bottom: unset !important;
-  }
-
-  .carousel-item {
-    background: #fff !important;
-    min-height: 700px;
-  }
-
-
-  .carousel-inner {
-    overflow: auto !important;
-  }
-
-  .carousel-control-prev-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
-  }
-
-  .carousel-control-next-icon {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3e%3cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3e%3c/svg%3e");
-  }
-
-  .carousel-indicators li {
-    background-color: #000;
-  }
-
-  /*
-
-  .modal-backdrop {
-    opacity: 0.8 !important;
-  }
-
-  .modal-content {
-    background: transparent;
-    border: transparent;
-  }
-
-  .modal-header {
-    border-bottom: transparent;
-    position: relative;
-    top: 60px;
-    z-index: 999;
-
-    button {
-      color: #000;
-    }
-  }
-
-  .modal-body {
-    height: 800px;
-    padding: 0;
-  }
-
-  .carousel-inner {
-    height: 800px;
-  }
-
-  .carousel-item {
-    background: #fff;
-    border: transparent;
-    height: 800px;
-    overflow: scroll;
-
-    padding: 40px 50px;
-
-    @include breakpoint(tablet) {
-      padding: 40px 70px !important;
-    }
-
-    @include breakpoint(desktop) {
-      overflow: hidden;
-      padding: 100px !important;
-    }
-  }
-
-  .carousel-indicators > li {
-    background-color: #000;
-    border-radius: 50%;
-    height: 10px;
-    width: 10px;
-  }
-
-  .carousel-control-prev-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
-  }
-
-  .carousel-control-next-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
-  }
-
-  .prereq-onboarding-main {
-    background-size: cover;
-  }
-
-  .prereq-purple {
-    background-color: #4d307f;
-    border-color: #4d307f;
-  }
-  */
-
-  .baaaaaa {
-    img { height: 1000px !important; }
   }
 </style>
