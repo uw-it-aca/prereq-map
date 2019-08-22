@@ -1,11 +1,6 @@
 <template>
   <div v-cloak class="col course-detail">
     <div class="row">
-      <div class="col-md-5 pb-5">
-        <div>
-          <course-graph :course-param="courseParam" />
-        </div>
-      </div>
       <div class="col-md-7">
         <div class="mb-4">
           <h2 class="pt-3">
@@ -55,6 +50,9 @@
             View {{ courseParam }} course details and schedule on MyPlan
           </a>
         </p>
+      </div>
+      <div class="col-md-5">
+        <course-graph :course-param="courseParam" />
       </div>
     </div>
   </div>
