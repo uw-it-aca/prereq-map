@@ -72,12 +72,6 @@ body {
 .prereq-banner {
   background-color: #4d307f;
   height: 7.5rem;
-
-  @include media-breakpoint-up(sm) {
-    // Larger than sm: 576px
-    background-color: rgba(255, 0, 0, 0.89) !important;
-  }
-
 }
 
 .prereq-banner .nav-pills {
@@ -92,7 +86,7 @@ body {
   top: 25%;
   transform: translate(0, -25%);
 
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(md) {
     left: 1.25rem;
     position: absolute;
     top: 50%;
@@ -104,7 +98,7 @@ body {
   height: auto;
   width: 9.375rem;
 
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(md) {
     width: auto;
   }
 }
