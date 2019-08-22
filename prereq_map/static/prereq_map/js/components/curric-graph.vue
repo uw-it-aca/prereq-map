@@ -1,5 +1,8 @@
 <template>
   <div v-if="curric_param !== undefined">
+    <h2 class="mt-4">
+      {{ curric_param }}
+    </h2>
     <div>
       <small v-if="graph_error === false" class="text-secondary">
         Use the scroll function on your mouse or touchpad to zoom in and out

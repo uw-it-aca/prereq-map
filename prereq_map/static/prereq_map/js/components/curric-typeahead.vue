@@ -21,9 +21,6 @@
         </b-input-group>
       </b-form>
     </div>
-    <h2 class="mt-4">
-      {{ selected_curric }}
-    </h2>
   </div>
 </template>
 
@@ -58,8 +55,6 @@
         e.preventDefault();
 
         var curric_code = this.curric_objs[this.query];
-
-        this.selected_curric = this.query;
 
         if (curric_code !== undefined){
           // eslint-disable-next-line no-unused-vars
