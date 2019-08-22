@@ -7,6 +7,7 @@ import BootstrapVue from 'bootstrap-vue';
 import App from "./App.vue";
 import Curriculum from './pages/curriculum.vue';
 import Course from './pages/course.vue';
+import About from './pages/about.vue';
 
 const gaCode = $("body").data("google-analytics");
 const debugMode = $("body").data("django-debug");
@@ -23,6 +24,7 @@ var router = new VueRouter({
     { path: '/course-search/', redirect: '/course/' },
     { path: '/curriculum/', component: Curriculum },
     { path: '/course/', component: Course },
+    { path: '/about/', component: About },
   ]
 });
 
