@@ -2,7 +2,7 @@
 
 <template>
   <div id="curriculum" class="container py-1 mt-2">
-    <onboarding />
+    <user-accept />
 
     <h1 class="pt-4 pb-2">
       Curriculum Search
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-  import Onboarding from "../components/onboarding.vue";
+  import UserAccept from "../components/user-accept.vue";
   import CourseInfoBox from "../components/course-infobox.vue";
   import Typeahead from "../components/curric-typeahead.vue";
   import Graph from "../components/curric-graph.vue";
@@ -33,7 +33,7 @@
   export default {
     name: "Curriculum",
     components: {
-      "onboarding": Onboarding,
+      "user-accept": UserAccept,
       "curric-typeahead": Typeahead,
       "curric-graph": Graph,
       "course-infobox": CourseInfoBox

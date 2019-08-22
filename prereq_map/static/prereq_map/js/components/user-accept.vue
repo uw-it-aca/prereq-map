@@ -1,0 +1,97 @@
+<template>
+  <div>
+    <b-modal
+      id="userAcceptance"
+      size="lg"
+      title="Welcome to Prereq Map"
+      centered
+      scrollable
+    >
+      <div class="text-left p-4">
+        <p>Here are some important notes before using Prereq Map:</p>
+        <ul>
+          <li>
+            Prereq Map shows current prerequisites. When planning several
+            quarters out, keep in mind that prerequisites may change over time.
+          </li>
+          <li>
+            Prereq Map is based solely on course prerequisites and does not take
+            into account specific requirements for graduation.
+          </li>
+          <li>
+            Not all equivalencies (e.g. placement tests) are represented in the
+            map – just courses. You can find some equivalencies in the text
+            description.
+          </li>
+          <li>
+            Remember to talk to your adviser when course planning.
+          </li>
+        </ul>
+      </div>
+
+      <div slot="modal-footer" class="w-100">
+        <p class="float-left">
+          Do you understand?
+        </p>
+        <b-button
+          @click="accept"
+          @keydown="accept"
+          variant="primary"
+          size="md"
+          class="float-right"
+        >
+          Got it!
+        </b-button>
+      </div>
+    </b-modal>
+  </div>
+</template>
+
+<script>
+  import Vue from "vue";
+  import VueCookies from "vue-cookies";
+  Vue.use(VueCookies);
+
+  export default {
+    data() {
+      return {};
+    },
+    mounted() {
+      // check if valid cookie exists and user has not yet accepted terms
+      if (this.$cookies.get("prereq-accepted") == "false") {
+
+        // show the onboarding modal
+        this.$bvModal.show("userAcceptance");
+
+      }
+    },
+
+    methods: {
+      // handle the 'get started' button click event
+      accept: function() {
+        // get the end of term date and set as the expiration value
+        var expires = this.$cookies.get("prereq-accepted-expires");
+        // set the accept cookie value to true and set the expiration
+        this.$cookies.set("prereq-accepted", "true", expires);
+        this.$cookies.remove("prereq-accepted-expires");
+
+        // hide the modal (until end of the current term)
+        this.$bvModal.hide("userAcceptance");
+
+      }
+    }
+  };
+</script>
+
+<style lang="scss">
+
+  @import 'node_modules/bootstrap/scss/mixins';
+
+  .modal-backdrop {
+    opacity: 0.8;
+  }
+
+  .modal-body {
+    padding: 0 !important;
+  }
+</style>

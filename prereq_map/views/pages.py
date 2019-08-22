@@ -27,9 +27,9 @@ class PageView(TemplateView):
             term_end_date.strftime("%c")
 
         # check to see if the onboarding cookie exists
-        if 'prereq-onboarding-accepted' not in self.request.COOKIES:
+        if 'prereq-accepted' not in self.request.COOKIES:
             # create/set accepted cookie value to false
-            response.set_cookie("prereq-onboarding-accepted", "false")
+            response.set_cookie("prereq-accepted", "false")
             # create/set  term end date cookie and expire it in 1 week
-            response.set_cookie("prereq-onboarding-expires", term_end_date)
+            response.set_cookie("prereq-accepted-expires", term_end_date)
         return response
