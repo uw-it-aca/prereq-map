@@ -37,7 +37,8 @@ Vue.use(VueAnalytics, {
     { field: 'anonymizeIp', value: true }
   ],
   debug: {
-    enabled: debugMode
+    enabled: false
+    //enabled: debugMode
   }
 });
 
