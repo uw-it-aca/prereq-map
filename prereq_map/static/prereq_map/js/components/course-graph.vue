@@ -8,7 +8,7 @@
 </template>
 
 <script>
-  const axios = require("axios");
+  import axios from "axios";
   import { dataBus } from "../main.js";
 
   export default {
