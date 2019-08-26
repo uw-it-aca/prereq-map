@@ -46,7 +46,7 @@
       </nav>
     </header>
 
-    <main class="prereq-content">
+    <main class="prereq-content mt-5 mb-5">
       <router-view />
     </main>
 
