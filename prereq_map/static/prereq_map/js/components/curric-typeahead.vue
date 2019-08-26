@@ -3,7 +3,7 @@
     <div class="row curric-search">
       <div class="col-md-9 offset-md-1">
         <b-form @submit.prevent="processForm">
-          <b-input-group class="mt-3">
+          <b-input-group>
             <b-form-input
               v-model="query"
               type="text"
@@ -23,11 +23,9 @@
         </b-form>
       </div>
     </div>
-    <div class="row mt-5">
+    <div class="row">
       <div class="col-md-12">
-        <h2>
-          {{ curric_name }}
-        </h2>
+        <h2>{{ curric_name }}</h2>
       </div>
     </div>
   </div>

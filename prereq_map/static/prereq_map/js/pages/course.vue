@@ -1,17 +1,13 @@
 // course.vue
 
 <template>
-  <div id="course" class="container py-1 mt-2">
-    <h1 class="pt-4 pb-2">
-      Course Search
-    </h1>
-    <p class="instruction-text pb-4">
-      View course prerequisites and related curricula
-    </p>
+  <div id="course" class="container">
+    <h1>Course Search</h1>
+    <p>View course prerequisites and related curricula</p>
 
     <course-search />
 
-    <div v-if="loading" class="pr-loading mt-5 mb-5">
+    <div v-if="loading" class="pr-loading">
       <div>
         <i class="fas fa-spinner fa-spin" />
         <span class="sr-only">Loading...</span>
@@ -19,11 +15,11 @@
     </div>
 
     <div v-cloak v-if="course_param !== undefined">
-      <div v-if="course_valid && loading === false" class="row mt-5 mb-5">
+      <div v-if="course_valid && loading === false" class="row">
         <course-detail :course-param="course_param" />
       </div>
 
-      <div v-cloak v-if="course_valid === false" class="row mt-5 mb-5">
+      <div v-cloak v-if="course_valid === false" class="row">
         <div class="col">
           <p>
             No prerequisite information for

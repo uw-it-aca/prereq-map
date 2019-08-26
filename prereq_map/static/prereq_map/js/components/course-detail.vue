@@ -2,8 +2,8 @@
   <div v-cloak class="col course-detail">
     <div class="row">
       <div class="col-md-7">
-        <div class="mb-4">
-          <h2 class="pt-3">
+        <div>
+          <h2>
             <span>{{ courseParam }}</span>
             <span v-if="course_title">- {{ course_title }}</span>
           </h2>
@@ -13,7 +13,7 @@
           </div>
         </div>
 
-        <div class="mb-4">
+        <div>
           <strong>Is a prerequisite for:</strong>
           <ul class="prereq-list">
             <li v-if="postreqs.length === 0">

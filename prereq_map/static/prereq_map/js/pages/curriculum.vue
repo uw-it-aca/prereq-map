@@ -1,19 +1,14 @@
 // curriculum.vue
 
 <template>
-  <div id="curriculum" class="container py-1 mt-2">
+  <div id="curriculum" class="container">
     <user-accept />
-
-    <h1 class="pt-4 pb-2">
-      Curriculum Search
-    </h1>
-    <p class="instruction-text pb-4">
-      View the prerequisite map of courses in a curriculum
-    </p>
+    <h1>Curriculum Search</h1>
+    <p>View the prerequisite map of courses in a curriculum</p>
 
     <curric-typeahead />
 
-    <div class="row mt-2 mb-5">
+    <div class="row">
       <div class="col-md-9">
         <curric-graph />
       </div>
