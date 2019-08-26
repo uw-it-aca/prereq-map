@@ -1,26 +1,31 @@
 <template>
-  <div class="row curric-search">
-    <div class="col-md-9 offset-md-1">
-      <b-form @submit.prevent="processForm">
-        <b-input-group class="mt-3">
-          <b-form-input
-            v-model="query"
-            type="text"
-            aria-label="Enter a curric code... (e.g MATH)"
-            placeholder="Enter a curric code... (e.g MATH)"
-            size="lg"
-            list="my-list-id"
-            autocomplete="off"
-          />
-          <b-form-datalist id="my-list-id" :options="curric_list" />
-          <b-input-group-append>
-            <b-button variant="primary" type="submit">
-              Search
-            </b-button>
-          </b-input-group-append>
-        </b-input-group>
-      </b-form>
+  <div>
+    <div class="row curric-search">
+      <div class="col-md-9 offset-md-1">
+        <b-form @submit.prevent="processForm">
+          <b-input-group class="mt-3">
+            <b-form-input
+              v-model="query"
+              type="text"
+              aria-label="Enter a curric code... (e.g MATH)"
+              placeholder="Enter a curric code... (e.g MATH)"
+              size="lg"
+              list="my-list-id"
+              autocomplete="off"
+            />
+            <b-form-datalist id="my-list-id" :options="curric_list" />
+            <b-input-group-append>
+              <b-button variant="primary" type="submit">
+                Search
+              </b-button>
+            </b-input-group-append>
+          </b-input-group>
+        </b-form>
+      </div>
     </div>
+    <h2 class="mt-4">
+      {{ curric_name }}
+    </h2>
   </div>
 </template>
 
@@ -35,6 +40,7 @@
         selected_curric: null,
         curric_list: [],
         curric_objs: null,
+        curric_name: undefined,
       };
     },
 
@@ -55,6 +61,7 @@
         e.preventDefault();
 
         var curric_code = this.curric_objs[this.query];
+        this.curric_name = this.query;
 
         if (curric_code !== undefined){
           // eslint-disable-next-line no-unused-vars

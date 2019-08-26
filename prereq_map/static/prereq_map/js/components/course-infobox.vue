@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="course_code" class="card mt-4">
+    <div v-if="course_code" class="card">
       <div v-if="loading">
         <div class="pr-loading mt-5 mb-5">
           <div class="pr-loading-inner">

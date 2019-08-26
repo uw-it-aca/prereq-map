@@ -1,8 +1,5 @@
 <template>
   <div v-if="curric_param !== undefined">
-    <h2 class="mt-4">
-      {{ curric_name }}
-    </h2>
     <div>
       <small v-if="graph_error === false" class="text-secondary">
         Use the scroll function on your mouse or touchpad to zoom in and out
@@ -37,7 +34,7 @@
     data() {
       return {
         curric_param: undefined,
-        curric_name: undefined,
+        //curric_name: undefined,
         course_param: undefined,
         curric_data: [],
         course_list: [],
@@ -50,6 +47,8 @@
           window.show_graph(this.curric_data, this.course_param);
         } else {
           this.graph_error = true;
+          // hide the graph some how!!!
+
         }
       },
 
@@ -61,7 +60,7 @@
 
         if (this.curric_param !== undefined) {
           this.getCurric();
-          this.getCurricName(this.curric_param);
+          //this.getCurricName(this.curric_param);
           // update page title
           document.title =
             this.curric_param + " - Curriculum Search - Prereq Map";
@@ -74,7 +73,7 @@
 
       if (this.curric_param !== undefined) {
         this.getCurric();
-        this.getCurricName(this.curric_param);
+        //this.getCurricName(this.curric_param);
 
         // update page title
         document.title = this.curric_param + " - Curriculum Search - Prereq Map";
@@ -95,6 +94,7 @@
             this.curric_data = [];
           });
       },
+      /*
       getCurricName: function(curric) {
         return axios
           .get("/api/curric_typeahead/")
@@ -107,7 +107,7 @@
           .catch(() => {
 
           });
-      }
+      }*/
     }
   };
 </script>
