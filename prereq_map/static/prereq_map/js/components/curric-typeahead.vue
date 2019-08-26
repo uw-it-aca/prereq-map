@@ -53,6 +53,10 @@
           curric_list.push(...Object.keys(value));
         });
         this.curric_list = curric_list;
+
+        // eslint-disable-next-line no-console
+        console.log(this.curric_objs);
+
       });
     },
 
