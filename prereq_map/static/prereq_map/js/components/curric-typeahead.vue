@@ -1,5 +1,5 @@
 <template>
-  <div class="row curric-search mt-4 mb-4">
+  <div class="row curric-search mt-5 mb-5">
     <div class="col-md-9 offset-md-1">
       <b-form @submit.prevent="processForm">
         <b-input-group>

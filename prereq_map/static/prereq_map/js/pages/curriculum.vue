@@ -51,7 +51,7 @@
         this.curric_param = this.$route.query.curric;
         if (this.curric_param !== undefined) {
           // set the curric name based on the curric code
-          this.curric_name = this.getCurricName(this.curric_param);
+          this.getCurricName(this.curric_param);
         } else {
           this.curric_name = undefined;
         }
@@ -64,7 +64,7 @@
       this.curric_param = this.$route.query.curric;
       if (this.curric_param !== undefined) {
         // set the curric name based on the curric param in the request
-        this.curric_name = this.getCurricName(this.curric_param);
+        this.getCurricName(this.curric_param);
       } else {
         this.curric_name = undefined;
       }
@@ -76,8 +76,10 @@
           .then(response => {
             var data = response.data;
             // find key by curric value
-            const key = Object.keys(data).find(key => data[key] === curric);
+            let key = Object.keys(data).find(key => data[key] === curric);
             this.curric_name = key;
+            // clean up the display name by doing a quick regex string replace
+            this.curric_name = this.curric_name.replace(/.*: /, "");
           })
           .catch(() => {
           });
