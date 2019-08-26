@@ -1,10 +1,8 @@
 // about.vue
 
 <template>
-  <div id="course" class="container py-1 mt-2">
-    <h1 class="pt-4 pb-2">
-      About Prereq Map
-    </h1>
+  <div id="course" class="container">
+    <h1>About Prereq Map</h1>
 
     <div class="text-left text-dark">
       <p class="h2">
