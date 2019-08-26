@@ -2,7 +2,7 @@
   <div>
     <b-modal
       id="userAcceptance"
-      size="lg"
+      size="md"
       title="Welcome to Prereq Map"
       centered
       scrollable
