@@ -23,6 +23,10 @@ window.show_graph = function(graph_data, course_param) {
   new_graph(graph_div.get(0), graph_data.x, course_param);
 };
 
+window.hide_graph = function() {
+  $("#graph_container").empty();
+}
+
 function px(x) {
   if (typeof x === "number") return x + "px";
   else return x;

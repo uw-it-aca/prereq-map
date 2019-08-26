@@ -23,9 +23,13 @@
         </b-form>
       </div>
     </div>
-    <h2 class="mt-4">
-      {{ curric_name }}
-    </h2>
+    <div class="row mt-5">
+      <div class="col-md-12">
+        <h2>
+          {{ curric_name }}
+        </h2>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -37,14 +41,25 @@
     data() {
       return {
         query: "",
-        selected_curric: null,
         curric_list: [],
         curric_objs: null,
         curric_name: undefined,
+        course_param: undefined,
       };
     },
-
+    watch: {
+      // watch changes in curric param route changes
+      "$route.query.curric": function() {
+        this.curric_param = this.$route.query.curric;
+        if (this.curric_param !== undefined) {
+          // set the curric name based on the curric code
+          this.curric_name = this.getCurricName(this.curric_param);
+        }
+      }
+    },
     mounted() {
+
+      // get the list of currics and store in an object
       axios.get("/api/curric_typeahead").then(res => {
         this.curric_objs = res.data;
         var curric_list = [];
@@ -54,8 +69,12 @@
         });
         this.curric_list = curric_list;
 
-        // eslint-disable-next-line no-console
-        console.log(this.curric_objs);
+        // if the param was included in the request... convert it
+        this.curric_param = this.$route.query.curric;
+        if (this.curric_param !== undefined) {
+          // set the curric name based on the curric param in the request
+          this.curric_name = this.getCurricName(this.curric_param);
+        }
 
       });
     },
@@ -65,7 +84,6 @@
         e.preventDefault();
 
         var curric_code = this.curric_objs[this.query];
-        this.curric_name = this.query;
 
         if (curric_code !== undefined){
           // eslint-disable-next-line no-unused-vars
@@ -74,7 +92,17 @@
           // eslint-disable-next-line no-unused-vars
           this.$router.push("/curriculum/").catch(err => {});
         }
+
+        // set the curric name based on the curric code
+        this.curric_name = this.getCurricName(curric_code);
+
       },
+      getCurricName: function(curric) {
+        var data = this.curric_objs;
+        // find key by curric value
+        const key = Object.keys(data).find(key => data[key] === curric);
+        return key;
+      }
     }
   };
 </script>

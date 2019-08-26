@@ -13,12 +13,12 @@
 
     <curric-typeahead />
 
-    <div class="row mt-5 mb-5">
-      <div class="col-md-9 mb-3">
+    <div class="row mt-2 mb-5">
+      <div class="col-md-9">
         <curric-graph />
       </div>
       <div class="col-sm-12 col-md-3">
-        <course-infobox ref="infobox" />
+        <course-infobox />
       </div>
     </div>
   </div>

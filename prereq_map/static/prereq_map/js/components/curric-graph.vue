@@ -1,10 +1,10 @@
 <template>
   <div v-if="curric_param !== undefined">
     <div>
+      <div id="graph_container" />
       <small v-if="graph_error === false" class="text-secondary">
         Use the scroll function on your mouse or touchpad to zoom in and out
       </small>
-      <div id="graph_container" />
       <small v-if="graph_error === false">
         The map only displays prerequisite relationships within the selected
         curriculum. View course details to see prerequisites from other
@@ -34,7 +34,6 @@
     data() {
       return {
         curric_param: undefined,
-        //curric_name: undefined,
         course_param: undefined,
         curric_data: [],
         course_list: [],
@@ -44,23 +43,23 @@
     watch: {
       curric_data: function() {
         if (this.curric_data.length != 0) {
+          // show the graph
           window.show_graph(this.curric_data, this.course_param);
         } else {
           this.graph_error = true;
-          // hide the graph some how!!!
-
+          // hide the graph
+          window.hide_graph();
         }
       },
 
       "$route.query.curric": function() {
         // react to route changes...
-
         this.curric_param = this.$route.query.curric;
         this.course_param = this.$route.query.course;
 
         if (this.curric_param !== undefined) {
           this.getCurric();
-          //this.getCurricName(this.curric_param);
+
           // update page title
           document.title =
             this.curric_param + " - Curriculum Search - Prereq Map";
@@ -73,7 +72,6 @@
 
       if (this.curric_param !== undefined) {
         this.getCurric();
-        //this.getCurricName(this.curric_param);
 
         // update page title
         document.title = this.curric_param + " - Curriculum Search - Prereq Map";
@@ -93,21 +91,7 @@
             this.graph_error = true;
             this.curric_data = [];
           });
-      },
-      /*
-      getCurricName: function(curric) {
-        return axios
-          .get("/api/curric_typeahead/")
-          .then(response => {
-            var data = response.data;
-            // find key by curric value
-            const key = Object.keys(data).find(key => data[key] === curric);
-            this.curric_name = key;
-          })
-          .catch(() => {
-
-          });
-      }*/
+      }
     }
   };
 </script>
