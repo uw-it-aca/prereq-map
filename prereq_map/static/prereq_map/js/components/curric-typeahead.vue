@@ -33,21 +33,25 @@
       return {
         query: "",
         curric_list: [],
-        curric_objs: null,
+        curric_objs: {},
         course_param: undefined,
       };
     },
     mounted() {
 
-      // get the list of currics and store in an object
+      // get the list of currics and store in an array
       axios.get("/api/curric_typeahead").then(res => {
+        
+        // first, store the response data into an object
         this.curric_objs = res.data;
-        var curric_list = [];
 
+        // next, take the response data and create an array of currics
+        let data = [];
         $(res.data).each(function(idx, value) {
-          curric_list.push(...Object.keys(value));
+          data.push(...Object.keys(value));
         });
-        this.curric_list = curric_list;
+        // save those in the curric list
+        this.curric_list = data;
 
       });
     },
@@ -56,8 +60,10 @@
       processForm: function(e) {
         e.preventDefault();
 
-        var curric_code = this.curric_objs[this.query];
+        // get the code (param) of the curric being queried
+        let curric_code = this.curric_objs[this.query];
 
+        // use the curric code and update the query param in the url
         if (curric_code !== undefined){
           // eslint-disable-next-line no-unused-vars
           this.$router.push("/curriculum/?curric=" + curric_code).catch(err => {});
