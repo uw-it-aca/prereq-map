@@ -6,7 +6,7 @@
     <h1>Curriculum Search</h1>
     <p>View the prerequisite map of courses in a curriculum</p>
 
-    <curric-typeahead />
+    <curric-typeahead v-if="dataReady" :myList="curric_list" :myObj="curric_objs" />
 
     <div class="row">
       <div class="col-md-12">
@@ -43,6 +43,10 @@
       return {
         curric_name: undefined,
         curric_param: undefined,
+        curric_list: [],
+        curric_objs: {},
+        name: "Bob",
+        dataReady: false
       };
     },
     watch: {
@@ -57,8 +61,12 @@
         }
       }
     },
-    mounted() {
+    created() {
       document.title = "Curriculum Search - Prereq Map";
+      console.log("parent created");
+
+      // get curric data from api
+      this.getCurricData();
 
       // if the param was included in the request... convert it
       this.curric_param = this.$route.query.curric;
@@ -69,7 +77,39 @@
         this.curric_name = undefined;
       }
     },
+    mounted() {
+      console.log('parent mounted');
+    },
     methods: {
+      getCurricData: function() {
+        // get the list of currics and store in an array
+        axios
+          .get("/api/curric_typeahead")
+          .then(res => {
+            // first, store the response data into an object
+            this.curric_objs = res.data;
+
+            // next, take the response data and create an array of currics
+            let data = [];
+            $(res.data).each(function(idx, value) {
+              data.push(...Object.keys(value));
+            });
+            // save those in the curric list
+            this.curric_list = data;
+            
+            console.log("getting data");
+            //console.log(this.curric_objs);
+            //console.log(this.curric_list);
+
+            // THIS IS CRUCIAL WHEN DEALING WITH ASYC DATA CALLS... GUARD AGAINST RACE CONDITIONS!!!
+            this.dataReady = true;
+          
+          })
+          .catch(() => {
+          });
+
+          
+      },
       getCurricName: function(curric) {
         return axios
           .get("/api/curric_typeahead/")

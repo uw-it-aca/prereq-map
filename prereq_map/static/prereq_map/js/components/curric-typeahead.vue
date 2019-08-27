@@ -29,6 +29,16 @@
 
   export default {
     filters: {},
+    props: {
+      myObj: {
+        type: Object,
+        required: true
+      },
+      myList: {
+        type: Array,
+        required: true
+      }
+    },
     data() {
       return {
         query: "",
@@ -37,7 +47,12 @@
         course_param: undefined,
       };
     },
-    mounted() {
+    created() {
+      
+      //execute your code
+      console.log('child created');
+      console.log(this.myObj);
+      console.log(this.myList);
 
       // get the list of currics and store in an array
       axios.get("/api/curric_typeahead").then(res => {
@@ -54,6 +69,9 @@
         this.curric_list = data;
 
       });
+    },
+    mounted() {
+      console.log('child mounted');
     },
 
     methods: {
