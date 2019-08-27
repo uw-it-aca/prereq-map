@@ -12,7 +12,7 @@
             list="my-list-id"
             autocomplete="off"
           />
-          <b-form-datalist id="my-list-id" :options="curric_list" />
+          <b-form-datalist id="my-list-id" :options="myList" />
           <b-input-group-append>
             <b-button variant="primary" type="submit">
               Search
@@ -25,8 +25,6 @@
 </template>
 
 <script>
-  import axios from "axios";
-
   export default {
     filters: {},
     props: {
@@ -42,44 +40,17 @@
     data() {
       return {
         query: "",
-        curric_list: [],
-        curric_objs: {},
-        course_param: undefined,
       };
     },
-    created() {
-      
-      //execute your code
-      console.log('child created');
-      console.log(this.myObj);
-      console.log(this.myList);
-
-      // get the list of currics and store in an array
-      axios.get("/api/curric_typeahead").then(res => {
-        
-        // first, store the response data into an object
-        this.curric_objs = res.data;
-
-        // next, take the response data and create an array of currics
-        let data = [];
-        $(res.data).each(function(idx, value) {
-          data.push(...Object.keys(value));
-        });
-        // save those in the curric list
-        this.curric_list = data;
-
-      });
-    },
-    mounted() {
-      console.log('child mounted');
-    },
-
     methods: {
       processForm: function(e) {
         e.preventDefault();
 
         // get the code (param) of the curric being queried
-        let curric_code = this.curric_objs[this.query];
+        let curric_code = this.myObj[this.query];
+
+        //console.log("call curric code");
+        //console.log(curric_code);
 
         // use the curric code and update the query param in the url
         if (curric_code !== undefined){

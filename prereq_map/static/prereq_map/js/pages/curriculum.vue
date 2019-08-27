@@ -45,7 +45,6 @@
         curric_param: undefined,
         curric_list: [],
         curric_objs: {},
-        name: "Bob",
         dataReady: false
       };
     },
@@ -53,37 +52,41 @@
       // watch changes in curric param route changes
       "$route.query.curric": function() {
         this.curric_param = this.$route.query.curric;
+
+
         if (this.curric_param !== undefined) {
           // set the curric name based on the curric code
           this.getCurricName(this.curric_param);
         } else {
           this.curric_name = undefined;
         }
-      }
-    },
-    created() {
-      document.title = "Curriculum Search - Prereq Map";
-      console.log("parent created");
+      },
 
-      // get curric data from api
-      this.getCurricData();
+      // watch the curric_obj for when it gets populated with data
+      curric_objs: function() {
 
-      // if the param was included in the request... convert it
-      this.curric_param = this.$route.query.curric;
-      if (this.curric_param !== undefined) {
-        // set the curric name based on the curric param in the request
-        this.getCurricName(this.curric_param);
-      } else {
-        this.curric_name = undefined;
+        // handle manual url changes and page loads
+        // ensure that curric_objs is not empty so that it can get processed
+        this.curric_param = this.$route.query.curric;
+
+        if (this.curric_param !== undefined) {
+          // set the curric name based on the curric code
+          this.getCurricName(this.curric_param);
+        } else {
+          this.curric_name = undefined;
+        }
+
       }
     },
     mounted() {
-      console.log('parent mounted');
+      document.title = "Curriculum Search - Prereq Map";
+      // get curric data from api
+      this.getCurricData();
     },
     methods: {
       getCurricData: function() {
         // get the list of currics and store in an array
-        axios
+        return axios
           .get("/api/curric_typeahead")
           .then(res => {
             // first, store the response data into an object
@@ -94,36 +97,28 @@
             $(res.data).each(function(idx, value) {
               data.push(...Object.keys(value));
             });
-            // save those in the curric list
+            // save those in the curric list and set data ready flag true
             this.curric_list = data;
-            
-            console.log("getting data");
-            //console.log(this.curric_objs);
-            //console.log(this.curric_list);
-
-            // THIS IS CRUCIAL WHEN DEALING WITH ASYC DATA CALLS... GUARD AGAINST RACE CONDITIONS!!!
             this.dataReady = true;
-          
+            
           })
           .catch(() => {
           });
 
-          
       },
       getCurricName: function(curric) {
-        return axios
-          .get("/api/curric_typeahead/")
-          .then(response => {
-            var data = response.data;
-            // find key by curric value
-            let key = Object.keys(data).find(key => data[key] === curric);
-            this.curric_name = key;
-            // clean up the display name by doing a quick regex string replace
-            this.curric_name = this.curric_name.replace(/.*: /, "");
-          })
-          .catch(() => {
-          });
+        
+        // assign data from global curric_objs after it has been populated
+        let data = this.curric_objs;
+  
+        // find key by curric value
+        let key = Object.keys(data).find(key => data[key] === curric);
+        this.curric_name = key;
+        // clean up the display name by doing a quick regex string replace
+        this.curric_name = this.curric_name.replace(/.*: /, "");
+        return this.curric_name;
       }
+
     }
   };
 </script>
