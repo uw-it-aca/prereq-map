@@ -47,11 +47,9 @@
         e.preventDefault();
 
         // get the code (param) of the curric being queried
-        let curric_code = this.myObj[this.query];
-
-        //console.log("call curric code");
-        //console.log(curric_code);
-
+        // make sure it is encoded to handle & (e.g. EDC&I)
+        let curric_code = encodeURIComponent(this.myObj[this.query]);
+        
         // use the curric code and update the query param in the url
         if (curric_code !== undefined){
           // eslint-disable-next-line no-unused-vars

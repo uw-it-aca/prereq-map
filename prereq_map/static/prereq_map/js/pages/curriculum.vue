@@ -8,7 +8,7 @@
 
     <curric-typeahead v-if="dataReady" :myList="curric_list" :myObj="curric_objs" />
 
-    <div class="row">
+    <div v-if="curric_name" class="row">
       <div class="col-md-12">
         <h2>{{ curric_name }}</h2>
       </div>
@@ -52,8 +52,7 @@
       // watch changes in curric param route changes
       "$route.query.curric": function() {
         this.curric_param = this.$route.query.curric;
-
-
+  
         if (this.curric_param !== undefined) {
           // set the curric name based on the curric code
           this.getCurricName(this.curric_param);
@@ -64,7 +63,7 @@
 
       // watch the curric_obj for when it gets populated with data
       curric_objs: function() {
-
+        
         // handle manual url changes and page loads
         // ensure that curric_objs is not empty so that it can get processed
         this.curric_param = this.$route.query.curric;
