@@ -6,7 +6,7 @@
     <h1>Curriculum Search</h1>
     <p>View the prerequisite map of courses in a curriculum</p>
 
-    <curric-typeahead v-if="dataReady" :myList="curric_list" :myObj="curric_objs" />
+    <curric-typeahead v-if="dataReady" :curricObj="curric_objs" />
 
     <div v-if="curric_name" class="row">
       <div class="col-md-12">
@@ -43,7 +43,6 @@
       return {
         curric_name: undefined,
         curric_param: undefined,
-        curric_list: [],
         curric_objs: {},
         dataReady: false
       };
@@ -52,7 +51,6 @@
       // watch changes in curric param route changes
       "$route.query.curric": function() {
         this.curric_param = this.$route.query.curric;
-  
         if (this.curric_param !== undefined) {
           // set the curric name based on the curric code
           this.getCurricName(this.curric_param);
@@ -63,11 +61,9 @@
 
       // watch the curric_obj for when it gets populated with data
       curric_objs: function() {
-        
         // handle manual url changes and page loads
-        // ensure that curric_objs is not empty so that it can get processed
         this.curric_param = this.$route.query.curric;
-
+        // ensure that curric_objs is not empty so that it can get processed
         if (this.curric_param !== undefined) {
           // set the curric name based on the curric code
           this.getCurricName(this.curric_param);
@@ -87,29 +83,17 @@
         // get the list of currics and store in an array
         return axios
           .get("/api/curric_typeahead")
-          .then(res => {
-            // first, store the response data into an object
-            this.curric_objs = res.data;
-
-            // next, take the response data and create an array of currics
-            let data = [];
-            $(res.data).each(function(idx, value) {
-              data.push(...Object.keys(value));
-            });
-            // save those in the curric list and set data ready flag true
-            this.curric_list = data;
+          .then(response => {
+            // store the response data into an object
+            this.curric_objs = response.data;
             this.dataReady = true;
-            
           })
           .catch(() => {
           });
-
       },
       getCurricName: function(curric) {
-        
         // assign data from global curric_objs after it has been populated
         let data = this.curric_objs;
-  
         // find key by curric value
         let key = Object.keys(data).find(key => data[key] === curric);
         this.curric_name = key;
@@ -117,7 +101,6 @@
         this.curric_name = this.curric_name.replace(/.*: /, "");
         return this.curric_name;
       }
-
     }
   };
 </script>

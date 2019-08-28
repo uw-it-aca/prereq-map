@@ -12,7 +12,7 @@
             list="my-list-id"
             autocomplete="off"
           />
-          <b-form-datalist id="my-list-id" :options="myList" />
+          <b-form-datalist id="my-list-id" :options="curric_list" />
           <b-input-group-append>
             <b-button variant="primary" type="submit">
               Search
@@ -28,19 +28,24 @@
   export default {
     filters: {},
     props: {
-      myObj: {
+      curricObj: {
         type: Object,
-        required: true
-      },
-      myList: {
-        type: Array,
         required: true
       }
     },
     data() {
       return {
         query: "",
+        curric_list: undefined
       };
+    },
+    mounted() {
+      // take the obj prop and create an array of currics to populate the datalist
+      let data = [];
+      $(this.curricObj).each(function(idx, value) {
+        data.push(...Object.keys(value));
+      });
+      this.curric_list = data;
     },
     methods: {
       processForm: function(e) {
@@ -48,8 +53,8 @@
 
         // get the code (param) of the curric being queried
         // make sure it is encoded to handle & (e.g. EDC&I)
-        let curric_code = this.myObj[this.query];
-        
+        let curric_code = this.curricObj[this.query];
+
         // use the curric code and update the query param in the url
         if (curric_code !== undefined){
           // eslint-disable-next-line no-unused-vars
