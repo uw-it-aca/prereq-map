@@ -50,33 +50,19 @@
     watch: {
       // watch changes in curric param route changes
       "$route.query.curric": function() {
-        this.curric_param = this.$route.query.curric;
-        if (this.curric_param !== undefined) {
-          // set the curric name based on the curric code
-          this.getCurricName(this.curric_param);
-        } else {
-          this.curric_name = undefined;
-        }
-      },
-
-      // watch the curric_obj for when it gets populated with data
-      curric_objs: function() {
-        // handle manual url changes and page loads
-        this.curric_param = this.$route.query.curric;
-        // ensure that curric_objs is not empty so that it can get processed
-        if (this.curric_param !== undefined) {
-          // set the curric name based on the curric code
-          this.getCurricName(this.curric_param);
-        } else {
-          this.curric_name = undefined;
-        }
-
+        this.getCurricName();
       }
     },
     mounted() {
       document.title = "Curriculum Search - Prereq Map";
       // get curric data from api
       this.getCurricData();
+
+      // wait 1 sec until data is loaded before trying to process a curric name
+      setTimeout(() => {
+        this.getCurricName();
+      },1000);
+
     },
     methods: {
       getCurricData: function() {
@@ -91,11 +77,15 @@
           .catch(() => {
           });
       },
-      getCurricName: function(curric) {
+      getCurricName: function() {
+
+        // get the curric param from the queary params
+        this.curric_param = this.$route.query.curric;
+
         // assign data from global curric_objs after it has been populated
         let data = this.curric_objs;
         // find key by curric value
-        let key = Object.keys(data).find(key => data[key] === curric);
+        let key = Object.keys(data).find(key => data[key] === this.curric_param);
         this.curric_name = key;
         // clean up the display name by doing a quick regex string replace
         this.curric_name = this.curric_name.replace(/.*: /, "");
