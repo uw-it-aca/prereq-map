@@ -82,14 +82,19 @@
         // get the curric param from the queary params
         this.curric_param = this.$route.query.curric;
 
-        // assign data from global curric_objs after it has been populated
-        let data = this.curric_objs;
-        // find key by curric value
-        let key = Object.keys(data).find(key => data[key] === this.curric_param);
-        this.curric_name = key;
-        // clean up the display name by doing a quick regex string replace
-        this.curric_name = this.curric_name.replace(/.*: /, "");
-        return this.curric_name;
+        if (this.curric_param !== undefined) {
+          // assign data from global curric_objs after it has been populated
+          let data = this.curric_objs;
+          // find key by curric value
+          let key = Object.keys(data).find(key => data[key] === this.curric_param);
+          this.curric_name = key;
+          // clean up the display name by doing a quick regex string replace
+          this.curric_name = this.curric_name.replace(/.*: /, "");
+          return this.curric_name;
+        } else {
+          this.curric_name = undefined;
+        }
+
       }
     }
   };
