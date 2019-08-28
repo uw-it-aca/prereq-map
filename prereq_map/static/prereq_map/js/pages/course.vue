@@ -72,6 +72,8 @@
           this.getCourse();
           // update page title
           document.title = this.course_param + " - Course Search - Prereq Map";
+        } else {
+          this.loading = undefined;
         }
       }
     },
@@ -107,7 +109,7 @@
           .catch(() => {
             this.course_valid = false;
             // hide the loading spinner to show responses
-            this.loading = false;
+            this.loading = undefined;
             //console.log("error " + error);
           });
       }

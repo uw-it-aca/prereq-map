@@ -13,7 +13,7 @@
           </div>
         </div>
 
-        <div>
+        <div class="mt-3">
           <strong>Is a prerequisite for:</strong>
           <ul class="prereq-list">
             <li v-if="postreqs.length === 0">
