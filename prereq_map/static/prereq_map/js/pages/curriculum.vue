@@ -18,7 +18,7 @@
         <curric-list />
       </div>
     </div>
-    <div class="row">
+    <div class="row" aria-hidden="true">
       <div class="col-md-9">
         <curric-graph />
       </div>

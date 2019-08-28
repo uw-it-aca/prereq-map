@@ -20,28 +20,28 @@
 
     <ul v-if="list_error === false" class="list-unstyled">
       <li>
-        <strong><a href="#">ANTH 215</a> Technologies of Health (5) I&S/VLPA</strong>
+        <a href="#">ANTH 215</a> Technologies of Health (5) I&S/VLPA
         <p>
           Prerequisite: none<br>
           Is a prerequisite for: ANTH 303, BIO A 420
         </p>
       </li>
       <li>
-        <strong><a href="#">ANTH 303</a> Technologies of Health (5) I&S/VLPA</strong>
+        <a href="#">ANTH 303</a> Technologies of Health (5) I&S/VLPA
         <p>
           Prerequisite: ANTH 208, ANTH 215, or ANTH 302.<br>
           Is a prerequisite for: No other courses
         </p>
       </li>
       <li>
-        <strong><a href="#">ANTH 314</a> Ethnography, Transnationalism, and Community in Island Southeast Asia/Asian America (5) I&amp;S, DIV</strong>
+        <a href="#">ANTH 314</a> Ethnography, Transnationalism, and Community in Island Southeast Asia/Asian America (5) I&amp;S, DIV
         <p>
           Prerequisite: either one 200-level ANTH course or one AAS/AES course.<br>
           Is a prerequisite for: No other courses
         </p>
       </li>
       <li>
-        <strong><a href="#">ANTH 318</a> Anthropology of Islam and Muslim Societies (3/5) I&amp;S</strong>
+        <a href="#">ANTH 318</a> Anthropology of Islam and Muslim Societies (3/5) I&amp;S
         <p>
           Prerequisite: one 200-level anthropology course.<br>
           Is a prerequisite for: No other courses
@@ -63,18 +63,6 @@
       };
     },
     watch: {
-
-      curric_data: function() {
-        if (this.curric_data.length != 0) {
-          // show the graph
-          window.show_graph(this.curric_data, this.course_param);
-        } else {
-          this.list_error = true;
-          // hide the graph
-          window.hide_graph();
-        }
-      },
-
       "$route.query.curric": function() {
         // react to route changes...
         this.curric_param = this.$route.query.curric;
@@ -90,7 +78,6 @@
     },
     mounted() {
       this.curric_param = this.$route.query.curric;
-      this.course_param = this.$route.query.course;
 
       if (this.curric_param !== undefined) {
         this.getCurric();
