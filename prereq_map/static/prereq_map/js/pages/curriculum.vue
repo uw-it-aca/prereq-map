@@ -8,9 +8,14 @@
 
     <curric-typeahead v-if="dataReady" :curricObj="curric_objs" />
 
-    <div v-if="curric_name" class="row">
+    <div v-if="curric_name" class="row mb-4">
       <div class="col-md-12">
         <h2>{{ curric_name }}</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <curric-list />
       </div>
     </div>
     <div class="row">
@@ -30,6 +35,7 @@
   import CourseInfoBox from "../components/course-infobox.vue";
   import Typeahead from "../components/curric-typeahead.vue";
   import Graph from "../components/curric-graph.vue";
+  import CurricList from "../components/curric-list.vue";
 
   export default {
     name: "Curriculum",
@@ -37,6 +43,7 @@
       "user-accept": UserAccept,
       "curric-typeahead": Typeahead,
       "curric-graph": Graph,
+      "curric-list": CurricList,
       "course-infobox": CourseInfoBox
     },
     data() {
