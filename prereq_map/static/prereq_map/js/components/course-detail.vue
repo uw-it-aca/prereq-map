@@ -51,7 +51,7 @@
           </a>
         </p>
       </div>
-      <div class="col-md-5">
+      <div class="col-md-5" aria-hidden="true">
         <course-graph :course-param="courseParam" />
       </div>
     </div>
