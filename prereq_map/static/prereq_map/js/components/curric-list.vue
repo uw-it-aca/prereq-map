@@ -18,33 +18,12 @@
       <p>Remember to talk to your adviser when course planning.</p>
     </div>
 
-    <ul v-if="list_error === false" class="list-unstyled">
+    <ul v-if="list_error === false" v-for="course in course_list" class="list-unstyled">
       <li>
-        <a href="#">ANTH 215</a> Technologies of Health (5) I&S/VLPA
+        <a href="#">{{ course.curric }} {{ course.code }}</a> {{ course.title }}
         <p>
           Prerequisite: none<br>
           Is a prerequisite for: ANTH 303, BIO A 420
-        </p>
-      </li>
-      <li>
-        <a href="#">ANTH 303</a> Technologies of Health (5) I&S/VLPA
-        <p>
-          Prerequisite: ANTH 208, ANTH 215, or ANTH 302.<br>
-          Is a prerequisite for: No other courses
-        </p>
-      </li>
-      <li>
-        <a href="#">ANTH 314</a> Ethnography, Transnationalism, and Community in Island Southeast Asia/Asian America (5) I&amp;S, DIV
-        <p>
-          Prerequisite: either one 200-level ANTH course or one AAS/AES course.<br>
-          Is a prerequisite for: No other courses
-        </p>
-      </li>
-      <li>
-        <a href="#">ANTH 318</a> Anthropology of Islam and Muslim Societies (3/5) I&amp;S
-        <p>
-          Prerequisite: one 200-level anthropology course.<br>
-          Is a prerequisite for: No other courses
         </p>
       </li>
     </ul>
@@ -57,7 +36,7 @@
     data() {
       return {
         curric_param: undefined,
-        curric_data: [],
+        curric_data: {},
         course_list: [],
         list_error: undefined
       };
@@ -81,9 +60,6 @@
 
       if (this.curric_param !== undefined) {
         this.getCurric();
-
-        // update page title
-        document.title = this.curric_param + " - Curriculum Search - Prereq Map";
       }
     },
     methods: {
@@ -91,15 +67,36 @@
         return axios
           .get("/api/curric/" + encodeURI(this.curric_param))
           .then(response => {
+            // store the response data into an object
             this.curric_data = response.data;
             this.list_error = false;
+          })
+          .then(() => {
+
+            this.get_courses();
+
+
           })
           .catch(() => {
             // show the graph error and clear previous curric data
             this.list_error = true;
             this.curric_data = [];
           });
-      }
+      },
+      get_courses: function() {
+
+        this.course_list = [
+          { curric: 'ANTH', code: '203', title: 'This is my course name'},
+          { curric: 'ANTH', code: '204', title: 'kalsdj lasdkfj lkasdfjlk asdf'},
+          { curric: 'ANTH', code: '300', title: 'SADTjasld dsfkjasdkfj'},
+        ];
+
+        // eslint-disable-next-line no-console
+        console.log(this.course_list);
+        // eslint-disable-next-line no-console
+        console.log(this.curric_data.x.nodes);
+
+      },
     }
   };
 </script>
