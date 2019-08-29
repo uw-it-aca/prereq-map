@@ -85,11 +85,18 @@
       },
       get_courses: function() {
 
-        this.course_list = [
-          { curric: 'ANTH', code: '203', title: 'This is my course name'},
-          { curric: 'ANTH', code: '204', title: 'kalsdj lasdkfj lkasdfjlk asdf'},
-          { curric: 'ANTH', code: '300', title: 'SADTjasld dsfkjasdkfj'},
-        ];
+        var nodes = this.curric_data.x.nodes;
+        var nodeslen = Object.values(nodes.course_number).length;
+
+        for (let i = 0; i < nodeslen; i++) {
+            var courseObj = {};
+            courseObj.curric = nodes.department_abbrev[i];
+            courseObj.code = nodes.course_number[i];
+            courseObj.title = nodes.course_title[i];
+            this.course_list.push(courseObj);
+            console.log(this.course_list);
+        }
+
 
         // eslint-disable-next-line no-console
         console.log(this.course_list);
