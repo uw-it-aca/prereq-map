@@ -17,8 +17,8 @@
       <p>Remember to talk to your adviser when course planning.</p>
     </div>
 
-    <ul v-if="list_error === false" v-for="course in course_list" class="list-unstyled">
-      <li>
+    <ul v-if="list_error === false" class="list-unstyled">
+      <li v-for="course in course_list">
         <router-link :to="'/course/?course=' + course.curric + ' ' + course.code">
           {{ course.curric }} {{ course.code }}
         </router-link>
