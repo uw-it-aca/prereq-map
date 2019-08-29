@@ -1,7 +1,6 @@
 <template>
   <div v-if="curric_param !== undefined" style="outline: solid 1px #f00;">
     <p>The following is a list of courses in this Curriculum that have an association.</p>
-    <p>The param: {{ curric_param }}</p>
 
     <div v-if="list_error === true">
       <p>
@@ -20,7 +19,10 @@
 
     <ul v-if="list_error === false" v-for="course in course_list" class="list-unstyled">
       <li>
-        <a href="#">{{ course.curric }} {{ course.code }}</a> {{ course.title }}
+        <router-link :to="'/course/?course=' + course.curric + ' ' + course.code">
+          {{ course.curric }} {{ course.code }}
+        </router-link>
+        {{ course.title }}
         <p>
           Prerequisite: none<br>
           Is a prerequisite for: ANTH 303, BIO A 420
@@ -72,36 +74,34 @@
             this.list_error = false;
           })
           .then(() => {
-
+            // get the corresponding list of courses
             this.get_courses();
-
-
           })
           .catch(() => {
             // show the graph error and clear previous curric data
             this.list_error = true;
             this.curric_data = [];
+            this.course_list = [];
           });
       },
       get_courses: function() {
 
-        var nodes = this.curric_data.x.nodes;
-        var nodeslen = Object.values(nodes.course_number).length;
+        // start with a fresh empty list of courses
+        this.course_list= [];
 
+        let nodes = this.curric_data.x.nodes;
+        let nodeslen = Object.values(nodes.course_number).length;
+
+        // loop through the nodes
         for (let i = 0; i < nodeslen; i++) {
-            var courseObj = {};
-            courseObj.curric = nodes.department_abbrev[i];
-            courseObj.code = nodes.course_number[i];
-            courseObj.title = nodes.course_title[i];
-            this.course_list.push(courseObj);
-            console.log(this.course_list);
+          let courseObj = {};
+          // get the specific node object and assign it to the temp courseObj
+          courseObj.curric = nodes.department_abbrev[i];
+          courseObj.code = nodes.course_number[i];
+          courseObj.title = nodes.course_title[i];
+          // save the courseObj to the global course list used by the template
+          this.course_list.push(courseObj);
         }
-
-
-        // eslint-disable-next-line no-console
-        console.log(this.course_list);
-        // eslint-disable-next-line no-console
-        console.log(this.curric_data.x.nodes);
 
       },
     }
