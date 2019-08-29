@@ -55,7 +55,7 @@
       };
     },
     watch: {
-      // watch changes in curric param route changes
+      // watch changes in curric param route changes and get the curric name
       "$route.query.curric": function() {
         this.getCurricName();
       }
@@ -64,12 +64,6 @@
       document.title = "Curriculum Search - Prereq Map";
       // get curric data from api
       this.getCurricData();
-
-      // wait 1 sec until data is loaded before trying to process a curric name
-      setTimeout(() => {
-        this.getCurricName();
-      },1000);
-
     },
     methods: {
       getCurricData: function() {
@@ -79,7 +73,12 @@
           .then(response => {
             // store the response data into an object
             this.curric_objs = response.data;
+          })
+          .then(() => {
             this.dataReady = true;
+            // once the data is ready... get the curric name if one is passed in the params
+            // on first load
+            this.getCurricName();
           })
           .catch(() => {
           });
