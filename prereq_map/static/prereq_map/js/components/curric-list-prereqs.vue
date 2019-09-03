@@ -1,9 +1,27 @@
 <template>
   <div>
-    <p>
-      Prerequisite: none<br>
-      Is a prerequisite for: ANTH 303, BIO A 420, asdfjasdfkl
-    </p>
+    <div>prereqs</div>
+    <ul class="prereq-list">
+      <li v-if="prereqs.length === 0">
+        No other courses
+      </li>
+      <li v-for="prereq in prereqs" :key="prereq">
+        <router-link :to="'/course/?course=' + prereq">
+          {{ prereq }}
+        </router-link>
+      </li>
+    </ul>
+    <div>postreqs</div>
+    <ul class="prereq-list">
+      <li v-if="postreqs.length === 0">
+        No other courses
+      </li>
+      <li v-for="postreq in postreqs" :key="postreq">
+        <router-link :to="'/course/?course=' + postreq">
+          {{ postreq }}
+        </router-link>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -11,28 +29,48 @@
   import axios from "axios";
 
   export default {
+    props: {
+      courseParam: {
+        type: String,
+        required: true
+      }
+    },
     data() {
       return {
-        course_code: "",
         course_data: undefined,
         prereqs: [],
-        postreqs: [],
+        postreqs: []
       };
     },
 
     watch: {
-
+      course_data: function() {
+        this.prereqs = this.get_prereqs(
+          this.courseParam,
+          this.course_data.data.x.edges.from
+        );
+        this.postreqs = this.get_postreqs(
+          this.courseParam,
+          this.course_data.data.x.edges.to
+        );
+      }
     },
     mounted() {
-      this.course_code = this.$route.query.course;
-
+      this.load_course(this.courseParam);
     },
+
     methods: {
       load_course: function(course_code) {
-        axios.get("/api/course/" + encodeURI(course_code)).then(response => {
-          this.course_data = response;
-          this.loading = false;
-        });
+        axios
+          .get("/api/course/" + encodeURI(course_code))
+          .then(response => {
+            this.course_data = response;
+          })
+          .then(() => {
+            //console.log(this.course_data);
+          })
+          .catch(() => {
+          });
       },
       get_prereqs: function(course, from_list) {
         var keys = Object.keys(from_list);

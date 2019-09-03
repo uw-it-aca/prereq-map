@@ -18,12 +18,12 @@
     </div>
 
     <ul v-if="list_error === false" class="list-unstyled">
-      <li v-for="course in course_list">
+      <li v-for="course in course_list" class="mb-3">
         <router-link :to="'/course/?course=' + course.courseCode">
           {{ course.courseCode }}
-        </router-link> {{ course.title }}
+        </router-link> <strong>{{ course.title }}</strong>
 
-        <curric-list-prereqs />
+        <curric-list-prereqs :courseParam="course.courseCode" />
       </li>
     </ul>
   </div>
