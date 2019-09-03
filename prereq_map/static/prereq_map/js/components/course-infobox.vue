@@ -33,6 +33,19 @@
         </div>
         <div class="card-body bg-light">
           <h3 class="card-title h6">
+            Has the following prerequisite(s):
+          </h3>
+          <ul class="prereq-list">
+            <li v-if="prereqs.length === 0">
+              No other courses
+            </li>
+            <li v-for="prereq in prereqs" :key="prereq">
+              <router-link :to="'/course/?course=' + prereq">
+                {{ prereq }}
+              </router-link>
+            </li>
+          </ul>
+          <h3 class="card-title h6">
             Is a prerequisite for:
           </h3>
           <ul class="prereq-list">

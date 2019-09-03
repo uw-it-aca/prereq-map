@@ -8,12 +8,25 @@
             <span v-if="course_title">- {{ course_title }}</span>
           </h2>
           <!--  eslint-disable-next-line vue/no-v-html -->
-          <div v-if="course_description" v-html="course_description">
+          <div v-if="course_description" v-html="course_description" style="outline: solid 1px #f00;">
             {{ course_description }}
           </div>
         </div>
 
+        <hr>
+
         <div class="mt-3">
+          <strong>Has the following prerequisite:</strong>
+          <ul class="prereq-list">
+            <li v-if="prereqs.length === 0">
+              No other courses
+            </li>
+            <li v-for="prereq in prereqs" :key="prereq">
+              <router-link :to="'/course/?course=' + prereq" exact>
+                {{ prereq }}
+              </router-link>
+            </li>
+          </ul>
           <strong>Is a prerequisite for:</strong>
           <ul class="prereq-list">
             <li v-if="postreqs.length === 0">
