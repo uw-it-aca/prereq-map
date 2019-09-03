@@ -101,6 +101,7 @@
         this.course_title = data.course_title;
         this.course_description = data.course_description;
 
+        /*
         if (this.course_description) {
           // format the description (hack!)
           this.course_description = this.course_description.replace(
@@ -112,6 +113,7 @@
             "<br /><br /><strong>Offered:</strong> "
           );
         }
+        */
 
         this.prereqs = this.get_prereqs(this.courseParam, data.x.edges.from);
         this.postreqs = this.get_postreqs(this.courseParam, data.x.edges.to);

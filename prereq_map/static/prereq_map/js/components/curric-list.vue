@@ -19,9 +19,9 @@
 
     <ul v-if="list_error === false" class="list-unstyled">
       <li v-for="course in course_list" class="mb-3">
-        <router-link :to="'/course/?course=' + course.courseCode">
+        <strong><router-link :to="'/course/?course=' + course.courseCode">
           {{ course.courseCode }}
-        </router-link> <strong>{{ course.title }}</strong>
+        </router-link> {{ course.title }}</strong>
 
         <curric-list-prereqs :courseParam="course.courseCode" />
       </li>
