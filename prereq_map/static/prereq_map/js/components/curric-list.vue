@@ -1,5 +1,5 @@
 <template>
-  <div v-if="curric_param !== undefined" style="outline: solid 1px #f00;">
+  <div v-if="curric_param !== undefined">
     <p>The following is a list of courses in this Curriculum that have an association.</p>
 
     <div v-if="list_error === true">
@@ -18,7 +18,7 @@
     </div>
 
     <ul v-if="list_error === false" class="list-unstyled">
-      <li v-for="course in course_list" class="mb-3">
+      <li v-for="course in course_list" class="mb-3" style="outline: solid 1px #f00;">
         <strong><router-link :to="'/course/?course=' + course.courseCode">
           {{ course.courseCode }}
         </router-link> {{ course.title }}</strong>
