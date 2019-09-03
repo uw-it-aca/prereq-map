@@ -19,10 +19,9 @@
 
     <ul v-if="list_error === false" class="list-unstyled">
       <li v-for="course in course_list">
-        <router-link :to="'/course/?course=' + course.curric + ' ' + course.code">
-          {{ course.curric }} {{ course.code }}
-        </router-link>
-        {{ course.title }}
+        <router-link :to="'/course/?course=' + course.courseCode">
+          {{ course.courseCode }}
+        </router-link> {{ course.title }}
         <p>
           Prerequisite: none<br>
           Is a prerequisite for: ANTH 303, BIO A 420
@@ -96,8 +95,7 @@
         for (let i = 0; i < nodeslen; i++) {
           let courseObj = {};
           // get the specific node object and assign it to the temp courseObj
-          courseObj.curric = nodes.department_abbrev[i];
-          courseObj.code = nodes.course_number[i];
+          courseObj.courseCode = nodes.department_abbrev[i] + " " + nodes.course_number[i];
           courseObj.title = nodes.course_title[i];
           // save the courseObj to the global course list used by the template
           this.course_list.push(courseObj);
