@@ -22,10 +22,8 @@
         <router-link :to="'/course/?course=' + course.courseCode">
           {{ course.courseCode }}
         </router-link> {{ course.title }}
-        <p>
-          Prerequisite: none<br>
-          Is a prerequisite for: ANTH 303, BIO A 420
-        </p>
+
+        <curric-list-prereqs />
       </li>
     </ul>
   </div>
@@ -33,7 +31,12 @@
 
 <script>
   import axios from "axios";
+  import CurricListPrereqs from "../components/curric-list-prereqs.vue";
+
   export default {
+    components: {
+      "curric-list-prereqs": CurricListPrereqs
+    },
     data() {
       return {
         curric_param: undefined,
