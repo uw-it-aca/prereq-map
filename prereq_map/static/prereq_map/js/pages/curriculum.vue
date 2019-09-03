@@ -23,7 +23,7 @@
         <curric-graph />
       </div>
       <div class="col-sm-12 col-md-3">
-        <course-infobox />
+        <curric-infobox />
       </div>
     </div>
   </div>
@@ -32,7 +32,7 @@
 <script>
   import axios from "axios";
   import UserAccept from "../components/user-accept.vue";
-  import CourseInfoBox from "../components/course-infobox.vue";
+  import CurricInfoBox from "../components/curric-infobox.vue";
   import Typeahead from "../components/curric-typeahead.vue";
   import Graph from "../components/curric-graph.vue";
   import CurricList from "../components/curric-list.vue";
@@ -44,7 +44,7 @@
       "curric-typeahead": Typeahead,
       "curric-graph": Graph,
       "curric-list": CurricList,
-      "course-infobox": CourseInfoBox
+      "curric-infobox": CurricInfoBox
     },
     data() {
       return {
