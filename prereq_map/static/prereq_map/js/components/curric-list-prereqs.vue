@@ -32,8 +32,6 @@
 
 <script>
   import axios from "axios";
-  const CancelToken = axios.CancelToken;
-  const source = CancelToken.source();
 
   export default {
     props: {
@@ -52,7 +50,6 @@
     },
 
     watch: {
-  
       course_data: function() {
         this.prereqs = this.get_prereqs(
           this.courseParam,
@@ -62,16 +59,6 @@
           this.courseParam,
           this.course_data.data.x.edges.to
         );
-      },
-      courseParam: function() {
-        // reset all data when new course param is passed via props
-        this.dataReady = false;
-        this.prereqs = [];
-        this.postreqs = [];
-
-        // cancel axios request before loading new course data
-        source.cancel();
-        this.load_course(this.courseParam);
       }
     },
     mounted() {
@@ -81,9 +68,7 @@
     methods: {
       load_course: function(course_code) {
         axios
-          .get("/api/course/" + encodeURI(course_code),{
-            cancelToken: source.token
-          })
+          .get("/api/course/" + encodeURI(course_code))
           .then(response => {
             this.course_data = response;
           })
@@ -91,8 +76,7 @@
             //console.log(this.course_data);
             this.dataReady = true;
           })
-          .catch(() => {
-          });
+          .catch(() => {});
       },
       get_prereqs: function(course, from_list) {
         var keys = Object.keys(from_list);

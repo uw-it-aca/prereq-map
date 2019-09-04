@@ -55,7 +55,6 @@
       "$route.query.curric": function() {
         // react to route changes...
         this.curric_param = this.$route.query.curric;
-        
 
         if (this.curric_param !== undefined) {
           this.dataReady = false;
