@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <div v-if="$mq == 'desktop'" class="row sr-only">
+    <div v-if="$mq == 'desktopxxxx'" class="row sr-only">
       <div class="col-md-12">
         <curric-list />
       </div>

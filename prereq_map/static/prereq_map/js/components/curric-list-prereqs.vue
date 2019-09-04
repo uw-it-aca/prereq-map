@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="dataReady">
-      <small>prereqs</small>
+      <small>prereqs ({{ prereqs.length }})</small>
       <ul class="prereq-list">
         <li v-if="prereqs.length === 0">
           No other courses
@@ -12,17 +12,20 @@
           </router-link>
         </li>
       </ul>
-      <small>postreqs</small>
+      <small>postreqs ({{ postreqs.length }})</small>
       <ul class="prereq-list">
         <li v-if="postreqs.length === 0">
           No other courses
         </li>
-        <li v-for="postreq in postreqs" :key="postreq">
+        <li v-for="(postreq, index) in postreqs" v-if="index <= 4" :key="postreq">
           <router-link :to="'/course/?course=' + postreq">
             {{ postreq }}
           </router-link>
         </li>
       </ul>
+      <div v-if="postreqs.length > 4">
+        There are more postres! Click details to see full list.
+      </div>
     </div>
     <div v-else>
       Loading...
