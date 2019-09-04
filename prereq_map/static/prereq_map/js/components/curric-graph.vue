@@ -1,7 +1,7 @@
 <template>
   <div v-if="curric_param !== undefined">
-    <div>
-      <div id="graph_container" />
+    <div id="graph_container" />
+    <div v-if="dataReady">
       <small v-if="graph_error === false" class="text-secondary">
         Use the scroll function on your mouse or touchpad to zoom in and out
       </small>
@@ -10,6 +10,9 @@
         curriculum. View course details to see prerequisites from other
         curricula.
       </small>
+    </div>
+    <div v-else>
+      Loading...
     </div>
     <div v-if="graph_error === true">
       <p>
@@ -37,7 +40,8 @@
         course_param: undefined,
         curric_data: [],
         course_list: [],
-        graph_error: undefined
+        graph_error: undefined,
+        dataReady: false
       };
     },
     watch: {
@@ -57,12 +61,15 @@
         this.curric_param = this.$route.query.curric;
         this.course_param = this.$route.query.course;
 
+        // reset the graph state by showing the loading message and hiding the graphy
+        window.hide_graph();
+        this.dataReady = false;
+
+        // get the curric data
         if (this.curric_param !== undefined) {
           this.getCurric();
-
           // update page title
-          document.title =
-            this.curric_param + " - Curriculum Search - Prereq Map";
+          document.title = this.curric_param + " - Curriculum Search - Prereq Map";
         }
       }
     },
@@ -84,7 +91,9 @@
           .then(response => {
             this.curric_data = response.data;
             this.graph_error = false;
-            this.loading = false;
+          })
+          .then(() => {
+            this.dataReady = true;
           })
           .catch(() => {
             // show the graph error and clear previous curric data
