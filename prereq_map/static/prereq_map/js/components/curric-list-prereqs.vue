@@ -1,32 +1,39 @@
 <template>
   <div>
-    <div>prereqs</div>
-    <ul class="prereq-list">
-      <li v-if="prereqs.length === 0">
-        No other courses
-      </li>
-      <li v-for="prereq in prereqs" :key="prereq">
-        <router-link :to="'/course/?course=' + prereq">
-          {{ prereq }}
-        </router-link>
-      </li>
-    </ul>
-    <div>postreqs</div>
-    <ul class="prereq-list">
-      <li v-if="postreqs.length === 0">
-        No other courses
-      </li>
-      <li v-for="postreq in postreqs" :key="postreq">
-        <router-link :to="'/course/?course=' + postreq">
-          {{ postreq }}
-        </router-link>
-      </li>
-    </ul>
+    <div v-if="dataReady">
+      <div>prereqs</div>
+      <ul class="prereq-list">
+        <li v-if="prereqs.length === 0">
+          No other courses
+        </li>
+        <li v-for="prereq in prereqs" :key="prereq">
+          <router-link :to="'/course/?course=' + prereq">
+            {{ prereq }}
+          </router-link>
+        </li>
+      </ul>
+      <div>postreqs</div>
+      <ul class="prereq-list">
+        <li v-if="postreqs.length === 0">
+          No other courses
+        </li>
+        <li v-for="postreq in postreqs" :key="postreq">
+          <router-link :to="'/course/?course=' + postreq">
+            {{ postreq }}
+          </router-link>
+        </li>
+      </ul>
+    </div>
+    <div v-else>
+      Loading...
+    </div>
   </div>
 </template>
 
 <script>
   import axios from "axios";
+  const CancelToken = axios.CancelToken;
+  const source = CancelToken.source();
 
   export default {
     props: {
@@ -39,11 +46,13 @@
       return {
         course_data: undefined,
         prereqs: [],
-        postreqs: []
+        postreqs: [],
+        dataReady: false
       };
     },
 
     watch: {
+  
       course_data: function() {
         this.prereqs = this.get_prereqs(
           this.courseParam,
@@ -53,6 +62,16 @@
           this.courseParam,
           this.course_data.data.x.edges.to
         );
+      },
+      courseParam: function() {
+        // reset all data when new course param is passed via props
+        this.dataReady = false;
+        this.prereqs = [];
+        this.postreqs = [];
+
+        // cancel axios request before loading new course data
+        source.cancel();
+        this.load_course(this.courseParam);
       }
     },
     mounted() {
@@ -62,12 +81,15 @@
     methods: {
       load_course: function(course_code) {
         axios
-          .get("/api/course/" + encodeURI(course_code))
+          .get("/api/course/" + encodeURI(course_code),{
+            cancelToken: source.token
+          })
           .then(response => {
             this.course_data = response;
           })
           .then(() => {
             //console.log(this.course_data);
+            this.dataReady = true;
           })
           .catch(() => {
           });

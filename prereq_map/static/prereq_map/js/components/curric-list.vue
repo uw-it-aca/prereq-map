@@ -17,15 +17,20 @@
       <p>Remember to talk to your adviser when course planning.</p>
     </div>
 
-    <ul v-if="list_error === false" class="list-unstyled">
-      <li v-for="course in course_list" class="mb-3" style="outline: solid 1px #f00;">
-        <strong><router-link :to="'/course/?course=' + course.courseCode">
-          {{ course.courseCode }}
-        </router-link> {{ course.title }}</strong>
+    <div v-if="dataReady">
+      <ul v-if="list_error === false" class="list-unstyled">
+        <li v-for="course in course_list" class="mb-3" style="outline: solid 1px #f00;">
+          <strong><router-link :to="'/course/?course=' + course.courseCode">
+            {{ course.courseCode }}
+          </router-link> {{ course.title }}</strong>
 
-        <curric-list-prereqs :courseParam="course.courseCode" />
-      </li>
-    </ul>
+          <curric-list-prereqs :courseParam="course.courseCode" />
+        </li>
+      </ul>
+    </div>
+    <div v-else>
+      Loading...
+    </div>
   </div>
 </template>
 
@@ -42,17 +47,19 @@
         curric_param: undefined,
         curric_data: {},
         course_list: [],
-        list_error: undefined
+        list_error: undefined,
+        dataReady: false
       };
     },
     watch: {
       "$route.query.curric": function() {
         // react to route changes...
         this.curric_param = this.$route.query.curric;
+        
 
         if (this.curric_param !== undefined) {
+          this.dataReady = false;
           this.getCurric();
-
           // update page title
           document.title =
             this.curric_param + " - Curriculum Search - Prereq Map";
@@ -61,7 +68,6 @@
     },
     mounted() {
       this.curric_param = this.$route.query.curric;
-
       if (this.curric_param !== undefined) {
         this.getCurric();
       }
@@ -78,10 +84,12 @@
           .then(() => {
             // get the corresponding list of courses
             this.get_courses();
+            this.dataReady = true;
           })
           .catch(() => {
             // show the graph error and clear previous curric data
             this.list_error = true;
+            this.dataReady = true;
             this.curric_data = [];
             this.course_list = [];
           });
