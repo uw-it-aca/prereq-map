@@ -13,12 +13,19 @@
         <h2>{{ curric_name }}</h2>
       </div>
     </div>
-    <div class="row">
+
+    <div v-if="$mq == 'desktop'" class="row sr-only">
       <div class="col-md-12">
         <curric-list />
       </div>
     </div>
-    <div class="row" aria-hidden="true">
+    <div v-else class="row">
+      <div class="col-md-12">
+        <curric-list />
+      </div>
+    </div>
+
+    <div v-if="$mq == 'desktop'" class="row" aria-hidden="true">
       <div class="col-md-9">
         <curric-graph />
       </div>

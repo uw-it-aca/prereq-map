@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueAnalytics from "vue-analytics";
 import VueAnnouncer from 'vue-announcer';
+import VueMq from 'vue-mq';
 import BootstrapVue from 'bootstrap-vue';
 
 import App from "./App.vue";
@@ -39,6 +40,14 @@ Vue.use(VueAnalytics, {
   debug: {
     enabled: false
     //enabled: debugMode
+  }
+});
+
+Vue.use(VueMq, {
+  breakpoints: { // default breakpoints - customize this
+    mobile: 450,
+    tablet: 900,
+    desktop: Infinity,
   }
 });
 

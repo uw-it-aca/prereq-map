@@ -39,6 +39,7 @@
     "vue-announcer": "^1.0.4",
     "vue-cookies": "^1.5.12",
     "vue-loader": "^15.6.4",
+    "vue-mq": "^1.0.1",
     "vue-router": "^3.1.2",
     "vue-template-compiler": "^2.6.7",
     "vue-underscore": "^0.1.4",
