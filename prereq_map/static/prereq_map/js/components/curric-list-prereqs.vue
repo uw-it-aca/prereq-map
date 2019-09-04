@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="dataReady">
-      <div>prereqs</div>
+      <small>prereqs</small>
       <ul class="prereq-list">
         <li v-if="prereqs.length === 0">
           No other courses
@@ -12,7 +12,7 @@
           </router-link>
         </li>
       </ul>
-      <div>postreqs</div>
+      <small>postreqs</small>
       <ul class="prereq-list">
         <li v-if="postreqs.length === 0">
           No other courses
@@ -105,5 +105,7 @@
 </script>
 
 <style lang="scss">
+
+  small { text-transform: uppercase; }
 
 </style>

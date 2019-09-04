@@ -186,11 +186,11 @@ body {
   margin-right: 5px;
 }
 
-.prereq-list li::after {
+.prereq-list a::after {
   content: ', ';
 }
 
-.prereq-list li:last-child::after {
+.prereq-list li:last-child a::after {
   content: '';
 }
 

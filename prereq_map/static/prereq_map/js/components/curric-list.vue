@@ -1,6 +1,6 @@
 <template>
   <div v-if="curric_param !== undefined">
-    <p>The following is a list of courses in this Curriculum that have an association.</p>
+    <p>The following is a list of courses, in this, Curriculum that have an association.</p>
 
     <div v-if="list_error === true">
       <p>
@@ -19,12 +19,14 @@
 
     <div v-if="dataReady">
       <ul v-if="list_error === false" class="list-unstyled">
-        <li v-for="course in course_list" class="mb-3" style="outline: solid 1px #f00;">
-          <strong><router-link :to="'/course/?course=' + course.courseCode">
-            {{ course.courseCode }}
-          </router-link> {{ course.title }}</strong>
-
-          <curric-list-prereqs :courseParam="course.courseCode" />
+        <li v-for="course in course_list" class="mb-3">
+          <div class="card">
+            <div class="card-body">
+              <strong><router-link :to="'/course/?course=' + course.courseCode">
+                {{ course.courseCode }}: <span class="text-body">{{ course.title }}</span></router-link> </strong>
+              <curric-list-prereqs :courseParam="course.courseCode" />
+            </div>
+          </div>
         </li>
       </ul>
     </div>
