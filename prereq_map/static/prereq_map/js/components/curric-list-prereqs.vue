@@ -12,7 +12,7 @@
           </router-link>
         </li>
       </ul>
-      <small>postreqs ({{ postreqs.length }})</small>
+      <small>postreqs (showing 5 of {{ postreqs.length }})</small>
       <ul class="prereq-list">
         <li v-if="postreqs.length === 0">
           No other courses
