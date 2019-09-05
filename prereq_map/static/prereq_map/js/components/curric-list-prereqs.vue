@@ -1,30 +1,33 @@
 <template>
   <div>
     <div v-if="dataReady">
-      <small>prereqs ({{ prereqs.length }})</small>
-      <ul class="prereq-list">
-        <li v-if="prereqs.length === 0">
-          No other courses
-        </li>
-        <li v-for="prereq in prereqs" :key="prereq">
-          <router-link :to="'/course/?course=' + prereq">{{ prereq }}</router-link>
-        </li>
-      </ul>
-      <small>postreqs (showing 5 of {{ postreqs.length }})</small>
-      <ul class="prereq-list">
-        <li v-if="postreqs.length === 0">
-          No other courses
-        </li>
-        <li
-          v-for="(postreq, index) in postreqs"
-          v-if="index <= 4"
-          :key="postreq"
-        >
-          <router-link :to="'/course/?course=' + postreq">{{ postreq }}</router-link>
-        </li>
-      </ul>
-      <div v-if="postreqs.length > 4">
-        There are more postres! Click details to see full list.
+      <div class="d-flex">
+        <div class="w-100">
+          <small><span class="text-uppercase">Prerequisites</span> ({{ prereqs.length }})</small>
+          <ul v-if="prereqs.length > 0" class="prereq-list mb-2">
+            <li v-for="prereq in prereqs" :key="prereq">
+              <router-link :to="'/course/?course=' + prereq">{{ prereq }}</router-link>
+            </li>
+          </ul>
+          <p v-else>
+            This course has no prerequisites.
+          </p>
+        </div>
+        <div class="w-100">
+          <small v-if="postreqs.length > 5"><span class="text-uppercase">Postrequisites</span> (showing 5 of {{ postreqs.length }})</small>
+          <small v-else><span class="text-uppercase">postreqs</span> ({{ postreqs.length }})</small>
+          <ul v-if="postreqs.length > 0" class="prereq-list mb-2">
+            <li v-for="(postreq, index) in postreqs" v-if="index < 5" :key="postreq">
+              <router-link :to="'/course/?course=' + postreq">{{ postreq }}</router-link>
+            </li>
+          </ul>
+          <p v-else>
+            This course has no postrequisites.
+          </p>
+          <div v-if="postreqs.length > 5">
+            <router-link :to="'/course/?course=' + courseParam">View {{ courseParam }} course details to see more postrequisites</router-link>
+          </div>
+        </div>
       </div>
     </div>
     <div v-else>

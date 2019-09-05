@@ -20,9 +20,9 @@
     <div v-if="dataReady">
       <ul v-if="list_error === false" class="list-unstyled">
         <li v-for="course in course_list" class="mb-3">
-          <div class="card">
-            <div class="card-body">
-              <strong><router-link :to="'/course/?course=' + course.courseCode">
+          <div class="card shadow-sm">
+            <div class="card-body p-3">
+              <strong><router-link :to="'/course/?course=' + course.courseCode" class="d-block mb-2 pb-2 border-bottom">
                 {{ course.courseCode }}: <span class="text-body">{{ course.title }}</span></router-link> </strong>
               <curric-list-prereqs :courseParam="course.courseCode" />
             </div>

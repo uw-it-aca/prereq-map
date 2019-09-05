@@ -11,7 +11,7 @@
     "vue/singleline-html-element-content-newline": ["error", {
       "ignoreWhenNoAttributes": true,
       "ignoreWhenEmpty": true,
-      "ignores": ["router-link"]
+      "ignores": ["pre", "textarea", "small", "router-link"]
     }]
   },
   "env": {
