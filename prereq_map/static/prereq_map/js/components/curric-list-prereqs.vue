@@ -109,6 +109,4 @@
 
 <style lang="scss">
 
-  small { text-transform: uppercase; }
-
 </style>
