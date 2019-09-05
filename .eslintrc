@@ -7,7 +7,12 @@
   "rules": {
     "semi": [2, "always"],
     "vue/max-attributes-per-line": "off",
-    "vue/script-indent" : ["error", 2, { "baseIndent": 1 }]
+    "vue/script-indent" : ["error", 2, { "baseIndent": 1 }],
+    "vue/singleline-html-element-content-newline": ["error", {
+      "ignoreWhenNoAttributes": true,
+      "ignoreWhenEmpty": true,
+      "ignores": ["router-link"]
+    }]
   },
   "env": {
     "browser" : true,

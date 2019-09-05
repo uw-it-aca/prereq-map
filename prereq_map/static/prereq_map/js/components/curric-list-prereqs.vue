@@ -7,9 +7,7 @@
           No other courses
         </li>
         <li v-for="prereq in prereqs" :key="prereq">
-          <router-link :to="'/course/?course=' + prereq">
-            {{ prereq }}
-          </router-link>
+          <router-link :to="'/course/?course=' + prereq">{{ prereq }}</router-link>
         </li>
       </ul>
       <small>postreqs (showing 5 of {{ postreqs.length }})</small>
@@ -17,10 +15,12 @@
         <li v-if="postreqs.length === 0">
           No other courses
         </li>
-        <li v-for="(postreq, index) in postreqs" v-if="index <= 4" :key="postreq">
-          <router-link :to="'/course/?course=' + postreq">
-            {{ postreq }}
-          </router-link>
+        <li
+          v-for="(postreq, index) in postreqs"
+          v-if="index <= 4"
+          :key="postreq"
+        >
+          <router-link :to="'/course/?course=' + postreq">{{ postreq }}</router-link>
         </li>
       </ul>
       <div v-if="postreqs.length > 4">
@@ -108,5 +108,4 @@
 </script>
 
 <style lang="scss">
-
 </style>
