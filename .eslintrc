@@ -9,7 +9,7 @@
     "vue/max-attributes-per-line": "off",
     "vue/script-indent" : ["error", 2, { "baseIndent": 1 }],
     "vue/singleline-html-element-content-newline": ["error", {
-      "ignores": ["router-link", "small"]
+      "ignores": ["router-link", "small", "span", "a"]
     }]
   },
   "env": {
