@@ -1,31 +1,29 @@
 <template>
   <div>
     <div v-if="dataReady">
-      <div class="d-flex">
-        <div class="w-100">
-          <p>Required before enrollment ({{ prereqs.length }})</p>
-          <ul v-if="prereqs.length > 0" class="prereq-list mb-2">
-            <li v-for="prereq in prereqs" :key="prereq">
-              <router-link :to="'/course/?course=' + prereq" class="badge badge-light border">{{ prereq }}</router-link>
-            </li>
-          </ul>
-          <p v-else>
-            This course has no prerequisites.
-          </p>
-        </div>
-        <div class="w-100">
-          <p>Available upon completion ({{ postreqs.length }})</p>
-          <ul v-if="postreqs.length > 0" class="prereq-list mb-2">
-            <li v-for="postreq in postreqs.slice(0, 5)" :key="postreq">
-              <router-link :to="'/course/?course=' + postreq" class="badge badge-light border">{{ postreq }}</router-link>
-            </li>
-            <li v-if="postreqs.length > 5">
-              <router-link :to="'/course/?course=' + courseParam" title="Click for a full list of courses"><small>view more...</small></router-link>
-            </li>
-          </ul>
-          <p v-else>
-            This course has no postrequisites.
-          </p>
+      <div class="mb-3 pb-3 border-bottom">
+        <p>Prerequisites <span class="badge badge-pill badge-dark">{{ prereqs.length }}</span></p>
+        <ul v-if="prereqs.length > 0" class="prereq-list mb-2">
+          <li v-for="prereq in prereqs" :key="prereq">
+            <router-link :to="'/course/?course=' + prereq" class="badge badge-light border">{{ prereq }}</router-link>
+          </li>
+        </ul>
+        <p v-else>
+          This course has no prerequisites.
+        </p>
+      </div>
+      <div>
+        <p>Available upon completion <span class="badge badge-pill badge-dark">{{ postreqs.length }}</span></p>
+        <ul v-if="postreqs.length > 0" class="prereq-list mb-2">
+          <li v-for="postreq in postreqs.slice(0, 5)" :key="postreq">
+            <router-link :to="'/course/?course=' + postreq" class="badge badge-light border">{{ postreq }}</router-link>
+          </li>
+          <li v-if="postreqs.length > 5">
+            <router-link :to="'/course/?course=' + courseParam" title="Click for a full list of courses"><small>view more...</small></router-link>
+          </li>
+        </ul>
+        <div v-else>
+          This course has no postrequisites.
         </div>
       </div>
     </div>
