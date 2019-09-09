@@ -1,32 +1,38 @@
 <template>
   <div>
-    <div v-if="dataReady">
-      <div class="mb-3 pb-3 border-bottom">
-        <p>Prerequisites <span class="badge badge-pill badge-dark">{{ prereqs.length }}</span></p>
-        <ul v-if="prereqs.length > 0" class="prereq-list mb-2">
-          <li v-for="prereq in prereqs" :key="prereq">
-            <router-link :to="'/course/?course=' + prereq" class="badge badge-light border">{{ prereq }}</router-link>
-          </li>
-        </ul>
-        <p v-else>
-          This course has no prerequisites.
-        </p>
-      </div>
-      <div>
-        <p>Available upon completion <span class="badge badge-pill badge-dark">{{ postreqs.length }}</span></p>
-        <ul v-if="postreqs.length > 0" class="prereq-list mb-2">
-          <li v-for="postreq in postreqs.slice(0, 5)" :key="postreq">
-            <router-link :to="'/course/?course=' + postreq" class="badge badge-light border">{{ postreq }}</router-link>
-          </li>
-          <li v-if="postreqs.length > 5">
-            <router-link :to="'/course/?course=' + courseParam" title="Click for a full list of courses"><small>view more...</small></router-link>
-          </li>
-        </ul>
-        <div v-else>
-          This course has no postrequisites.
-        </div>
-      </div>
-    </div>
+    <b-container v-if="dataReady" class="">
+      <b-row>
+        <b-col sm="6" class="p-0 mb-3">
+          <div>
+            <small><strong class="text-dark">Prerequisites</strong> <span class="badge badge-pill badge-light border">{{ prereqs.length }}</span><span class="sr-only">courses</span></small>
+          </div>
+          <ul v-if="prereqs.length > 0" class="prereq-list">
+            <li v-for="prereq in prereqs" :key="prereq">
+              <router-link :to="'/course/?course=' + prereq" class="badge badge-light border">{{ prereq }}</router-link>
+            </li>
+          </ul>
+          <div v-else>
+            <small>This course has no prerequisites.</small>
+          </div>
+        </b-col>
+        <b-col sm="6" class="p-0">
+          <div>
+            <small><strong class="text-dark">Available upon completion</strong> <span class="badge badge-pill badge-light border">{{ postreqs.length }}</span><span class="sr-only">courses</span></small>
+          </div>
+          <ul v-if="postreqs.length > 0" class="prereq-list">
+            <li v-for="postreq in postreqs.slice(0, 7)" :key="postreq">
+              <router-link :to="'/course/?course=' + postreq" class="badge badge-light border">{{ postreq }}</router-link>
+            </li>
+            <li v-if="postreqs.length > 7">
+              <router-link :to="'/course/?course=' + courseParam" title="Click for a full list of courses"><small>view more...</small></router-link>
+            </li>
+          </ul>
+          <div v-else>
+            <small>This course is not a prerequisite for any other courses.</small>
+          </div>
+        </b-col>
+      </b-row>
+    </b-container>
     <div v-else>
       Loading...
     </div>
@@ -108,4 +114,5 @@
 </script>
 
 <style lang="scss">
+  .badge { font-weight: normal; }
 </style>

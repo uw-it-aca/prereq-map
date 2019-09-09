@@ -22,8 +22,8 @@
         <li v-for="course in course_list" class="mb-3">
           <div class="card shadow-sm">
             <div class="card-body p-3">
-              <strong><router-link :to="'/course/?course=' + course.courseCode" class="d-block mb-2 pb-2">
-                {{ course.courseCode }}: <span class="text-body">{{ course.title }}</span></router-link> </strong>
+              <strong><router-link :to="'/course/?course=' + course.courseCode" class="d-block mb-3 h5">
+                {{ course.courseCode }}: {{ course.title }}</router-link></strong>
               <curric-list-prereqs :courseParam="course.courseCode" />
             </div>
           </div>
