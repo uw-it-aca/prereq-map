@@ -4,7 +4,7 @@
       <b-row>
         <b-col sm="6" class="p-0 mb-3">
           <div>
-            <small><strong class="text-dark">Prerequisites</strong> <span class="badge badge-pill badge-light border">{{ prereqs.length }}</span><span class="sr-only">courses</span></small>
+            <small><strong class="text-dark">Prerequisites</strong> <span class="badge badge-pill badge-dark">{{ prereqs.length }}</span><span class="sr-only">courses</span></small>
           </div>
           <ul v-if="prereqs.length > 0" class="prereq-list">
             <li v-for="prereq in prereqs" :key="prereq">
@@ -17,7 +17,7 @@
         </b-col>
         <b-col sm="6" class="p-0">
           <div>
-            <small><strong class="text-dark">Available upon completion</strong> <span class="badge badge-pill badge-light border">{{ postreqs.length }}</span><span class="sr-only">courses</span></small>
+            <small><strong class="text-dark">Available upon completion</strong> <span class="badge badge-pill badge-dark">{{ postreqs.length }}</span><span class="sr-only">courses</span></small>
           </div>
           <ul v-if="postreqs.length > 0" class="prereq-list">
             <li v-for="postreq in postreqs.slice(0, 7)" :key="postreq">
