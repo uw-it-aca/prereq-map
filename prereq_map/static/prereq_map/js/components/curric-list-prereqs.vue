@@ -24,7 +24,7 @@
               <router-link :to="'/course/?course=' + postreq" class="badge badge-light border">{{ postreq }}</router-link>
             </li>
             <li v-if="postreqs.length > 7">
-              <router-link :to="'/course/?course=' + courseParam" title="Click for a full list of courses"><small>view more...</small></router-link>
+              <router-link :to="'/course/?course=' + courseParam" title="Click for a full list of courses"><small>more courses...</small></router-link>
             </li>
           </ul>
           <div v-else>

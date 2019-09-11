@@ -61,6 +61,11 @@
         </div>
       </div>
     </div>
+    <b-card v-else class="shadow-sm">
+      <b-card-text>
+        Use the scroll function on your mouse or touchpad to zoom in and out The map only displays prerequisite relationships within the selected curriculum. View course details to see prerequisites from other curricula
+      </b-card-text>
+    </b-card>
   </div>
 </template>
 
