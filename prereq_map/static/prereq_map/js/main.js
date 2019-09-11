@@ -44,9 +44,10 @@ Vue.use(VueAnalytics, {
 });
 
 Vue.use(VueMq, {
-  breakpoints: { // default breakpoints - customize this
-    mobile: 450,
-    tablet: 900,
+  breakpoints: { 
+    // default mobile is 320px - 767px
+    mobile: 767, // tablet begins 768px
+    tablet: 991, // desktop begins 992px
     desktop: Infinity,
   }
 });

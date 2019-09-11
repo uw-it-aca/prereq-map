@@ -15,10 +15,10 @@
       <p>Remember to talk to your adviser when course planning.</p>
     </div>
     <div v-else class="row">
-      <div class="col-md-9">
+      <div class="col-sm-9">
         <div id="graph_container" class="card shadow-sm" />
       </div>
-      <div class="col-sm-12 col-md-3">
+      <div class="col-sm-3 pl-0">
         <curric-infobox />
       </div>
     </div>
