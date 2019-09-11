@@ -25,13 +25,8 @@
       </div>
     </div>
 
-    <div v-if="$mq == 'desktop'" class="row" aria-hidden="true">
-      <div class="col-md-9">
-        <curric-graph />
-      </div>
-      <div class="col-sm-12 col-md-3">
-        <curric-infobox />
-      </div>
+    <div v-if="$mq == 'desktop'" aria-hidden="true">
+      <curric-graph />
     </div>
   </div>
 </template>
@@ -39,9 +34,8 @@
 <script>
   import axios from "axios";
   import UserAccept from "../components/user-accept.vue";
-  import CurricInfoBox from "../components/curric-infobox.vue";
   import Typeahead from "../components/curric-typeahead.vue";
-  import Graph from "../components/curric-graph.vue";
+  import CurricGraph from "../components/curric-graph.vue";
   import CurricList from "../components/curric-list.vue";
 
   export default {
@@ -49,9 +43,8 @@
     components: {
       "user-accept": UserAccept,
       "curric-typeahead": Typeahead,
-      "curric-graph": Graph,
-      "curric-list": CurricList,
-      "curric-infobox": CurricInfoBox
+      "curric-graph": CurricGraph,
+      "curric-list": CurricList
     },
     data() {
       return {

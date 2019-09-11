@@ -1,19 +1,5 @@
 <template>
   <div v-if="curric_param !== undefined">
-    <div id="graph_container" />
-    <div v-if="dataReady">
-      <small v-if="graph_error === false" class="text-secondary">
-        Use the scroll function on your mouse or touchpad to zoom in and out
-      </small>
-      <small v-if="graph_error === false">
-        The map only displays prerequisite relationships within the selected
-        curriculum. View course details to see prerequisites from other
-        curricula.
-      </small>
-    </div>
-    <div v-else>
-      Loading...
-    </div>
     <div v-if="graph_error === true">
       <p>
         The curriculum <strong>{{ curric_param }}</strong> did not display a
@@ -28,12 +14,25 @@
 
       <p>Remember to talk to your adviser when course planning.</p>
     </div>
+    <div v-else class="row">
+      <div class="col-md-9">
+        <div id="graph_container" />
+      </div>
+      <div class="col-sm-12 col-md-3">
+        <curric-infobox />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
   import axios from "axios";
+  import CurricInfoBox from "../components/curric-infobox.vue";
+
   export default {
+    components: {
+      "curric-infobox": CurricInfoBox
+    },
     data() {
       return {
         curric_param: undefined,
