@@ -1,25 +1,30 @@
 <template>
   <div v-if="curric_param !== undefined">
-    <div v-if="graph_error === true">
-      <p>
-        The curriculum <strong>{{ curric_param }}</strong> did not display a
-        graph. Here are some possible reasons:
+    <div class="row">
+      <p class="col-sm-12">
+        The following is a graph of courses, in this, Curriculum that have an association.
       </p>
-
-      <ul>
-        <li>The curriculum code does not exist</li>
-        <li>The map does not display graduate curriculum</li>
-        <li>The curriculum does not have courses with prerequisites</li>
-      </ul>
-
-      <p>Remember to talk to your adviser when course planning.</p>
-    </div>
-    <div v-else class="row">
       <div class="col-sm-9">
-        <div id="graph_container" class="card shadow-sm" />
+        <div v-bind:class="{'card shadow-sm prereq-graph' : graph_error === false}">
+          <div id="graph_container" />
+          <div v-if="graph_error === true">
+            <p>
+              The curriculum <strong>{{ curric_param }}</strong> did not display a
+              graph. Here are some possible reasons:
+            </p>
+
+            <ul>
+              <li>The curriculum code does not exist</li>
+              <li>The map does not display graduate curriculum</li>
+              <li>The curriculum does not have courses with prerequisites</li>
+            </ul>
+
+            <p>Remember to talk to your adviser when course planning.</p>
+          </div>
+        </div>
       </div>
       <div class="col-sm-3 pl-0">
-        <curric-infobox />
+        <curric-infobox v-if="graph_error === false" />
       </div>
     </div>
   </div>
@@ -39,14 +44,14 @@
         course_param: undefined,
         curric_data: [],
         course_list: [],
-        graph_error: undefined,
+        graph_error: false,
         dataReady: false
       };
     },
     watch: {
       curric_data: function() {
         if (this.curric_data.length != 0) {
-          // show the graph
+          this.graph_error = false;
           window.show_graph(this.curric_data, this.course_param);
         } else {
           this.graph_error = true;
@@ -61,7 +66,7 @@
         this.course_param = this.$route.query.course;
 
         // reset the graph state by showing the loading message and hiding the graphy
-        window.hide_graph();
+        //window.hide_graph();
         this.dataReady = false;
 
         // get the curric data
@@ -103,3 +108,9 @@
     }
   };
 </script>
+
+<style lang="scss">
+  .prereq-graph {
+    height: 502px;
+  }
+</style>

@@ -14,13 +14,13 @@
       </div>
     </div>
 
-    <div v-if="$mq == 'desktopxxxx'" class="row sr-only">
-      <div class="col-md-12">
+    <div v-if="$mq == 'desktop'" class="row sr-only">
+      <div class="col-md-12 hide">
         <curric-list />
       </div>
     </div>
     <div v-else class="row">
-      <div class="col-md-12">
+      <div class="col-md-12 hide">
         <curric-list />
       </div>
     </div>
