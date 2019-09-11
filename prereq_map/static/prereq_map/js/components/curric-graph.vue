@@ -16,7 +16,7 @@
     </div>
     <div v-else class="row">
       <div class="col-md-9">
-        <div id="graph_container" />
+        <div id="graph_container" class="card shadow-sm" />
       </div>
       <div class="col-sm-12 col-md-3">
         <curric-infobox />
