@@ -28,6 +28,43 @@
     <div v-if="$mq == 'desktop'" aria-hidden="true">
       <curric-graph />
     </div>
+
+    <div v-if="curric_name === undefined">
+      <b-container class="bv-example-row">
+        <b-row>
+          <b-col sm>
+            <h3>Seattle</h3>
+            <ul>
+              <li><a href="/curriculum/?curric=MATH">Mathematics (MATH)</a></li>
+              <li>aslkjfd</li>
+              <li>aslkjfd</li>
+              <li>aslkjfd</li>
+              <li>aslkjfd</li>
+            </ul>
+          </b-col>
+          <b-col sm>
+            <h3>Bothell</h3>
+            <ul>
+              <li>aslkjfd</li>
+              <li>aslkjfd</li>
+              <li>aslkjfd</li>
+              <li>aslkjfd</li>
+              <li>aslkjfd</li>
+            </ul>
+          </b-col>
+          <b-col sm>
+            <h3>Tacoma</h3>
+            <ul>
+              <li>aslkjfd</li>
+              <li>aslkjfd</li>
+              <li>aslkjfd</li>
+              <li>aslkjfd</li>
+              <li>aslkjfd</li>
+            </ul>
+          </b-col>
+        </b-row>
+      </b-container>
+    </div>
   </div>
 </template>
 
