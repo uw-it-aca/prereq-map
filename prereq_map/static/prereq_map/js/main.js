@@ -6,6 +6,7 @@ import VueMq from 'vue-mq';
 import BootstrapVue from 'bootstrap-vue';
 
 import App from "./App.vue";
+import Search from './pages/search.vue';
 import Curriculum from './pages/curriculum.vue';
 import Course from './pages/course.vue';
 import About from './pages/about.vue';
@@ -20,11 +21,11 @@ Vue.use(BootstrapVue);
 var router = new VueRouter({
   mode: "history",
   routes: [
-    { path: '/', redirect: '/curriculum/' },
+    { path: '/', component: Search },
     { path: '/curriculum-search/', redirect: '/curriculum/' },
     { path: '/course-search/', redirect: '/course/' },
-    { path: '/curriculum/', component: Curriculum },
-    { path: '/course/', component: Course },
+    { path: '/curriculum/', name: 'curriculum', component: Curriculum },
+    { path: '/course/', name: 'course', component: Course },
     { path: '/about/', component: About },
   ]
 });
@@ -44,7 +45,7 @@ Vue.use(VueAnalytics, {
 });
 
 Vue.use(VueMq, {
-  breakpoints: { 
+  breakpoints: {
     // default mobile is 320px - 767px
     mobile: 767, // tablet begins 768px
     tablet: 991, // desktop begins 992px

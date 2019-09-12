@@ -3,7 +3,7 @@
 <template>
   <div id="curriculum" class="container">
     <user-accept />
-    <h1>Curriculum Search</h1>
+    <h1>Curriculum</h1>
     <p>View the prerequisite map of courses in a curriculum</p>
 
     <curric-typeahead v-if="dataReady" :curricObj="curric_objs" />

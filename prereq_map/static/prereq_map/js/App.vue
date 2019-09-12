@@ -1,34 +1,6 @@
 <template>
   <div class="prereq">
     <header>
-      <b-navbar toggleable="sm" type="dark" variant="dark">
-        <b-navbar-brand href="#">Prereq Map</b-navbar-brand>
-        <b-navbar-nav>
-          <b-nav-item href="#">Curriculum</b-nav-item>
-          <b-nav-item href="#">Course</b-nav-item>
-        </b-navbar-nav>
-        <b-navbar-nav>
-          <b-nav-form>
-            <b-input-group>
-              <b-form-input
-                v-model="course_code"
-                :formatter="uppercase"
-                type="text"
-                aria-label="Enter a course code... (e.g MATH 124)"
-                placeholder="Enter a course code... (e.g MATH 124)"
-                size="md"
-                autocomplete="off"
-              />
-              <b-input-group-append>
-                <b-button variant="primary" type="submit">
-                  Search
-                </b-button>
-              </b-input-group-append>
-            </b-input-group>
-          </b-nav-form>
-        </b-navbar-nav>
-      </b-navbar>
-
       <nav class="navbar navbar-expand-md navbar-dark prereq-bar" aria-label="Utility Menu">
         <div class="d-flex flex-row order-2 order-md-3">
           <ul class="navbar-nav flex-row nav-feedback">
@@ -59,15 +31,33 @@
         </b-collapse>
       </nav>
 
-      <nav class="navbar navbar-dark flex-nowrap justify-content-center prereq-banner" aria-label="Main Menu">
-        <div class="logo-position">
-          <img alt="PreReq Map" src="/static/prereq_map/img/gr-PreReqMap-logo.png">
-        </div>
-        <div class="nav nav-pills nav-justified tabs-med">
-          <router-link to="/curriculum/" class="nav-link">Curriculum</router-link>
-          <router-link to="/course/" class="nav-link">Course</router-link>
-        </div>
-      </nav>
+
+      <b-container fluid class="prereq-banner p-2" aria-label="Main Menu">
+        <b-row class="m-0">
+          <b-col sm="3" md="4">
+            <img alt="PreReq Map" src="/static/prereq_map/img/gr-PreReqMap-logo.png">
+          </b-col>
+          <b-col sm="7" md="7">
+            <div v-if="['curriculum', 'course'].indexOf($route.name) > -1" class="mt-4">
+              <b-input-group>
+                <b-form-input
+                  type="text"
+                  aria-label="Enter a curric code... (e.g MATH)"
+                  placeholder="Enter a curric search term... (e.g MATH, MATH 120)"
+                  size="md"
+                  autocomplete="off"
+                />
+
+                <b-input-group-append>
+                  <b-button variant="primary" type="submit">
+                    Search
+                  </b-button>
+                </b-input-group-append>
+              </b-input-group>
+            </div>
+          </b-col>
+        </b-row>
+      </b-container>
     </header>
 
     <main class="prereq-content mt-5 mb-5">
@@ -110,7 +100,6 @@
   // vue router-links styling overrides
   .prereq-banner {
     .router-link-active {
-      background-color: #fff !important;
       color: #000 !important;
     }
   }

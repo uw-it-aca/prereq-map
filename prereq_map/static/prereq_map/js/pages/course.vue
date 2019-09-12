@@ -2,7 +2,7 @@
 
 <template>
   <div id="course" class="container">
-    <h1>Course Search</h1>
+    <h1>Courses</h1>
     <p>View course prerequisites and related curricula</p>
 
     <course-search />
