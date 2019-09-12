@@ -1,6 +1,34 @@
 <template>
   <div class="prereq">
     <header>
+      <b-navbar toggleable="sm" type="dark" variant="dark">
+        <b-navbar-brand href="#">Prereq Map</b-navbar-brand>
+        <b-navbar-nav>
+          <b-nav-item href="#">Curriculum</b-nav-item>
+          <b-nav-item href="#">Course</b-nav-item>
+        </b-navbar-nav>
+        <b-navbar-nav>
+          <b-nav-form>
+            <b-input-group>
+              <b-form-input
+                v-model="course_code"
+                :formatter="uppercase"
+                type="text"
+                aria-label="Enter a course code... (e.g MATH 124)"
+                placeholder="Enter a course code... (e.g MATH 124)"
+                size="md"
+                autocomplete="off"
+              />
+              <b-input-group-append>
+                <b-button variant="primary" type="submit">
+                  Search
+                </b-button>
+              </b-input-group-append>
+            </b-input-group>
+          </b-nav-form>
+        </b-navbar-nav>
+      </b-navbar>
+
       <nav class="navbar navbar-expand-md navbar-dark prereq-bar" aria-label="Utility Menu">
         <div class="d-flex flex-row order-2 order-md-3">
           <ul class="navbar-nav flex-row nav-feedback">
