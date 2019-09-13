@@ -31,35 +31,36 @@
         </b-collapse>
       </nav>
 
+      <div class="prereq-banner">
+        <b-container aria-label="Main Menu">
+          <b-row>
+            <b-col sm="4">
+              <router-link to="/" class="nav-link px-2">
+                <img alt="PreReq Map" src="/static/prereq_map/img/gr-PreReqMap-logo.png">
+              </router-link>
+            </b-col>
+            <b-col sm="8">
+              <div v-if="['curriculum', 'course'].indexOf($route.name) > -1" class="mt-2 mb-3">
+                <b-input-group>
+                  <b-form-input
+                    type="text"
+                    aria-label="Enter a curric code... (e.g MATH)"
+                    placeholder="Enter a curric search term... (e.g MATH, MATH 120)"
+                    size="md"
+                    autocomplete="off"
+                  />
 
-      <b-container fluid class="prereq-banner" aria-label="Main Menu">
-        <b-row>
-          <b-col sm="3" md="4">
-            <router-link to="/" class="nav-link px-2">
-              <img alt="PreReq Map" src="/static/prereq_map/img/gr-PreReqMap-logo.png">
-            </router-link>
-          </b-col>
-          <b-col sm="7" md="7">
-            <div v-if="['curriculum', 'course'].indexOf($route.name) > -1" class="mt-2 mb-3">
-              <b-input-group>
-                <b-form-input
-                  type="text"
-                  aria-label="Enter a curric code... (e.g MATH)"
-                  placeholder="Enter a curric search term... (e.g MATH, MATH 120)"
-                  size="md"
-                  autocomplete="off"
-                />
-
-                <b-input-group-append>
-                  <b-button variant="primary" type="submit">
-                    Search
-                  </b-button>
-                </b-input-group-append>
-              </b-input-group>
-            </div>
-          </b-col>
-        </b-row>
-      </b-container>
+                  <b-input-group-append>
+                    <b-button variant="primary" type="submit">
+                      Search
+                    </b-button>
+                  </b-input-group-append>
+                </b-input-group>
+              </div>
+            </b-col>
+          </b-row>
+        </b-container>
+      </div>
     </header>
 
     <main class="prereq-content mt-5 mb-5">
