@@ -32,13 +32,15 @@
       </nav>
 
 
-      <b-container fluid class="prereq-banner p-2" aria-label="Main Menu">
-        <b-row class="m-0">
+      <b-container fluid class="prereq-banner" aria-label="Main Menu">
+        <b-row>
           <b-col sm="3" md="4">
-            <img alt="PreReq Map" src="/static/prereq_map/img/gr-PreReqMap-logo.png">
+            <router-link to="/" class="nav-link px-2">
+              <img alt="PreReq Map" src="/static/prereq_map/img/gr-PreReqMap-logo.png">
+            </router-link>
           </b-col>
           <b-col sm="7" md="7">
-            <div v-if="['curriculum', 'course'].indexOf($route.name) > -1" class="mt-4">
+            <div v-if="['curriculum', 'course'].indexOf($route.name) > -1" class="mt-2 mb-3">
               <b-input-group>
                 <b-form-input
                   type="text"
