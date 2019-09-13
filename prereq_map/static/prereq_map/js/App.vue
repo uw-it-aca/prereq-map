@@ -36,7 +36,7 @@
           <b-row>
             <b-col sm="4">
               <router-link to="/" class="nav-link px-2">
-                <img alt="PreReq Map" src="/static/prereq_map/img/gr-PreReqMap-logo.png">
+                <img class="d-block mx-auto" alt="PreReq Map" src="/static/prereq_map/img/gr-PreReqMap-logo.png">
               </router-link>
             </b-col>
             <b-col sm="8">

@@ -2,14 +2,14 @@
 
 <template>
   <div id="curriculum" class="container">
-    <h1>Curriculum</h1>
-    <p>View the prerequisite map of courses in a curriculum</p>
-
-    <curric-typeahead v-if="dataReady" :curricObj="curric_objs" />
-
-    <div v-if="curric_name" class="row mb-4">
+    <div class="row mb-4">
       <div class="col-md-12">
-        <h2>{{ curric_name }}</h2>
+        <h1 v-if="curric_name">
+          {{ curric_name }}
+        </h1>
+        <h1 v-else>
+          Curriculum
+        </h1>
       </div>
     </div>
 
@@ -69,14 +69,12 @@
 
 <script>
   import axios from "axios";
-  import Typeahead from "../components/curric-typeahead.vue";
   import CurricGraph from "../components/curric-graph.vue";
   import CurricList from "../components/curric-list.vue";
 
   export default {
     name: "Curriculum",
     components: {
-      "curric-typeahead": Typeahead,
       "curric-graph": CurricGraph,
       "curric-list": CurricList
     },
