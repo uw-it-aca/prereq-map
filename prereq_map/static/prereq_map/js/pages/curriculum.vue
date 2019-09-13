@@ -2,7 +2,6 @@
 
 <template>
   <div id="curriculum" class="container">
-    <user-accept />
     <h1>Curriculum</h1>
     <p>View the prerequisite map of courses in a curriculum</p>
 
@@ -70,7 +69,6 @@
 
 <script>
   import axios from "axios";
-  import UserAccept from "../components/user-accept.vue";
   import Typeahead from "../components/curric-typeahead.vue";
   import CurricGraph from "../components/curric-graph.vue";
   import CurricList from "../components/curric-list.vue";
@@ -78,7 +76,6 @@
   export default {
     name: "Curriculum",
     components: {
-      "user-accept": UserAccept,
       "curric-typeahead": Typeahead,
       "curric-graph": CurricGraph,
       "curric-list": CurricList

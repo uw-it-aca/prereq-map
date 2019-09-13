@@ -2,11 +2,13 @@
 
 <template>
   <div id="course" class="container">
+    <user-accept />
+
     <h1>Search</h1>
 
     <div class="row course-search mt-5 mb-5">
       <div class="col-md-9 offset-md-1">
-        <b-form @submit.prevent="processForm">
+        <b-form>
           <b-input-group>
             <b-form-input
               v-model="course_code"
@@ -55,8 +57,13 @@
 </template>
 
 <script>
+  import UserAccept from "../components/user-accept.vue";
+
   export default {
-    name: "Search"
+    name: "Search",
+    components: {
+      "user-accept": UserAccept
+    },
   };
 </script>
 
