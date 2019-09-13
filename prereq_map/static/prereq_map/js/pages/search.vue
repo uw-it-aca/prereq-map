@@ -11,8 +11,6 @@
         <b-form>
           <b-input-group>
             <b-form-input
-              v-model="course_code"
-              :formatter="uppercase"
               type="text"
               aria-label="Enter a search term... (e.g MATH 124)"
               placeholder="Enter a search term... (e.g MATH or MATH 124)"
