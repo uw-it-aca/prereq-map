@@ -2,32 +2,6 @@
 
 <template>
   <div id="curriculum" class="container">
-    <div class="row mb-4">
-      <div class="col-md-12">
-        <h1 v-if="curric_name">
-          {{ curric_name }}
-        </h1>
-        <h1 v-else>
-          Curriculum
-        </h1>
-      </div>
-    </div>
-
-    <div v-if="$mq == 'desktop'" class="row sr-only">
-      <div class="col-md-12">
-        <curric-list />
-      </div>
-    </div>
-    <div v-else class="row">
-      <div class="col-md-12">
-        <curric-list />
-      </div>
-    </div>
-
-    <div v-if="$mq == 'desktop'" aria-hidden="true">
-      <curric-graph />
-    </div>
-
     <div v-if="curric_name === undefined">
       <b-container class="bv-example-row">
         <b-row>
@@ -63,6 +37,33 @@
           </b-col>
         </b-row>
       </b-container>
+    </div>
+    <div v-else>
+      <div class="row mb-4">
+        <div class="col-md-12">
+          <h1 v-if="curric_name">
+            {{ curric_name }}
+          </h1>
+          <h1 v-else>
+            Curriculum
+          </h1>
+        </div>
+      </div>
+
+      <div v-if="$mq == 'desktop'" class="row sr-only">
+        <div class="col-md-12">
+          <curric-list />
+        </div>
+      </div>
+      <div v-else class="row">
+        <div class="col-md-12">
+          <curric-list />
+        </div>
+      </div>
+
+      <div v-if="$mq == 'desktop'" aria-hidden="true">
+        <curric-graph />
+      </div>
     </div>
   </div>
 </template>
