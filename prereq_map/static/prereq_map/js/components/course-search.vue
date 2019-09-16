@@ -28,7 +28,6 @@
   export default {
     data() {
       return {
-        course_param: undefined,
         course_code: undefined,
         course_name: undefined,
         course_list: [
