@@ -71,7 +71,7 @@
         if (this.course_param !== undefined) {
           this.getCourse();
           // update page title
-          document.title = this.course_param + " - Course Search - Prereq Map";
+          document.title = this.course_param + " - Course - Prereq Map - University of Washington";
         } else {
           this.loading = undefined;
         }
@@ -85,7 +85,7 @@
         this.loading = true;
         this.getCourse();
         // update page title
-        document.title = this.course_param + " - Course Search - Prereq Map";
+        document.title = this.course_param + " - Course - Prereq Map - University of Washington";
       }
     },
     methods: {

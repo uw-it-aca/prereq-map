@@ -4,13 +4,14 @@
   <div id="course" class="container">
     <user-accept />
 
-    <h1>Search</h1>
+    <h1>Prerequisite Map</h1>
 
     <div class="row course-search mt-5 mb-5">
       <div class="col-md-9 offset-md-1">
         <b-form-group label="Find prerequisite information by:">
           <b-form-radio-group
             v-model="selected"
+            v-on:change="rememberChoice()"
             :options="options"
             name="radio-inline"
           />
@@ -71,11 +72,15 @@
       };
     },
     mounted() {
-      document.title = "Curriculum Search - Prereq Map";
+      document.title = "Prereq Map - University of Washington";
       // get curric data from api
       this.getCurricData();
     },
     methods: {
+      rememberChoice: function() {
+        // eslint-disable-next-line no-console
+        console.log("remember this!");
+      },
       getCurricData: function() {
         // get the list of currics and store in an array
         return axios

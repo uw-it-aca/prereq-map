@@ -73,7 +73,7 @@
         if (this.curric_param !== undefined) {
           this.getCurric();
           // update page title
-          document.title = this.curric_param + " - Curriculum Search - Prereq Map";
+          //document.title = this.curric_param + " - Curriculum Search - Prereq Map";
         }
       }
     },
@@ -85,7 +85,7 @@
         this.getCurric();
 
         // update page title
-        document.title = this.curric_param + " - Curriculum Search - Prereq Map";
+        //document.title = this.curric_param + " - Curriculum Search - Prereq Map";
       }
     },
     methods: {

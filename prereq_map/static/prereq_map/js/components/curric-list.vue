@@ -60,9 +60,6 @@
         if (this.curric_param !== undefined) {
           this.dataReady = false;
           this.getCurric();
-          // update page title
-          document.title =
-            this.curric_param + " - Curriculum Search - Prereq Map";
         }
       }
     },

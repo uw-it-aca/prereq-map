@@ -94,9 +94,10 @@
       }
     },
     mounted() {
-      document.title = "Curriculum Search - Prereq Map";
+      document.title = this.curric_name + " - Curriculum - Prereq Map";
       // get curric data from api
       this.getCurricData();
+      document.title = this.curric_name + " - Curriculum - Prereq Map";
     },
     methods: {
       getCurricData: function() {
@@ -129,9 +130,15 @@
           this.curric_name = key;
           // clean up the display name by doing a quick regex string replace
           this.curric_name = this.curric_name.replace(/.*: /, "");
+
+          document.title = this.curric_name + " - Curriculum - Prereq Map - University of Washington";
+
           return this.curric_name;
         } else {
           this.curric_name = undefined;
+
+          document.title = "Curriculum - Prereq Map - University of Washington";
+
         }
 
       }

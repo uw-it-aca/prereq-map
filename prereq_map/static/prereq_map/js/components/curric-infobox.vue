@@ -88,15 +88,6 @@
       "$route.query.course": function() {
         this.course_code = this.$route.query.course;
         this.show(this.course_code);
-
-        if (this.course_code !== undefined) {
-          // update page title
-          document.title = this.course_code + " - Curriculum Search - Prereq Map";
-        } else {
-          // update page title
-          document.title =
-            this.$route.query.curric + " - Curriculum Search - Prereq Map";
-        }
       },
       course_data: function() {
         this.prereqs = this.get_prereqs(
@@ -108,18 +99,6 @@
           this.course_data.data.x.edges.to
         );
         this.course_description = this.course_data.data.course_description;
-
-        if (this.course_description) {
-          // format the description (hack!)
-          this.course_description = this.course_description.replace(
-            "Prerequisite: ",
-            "<br /><br /><strong>Prerequisite:</strong> "
-          );
-          this.course_description = this.course_description.replace(
-            "Offered: ",
-            "<br /><br /><strong>Offered:</strong> "
-          );
-        }
       }
     },
     mounted() {
@@ -127,8 +106,6 @@
 
       if (this.course_code !== undefined) {
         this.show(this.course_code);
-        // update page title
-        document.title = this.course_code + " - Curriculum Search - Prereq Map";
       }
 
       // global click handler for show node event
