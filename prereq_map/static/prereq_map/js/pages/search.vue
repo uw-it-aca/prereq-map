@@ -8,11 +8,15 @@
 
     <div class="row course-search mt-5 mb-5">
       <div class="col-md-9 offset-md-1">
-        <curric-typeahead v-if="dataReady" :curricObj="curric_objs" />
-
-        <div class="mt-1 text-muted">
-          Find prerequisite information for Curriculum or Courses
-        </div>
+        <b-form-group label="Find prerequisite information by:">
+          <b-form-radio-group
+            v-model="selected"
+            :options="options"
+            name="radio-inline"
+          />
+        </b-form-group>
+        <curric-typeahead v-if="dataReady && selected === 'curric'" :curricObj="curric_objs" />
+        <course-search v-if="selected === 'course'" />
       </div>
     </div>
 
@@ -42,6 +46,7 @@
 
 <script>
   import axios from "axios";
+  import CourseSearch from "../components/course-search.vue";
   import UserAccept from "../components/user-accept.vue";
   import Typeahead from "../components/curric-typeahead.vue";
 
@@ -50,13 +55,19 @@
     components: {
       "user-accept": UserAccept,
       "curric-typeahead": Typeahead,
+      "course-search": CourseSearch
     },
     data() {
       return {
         curric_name: undefined,
         curric_param: undefined,
         curric_objs: {},
-        dataReady: false
+        dataReady: false,
+        selected: 'curric',
+        options: [
+          { text: 'Curriculum', value: 'curric' },
+          { text: 'Course', value: 'course' },
+        ]
       };
     },
     mounted() {
@@ -79,11 +90,9 @@
             // on first load
             this.getCurricName();
           })
-          .catch(() => {
-          });
+          .catch(() => {});
       },
       getCurricName: function() {
-
         // get the curric param from the queary params
         this.curric_param = this.$route.query.curric;
 
@@ -91,7 +100,9 @@
           // assign data from global curric_objs after it has been populated
           let data = this.curric_objs;
           // find key by curric value
-          let key = Object.keys(data).find(key => data[key] === this.curric_param);
+          let key = Object.keys(data).find(
+            key => data[key] === this.curric_param
+          );
           this.curric_name = key;
           // clean up the display name by doing a quick regex string replace
           this.curric_name = this.curric_name.replace(/.*: /, "");
@@ -99,7 +110,30 @@
         } else {
           this.curric_name = undefined;
         }
+      },
+      getCourse: function() {
+        return axios
+          .get("/api/course/" + encodeURI(this.course_param))
+          .then(response => {
+            this.course_data = response.data;
+            this.course_number = this.course_data.x.nodes.course_number;
 
+            // check to see if course_list is empty
+            if (Object.keys(this.course_number).length !== 0) {
+              this.course_valid = true;
+            } else {
+              this.course_valid = false;
+            }
+
+            // hide the loading spinner to show responses
+            this.loading = false;
+          })
+          .catch(() => {
+            this.course_valid = false;
+            // hide the loading spinner to show responses
+            this.loading = undefined;
+            //console.log("error " + error);
+          });
       }
     }
   };
