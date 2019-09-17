@@ -1,7 +1,7 @@
 <template>
   <div v-cloak class="col course-detail">
     <div class="row">
-      <div class="col-md-7">
+      <div class="col-md-5">
         <div>
           <h1 class="h3">
             <span>{{ courseParam }}</span>
@@ -64,7 +64,7 @@
           </a>
         </p>
       </div>
-      <div class="col-md-5" aria-hidden="true">
+      <div class="col-md-7" aria-hidden="true">
         <course-graph :course-param="courseParam" />
       </div>
     </div>
