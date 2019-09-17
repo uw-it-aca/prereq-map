@@ -4,7 +4,9 @@
   <div id="course" class="container">
     <user-accept />
 
-    <h1>Prerequisite Map</h1>
+    <h1 class="h3">
+      Prerequisite Map
+    </h1>
 
     <div class="row course-search mt-5 mb-5">
       <div class="col-md-9 offset-md-1">

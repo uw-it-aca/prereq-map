@@ -1,6 +1,6 @@
 <template>
-  <div class="row course-search mt-5 mb-5">
-    <div class="col-md-9 offset-md-1">
+  <div class="row course-search">
+    <div class="col-md-9">
       <b-form @submit.prevent="processForm">
         <b-input-group>
           <b-form-input
@@ -32,6 +32,9 @@
         course_name: undefined,
         course_list: [
           'A A 260: Thermodynamics',
+          'A S 101: Foundations of the United States Air Force I',
+          'ANTH 203: Introduction to Anthropological Linguistics',
+          'ANTH 208: The Culture Concept',
           'CSE 142: Computer Programming I',
           'CSE 143: Computer Programming II',
           'CSE 154: Web Programming',

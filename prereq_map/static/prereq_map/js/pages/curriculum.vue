@@ -41,10 +41,10 @@
     <div v-else>
       <div class="row mb-4">
         <div class="col-md-12">
-          <h1 v-if="curric_name">
+          <h1 v-if="curric_name" class="h3">
             {{ curric_name }}
           </h1>
-          <h1 v-else>
+          <h1 v-else class="h3">
             Curriculum
           </h1>
         </div>

@@ -3,10 +3,10 @@
     <div class="row">
       <div class="col-md-7">
         <div>
-          <h2>
+          <h1 class="h3">
             <span>{{ courseParam }}</span>
             <span v-if="course_title">- {{ course_title }}</span>
-          </h2>
+          </h1>
           <!--  eslint-disable-next-line vue/no-v-html -->
           <div v-if="course_description" v-html="course_description" style="outline: solid 1px #f00;">
             {{ course_description }}

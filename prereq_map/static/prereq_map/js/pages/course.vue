@@ -2,18 +2,12 @@
 
 <template>
   <div id="course" class="container">
-    <h1>Courses</h1>
-    <p>View course prerequisites and related curricula</p>
-
-    <course-search />
-
     <div v-if="loading" class="pr-loading">
       <div>
         <i class="fas fa-spinner fa-spin" />
         <span class="sr-only">Loading...</span>
       </div>
     </div>
-
     <div v-cloak v-if="course_param !== undefined">
       <div v-if="course_valid && loading === false" class="row">
         <course-detail :course-param="course_param" />
@@ -40,18 +34,34 @@
         </div>
       </div>
     </div>
+    <div v-else>
+      <h1 class="h3">Courses</h1>
+
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
+        elementum dignissim imperdiet. Vivamus maximus felis sed risus eleifend
+        condimentum. Aliquam id lacus condimentum, tempus justo quis, mollis
+        odio. Etiam feugiat efficitur maximus. Etiam dignissim pharetra congue.
+        Donec laoreet condimentum orci, eu condimentum nulla condimentum
+        consectetur. Etiam et urna aliquam, suscipit ante in, pharetra turpis.
+        Phasellus ut finibus dolor. Quisque gravida nisi mi, ac gravida felis
+        dapibus eget. Sed at lectus venenatis, convallis dui eu, venenatis
+        dolor. Nunc sed leo sagittis, ornare tortor a, pretium leo. Quisque enim
+        nunc, fringilla at sapien sodales, tincidunt ultrices eros.
+      </p>
+    </div>
   </div>
 </template>
 
 <script>
   import axios from "axios";
-  import CourseSearch from "../components/course-search.vue";
+  //import CourseSearch from "../components/course-search.vue";
   import CourseDetail from "../components/course-detail.vue";
 
   export default {
     name: "Course",
     components: {
-      "course-search": CourseSearch,
+      //"course-search": CourseSearch,
       "course-detail": CourseDetail
     },
     data() {
@@ -71,7 +81,9 @@
         if (this.course_param !== undefined) {
           this.getCourse();
           // update page title
-          document.title = this.course_param + " - Course - Prereq Map - University of Washington";
+          document.title =
+            this.course_param +
+            " - Course - Prereq Map - University of Washington";
         } else {
           this.loading = undefined;
         }
@@ -85,7 +97,8 @@
         this.loading = true;
         this.getCourse();
         // update page title
-        document.title = this.course_param + " - Course - Prereq Map - University of Washington";
+        document.title =
+          this.course_param + " - Course - Prereq Map - University of Washington";
       }
     },
     methods: {

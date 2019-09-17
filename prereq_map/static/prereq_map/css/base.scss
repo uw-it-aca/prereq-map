@@ -95,11 +95,7 @@ body {
 
 .prereq-banner img {
   height: auto;
-  width: 9.375rem;
-
-  @include media-breakpoint-up(md) {
-    width: auto;
-  }
+  width: 13rem;
 }
 
 .nav-pills {
