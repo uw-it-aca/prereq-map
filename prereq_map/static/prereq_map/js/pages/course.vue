@@ -35,8 +35,9 @@
       </div>
     </div>
     <div v-else>
-      <h1 class="h3">Courses</h1>
-
+      <h1 class="h3">
+        Courses
+      </h1>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
         elementum dignissim imperdiet. Vivamus maximus felis sed risus eleifend
