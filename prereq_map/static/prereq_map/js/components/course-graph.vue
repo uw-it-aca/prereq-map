@@ -1,8 +1,8 @@
 <template>
-  <div v-cloak v-if="courseParam !== undefined">
-    <small class="text-secondary">
-      Use the scroll function on your mouse or touchpad to zoom in and out
-    </small>
+  <div v-cloak v-if="courseParam !== undefined" class="card shadow-sm">
+    <div class="text-secondary p-3">
+      <small>Use the scroll function on your mouse or touchpad to zoom in and out</small>
+    </div>
     <div id="graph_container" />
   </div>
 </template>

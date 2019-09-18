@@ -35,7 +35,7 @@
         <b-container aria-label="Main Menu">
           <b-row>
             <b-col sm="5">
-              <router-link to="/" class="nav-link">
+              <router-link to="/" class="nav-link pl-0">
                 <img class="d-inline-block" alt="PreReq Map" src="/static/prereq_map/img/gr-PreReqMap-logo.png">
               </router-link>
             </b-col>

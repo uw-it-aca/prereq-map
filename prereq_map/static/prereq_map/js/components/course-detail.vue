@@ -13,8 +13,6 @@
           </div>
         </div>
 
-        <hr>
-
         <div class="mt-3">
           <strong>Has the following prerequisite:</strong>
           <ul class="prereq-list">
