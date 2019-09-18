@@ -1,6 +1,6 @@
 <template>
   <div class="row course-search">
-    <div class="col-md-9">
+    <div class="col">
       <b-form @submit.prevent="processForm">
         <b-input-group>
           <b-form-input

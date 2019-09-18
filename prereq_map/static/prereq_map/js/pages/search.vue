@@ -8,8 +8,8 @@
       Prerequisite Map
     </h1>
 
-    <div class="row course-search mt-5 mb-5">
-      <div class="col-md-9 offset-md-1">
+    <div class="row justify-content-center course-search mt-5 mb-5">
+      <div class="col-md-9">
         <b-form-group label="Find prerequisite information by:">
           <b-form-radio-group
             v-model="selected"
@@ -23,24 +23,40 @@
       </div>
     </div>
 
-    <h2>Discover</h2>
-    <b-container class="bv-example-row">
+    <h2 class="h4">
+      Discover
+    </h2>
+    <b-container class="bv-example-row p-0">
       <b-row>
-        <b-col sm="6">
-          <h5>Curriculum</h5>
-          <ul>
-            <li><a href="/curriculum/?curric=MATH">Mathematics (MATH)</a></li>
-            <li>Computer Science &amp; Engineering (CSE)</li>
-            <li>Anthropology (ANTH)</li>
-          </ul>
+        <b-col sm="4" class="mb-3">
+          <b-card border-variant="light" title="Bothell" sub-title="New courses" class="shadow-sm">
+            <b-card-text>
+              <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+              <div><a href="/curriculum/?curric=MATH">Mathematics (MATH)</a></div>
+            </b-card-text>
+          </b-card>
         </b-col>
-        <b-col sm="6">
-          <h5>Courses</h5>
-          <ul>
-            <li><a href="/course/?course=MATH 124">MATH 124</a></li>
-            <li>CSE 142</li>
-            <li>ANTH 200</li>
-          </ul>
+        <b-col sm="4">
+          <b-card border-variant="light" title="Seattle" sub-title="New courses" class="shadow-sm">
+            <b-card-text>
+              <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+              <div><a href="/course/?course=MATH 124">MATH 124</a></div>
+            </b-card-text>
+          </b-card>
+        </b-col>
+        <b-col sm="4">
+          <b-card-body class="shadow-sm">
+            <b-card-title class="h5">
+              Tacoma
+            </b-card-title>
+            <b-card-sub-title class="mb-2">
+              New courses
+            </b-card-sub-title>
+            <b-card-text>
+              Some quick example text to build on the card title and make up the bulk of the card's
+              content.
+            </b-card-text>
+          </b-card-body>
         </b-col>
       </b-row>
     </b-container>
@@ -66,10 +82,10 @@
         curric_param: undefined,
         curric_objs: {},
         dataReady: false,
-        selected: 'curric',
+        selected: 'course',
         options: [
-          { text: 'Curriculum', value: 'curric' },
           { text: 'Course', value: 'course' },
+          { text: 'Curriculum', value: 'curric' }
         ]
       };
     },
