@@ -40,8 +40,8 @@
               </router-link>
             </b-col>
             <b-col sm="7">
-              <curric-typeahead />
-              <course-search />
+              <curric-typeahead v-if="$route.path == '/curriculum/'" />
+              <course-search v-if="$route.path == '/course/'" />
             </b-col>
           </b-row>
         </b-container>
