@@ -39,8 +39,6 @@
     mounted() {
       // get curric data from api
       this.getCurricData();
-
-
     },
     methods: {
       processForm: function(e) {

@@ -2,7 +2,7 @@
 
 <template>
   <div id="curriculum" class="container">
-    <div v-if="curric_name === undefined">
+    <div v-if="curric_param === undefined">
       <b-container class="bv-example-row">
         <b-row>
           <b-col sm>
@@ -41,7 +41,7 @@
     <div v-else>
       <div class="row mb-4">
         <div class="col-md-12">
-          <h1 v-if="curric_name" class="h3">
+          <h1 v-if="curric_param" class="h3">
             {{ curric_name }}
           </h1>
           <h1 v-else class="h3">
@@ -69,7 +69,6 @@
 </template>
 
 <script>
-  import axios from "axios";
   import CurricGraph from "../components/curric-graph.vue";
   import CurricList from "../components/curric-list.vue";
 
@@ -83,46 +82,32 @@
       return {
         curric_name: undefined,
         curric_param: undefined,
-        curric_objs: {},
-        dataReady: false
       };
     },
     watch: {
       // watch changes in curric param route changes and get the curric name
       "$route.query.curric": function() {
+        this.curric_param = this.$route.query.curric;
+
         this.getCurricName();
       }
     },
     mounted() {
-      document.title = this.curric_name + " - Curriculum - Prereq Map";
-      // get curric data from api
-      this.getCurricData();
-      document.title = this.curric_name + " - Curriculum - Prereq Map";
+      this.curric_param = this.$route.query.curric;
+      document.title = this.curric_param + " - Curriculum - Prereq Map";
+
+      this.getCurricName();
+
     },
     methods: {
-      getCurricData: function() {
-        // get the list of currics and store in an array
-        return axios
-          .get("/api/curric_typeahead")
-          .then(response => {
-            // store the response data into an object
-            this.curric_objs = response.data;
-          })
-          .then(() => {
-            this.dataReady = true;
-            // once the data is ready... get the curric name if one is passed in the params
-            // on first load
-            this.getCurricName();
-          })
-          .catch(() => {
-          });
-      },
+
       getCurricName: function() {
 
         // get the curric param from the queary params
         this.curric_param = this.$route.query.curric;
 
         if (this.curric_param !== undefined) {
+          /*
           // assign data from global curric_objs after it has been populated
           let data = this.curric_objs;
           // find key by curric value
@@ -132,6 +117,9 @@
           this.curric_name = this.curric_name.replace(/.*: /, "");
 
           document.title = this.curric_name + " - Curriculum - Prereq Map - University of Washington";
+          */
+
+          this.curric_name =  "XXXXXXXXXXXXXXX (" + this.curric_param + ")";
 
           return this.curric_name;
         } else {

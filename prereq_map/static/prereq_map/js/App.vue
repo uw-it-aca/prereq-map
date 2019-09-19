@@ -80,12 +80,10 @@
   import Typeahead from "./components/curric-typeahead.vue";
 
   export default {
-
     components: {
       "course-search": CourseSearch,
       "curric-typeahead": Typeahead,
-    },
-
+    }
   };
 </script>
 
