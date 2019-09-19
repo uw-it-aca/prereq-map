@@ -18,7 +18,7 @@
             name="radio-inline"
           />
         </b-form-group>
-        <curric-typeahead v-if="dataReady && selected === 'curric'" :curricObj="curric_objs" />
+        <curric-typeahead v-if="selected === 'curric'" />
         <course-search v-if="selected === 'course'" />
       </div>
     </div>
@@ -29,34 +29,28 @@
     <b-container class="bv-example-row p-0">
       <b-row>
         <b-col sm="4" class="mb-3">
-          <b-card border-variant="light" title="Bothell" sub-title="New courses" class="shadow-sm">
+          <b-card title="Bothell" sub-title="New courses" class="shadow-sm">
             <b-card-text>
               <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
               <div><a href="/curriculum/?curric=MATH">Mathematics (MATH)</a></div>
             </b-card-text>
           </b-card>
         </b-col>
-        <b-col sm="4">
-          <b-card border-variant="light" title="Seattle" sub-title="New courses" class="shadow-sm">
+        <b-col sm="4" class="mb-3">
+          <b-card title="Seattle" sub-title="New courses" class="shadow-sm">
             <b-card-text>
               <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
               <div><a href="/course/?course=MATH 124">MATH 124</a></div>
             </b-card-text>
           </b-card>
         </b-col>
-        <b-col sm="4">
-          <b-card-body class="shadow-sm">
-            <b-card-title class="h5">
-              Tacoma
-            </b-card-title>
-            <b-card-sub-title class="mb-2">
-              New courses
-            </b-card-sub-title>
+        <b-col sm="4" class="mb-3">
+          <b-card title="Seattle" sub-title="New courses" class="shadow-sm">
             <b-card-text>
-              Some quick example text to build on the card title and make up the bulk of the card's
-              content.
+              <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+              <div><a href="/course/?course=MATH 124">MATH 124</a></div>
             </b-card-text>
-          </b-card-body>
+          </b-card>
         </b-col>
       </b-row>
     </b-container>
@@ -92,13 +86,14 @@
     mounted() {
       document.title = "Prereq Map - University of Washington";
       // get curric data from api
-      this.getCurricData();
+      //this.getCurricData();
     },
     methods: {
       rememberChoice: function() {
         // eslint-disable-next-line no-console
         console.log("remember this!");
       },
+      /**
       getCurricData: function() {
         // get the list of currics and store in an array
         return axios
@@ -115,6 +110,7 @@
           })
           .catch(() => {});
       },
+      **/
       getCurricName: function() {
         // get the curric param from the queary params
         this.curric_param = this.$route.query.curric;

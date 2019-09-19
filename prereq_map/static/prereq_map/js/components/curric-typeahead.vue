@@ -25,27 +25,22 @@
 </template>
 
 <script>
+  import axios from "axios";
+
   export default {
     filters: {},
-    props: {
-      curricObj: {
-        type: Object,
-        required: true
-      }
-    },
     data() {
       return {
         query: "",
-        curric_list: undefined
+        curric_list: undefined,
+        curric_objs: {},
       };
     },
     mounted() {
-      // take the obj prop and create an array of currics to populate the datalist
-      let data = [];
-      $(this.curricObj).each(function(idx, value) {
-        data.push(...Object.keys(value));
-      });
-      this.curric_list = data;
+      // get curric data from api
+      this.getCurricData();
+
+
     },
     methods: {
       processForm: function(e) {
@@ -53,7 +48,7 @@
 
         // get the code (param) of the curric being queried
         // make sure it is encoded to handle & (e.g. EDC&I)
-        let curric_code = this.curricObj[this.query];
+        let curric_code = this.curric_objs[this.query];
 
         // use the curric code and update the query param in the url
         if (curric_code !== undefined){
@@ -64,8 +59,33 @@
           this.$router.push("/curriculum/").catch(err => {});
         }
 
+      },
+      getCurricData: function() {
+
+        // get the list of currics and store in an array
+        return axios
+          .get("/api/curric_typeahead")
+          .then(response => {
+            // store the response data into an object
+            this.curric_objs = response.data;
+          })
+          .then(() => {
+            //this.dataReady = true;
+            // once the data is ready... get the curric name if one is passed in the params
+            // on first load
+            //this.getCurricName();
+
+            // take the obj prop and create an array of currics to populate the datalist
+            let data = [];
+            $(this.curric_objs).each(function(idx, value) {
+              data.push(...Object.keys(value));
+            });
+            this.curric_list = data;
+
+          })
+          .catch(() => {});
       }
-    }
+    },
   };
 </script>
 

@@ -40,22 +40,8 @@
               </router-link>
             </b-col>
             <b-col sm="7">
-              <div v-if="['curriculum', 'course'].indexOf($route.name) > -1" class="mb-3 prereq-header-inputs">
-                <b-input-group>
-                  <b-form-input
-                    type="text"
-                    aria-label="Enter a curric code... (e.g MATH)"
-                    placeholder="Enter a curric search term... (e.g MATH, MATH 120)"
-                    size="md"
-                    autocomplete="off"
-                  />
-                  <b-input-group-append>
-                    <b-button variant="primary" type="submit">
-                      Search
-                    </b-button>
-                  </b-input-group-append>
-                </b-input-group>
-              </div>
+              <curric-typeahead />
+              <course-search />
             </b-col>
           </b-row>
         </b-container>
@@ -90,7 +76,17 @@
 </template>
 
 <script>
-  export default {};
+  import CourseSearch from "./components/course-search.vue";
+  import Typeahead from "./components/curric-typeahead.vue";
+
+  export default {
+
+    components: {
+      "course-search": CourseSearch,
+      "curric-typeahead": Typeahead,
+    },
+
+  };
 </script>
 
 <style lang="scss">
