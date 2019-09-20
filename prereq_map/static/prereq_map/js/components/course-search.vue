@@ -4,11 +4,11 @@
       <b-form @submit.prevent="processForm">
         <b-input-group>
           <b-form-input
+            v-bind:size="[ $route.path == '/course/' ? 'md': 'lg']"
             v-model="course_name"
             type="text"
             aria-label="Enter a course code... (e.g MATH 124)"
             placeholder="Enter a course code... (e.g MATH 124)"
-            size="lg"
             list="my-course-list-id"
             autocomplete="off"
           />
