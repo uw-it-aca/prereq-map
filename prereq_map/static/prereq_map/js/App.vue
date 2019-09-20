@@ -39,7 +39,7 @@
                 <img class="d-inline-block" alt="PreReq Map" src="/static/prereq_map/img/gr-PreReqMap-logo.png">
               </router-link>
             </b-col>
-            <b-col sm="7">
+            <b-col sm="7" class="prereq-header-inputs ">
               <curric-typeahead v-if="$route.path == '/curriculum/'" />
               <course-search v-if="$route.path == '/course/'" />
             </b-col>
@@ -101,8 +101,9 @@
   }
 
   .prereq-header-inputs {
+    padding-bottom: 1rem;
     @include media-breakpoint-up(sm) {
-      margin-top: 1.75rem;
+      padding-top: 1.75rem;
     }
   }
 
