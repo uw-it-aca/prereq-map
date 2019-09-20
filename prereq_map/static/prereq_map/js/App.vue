@@ -32,14 +32,14 @@
       </nav>
 
       <div class="prereq-banner">
-        <b-container aria-label="Main Menu">
+        <b-container aria-label="Banner">
           <b-row>
             <b-col sm="5">
               <router-link to="/" class="nav-link pl-0">
                 <img class="d-inline-block" alt="PreReq Map" src="/static/prereq_map/img/gr-PreReqMap-logo.png">
               </router-link>
             </b-col>
-            <b-col sm="7" class="prereq-header-inputs ">
+            <b-col sm="7" class="prereq-banner-inputs ">
               <curric-typeahead v-if="$route.path == '/curriculum/'" />
               <course-search v-if="$route.path == '/course/'" />
             </b-col>
@@ -90,18 +90,36 @@
 <style lang="scss">
 
   // import custom bootstrap theme and base styling for app
+  @import '../css/_variables.scss';
   @import '../css/custom.scss';
   @import '../css/base.scss';
 
-  // vue router-links styling overrides
+  /* branding */
+
   .prereq-banner {
-    .router-link-active {
-      color: #000 !important;
+    background-color: $uw-purple;
+  }
+
+  .prereq-banner img {
+    height: auto;
+    width: 13rem;
+  }
+
+  .prereq-banner .logo-position {
+    left: 1.25rem;
+    position: absolute;
+    top: 25%;
+    transform: translate(0, -25%);
+
+    @include media-breakpoint-up(sm) {
+      left: 1.25rem;
+      position: absolute;
+      top: 50%;
+      transform: translate(0, -50%);
     }
   }
 
-  .prereq-header-inputs {
-    padding-bottom: 1rem;
+  .prereq-banner-inputs {
     @include media-breakpoint-up(sm) {
       padding-top: 1.75rem;
     }

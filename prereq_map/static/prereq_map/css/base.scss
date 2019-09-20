@@ -68,61 +68,6 @@ body {
   }
 }
 
-/* branding */
-.prereq-banner {
-  background-color: #4d307f;
-}
-
-.prereq-banner .nav-pills {
-  a {
-    color: #ccc;
-  }
-}
-
-.prereq-banner .logo-position {
-  left: 1.25rem;
-  position: absolute;
-  top: 25%;
-  transform: translate(0, -25%);
-
-  @include media-breakpoint-up(sm) {
-    left: 1.25rem;
-    position: absolute;
-    top: 50%;
-    transform: translate(0, -50%);
-  }
-}
-
-.prereq-banner img {
-  height: auto;
-  width: 13rem;
-}
-
-.nav-pills {
-  bottom: 0;
-  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-  font-size: 1.063rem;
-  padding-bottom: 0;
-  position: absolute;
-}
-
-.nav-pills > .nav-link {
-  border-radius: 0.25rem 0.25rem 0 0;
-  color: #999;
-}
-
-.nav-pills .nav-link:hover {
-  background-color: #b7a57a;
-  border: transparent;
-  color: #404040;
-}
-
-.nav-link.active,
-.nav-pills .show > .nav-link {
-  background-color: #fff !important;
-  color: #444 !important;
-}
-
 /* content */
 .prereq-content {
   flex: 1;
