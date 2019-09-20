@@ -5,7 +5,7 @@ USER root
 ARG curr_uid
 ARG curr_gid
 RUN usermod -u ${curr_uid} node
-RUN if grep -q :${curr_gid}: /etc/group; then usermod -g ${curr_gid} node; else; groupmod -g ${curr_gid} node; fi
+RUN if grep -q :${curr_gid}: /etc/group; then usermod -g ${curr_gid} node; else groupmod -g ${curr_gid} node; fi
 RUN usermod -d /home/node -m node
 
 USER node
