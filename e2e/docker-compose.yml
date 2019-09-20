@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  prereqmap:
+    restart: always
+    build: ../
+    env_file:
+      - ../.env
+  cypress:
+    build:
+      context: .
+      args:
+        curr_uid: ${USERID:-1000}
+        curr_gid: ${GROUPID:-1000}
+    depends_on:
+      - prereqmap
+    volumes:
+      - .:/home/node/e2e
+    working_dir: /home/node/e2e
+    command: bash -c "npm install . && ./node_modules/.bin/cypress run --browser chrome"
