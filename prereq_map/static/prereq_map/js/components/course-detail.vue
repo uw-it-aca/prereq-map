@@ -2,43 +2,49 @@
   <div v-cloak class="col course-detail">
     <div class="row">
       <div class="col-md-5">
-        <div>
+        <div class="mb-3">
           <h1 class="h3">
-            <span>{{ courseParam }}</span>
-            <span v-if="course_title">- {{ course_title }}</span>
+            {{ courseParam }}<span v-if="course_title">: {{ course_title }}</span>
           </h1>
           <!--  eslint-disable-next-line vue/no-v-html -->
-          <div v-if="course_description" v-html="course_description" style="outline: solid 1px #f00;">
+          <div v-if="course_description" v-html="course_description" class="border border-danger">
             {{ course_description }}
           </div>
         </div>
 
-        <div class="mt-3">
-          <strong>Has the following prerequisite:</strong>
-          <ul class="prereq-list">
-            <li v-if="prereqs.length === 0">
-              No other courses
-            </li>
-            <li v-for="prereq in prereqs" :key="prereq">
-              <router-link :to="'/course/?course=' + prereq" exact>
-                {{ prereq }}
-              </router-link>
-            </li>
-          </ul>
-          <strong>Is a prerequisite for:</strong>
-          <ul class="prereq-list">
-            <li v-if="postreqs.length === 0">
-              No other courses
-            </li>
-            <li v-for="postreq in postreqs" :key="postreq">
-              <router-link :to="'/course/?course=' + postreq" exact>
-                {{ postreq }}
-              </router-link>
-            </li>
-          </ul>
-        </div>
-
-        <strong>Additional information:</strong>
+        <b-row>
+          <b-col class="mb-3">
+            <h2 class="h6">
+              Prerequisites <span class="badge badge-pill badge-dark">{{ prereqs.length }}</span><span class="sr-only">courses</span>
+            </h2>
+            <ul v-if="prereqs.length > 0" class="prereq-list">
+              <li v-for="prereq in prereqs" :key="prereq">
+                <router-link :to="'/course/?course=' + prereq" class="badge badge-light border">{{ prereq }}</router-link>
+              </li>
+            </ul>
+            <div v-else>
+              <small>This course has no prerequisites.</small>
+            </div>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col class="mb-3">
+            <h2 class="h6">
+              Available upon completion <span class="badge badge-pill badge-dark">{{ postreqs.length }}</span><span class="sr-only">courses</span>
+            </h2>
+            <ul v-if="postreqs.length > 0" class="prereq-list">
+              <li v-for="postreq in postreqs" :key="postreq">
+                <router-link :to="'/course/?course=' + postreq" class="badge badge-light border">{{ postreq }}</router-link>
+              </li>
+            </ul>
+            <div v-else>
+              <small>This course is not a prerequisite for any other courses.</small>
+            </div>
+          </b-col>
+        </b-row>
+        <h2 class="h6">
+          Additional information
+        </h2>
         <p>
           <a
             :href="'https://myplan.uw.edu/course/#/courses/' + courseParam"
@@ -98,21 +104,6 @@
       dataBus.$on("course_data", data => {
         this.course_title = data.course_title;
         this.course_description = data.course_description;
-
-        /*
-        if (this.course_description) {
-          // format the description (hack!)
-          this.course_description = this.course_description.replace(
-            "Prerequisite: ",
-            "<br /><br /><strong>Prerequisite:</strong> "
-          );
-          this.course_description = this.course_description.replace(
-            "Offered: ",
-            "<br /><br /><strong>Offered:</strong> "
-          );
-        }
-        */
-
         this.prereqs = this.get_prereqs(this.courseParam, data.x.edges.from);
         this.postreqs = this.get_postreqs(this.courseParam, data.x.edges.to);
       });
