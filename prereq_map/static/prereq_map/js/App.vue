@@ -5,9 +5,9 @@
         <div class="d-flex flex-row order-2 order-md-3">
           <ul class="navbar-nav flex-row nav-feedback">
             <li class="nav-item">
-              <router-link to="/about/" class="nav-link px-2">
+              <a href="/about/" class="nav-link px-2">
                 About Prereq Map
-              </router-link>
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link px-2" href="mailto:help@uw.edu?subject=PreReq%20Map%20&minus;%20Comment,%20Request,%20Suggestion&amp;body=Hello,%0A%0A%3CInclude%20your%20comment%20or%20question%20about%20the%20PreReq%20Map%20tool%20here%3e%0A%0A%0A"><i class="fa fa-envelope" /> Send Us Feedback</a>
