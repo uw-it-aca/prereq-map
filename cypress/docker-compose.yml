@@ -15,6 +15,6 @@ services:
     depends_on:
       - prereqmap
     volumes:
-      - .:/home/node/e2e
-    working_dir: /home/node/e2e
+      - .:/home/node/cypress
+    working_dir: /home/node/cypress
     command: bash -c "npm install . && ./node_modules/.bin/cypress run --browser chrome"
