@@ -44,4 +44,5 @@ TEMPLATES = [
 if os.getenv("ENV") == "localdev":
     DEBUG = True
 
-USE_CACHE = True
+# if ENV == production
+#USE_CACHE = True
