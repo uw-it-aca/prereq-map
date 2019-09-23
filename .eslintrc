@@ -2,7 +2,8 @@
   "extends": [
     "eslint:recommended",
     "plugin:vue/recommended",
-    "plugin:vue-a11y/recommended"
+    "plugin:vue-a11y/recommended",
+    "plugin:cypress/recommended"
   ],
   "rules": {
     "semi": [2, "always"],

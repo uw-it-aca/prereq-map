@@ -23,6 +23,7 @@
     "clean-webpack-plugin": "^2.0.1",
     "css-loader": "^2.1.0",
     "eslint": "^5.16.0",
+    "eslint-plugin-cypress": "^2.6.1",
     "eslint-plugin-vue": "^5.2.2",
     "eslint-plugin-vue-a11y": "0.0.31",
     "mini-css-extract-plugin": "^0.6.0",
