@@ -1,15 +1,17 @@
 // search.vue
 
 <template>
-  <div id="course" class="container">
+  <b-container id="search">
     <user-accept />
-
-    <h1 class="h3">
-      Prerequisite Map
-    </h1>
-
-    <div class="row justify-content-center course-search mt-5 mb-5">
-      <div class="col-md-9">
+    <b-row>
+      <b-col>
+        <h1 class="h3">
+          Prerequisite Map
+        </h1>
+      </b-col>
+    </b-row>
+    <b-row class="justify-content-center course-search mt-5 mb-5">
+      <b-col md="9">
         <b-form-group label="Find prerequisite information by:">
           <b-form-radio-group
             v-model="selected"
@@ -20,41 +22,42 @@
         </b-form-group>
         <curric-typeahead v-if="selected === 'curric'" />
         <course-search v-if="selected === 'course'" />
-      </div>
-    </div>
-
-    <h2 class="h4">
-      Discover
-    </h2>
-    <b-container class="bv-example-row p-0">
-      <b-row>
-        <b-col sm="4" class="mb-3">
-          <b-card title="Bothell" sub-title="New courses" class="shadow-sm">
-            <b-card-text>
-              <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-              <div><a href="/curriculum/?curric=MATH">Mathematics (MATH)</a></div>
-            </b-card-text>
-          </b-card>
-        </b-col>
-        <b-col sm="4" class="mb-3">
-          <b-card title="Seattle" sub-title="New courses" class="shadow-sm">
-            <b-card-text>
-              <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-              <div><a href="/course/?course=MATH 124">MATH 124</a></div>
-            </b-card-text>
-          </b-card>
-        </b-col>
-        <b-col sm="4" class="mb-3">
-          <b-card title="Seattle" sub-title="New courses" class="shadow-sm">
-            <b-card-text>
-              <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-              <div><a href="/course/?course=MATH 124">MATH 124</a></div>
-            </b-card-text>
-          </b-card>
-        </b-col>
-      </b-row>
-    </b-container>
-  </div>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col>
+        <h2 class="h4">
+          Discover
+        </h2>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col md="4" class="mb-3">
+        <b-card title="Bothell" sub-title="New courses" class="shadow-sm">
+          <b-card-text>
+            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+            <div><a href="/curriculum/?curric=MATH">Mathematics (MATH)</a></div>
+          </b-card-text>
+        </b-card>
+      </b-col>
+      <b-col md="4" class="mb-3">
+        <b-card title="Seattle" sub-title="New courses" class="shadow-sm">
+          <b-card-text>
+            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+            <div><a href="/course/?course=MATH 124">MATH 124</a></div>
+          </b-card-text>
+        </b-card>
+      </b-col>
+      <b-col md="4" class="mb-3">
+        <b-card title="Seattle" sub-title="New courses" class="shadow-sm">
+          <b-card-text>
+            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+            <div><a href="/course/?course=MATH 124">MATH 124</a></div>
+          </b-card-text>
+        </b-card>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
