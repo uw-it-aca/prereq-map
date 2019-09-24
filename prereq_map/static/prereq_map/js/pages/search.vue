@@ -49,7 +49,7 @@
         </b-card>
       </b-col>
       <b-col md="4" class="mb-3">
-        <b-card title="Seattle" sub-title="New courses" class="shadow-sm">
+        <b-card title="Tacoma" sub-title="New courses" class="shadow-sm">
           <b-card-text>
             <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
             <div><a href="/course/?course=MATH 124">MATH 124</a></div>
