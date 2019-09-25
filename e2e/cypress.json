@@ -1,10 +1,6 @@
 {
     "baseUrl": "http://prereqmap:8000",
     "video": false,
-    "ignoreTestFiles": [
-        "**/__snapshots__/*",
-        "**/__image_snapshots__/*"
-    ],
     "viewportWidth": 1024,
     "viewportHeight": 768
 }

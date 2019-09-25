@@ -50,8 +50,18 @@ describe('search page', function() {
   context('course search', function() {
 
     it('should display autocomplete', function() {
-      // click arrow to show autocomplete
+
+      // type 'math'
+      cy.get('[type="text"]').type('math');
+
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(1000);
+
+      // show the dropdown autocomplete menu
+
       // take snapshot
+      cy.document().matchImageSnapshot('04-course-autocomplete-math');
+
     });
 
     it('should perform action', function() {
@@ -65,7 +75,6 @@ describe('search page', function() {
   context('curric search', function() {
 
     it('should display autocomplete', function() {
-
     });
 
     it('should perform action', function() {
