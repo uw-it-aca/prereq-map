@@ -1,29 +1,77 @@
-describe('Search Page', function() {
+describe('search page', function() {
 
-  it('should display accept modal', function() {
-    cy.visit('/');
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(500);
+  context('accept modal', function() {
 
-    // take a screenshot & snapshot
-    cy.document().matchImageSnapshot('01-accept-modal-displayed');
+    // TODO: lower fidelity tests should match the workflow supported by the MVP
+    // (e.g. test the button functionality)
+
+    it('should display on initial launch', function() {
+      cy.visit('/');
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(500);
+
+      // TODO: check for the presence of modal code (modal #id?)
+
+      // TODO: visual regression should snapshot the high-fidelity UI as it relates to the workflow
+      // (e.g. test what the button should look like)
+
+      // take a snapshot
+      cy.document().matchImageSnapshot('01-accept-modal-displayed');
+
+    });
+
+    it('should dismiss when user accepts', function() {
+      // click the accept
+      cy.get('.btn.btn-primary.float-right').click();
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100);
+    });
+
   });
 
-  it('should dismiss modal when user accepts', function() {
+  context('default interface', function() {
 
-    // click the accept
-    cy.get('.btn.btn-primary.float-right').click();
+    it('should display correctly', function() {
 
-    // Course radio button should be selected
-    cy.get('[type="radio"]').first().should("be.checked");
-    // TODO: check for other stuff
-    // TODO: make sure Discover shows Bothell, Seattle, Tacoma
+      // course radio button should be selected
+      cy.get('[type="radio"]').first().should("be.checked");
 
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(100);
+      // curric radio unselected
+      // bothell, seattle, and tacoma cards are on page
+      // check for other stuff
 
-    // take a screenshot & snapshot
-    cy.document().matchImageSnapshot('02-accept-modal-dismissed');
+      // take a snapshot
+      cy.document().matchImageSnapshot('02-default-interface');
+
+    });
+
+  });
+
+  context('course search', function() {
+
+    it('should display autocomplete', function() {
+      // click arrow to show autocomplete
+      // take snapshot
+    });
+
+    it('should perform action', function() {
+      // select a course from autocomplete
+      // click "search" button
+      // user taken to course page
+    });
+
+  });
+
+  context('curric search', function() {
+
+    it('should display autocomplete', function() {
+
+    });
+
+    it('should perform action', function() {
+
+    });
+
   });
 
 });
