@@ -55,7 +55,7 @@ describe('search page', function() {
       cy.get('[type="text"]').type('math');
 
       // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(1000);
+      cy.wait(500);
 
       // show the dropdown autocomplete menu
 
@@ -65,9 +65,23 @@ describe('search page', function() {
     });
 
     it('should perform action', function() {
-      // select a course from autocomplete
+
+      cy.get('[type="text"]').clear();
+      cy.get('[type="text"]').type('MATH 100: Algebra');
+
+      // take snapshot
+      cy.document().matchImageSnapshot('05-course-search-math100');
+
+      cy.get('[type="submit"]').click();
+
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(1000);
+
       // click "search" button
       // user taken to course page
+      // take snapshot
+      cy.document().matchImageSnapshot('06-course-detail-math100');
+
     });
 
   });
