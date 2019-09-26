@@ -9,40 +9,31 @@ describe('search page', function() {
       cy.visit('/');
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(500);
-
-      // TODO: check for the presence of modal code (modal #id?)
-
-      // TODO: visual regression should snapshot the high-fidelity UI as it relates to the workflow
-      // (e.g. test what the button should look like)
-
+      cy.get('#userAcceptance').should('exist');
       // take a snapshot
-      cy.document().matchImageSnapshot('01-accept-modal-displayed');
+      cy.document().matchImageSnapshot();
 
     });
 
     it('should dismiss when user accepts', function() {
-      // click the accept
-      cy.get('.btn.btn-primary.float-right').click();
+      // click the accept (got it) button
+      cy.get('.modal-footer [type="button"]').click();
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
+      // take a snapshot
+      cy.document().matchImageSnapshot();
     });
 
   });
 
-  context('default interface', function() {
+  context('default search', function() {
 
     it('should display correctly', function() {
-
       // course radio button should be selected
       cy.get('[type="radio"]').first().should("be.checked");
-
-      // curric radio unselected
-      // bothell, seattle, and tacoma cards are on page
-      // check for other stuff
-
+      cy.get('[placeholder="Enter a course code... (e.g MATH 124)"]').should('exist');
       // take a snapshot
-      cy.document().matchImageSnapshot('02-default-interface');
-
+      cy.document().matchImageSnapshot();
     });
 
   });
@@ -60,28 +51,21 @@ describe('search page', function() {
       // show the dropdown autocomplete menu
 
       // take snapshot
-      cy.document().matchImageSnapshot('04-course-autocomplete-math');
+      cy.document().matchImageSnapshot();
 
     });
 
-    it('should perform action', function() {
-
+    it('should perform search for MATH 100', function() {
       cy.get('[type="text"]').clear();
       cy.get('[type="text"]').type('MATH 100: Algebra');
+      cy.document().matchImageSnapshot();
+    });
 
-      // take snapshot
-      cy.document().matchImageSnapshot('05-course-search-math100');
-
+    it('display course detail for MATH 100', function() {
       cy.get('[type="submit"]').click();
-
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(1000);
-
-      // click "search" button
-      // user taken to course page
-      // take snapshot
-      cy.document().matchImageSnapshot('06-course-detail-math100');
-
+      cy.document().matchImageSnapshot();
     });
 
   });
