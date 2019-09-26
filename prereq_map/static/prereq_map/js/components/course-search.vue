@@ -32,6 +32,9 @@
         course_name: undefined,
         course_list: [
           'A A 260: Thermodynamics',
+          'A A 301: Compressible Aerodynamics',
+          'A A 302: Incompressible Aerodynamics',
+          'A A 310: Orbital and Space Flight Mechanics',
           'A S 101: Foundations of the United States Air Force I',
           'ANTH 203: Introduction to Anthropological Linguistics',
           'ANTH 208: The Culture Concept',
