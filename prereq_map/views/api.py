@@ -34,6 +34,13 @@ class CurricTypeaheadApiView(View):
         return HttpResponse(json.dumps(response))
 
 
+class CourseTypeaheadApiView(View):
+    @cache_control(max_age=86400)
+    def get(self, request):
+        response = get_curric_typeahead()
+        return HttpResponse(json.dumps(response))
+
+
 def error_404():
     response = HttpResponse()
     response.status_code = 404

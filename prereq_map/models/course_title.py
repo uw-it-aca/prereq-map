@@ -35,3 +35,8 @@ class CourseTitle(models.Model):
             return course.long_course_title
         except AttributeError:
             return ""
+
+    def json_data(self):
+        return ("%s %s: %s" % (self.department_abbrev,
+                               self.course_number,
+                               self.long_course_title))
