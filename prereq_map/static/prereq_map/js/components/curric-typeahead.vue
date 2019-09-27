@@ -4,7 +4,7 @@
       <b-form @submit.prevent="processForm">
         <b-input-group>
           <b-form-input
-            v-bind:size="[ $route.path == '/curriculum/' ? 'md': 'lg']"
+            v-bind:size="$route.path == '/curriculum/' ? 'md': 'lg'"
             v-model="query"
             type="text"
             aria-label="Enter a curric code... (e.g MATH)"

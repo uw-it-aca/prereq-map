@@ -21,7 +21,7 @@
           />
         </b-form-group>
         <curric-typeahead v-if="selected === 'curric'" />
-        <course-search v-if="selected === 'course'" />
+        <course-typeahead v-if="selected === 'course'" />
       </b-col>
     </b-row>
     <b-row>
@@ -61,16 +61,16 @@
 </template>
 
 <script>
-  import CourseSearch from "../components/course-search.vue";
+  import CourseTypeahead from "../components/course-typeahead.vue";
+  import CurricTypeahead from "../components/curric-typeahead.vue";
   import UserAccept from "../components/user-accept.vue";
-  import Typeahead from "../components/curric-typeahead.vue";
 
   export default {
     name: "Search",
     components: {
       "user-accept": UserAccept,
-      "curric-typeahead": Typeahead,
-      "course-search": CourseSearch
+      "curric-typeahead": CurricTypeahead,
+      "course-typeahead": CourseTypeahead
     },
     data() {
       return {

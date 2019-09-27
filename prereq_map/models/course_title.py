@@ -39,4 +39,4 @@ class CourseTitle(models.Model):
     def json_data(self):
         return ("%s %s: %s" % (self.department_abbrev,
                                self.course_number,
-                               self.long_course_title))
+                               self.long_course_title.rstrip()))

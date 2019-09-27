@@ -41,7 +41,7 @@
             </b-col>
             <b-col sm="7" class="prereq-banner-inputs ">
               <curric-typeahead v-if="$route.path == '/curriculum/'" />
-              <course-search v-if="$route.path == '/course/'" />
+              <course-typeahead v-if="$route.path == '/course/'" />
             </b-col>
           </b-row>
         </b-container>
@@ -76,13 +76,13 @@
 </template>
 
 <script>
-  import CourseSearch from "./components/course-search.vue";
-  import Typeahead from "./components/curric-typeahead.vue";
+  import CourseTypeahead from "./components/course-typeahead.vue";
+  import CurricTypeahead from "./components/curric-typeahead.vue";
 
   export default {
     components: {
-      "course-search": CourseSearch,
-      "curric-typeahead": Typeahead,
+      "course-typeahead": CourseTypeahead,
+      "curric-typeahead": CurricTypeahead,
     }
   };
 </script>

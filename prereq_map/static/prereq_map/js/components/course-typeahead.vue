@@ -4,7 +4,7 @@
       <b-form @submit.prevent="processForm">
         <b-input-group>
           <b-form-input
-            v-bind:size="[ $route.path == '/course/' ? 'md': 'lg']"
+            v-bind:size="$route.path == '/course/' ? 'md': 'lg'"
             v-model="course_name"
             type="text"
             aria-label="Enter a course code... (e.g MATH 124)"
@@ -25,38 +25,14 @@
 </template>
 
 <script>
+  import axios from "axios";
+
   export default {
     data() {
       return {
         course_code: undefined,
         course_name: undefined,
-        course_list: [
-          'A A 260: Thermodynamics',
-          'A A 301: Compressible Aerodynamics',
-          'A A 302: Incompressible Aerodynamics',
-          'A A 310: Orbital and Space Flight Mechanics',
-          'A S 101: Foundations of the United States Air Force I',
-          'ANTH 203: Introduction to Anthropological Linguistics',
-          'ANTH 208: The Culture Concept',
-          'B BIO 180: Introductory Biology I',
-          'B BIO 200: Introductory Biology II',
-          'B BIO 241: Human Anatomy and Physiology I for Nursing and Allied Health',
-          'CSE 142: Computer Programming I',
-          'CSE 143: Computer Programming II',
-          'CSE 154: Web Programming',
-          'CSE 160: Data Programming',
-          'CSE 311: Foundations of Computing I',
-          'CSS 132: Computer Programming for Engineers I',
-          'CSS 133: Computer Programming for Engineers II',
-          'MATH 100: Algebra',
-          'MATH 102: Algebra',
-          'MATH 103: Introduction to Elementary Functions',
-          'MATH 108: International Baccalaureate (IB) Mathematical Studies',
-          'MATH 111: Algebra with Applications',
-          'MATH 120: Precalculus',
-          'MATH 124: Calculus with Analytic Geometry I',
-          'MATH 300: Introduction to Mathematical Reasoning'
-        ]
+        course_list: undefined,
       };
     },
     watch: {
@@ -67,6 +43,8 @@
     },
     mounted() {
       this.course_code = this.$route.query.course;
+      // get curric data from api
+      this.getCourseData();
     },
     methods: {
       processForm: function(e) {
@@ -89,6 +67,17 @@
       },
       uppercase(value) {
         return value.toUpperCase();
+      },
+      getCourseData: function() {
+
+        // get the list of currics and store in an array
+        return axios
+          .get("/api/course_typeahead")
+          .then(response => {
+            // store the response data into an object
+            this.course_list = response.data;
+          })
+          .catch(() => {});
       }
     }
   };
