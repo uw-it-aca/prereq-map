@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.views import View
 from prereq_map.utils.process_data import get_graph
 from prereq_map.utils.typeahead import get_curric_typeahead
+from prereq_map.utils.typeahead import get_course_typeahead
 
 
 class CurricApiView(View):
@@ -37,7 +38,7 @@ class CurricTypeaheadApiView(View):
 class CourseTypeaheadApiView(View):
     @cache_control(max_age=86400)
     def get(self, request):
-        response = get_curric_typeahead()
+        response = get_course_typeahead()
         return HttpResponse(json.dumps(response))
 
 
