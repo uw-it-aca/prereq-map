@@ -12,12 +12,15 @@
     </b-row>
     <b-row class="justify-content-center course-search mt-5 mb-5">
       <b-col md="9">
-        <b-form-group label="Find prerequisite information by:">
+        <b-form-group label="Find prerequisite information by:" class="text-muted">
           <b-form-radio-group
             v-model="selected"
             v-on:change="rememberChoice()"
             :options="options"
             name="radio-inline"
+            size="md"
+            buttons
+            button-variant="outline-primary"
           />
         </b-form-group>
         <curric-typeahead v-if="selected === 'curric'" />

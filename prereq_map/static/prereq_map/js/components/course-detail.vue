@@ -7,7 +7,7 @@
             {{ courseParam }}<span v-if="course_title">: {{ course_title }}</span>
           </h1>
           <!--  eslint-disable-next-line vue/no-v-html -->
-          <div v-if="course_description" v-html="course_description" class="border border-danger">
+          <div v-if="course_description" v-html="course_description">
             {{ course_description }}
           </div>
         </div>
