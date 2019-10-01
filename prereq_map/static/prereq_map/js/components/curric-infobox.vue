@@ -32,32 +32,28 @@
           </router-link>
         </div>
         <div class="card-body bg-light">
-          <h3 class="card-title h6">
-            Has the following prerequisite(s):
-          </h3>
-          <ul class="prereq-list">
-            <li v-if="prereqs.length === 0">
-              No other courses
-            </li>
+          <div>
+            <small><strong class="text-dark">Prerequisites</strong> <span class="badge badge-pill badge-dark">{{ prereqs.length }}</span><span class="sr-only">courses</span></small>
+          </div>
+          <ul v-if="prereqs.length > 0" class="prereq-list">
             <li v-for="prereq in prereqs" :key="prereq">
-              <router-link :to="'/course/?course=' + prereq">
-                {{ prereq }}
-              </router-link>
+              <router-link :to="'/course/?course=' + prereq" class="badge badge-light border">{{ prereq }}</router-link>
             </li>
           </ul>
-          <h3 class="card-title h6">
-            Is a prerequisite for:
-          </h3>
-          <ul class="prereq-list">
-            <li v-if="postreqs.length === 0">
-              No other courses
-            </li>
+          <div v-else class="mb-3">
+            <small>This course has no prerequisites.</small>
+          </div>
+          <div>
+            <small><strong class="text-dark">Available upon completion</strong> <span class="badge badge-pill badge-dark">{{ postreqs.length }}</span><span class="sr-only">courses</span></small>
+          </div>
+          <ul v-if="postreqs.length > 0" class="prereq-list">
             <li v-for="postreq in postreqs" :key="postreq">
-              <router-link :to="'/course/?course=' + postreq">
-                {{ postreq }}
-              </router-link>
+              <router-link :to="'/course/?course=' + postreq" class="badge badge-light border">{{ postreq }}</router-link>
             </li>
           </ul>
+          <div v-else>
+            <small>This course is not a prerequisite for any other courses.</small>
+          </div>
         </div>
       </div>
     </div>
