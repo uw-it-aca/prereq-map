@@ -3,10 +3,16 @@
     <b-modal
       id="userAcceptance"
       size="md"
-      title="Welcome to Prereq Map"
       centered
       scrollable
+      no-close-on-backdrop
     >
+      <template v-slot:modal-header>
+        <h1 class="h4">
+          Welcome to Prereq Map
+        </h1>
+      </template>
+
       <div class="text-left p-4">
         <p>Here are some important notes before using Prereq Map:</p>
         <ul>
@@ -29,20 +35,22 @@
         </ul>
       </div>
 
-      <div slot="modal-footer" class="w-100">
-        <p class="float-left">
-          Do you understand?
-        </p>
-        <b-button
-          @click="accept"
-          @keydown="accept"
-          variant="primary"
-          size="md"
-          class="float-right"
-        >
-          Got it!
-        </b-button>
-      </div>
+      <template v-slot:modal-footer>
+        <div class="w-100">
+          <p class="float-left">
+            Do you understand?
+          </p>
+          <b-button
+            @click="accept"
+            @keydown="accept"
+            variant="primary"
+            size="md"
+            class="float-right"
+          >
+            Got it!
+          </b-button>
+        </div>
+      </template>
     </b-modal>
   </div>
 </template>
