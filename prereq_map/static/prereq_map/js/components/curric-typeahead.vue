@@ -14,7 +14,7 @@
           />
           <b-form-datalist id="my-list-id" :options="curric_list" />
           <b-input-group-append>
-            <b-button variant="primary" type="submit">
+            <b-button v-bind:variant="$route.path == '/curriculum/' ? 'light': 'primary'" class="border-left" type="submit">
               Search
             </b-button>
           </b-input-group-append>
