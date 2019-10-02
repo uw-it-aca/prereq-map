@@ -35,18 +35,18 @@
       <template v-slot:modal-footer>
         <b-container>
           <b-row>
-            <b-col cols="8">
-              Remember to talk to your adviser when course planning. Do you understand?
+            <b-col sm="9">
+              <p>Remember to talk to your adviser when course planning. Do you understand?</p>
             </b-col>
-            <b-col cols="4">
+            <b-col sm="3" class="text-center">
               <b-button
                 @click="accept"
                 @keydown="accept"
                 variant="primary"
                 size="md"
-                class="float-right"
+                class="mb-3"
               >
-                Got it!
+                I got it!
               </b-button>
             </b-col>
           </b-row>
