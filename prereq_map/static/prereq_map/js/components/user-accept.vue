@@ -35,10 +35,10 @@
       <template v-slot:modal-footer>
         <b-container>
           <b-row>
-            <b-col cols="9">
+            <b-col cols="8">
               Remember to talk to your adviser when course planning. Do you understand?
             </b-col>
-            <b-col cols="3">
+            <b-col cols="4">
               <b-button
                 @click="accept"
                 @keydown="accept"
@@ -97,7 +97,9 @@
   @import 'node_modules/bootstrap/scss/mixins';
 
   .modal-backdrop {
+    height: 100% !important;
     opacity: 0.8;
+    width: 100% !important;
   }
 
   .modal-body {
