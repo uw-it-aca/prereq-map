@@ -32,14 +32,14 @@
       </nav>
 
       <div class="prereq-banner">
-        <b-container aria-label="Banner">
+        <b-container aria-label="Banner" class="p-3">
           <b-row>
             <b-col sm="5">
               <router-link to="/" class="nav-link pl-0">
                 <img class="d-inline-block" alt="PreReq Map" src="/static/prereq_map/img/gr-PreReqMap-logo.png">
               </router-link>
             </b-col>
-            <b-col sm="7" class="prereq-banner-inputs ">
+            <b-col sm="7" class="prereq-banner-inputs mt-auto mb-auto">
               <curric-typeahead v-if="$route.path == '/curriculum/'" />
               <course-typeahead v-if="$route.path == '/course/'" />
             </b-col>
@@ -122,11 +122,4 @@
       transform: translate(0, -50%);
     }
   }
-
-  .prereq-banner-inputs {
-    @include media-breakpoint-up(sm) {
-      padding-top: 1.75rem;
-    }
-  }
-
 </style>
