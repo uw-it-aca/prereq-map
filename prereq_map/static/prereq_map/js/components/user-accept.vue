@@ -8,7 +8,7 @@
       no-close-on-backdrop
     >
       <template v-slot:modal-header>
-        <h1 class="h4">
+        <h1 class="h4 m-0">
           Welcome to Prereq Map
         </h1>
       </template>
@@ -29,27 +29,28 @@
             map – just courses. You can find some equivalencies in the text
             description.
           </li>
-          <li>
-            Remember to talk to your adviser when course planning.
-          </li>
         </ul>
       </div>
 
       <template v-slot:modal-footer>
-        <div class="w-100">
-          <p class="float-left">
-            Do you understand?
-          </p>
-          <b-button
-            @click="accept"
-            @keydown="accept"
-            variant="primary"
-            size="md"
-            class="float-right"
-          >
-            Got it!
-          </b-button>
-        </div>
+        <b-container>
+          <b-row>
+            <b-col cols="9">
+              Remember to talk to your adviser when course planning. Do you understand?
+            </b-col>
+            <b-col cols="3">
+              <b-button
+                @click="accept"
+                @keydown="accept"
+                variant="primary"
+                size="md"
+                class="float-right"
+              >
+                Got it!
+              </b-button>
+            </b-col>
+          </b-row>
+        </b-container>
       </template>
     </b-modal>
   </div>
