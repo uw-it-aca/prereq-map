@@ -36,7 +36,7 @@
           <b-row>
             <b-col sm="5">
               <router-link to="/" class="nav-link p-0">
-                <img class="d-inline-block" alt="PreReq Map" src="/static/prereq_map/img/gr-PreReqMap-logo.png">
+                <b-img src="/static/prereq_map/img/gr-PreReqMap-logo.png" fluid alt="PreReq Map" />
               </router-link>
             </b-col>
             <b-col sm="7" class="prereq-banner-inputs mt-auto mb-auto">
@@ -102,24 +102,5 @@
 
   .prereq-banner {
     background-color: $uw-purple;
-  }
-
-  .prereq-banner img {
-    height: auto;
-    width: 13rem;
-  }
-
-  .prereq-banner .logo-position {
-    left: 1.25rem;
-    position: absolute;
-    top: 25%;
-    transform: translate(0, -25%);
-
-    @include media-breakpoint-up(sm) {
-      left: 1.25rem;
-      position: absolute;
-      top: 50%;
-      transform: translate(0, -50%);
-    }
   }
 </style>
