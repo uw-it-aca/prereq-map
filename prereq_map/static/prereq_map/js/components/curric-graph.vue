@@ -1,9 +1,6 @@
 <template>
   <div v-if="curric_param !== undefined">
     <div class="row">
-      <p class="col-sm-12">
-        The following is a graph of courses, in this, Curriculum that have an association.
-      </p>
       <div class="col-sm-9">
         <div v-bind:class="{'card shadow-sm prereq-graph' : graph_error === false}">
           <div id="graph_container" />
