@@ -2,20 +2,22 @@
   <div v-cloak class="col course-detail">
     <div class="row">
       <div class="col-md-5">
-        <div class="mb-3">
-          <h1 class="h3">
-            {{ courseParam }}<span v-if="course_title">: {{ course_title }}</span>
-          </h1>
-          <!--  eslint-disable-next-line vue/no-v-html -->
-          <div v-if="course_description" v-html="course_description">
-            {{ course_description }}
-          </div>
-        </div>
-
         <b-row>
           <b-col class="mb-3">
-            <h2 class="h6">
-              Prerequisites <span class="badge badge-pill badge-dark">{{ prereqs.length }}</span><span class="sr-only">courses</span>
+            <h1 class="h3">
+              {{ courseParam }}<span v-if="course_title">: {{ course_title }}</span>
+            </h1>
+            <!--  eslint-disable-next-line vue/no-v-html -->
+            <p v-if="course_description" v-html="course_description" class="font-weight-lighter">
+              {{ course_description }}
+            </p>
+            <hr>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col class="mb-3">
+            <h2 class="h6 font-weight-bolder">
+              Prerequisites <span class="badge badge-pill badge-primary">{{ prereqs.length }}</span><span class="sr-only">courses</span>
             </h2>
             <ul v-if="prereqs.length > 0" class="prereq-list">
               <li v-for="prereq in prereqs" :key="prereq">
@@ -23,14 +25,16 @@
               </li>
             </ul>
             <div v-else>
-              <small>This course has no prerequisites.</small>
+              <p class="font-weight-lighter">
+                This course has no prerequisites.
+              </p>
             </div>
           </b-col>
         </b-row>
         <b-row>
           <b-col class="mb-3">
-            <h2 class="h6">
-              Available upon completion <span class="badge badge-pill badge-dark">{{ postreqs.length }}</span><span class="sr-only">courses</span>
+            <h2 class="h6 font-weight-bolder">
+              Available upon completion <span class="badge badge-pill badge-primary">{{ postreqs.length }}</span><span class="sr-only">courses</span>
             </h2>
             <ul v-if="postreqs.length > 0" class="prereq-list">
               <li v-for="postreq in postreqs" :key="postreq">
@@ -42,10 +46,10 @@
             </div>
           </b-col>
         </b-row>
-        <h2 class="h6">
+        <h2 class="h6 font-weight-bolder">
           Additional information
         </h2>
-        <p>
+        <p class="font-weight-lighter">
           <a
             :href="'https://myplan.uw.edu/course/#/courses/' + courseParam"
             @keydown="
