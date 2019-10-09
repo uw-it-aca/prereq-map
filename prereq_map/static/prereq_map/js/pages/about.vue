@@ -6,7 +6,7 @@
     <h2 class="h3">
       Discover courses and plan your schedule more effectively
     </h2>
-    <p>
+    <p class="font-weight-lighter">
       It can be tough figuring out which courses to take. How do you find
       courses similar to ones you’ve really enjoyed? Of the courses you’ve
       already taken, which ones provide a foundation for more advanced
@@ -16,19 +16,18 @@
       prereq? Prereq is short for prerequisites: the courses that act as a
       foundation for other courses.)
     </p>
-    <p>Remember to talk to your adviser when course planning.</p>
 
     <b-img
       src="/static/prereq_map/img/onboarding-biol.png"
-      fluid
+      fluid-grow
       alt="Onboarding curriculum example"
-      style="border: solid 2px #333;"
+      class="border border-secondary"
     />
     <p class="mt-4 mb-4 h3">
       See the prerequisite map for a curriculum
       <small>(e.g. Biology, BIOL)</small>
     </p>
-    <p>
+    <p class="font-weight-lighter">
       Begin exploring the Prereq Map by choosing a curriculum (subjects
       comprising a discipline, e.g., Biology or BIOL) you’re interested in.
       Follow the lines to view prerequisites for courses. View courses that have
@@ -37,14 +36,14 @@
 
     <b-img
       src="/static/prereq_map/img/onboarding-infobox.png"
-      fluid
+      fluid-grow
       alt="Onboarding Infobox example"
-      style="border: solid 2px #333;"
+      class="border border-secondary"
     />
     <p class="mt-4 mb-4 h3">
       Get additional info about a course
     </p>
-    <p>
+    <p class="font-weight-lighter">
       Each square on the map represents a specific course. Click the square to
       view prerequisite information for the course. Click the links in the
       sidebar to learn more.
@@ -52,14 +51,14 @@
 
     <b-img
       src="/static/prereq_map/img/onboarding-course-details.png"
-      fluid
+      fluid-grow
       alt="Onboarding course details example"
-      style="border: solid 2px #333;"
+      class="border border-secondary"
     />
     <p class="mt-4 mb-4 h3">
       Get more course detail and find related curricula
     </p>
-    <p>
+    <p class="font-weight-lighter">
       On the Course Search page, click links to browse related course offerings.
       You can also explore related curricula and their prerequisite maps.
     </p>
@@ -68,7 +67,7 @@
       <strong>Important notes:</strong>
     </p>
 
-    <ul>
+    <ul class="font-weight-lighter">
       <li>
         Prereq Map shows current prerequisites. When planning several quarters
         out, keep in mind that prerequisites may change over time.
