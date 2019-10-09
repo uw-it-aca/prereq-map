@@ -3,15 +3,11 @@
 <template>
   <b-container id="search">
     <user-accept />
-    <b-row>
-      <b-col>
-        <h1 class="h3">
+    <b-row class="justify-content-center">
+      <b-col md="9">
+        <h1 class="h3 sr-only">
           Prerequisite Map
         </h1>
-      </b-col>
-    </b-row>
-    <b-row class="justify-content-center course-search mt-5 mb-5">
-      <b-col md="9">
         <b-card bg-variant="light" text-variant="dark">
           <b-form-group label="Find prerequisites by:">
             <b-form-radio v-model="selected" inline name="some-radios" value="course" size="lg">
