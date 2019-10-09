@@ -13,15 +13,13 @@
     <b-row class="justify-content-center course-search mt-5 mb-5">
       <b-col md="9">
         <b-card bg-variant="light" text-variant="dark">
-          <b-form-group label="Find prerequisites by:" label-for="searchOptions">
-            <b-form-radio-group
-              id="searchOptions"
-              v-model="selected"
-              v-on:change="rememberChoice()"
-              :options="options"
-              name="radio-inline"
-              size="lg"
-            />
+          <b-form-group label="Find prerequisites by:">
+            <b-form-radio v-model="selected" inline name="some-radios" value="course" size="lg">
+              Course
+            </b-form-radio>
+            <b-form-radio v-model="selected" inline name="some-radios" value="curric" size="lg">
+              Curriculum
+            </b-form-radio>
           </b-form-group>
           <curric-typeahead v-if="selected === 'curric'" />
           <course-typeahead v-if="selected === 'course'" />
@@ -46,21 +44,12 @@
     data() {
       return {
         selected: 'course',
-        options: [
-          { text: 'Course', value: 'course' },
-          { text: 'Curriculum', value: 'curric' }
-        ]
       };
     },
     mounted() {
       document.title = "Prereq Map - University of Washington";
     },
-    methods: {
-      rememberChoice: function() {
-        // eslint-disable-next-line no-console
-        console.log("remember this!");
-      }
-    }
+    methods: {}
   };
 </script>
 
