@@ -3,40 +3,21 @@
 <template>
   <div id="curriculum" class="container">
     <div v-if="curric_param === undefined">
-      <b-container class="bv-example-row">
-        <b-row>
-          <b-col sm>
-            <h3>Seattle</h3>
-            <ul>
-              <li><a href="/curriculum/?curric=MATH">Mathematics (MATH)</a></li>
-              <li>aslkjfd</li>
-              <li>aslkjfd</li>
-              <li>aslkjfd</li>
-              <li>aslkjfd</li>
-            </ul>
-          </b-col>
-          <b-col sm>
-            <h3>Bothell</h3>
-            <ul>
-              <li>aslkjfd</li>
-              <li>aslkjfd</li>
-              <li>aslkjfd</li>
-              <li>aslkjfd</li>
-              <li>aslkjfd</li>
-            </ul>
-          </b-col>
-          <b-col sm>
-            <h3>Tacoma</h3>
-            <ul>
-              <li>aslkjfd</li>
-              <li>aslkjfd</li>
-              <li>aslkjfd</li>
-              <li>aslkjfd</li>
-              <li>aslkjfd</li>
-            </ul>
-          </b-col>
-        </b-row>
-      </b-container>
+      <h1 class="h3 mb-3">
+        Curriculum
+      </h1>
+      <p class="font-weight-lighter">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
+        elementum dignissim imperdiet. Vivamus maximus felis sed risus eleifend
+        condimentum. Aliquam id lacus condimentum, tempus justo quis, mollis
+        odio. Etiam feugiat efficitur maximus. Etiam dignissim pharetra congue.
+        Donec laoreet condimentum orci, eu condimentum nulla condimentum
+        consectetur. Etiam et urna aliquam, suscipit ante in, pharetra turpis.
+        Phasellus ut finibus dolor. Quisque gravida nisi mi, ac gravida felis
+        dapibus eget. Sed at lectus venenatis, convallis dui eu, venenatis
+        dolor. Nunc sed leo sagittis, ornare tortor a, pretium leo. Quisque enim
+        nunc, fringilla at sapien sodales, tincidunt ultrices eros.
+      </p>
     </div>
     <div v-else>
       <div class="row mb-4">

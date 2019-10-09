@@ -12,10 +12,12 @@
       <div v-if="course_valid && loading === false" class="row">
         <course-detail :course-param="course_param" />
       </div>
-
       <div v-cloak v-if="course_valid === false" class="row">
         <div class="col">
-          <p>
+          <h1 class="h3 mb-3">
+            No Prerequisite Info
+          </h1>
+          <p class="font-weight-lighter">
             No prerequisite information for
             <strong>{{ course_param }}</strong> was found. Here are some
             possible reasons:
@@ -30,15 +32,17 @@
             <li>You made a typo – the course code doesn't exist</li>
           </ul>
 
-          <p>Remember to talk to your adviser when course planning.</p>
+          <p class="font-weight-lighter">
+            Remember to talk to your adviser when course planning.
+          </p>
         </div>
       </div>
     </div>
     <div v-else>
-      <h1 class="h3">
+      <h1 class="h3 mb-3">
         Courses
       </h1>
-      <p>
+      <p class="font-weight-lighter">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
         elementum dignissim imperdiet. Vivamus maximus felis sed risus eleifend
         condimentum. Aliquam id lacus condimentum, tempus justo quis, mollis
