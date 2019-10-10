@@ -2,11 +2,11 @@
 {% load render_bundle from webpack_loader %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, shrink-to-fit=no">
     <link rel="icon" href="{% static '/prereq_map/img/favicon.png' %}">
     <title>{% block title %}{% endblock %} - PreReq Map</title>
 
@@ -74,7 +74,7 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="prereq-footer">
+    <footer class="prereq-footer" role="contentinfo">
         <div>
             <div class="footer-links">
                 <ul>
