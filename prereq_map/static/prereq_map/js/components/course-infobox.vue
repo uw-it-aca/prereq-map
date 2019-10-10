@@ -16,7 +16,7 @@
           </h5>
 
           <!--  eslint-disable-next-line vue/no-v-html -->
-          <p v-if="course_description" v-html="course_description" class="card-title">
+          <p v-if="course_description" class="card-title" v-html="course_description">
             {{ course_description }}
           </p>
 

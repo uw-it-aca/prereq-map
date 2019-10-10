@@ -3,10 +3,10 @@
     <div class="col-md-9 offset-md-1">
       <vue-bootstrap-typeahead
         v-model="query"
-        :data="curric_list"
-        @hit="selected_curric = $event"
         class="mb-3"
+        :data="curric_list"
         placeholder="E.G. MATH"
+        @hit="selected_curric = $event"
       />
     </div>
   </div>

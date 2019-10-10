@@ -13,12 +13,11 @@
         <div class="modal-content">
           <div class="modal-header">
             <button
-              @click="$ga.event('onboarding', 'click', 'close button')"
-              @keydown="$ga.event('onboarding', 'click', 'close button')"
               type="button"
               class="close"
               data-dismiss="modal"
               aria-label="Close"
+              @click="$ga.event('onboarding', 'click', 'close button')"
             >
               <span aria-hidden="true">&times;</span>
             </button>
@@ -71,7 +70,6 @@
                     src="/static/prereq_map/img/onboarding-biol.png"
                     style="border: solid 2px #333;
                       width: 600px;"
-                    alt="Onboarding curriculum example"
                   >
                   <h2 class="mt-4 mb-4 h3">
                     See the prerequisite map for a curriculum
@@ -90,7 +88,6 @@
                     src="/static/prereq_map/img/onboarding-infobox.png"
                     style="border: solid 2px #333;
                       width: 600px;"
-                    alt="Onboarding Infobox example"
                   >
                   <h2 class="mt-4 mb-4 h3">
                     Get additional info about a course
@@ -106,7 +103,6 @@
                     src="/static/prereq_map/img/onboarding-course-details.png"
                     style="border: solid 2px #333;
                       width: 600px;"
-                    alt="Onboarding course details example"
                   >
                   <h2 class="mt-4 mb-4 h3">
                     Get more course detail and find related curricula
@@ -145,6 +141,8 @@
                   <div class="text-center mt-3">
                     <div>
                       <a
+                        href="https://itconnect.uw.edu/learn/tools/prereq-map/"
+                        target="_blank"
                         @click="
                           $ga.event(
                             'outbound',
@@ -152,15 +150,6 @@
                             'https://itconnect.uw.edu/learn/tools/prereq-map/'
                           )
                         "
-                        @keydown="
-                          $ga.event(
-                            'outbound',
-                            'click',
-                            'https://itconnect.uw.edu/learn/tools/prereq-map/'
-                          )
-                        "
-                        href="https://itconnect.uw.edu/learn/tools/prereq-map/"
-                        target="_blank"
                       >
                         Additional details
                       </a>
@@ -168,9 +157,8 @@
                   </div>
                   <div class="text-center mt-2">
                     <button
-                      @click="accept"
-                      @keydown="accept"
                       class="btn btn-primary prereq-purple"
+                      @click="accept"
                     >
                       Got it!
                     </button>
