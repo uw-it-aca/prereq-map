@@ -18,7 +18,7 @@ RUN chmod u+x /scripts/app_deploy.sh
 RUN . /app/bin/activate && pip install django-webpack-loader
 
 
-FROM node:8.16.0-jessie AS wpack
+FROM node:8.15.1-jessie AS wpack
 ADD . /app/
 WORKDIR /app/
 RUN npm install .
