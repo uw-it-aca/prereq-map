@@ -4,7 +4,9 @@
   <b-container>
     <b-row class="justify-content-center">
       <b-col md="9">
-        <h1 class="h3 mb-4">About Prereq Map</h1>
+        <h1 class="h3 mb-4">
+          About Prereq Map
+        </h1>
         <h2 class="h4">
           Discover courses and plan your schedule more effectively
         </h2>
