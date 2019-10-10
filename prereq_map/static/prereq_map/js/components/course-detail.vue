@@ -1,40 +1,64 @@
 <template>
   <div v-cloak class="col course-detail">
     <div class="row">
-      <div class="col-md-5 pb-5">
-        <div>
-          <course-graph :course-param="courseParam" />
-        </div>
-      </div>
-      <div class="col-md-7">
-        <div class="mb-4">
-          <h2 class="pt-3">
-            <span>{{ courseParam }}</span>
-            <span v-if="course_title">- {{ course_title }}</span>
-          </h2>
-          <!--  eslint-disable-next-line vue/no-v-html -->
-          <div v-if="course_description" v-html="course_description">
-            {{ course_description }}
-          </div>
-        </div>
-
-        <div class="mb-4">
-          <strong>Is a prerequisite for:</strong>
-          <ul class="prereq-list">
-            <li v-if="postreqs.length === 0">
-              No other courses
-            </li>
-            <li v-for="postreq in postreqs" :key="postreq">
-              <a :href="'/course-search/?course=' + postreq">{{ postreq }}</a>
-            </li>
-          </ul>
-        </div>
-
-        <strong>Additional information:</strong>
-        <p>
+      <div class="col-md-5">
+        <b-row>
+          <b-col class="mb-3">
+            <h1 class="h3">
+              {{ courseParam }}<span v-if="course_title">: {{ course_title }}</span>
+            </h1>
+            <!--  eslint-disable-next-line vue/no-v-html -->
+            <p v-if="course_description" v-html="course_description" class="font-weight-lighter">
+              {{ course_description }}
+            </p>
+            <hr>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col class="mb-3">
+            <h2 class="h6 font-weight-bolder">
+              Prerequisites <span class="badge badge-pill badge-primary">{{ prereqs.length }}</span><span class="sr-only">courses</span>
+            </h2>
+            <ul v-if="prereqs.length > 0" class="prereq-list">
+              <li v-for="prereq in prereqs" :key="prereq">
+                <router-link :to="'/course/?course=' + prereq" class="badge badge-light border">{{ prereq }}</router-link>
+              </li>
+            </ul>
+            <div v-else>
+              <p class="font-weight-lighter">
+                This course has no prerequisites.
+              </p>
+            </div>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col class="mb-3">
+            <h2 class="h6 font-weight-bolder">
+              Available upon completion <span class="badge badge-pill badge-primary">{{ postreqs.length }}</span><span class="sr-only">courses</span>
+            </h2>
+            <ul v-if="postreqs.length > 0" class="prereq-list">
+              <li v-for="postreq in postreqs" :key="postreq">
+                <router-link :to="'/course/?course=' + postreq" class="badge badge-light border">{{ postreq }}</router-link>
+              </li>
+            </ul>
+            <div v-else>
+              <small>This course is not a prerequisite for any other courses.</small>
+            </div>
+          </b-col>
+        </b-row>
+        <h2 class="h6 font-weight-bolder">
+          Additional information
+        </h2>
+        <p class="font-weight-lighter">
           <a
             :href="'https://myplan.uw.edu/course/#/courses/' + courseParam"
-            target="_blank"
+            @keydown="
+              $ga.event(
+                'outbound',
+                'click',
+                'https://myplan.uw.edu/course/#/courses/' + courseParam
+              )
+            "
             @click="
               $ga.event(
                 'outbound',
@@ -42,10 +66,14 @@
                 'https://myplan.uw.edu/course/#/courses/' + courseParam
               )
             "
+            target="_blank"
           >
             View {{ courseParam }} course details and schedule on MyPlan
           </a>
         </p>
+      </div>
+      <div class="col-md-7" aria-hidden="true">
+        <course-graph :course-param="courseParam" />
       </div>
     </div>
   </div>
@@ -53,10 +81,10 @@
 
 <script>
   import Graph from "./course-graph.vue";
-
-  import { dataBus } from "../pages/course/";
+  import { dataBus } from "../main.js";
 
   export default {
+    name: "CourseDetail",
     components: {
       "course-graph": Graph
     },
@@ -80,19 +108,6 @@
       dataBus.$on("course_data", data => {
         this.course_title = data.course_title;
         this.course_description = data.course_description;
-
-        if (this.course_description) {
-          // format the description (hack!)
-          this.course_description = this.course_description.replace(
-            "Prerequisite: ",
-            "<br /><br /><strong>Prerequisite:</strong> "
-          );
-          this.course_description = this.course_description.replace(
-            "Offered: ",
-            "<br /><br /><strong>Offered:</strong> "
-          );
-        }
-
         this.prereqs = this.get_prereqs(this.courseParam, data.x.edges.from);
         this.postreqs = this.get_postreqs(this.courseParam, data.x.edges.to);
       });

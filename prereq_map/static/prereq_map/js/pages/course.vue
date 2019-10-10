@@ -1,56 +1,72 @@
+// course.vue
+
 <template>
-  <div id="course" class="container py-1 mt-2" role="main">
-    <h1 class="pt-4 pb-2">
-      Course Search
-    </h1>
-    <p class="instruction-text pb-4">
-      View course prerequisites and related curricula
-    </p>
-
-    <course-search-input />
-
-    <div v-if="loading" class="pr-loading mt-5 mb-5">
+  <div id="course" class="container">
+    <div v-if="loading" class="pr-loading">
       <div>
         <i class="fas fa-spinner fa-spin" />
         <span class="sr-only">Loading...</span>
       </div>
     </div>
-
     <div v-cloak v-if="course_param !== undefined">
-      <div v-if="course_valid && loading === false" class="row mt-5 mb-5">
+      <div v-if="course_valid && loading === false" class="row">
         <course-detail :course-param="course_param" />
       </div>
-
-      <div v-cloak v-if="course_valid === false" class="row mt-5 mb-5">
+      <div v-cloak v-if="course_valid === false" class="row">
         <div class="col">
-          <p>
-            No prerequisite information for <strong>{{ course_param }}</strong> was found. Here
-            are some possible reasons:
+          <h1 class="h3 mb-3">
+            No Prerequisite Info
+          </h1>
+          <p class="font-weight-lighter">
+            No prerequisite information for
+            <strong>{{ course_param }}</strong> was found. Here are some
+            possible reasons:
           </p>
 
           <ul>
-            <li>It does not have prereqs and/or isn't a prereq for other courses</li>
+            <li>
+              It does not have prereqs and/or isn't a prereq for other courses
+            </li>
             <li>It is no longer offered</li>
             <li>It is a graduate level course</li>
             <li>You made a typo – the course code doesn't exist</li>
           </ul>
 
-          <p>Remember to talk to your adviser when course planning.</p>
+          <p class="font-weight-lighter">
+            Remember to talk to your adviser when course planning.
+          </p>
         </div>
       </div>
+    </div>
+    <div v-else>
+      <h1 class="h3 mb-3">
+        Courses
+      </h1>
+      <p class="font-weight-lighter">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
+        elementum dignissim imperdiet. Vivamus maximus felis sed risus eleifend
+        condimentum. Aliquam id lacus condimentum, tempus justo quis, mollis
+        odio. Etiam feugiat efficitur maximus. Etiam dignissim pharetra congue.
+        Donec laoreet condimentum orci, eu condimentum nulla condimentum
+        consectetur. Etiam et urna aliquam, suscipit ante in, pharetra turpis.
+        Phasellus ut finibus dolor. Quisque gravida nisi mi, ac gravida felis
+        dapibus eget. Sed at lectus venenatis, convallis dui eu, venenatis
+        dolor. Nunc sed leo sagittis, ornare tortor a, pretium leo. Quisque enim
+        nunc, fringilla at sapien sodales, tincidunt ultrices eros.
+      </p>
     </div>
   </div>
 </template>
 
 <script>
   import axios from "axios";
-  import CourseSearchInput from "../../components/course-search-input.vue";
-  import CourseDetail from "../../components/course-detail.vue";
+  //import CourseSearch from "../components/course-search.vue";
+  import CourseDetail from "../components/course-detail.vue";
 
   export default {
-    name: "Curriculum",
+    name: "Course",
     components: {
-      "course-search-input": CourseSearchInput,
+      //"course-search": CourseSearch,
       "course-detail": CourseDetail
     },
     data() {
@@ -70,7 +86,11 @@
         if (this.course_param !== undefined) {
           this.getCourse();
           // update page title
-          document.title = this.course_param + " - Course Search - Prereq Map";
+          document.title =
+            this.course_param +
+            " - Course - Prereq Map - University of Washington";
+        } else {
+          this.loading = undefined;
         }
       }
     },
@@ -82,7 +102,8 @@
         this.loading = true;
         this.getCourse();
         // update page title
-        document.title = this.course_param + " - Course Search - Prereq Map";
+        document.title =
+          this.course_param + " - Course - Prereq Map - University of Washington";
       }
     },
     methods: {
@@ -106,7 +127,7 @@
           .catch(() => {
             this.course_valid = false;
             // hide the loading spinner to show responses
-            this.loading = false;
+            this.loading = undefined;
             //console.log("error " + error);
           });
       }

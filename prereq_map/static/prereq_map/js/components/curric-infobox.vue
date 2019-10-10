@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="course_code" class="card mt-4">
+    <div v-if="course_code" class="card">
       <div v-if="loading">
         <div class="pr-loading mt-5 mb-5">
           <div class="pr-loading-inner">
@@ -11,42 +11,62 @@
       </div>
       <div v-else>
         <div class="card-header bg-white">
-          <h5 class="m-0">
+          <h2 class="m-0 h5">
             {{ course_code }}
-          </h5>
+          </h2>
 
           <!--  eslint-disable-next-line vue/no-v-html -->
-          <p v-if="course_description" class="card-title" v-html="course_description">
+          <p
+            v-if="course_description"
+            v-html="course_description"
+            class="card-title"
+          >
             {{ course_description }}
           </p>
 
-          <a
-            :href="'/course-search/?course=' + course_code"
+          <router-link
+            :to="'/course/?course=' + course_code"
             class="btn btn-primary btn-sm prereq-infobox-button"
           >
             More details
-          </a>
+          </router-link>
         </div>
         <div class="card-body bg-light">
-          <h5 class="card-title h6">
-            Is a prerequisite for:
-          </h5>
-          <ul class="prereq-list">
-            <li v-if="postreqs.length === 0">
-              No other courses
-            </li>
-            <li v-for="postreq in postreqs" :key="postreq">
-              <a :href="'/course-search/?course=' + postreq">{{ postreq }}</a>
+          <div>
+            <small><strong class="text-dark">Prerequisites</strong> <span class="badge badge-pill badge-dark">{{ prereqs.length }}</span><span class="sr-only">courses</span></small>
+          </div>
+          <ul v-if="prereqs.length > 0" class="prereq-list">
+            <li v-for="prereq in prereqs" :key="prereq">
+              <router-link :to="'/course/?course=' + prereq" class="badge badge-light border">{{ prereq }}</router-link>
             </li>
           </ul>
+          <div v-else class="mb-3">
+            <small>This course has no prerequisites.</small>
+          </div>
+          <div>
+            <small><strong class="text-dark">Available upon completion</strong> <span class="badge badge-pill badge-dark">{{ postreqs.length }}</span><span class="sr-only">courses</span></small>
+          </div>
+          <ul v-if="postreqs.length > 0" class="prereq-list">
+            <li v-for="postreq in postreqs" :key="postreq">
+              <router-link :to="'/course/?course=' + postreq" class="badge badge-light border">{{ postreq }}</router-link>
+            </li>
+          </ul>
+          <div v-else>
+            <small>This course is not a prerequisite for any other courses.</small>
+          </div>
         </div>
       </div>
     </div>
+    <b-card v-else class="shadow-sm">
+      <b-card-text class="font-weight-lighter">
+        Use the scroll function on your mouse or touchpad to zoom in and out The map only displays prerequisite relationships within the selected curriculum. View course details to see prerequisites from other curricula
+      </b-card-text>
+    </b-card>
   </div>
 </template>
 
 <script>
-  const axios = require("axios");
+  import axios from "axios";
   export default {
     data() {
       return {
@@ -64,15 +84,6 @@
       "$route.query.course": function() {
         this.course_code = this.$route.query.course;
         this.show(this.course_code);
-
-        if (this.course_code !== undefined) {
-          // update page title
-          document.title = this.course_code + " - Curriculum Search - Prereq Map";
-        } else {
-          // update page title
-          document.title =
-            this.$route.query.curric + " - Curriculum Search - Prereq Map";
-        }
       },
       course_data: function() {
         this.prereqs = this.get_prereqs(
@@ -84,28 +95,13 @@
           this.course_data.data.x.edges.to
         );
         this.course_description = this.course_data.data.course_description;
-
-        if (this.course_description) {
-          // format the description (hack!)
-          this.course_description = this.course_description.replace(
-            "Prerequisite: ",
-            "<br /><br /><strong>Prerequisite:</strong> "
-          );
-          this.course_description = this.course_description.replace(
-            "Offered: ",
-            "<br /><br /><strong>Offered:</strong> "
-          );
-        }
-
       }
     },
     mounted() {
       this.course_code = this.$route.query.course;
+
       if (this.course_code !== undefined) {
         this.show(this.course_code);
-
-        // update page title
-        document.title = this.course_code + " - Curriculum Search - Prereq Map";
       }
 
       // global click handler for show node event
@@ -116,7 +112,6 @@
       });
 
       // global click handler for close node event
-
       $(document).on("closeCourseInfo", () => {
         this.close();
       });
@@ -153,11 +148,15 @@
       show: function(code) {
         this.loading = true;
         this.course_code = code;
-        this.$router.push({
-          query: Object.assign({}, this.$route.query, {
-            course: this.course_code
+
+        this.$router
+          .push({
+            query: Object.assign({}, this.$route.query, {
+              course: this.course_code
+            })
           })
-        });
+          // eslint-disable-next-line no-unused-vars
+          .catch(err => {});
 
         if (this.course_code !== undefined) {
           this.load_course(code);
@@ -166,9 +165,12 @@
 
       close: function() {
         // set course param to undefined in order to clear it out from query
-        this.$router.replace({
-          query: Object.assign({}, this.$route.query, { course: undefined })
-        });
+        this.$router
+          .replace({
+            query: Object.assign({}, this.$route.query, { course: undefined })
+          })
+          // eslint-disable-next-line no-unused-vars
+          .catch(err => {});
       }
     }
   };
