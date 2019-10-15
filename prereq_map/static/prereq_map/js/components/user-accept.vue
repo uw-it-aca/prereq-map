@@ -15,7 +15,7 @@
 
       <div class="text-left p-4">
         <p>Here are some important notes before using Prereq Map:</p>
-        <ul>
+        <ul class="font-weight-lighter">
           <li>
             Prereq Map shows current prerequisites. When planning several
             quarters out, keep in mind that prerequisites may change over time.
@@ -36,7 +36,7 @@
         <b-container>
           <b-row>
             <b-col sm="9">
-              <p>Remember to talk to your adviser when course planning. Do you understand?</p>
+              <p>Remember to talk to your adviser when course planning.</p>
             </b-col>
             <b-col sm="3" class="text-center">
               <b-button
@@ -44,7 +44,7 @@
                 @keydown="accept"
                 variant="primary"
                 size="md"
-                class="mb-3"
+                class="mt-2 mb-3"
               >
                 I got it!
               </b-button>
