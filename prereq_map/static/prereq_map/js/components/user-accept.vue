@@ -87,6 +87,10 @@
         // hide the modal (until end of the current term)
         this.$bvModal.hide("userAcceptance");
 
+        this.$ga.page({
+          page: "/onboarding/accepted/",
+          title: "Onboarding accepted"
+        });
       }
     }
   };
