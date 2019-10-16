@@ -1,6 +1,4 @@
-// import the base css and js needed for the boilerplate
-
-import "../css/base.css";
+// import js needed for building the graph
 import "../js/app.js";
 import "../js/cluster.js";
 

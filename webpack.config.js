@@ -1,20 +1,18 @@
-const path = require("path")
-const webpack = require('webpack')
-const BundleTracker = require('webpack-bundle-tracker')
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
-const TerserJSPlugin = require('terser-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const path = require("path");
+const BundleTracker = require('webpack-bundle-tracker');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const TerserJSPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
 
-    context: __dirname,
+    //context: __dirname,
 
     entry: {
         base: './prereq_map/static/prereq_map/js/base.js',
-        curriculum: './prereq_map/static/prereq_map/js/pages/curriculum/index.js',
-        course: './prereq_map/static/prereq_map/js/pages/course/index.js'
+        main: './prereq_map/static/prereq_map/js/main.js'
     },
 
     optimization: {
@@ -65,7 +63,10 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['.js']
+        extensions: ['.js', '.vue'],
+        alias: {
+            'vue$': 'vue/dist/vue.esm.js'
+        }
     }
 
-}
+};

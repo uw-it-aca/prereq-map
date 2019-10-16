@@ -1,0 +1,41 @@
+{
+    "CourseCampus": "Seattle",
+    "CourseCollege": "Engineering",
+    "CourseComment": "CHG DESC",
+    "CourseDescription": "Continuation of CSE 142. Concepts of data abstraction and encapsulation including stacks, queues, linked lists, binary trees, recursion, instruction to complexity and use of predefined collection classes. Prerequisite: CSE 142. Offered: AWSpS.",
+    "CourseNumber": "142",
+    "CourseTitle": "COMPUTER PRGRMNG II",
+    "CourseTitleLong": "Computer Programming II",
+    "CreditControl": "fixed credit",
+    "Curriculum": {
+        "CurriculumAbbreviation": "CSE",
+        "Href": "/student/v5/curriculum/2019,winter,CSE.json",
+        "Quarter": "winter",
+        "Year": 2019
+    },
+    "FirstEffectiveTerm": {
+        "Href": "/student/v5/term/2012,winter.json",
+        "Quarter": "winter",
+        "Year": 2012
+    },
+    "GeneralEducationRequirements": {
+        "Diversity": false,
+        "EnglishComposition": false,
+        "IndividualsAndSocieties": false,
+        "NaturalWorld": true,
+        "QuantitativeAndSymbolicReasoning": true,
+        "VisualLiteraryAndPerformingArts": false,
+        "Writing": false
+    },
+    "GradingSystem": "credit/no credit or standard",
+    "LastEffectiveTerm": {
+        "Href": "/student/v5/term/9999,autumn.json",
+        "Quarter": "autumn",
+        "Year": 9999
+    },
+    "MaximumCredit": 0,
+    "MaximumTermCredit": 0,
+    "Metadata": "CourseSourceKey=SDB;",
+    "MinimumTermCredit": 4,
+    "RepositoryTimeStamp": "10/13/2018 8:05:41 AM"
+}

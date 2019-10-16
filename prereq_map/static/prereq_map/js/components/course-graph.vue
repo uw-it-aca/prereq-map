@@ -1,15 +1,15 @@
 <template>
-  <div v-cloak v-if="courseParam !== undefined">
-    <small class="text-secondary">
-      Use the scroll function on your mouse or touchpad to zoom in and out
-    </small>
+  <div v-cloak v-if="courseParam !== undefined" class="card shadow-sm">
+    <div class="text-dark p-3 bg-light rounded-top rounded-sm">
+      <small>Use the scroll function on your mouse or touchpad to zoom in and out</small>
+    </div>
     <div id="graph_container" />
   </div>
 </template>
 
 <script>
-  const axios = require("axios");
-  import { dataBus } from "../pages/course/";
+  import axios from "axios";
+  import { dataBus } from "../main.js";
 
   export default {
     props: {

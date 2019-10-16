@@ -1,4 +1,5 @@
 // bootstrap related functions
+/*
 $(function() {
   $('[data-toggle="popover"]').popover();
 });
@@ -6,6 +7,7 @@ $(function() {
 $(".popover-dismiss").popover({
   trigger: "focus"
 });
+*/
 
 // network graph
 window.show_graph = function(graph_data, course_param) {
@@ -20,6 +22,10 @@ window.show_graph = function(graph_data, course_param) {
   // draw the graph
   new_graph(graph_div.get(0), graph_data.x, course_param);
 };
+
+window.hide_graph = function() {
+  $("#graph_container").empty();
+}
 
 function px(x) {
   if (typeof x === "number") return x + "px";
@@ -49,7 +55,7 @@ function new_graph(graph_div, data, course_param) {
   var network = new vis.Network(graph_div, data, options);
 
   // manipulation of network map based on location
-  if (window.location.pathname == "/curriculum-search/") {
+  if (window.location.pathname == "/curriculum/") {
     // actual selectNode click event
     network.on("selectNode", function(properties) {
       //console.log("node selected");
@@ -81,7 +87,7 @@ function new_graph(graph_div, data, course_param) {
         scale: 0.65
       });
     }
-  } else if (window.location.pathname == "/course-search/") {
+  } else if (window.location.pathname == "/course/") {
     if (course_param) {
       // auto select course node and zoom to it
       network.selectNodes([course_param]);

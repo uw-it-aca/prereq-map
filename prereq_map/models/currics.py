@@ -38,7 +38,7 @@ class CurricTitles(models.Model):
 
     def get_display_data(self):
         display_string = F"{self.get_campus_display()}: " \
-                         F"{self.name} ({self.abbrev})"
+                         F"{self.name.strip()} ({self.abbrev})"
         return {display_string: self.abbrev}
 
     @staticmethod

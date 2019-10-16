@@ -35,3 +35,11 @@ class CourseTitle(models.Model):
             return course.long_course_title
         except AttributeError:
             return ""
+
+    def json_data(self):
+        # remove extra whitespace from long_course_title
+        self.long_course_title = " ".join(
+            self.long_course_title.split()).rstrip()
+        return ("%s %s: %s" % (self.department_abbrev,
+                               self.course_number,
+                               self.long_course_title))
