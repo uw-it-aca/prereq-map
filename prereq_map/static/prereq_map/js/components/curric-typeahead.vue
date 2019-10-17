@@ -7,8 +7,8 @@
             v-bind:size="$route.path == '/curriculum/' ? 'md': 'lg'"
             v-model="query"
             type="text"
-            aria-label="Enter a curric code... (e.g MATH)"
-            placeholder="Enter a curric code... (e.g MATH)"
+            aria-label="Enter curriculum code... (e.g MATH, BIOL)"
+            placeholder="Enter curriculum code... (e.g MATH. BIOL)"
             list="my-list-id"
             autocomplete="off"
           />

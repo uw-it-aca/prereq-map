@@ -7,8 +7,8 @@
             v-bind:size="$route.path == '/course/' ? 'md': 'lg'"
             v-model="course_name"
             type="text"
-            aria-label="Enter a course code... (e.g MATH 124)"
-            placeholder="Enter a course code... (e.g MATH 124)"
+            aria-label="Enter course name or code... (e.g Calculus, MATH 124)"
+            placeholder="Enter course name or code... (e.g Calculus, MATH 124)"
             list="my-course-list-id"
             autocomplete="off"
           />
