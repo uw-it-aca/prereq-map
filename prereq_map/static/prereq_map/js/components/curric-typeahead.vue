@@ -48,13 +48,10 @@
         // make sure it is encoded to handle & (e.g. EDC&I)
         let curric_code = this.curric_objs[this.query];
 
-        // use the curric code and update the query param in the url
-        if (curric_code !== undefined){
+        // don't allow empty searches
+        if (curric_code !== undefined) {
           // eslint-disable-next-line no-unused-vars
           this.$router.push("/curriculum/?curric=" + encodeURIComponent(curric_code)).catch(err => {});
-        } else {
-          // eslint-disable-next-line no-unused-vars
-          this.$router.push("/curriculum/").catch(err => {});
         }
 
       },
