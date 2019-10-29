@@ -22,10 +22,10 @@ var router = new VueRouter({
   mode: "history",
   routes: [
     { path: '/', component: Search },
-    { path: '/curriculum-search/', redirect: '/curriculum/' },
-    { path: '/course-search/', redirect: '/course/' },
-    { path: '/curriculum/', name: 'curriculum', component: Curriculum },
-    { path: '/course/', name: 'course', component: Course },
+    { path: '/curriculum-search/', redirect: '/' },
+    { path: '/course-search/', redirect: '/' },
+    { path: '/curriculum/', component: Curriculum },
+    { path: '/course/', component: Course },
     { path: '/about/', component: About },
   ]
 });
