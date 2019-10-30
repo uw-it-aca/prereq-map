@@ -7,8 +7,8 @@
             v-bind:size="$route.path == '/curriculum/' ? 'md': 'lg'"
             v-model="query"
             type="text"
-            aria-label="Enter a curric code... (e.g MATH)"
-            placeholder="Enter a curric code... (e.g MATH)"
+            aria-label="Enter curriculum code... (e.g MATH, BIOL)"
+            placeholder="Enter curriculum code... (e.g MATH. BIOL)"
             list="my-list-id"
             autocomplete="off"
           />
@@ -48,13 +48,10 @@
         // make sure it is encoded to handle & (e.g. EDC&I)
         let curric_code = this.curric_objs[this.query];
 
-        // use the curric code and update the query param in the url
-        if (curric_code !== undefined){
+        // don't allow empty searches
+        if (curric_code !== undefined) {
           // eslint-disable-next-line no-unused-vars
           this.$router.push("/curriculum/?curric=" + encodeURIComponent(curric_code)).catch(err => {});
-        } else {
-          // eslint-disable-next-line no-unused-vars
-          this.$router.push("/curriculum/").catch(err => {});
         }
 
       },

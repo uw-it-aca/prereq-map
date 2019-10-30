@@ -7,8 +7,8 @@
             v-bind:size="$route.path == '/course/' ? 'md': 'lg'"
             v-model="course_name"
             type="text"
-            aria-label="Enter a course code... (e.g MATH 124)"
-            placeholder="Enter a course code... (e.g MATH 124)"
+            aria-label="Enter course name or code... (e.g Calculus, MATH 124)"
+            placeholder="Enter course name or code... (e.g Calculus, MATH 124)"
             list="my-course-list-id"
             autocomplete="off"
           />
@@ -54,16 +54,12 @@
         this.course_code = this.course_name.substring(0, this.course_name.indexOf(':'));
 
         // don't allow empty searches
-        if (this.course_code === "" || this.course_code === undefined) {
+        if ( this.course_code.length > 0) {
           // eslint-disable-next-line no-unused-vars
-          this.$router.push("/course/").catch(err => {});
-        } else {
-
-          this.$router
-            .push("/course/?course=" + this.course_code.toUpperCase())
-            // eslint-disable-next-line no-unused-vars
-            .catch(err => {});
+          this.$router.push("/course/?course=" + this.course_code.toUpperCase()).catch(err => {});
         }
+
+
       },
       uppercase(value) {
         return value.toUpperCase();

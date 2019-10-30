@@ -87,6 +87,11 @@
         // hide the modal (until end of the current term)
         this.$bvModal.hide("userAcceptance");
 
+        // set virtual page view for user accepted
+        this.$ga.page({
+          page: "/vpv/accepted/",
+          title: "Onboarding accepted"
+        });
       }
     }
   };
