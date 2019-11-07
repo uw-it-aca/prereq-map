@@ -5,20 +5,20 @@ services:
     environment:
       - GOOGLE_ANALYTICS_KEY=${GOOGLE_ANALYTICS_KEY}
     restart: always
-    container_name: app
+    container_name: prereq_map_app
     build:
       context: .
     volumes:
-      - ./prereq_map:/app/prereq_map
+      - ./prereq_map:/prereq_map_app/prereq_map
     ports:
-      - "8000:8000"
-  devtools:
+      - "${RUNSERVER_PORT:-8000}:8000"
+  dev:
     restart: always
-    container_name: devtools
+    container_name: prereq_map_dev
     image: node:8.16.0-jessie
     volumes:
-      - ./package.json:/devtools/prereq-map/package.json
-      - ./webpack.config.js:/devtools/prereq-map/webpack.config.js
-      - ./prereq_map:/devtools/prereq-map/prereq_map
-    working_dir: /devtools/prereq-map
+      - ./package.json:/prereq_map_dev/prereq-map/package.json
+      - ./webpack.config.js:/prereq_map_dev/prereq-map/webpack.config.js
+      - ./prereq_map:/prereq_map_dev/prereq-map/prereq_map
+    working_dir: /prereq_map_dev/prereq-map
     command: bash -c "yes yes | npm install; npx webpack --watch --mode=development"
