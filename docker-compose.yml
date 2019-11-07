@@ -11,7 +11,7 @@ services:
     volumes:
       - ./prereq_map:/prereq_map_app/prereq_map
     ports:
-      - "8000:8000"
+      - "${RUNSERVER_PORT:-8000}:8000"
   dev:
     restart: always
     container_name: prereq_map_dev
