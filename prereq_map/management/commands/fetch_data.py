@@ -22,7 +22,7 @@ class Command(BaseCommand):
         con = pyodbc.connect(constring)
 
         prereq = pandas.read_sql(
-            'select * from sec.sr_course_prereq where last_eff_yr = 9999', con)
+            'select * from sec.sr_course_prereq where last_eff_yr = 9999 and pr_not_excl != \'E\'', con)
         course_info = pandas.read_sql(
             'select * from sec.sr_course_titles where last_eff_yr = 9999', con)
         curric_info = pandas.read_sql("select * from sec.sr_curric_code where "
