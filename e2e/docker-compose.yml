@@ -3,12 +3,14 @@ version: '3'
 services:
   prereqmap:
     restart: always
+    container_name: prereq_map_e2e
     build: ../
     env_file:
       - ../.env
     volumes:
       - ../prereq_map:/app/prereq_map
   cypress:
+    container_name: prereq_map_cypress
     build:
       context: .
       args:
