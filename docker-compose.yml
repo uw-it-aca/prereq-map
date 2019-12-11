@@ -5,16 +5,16 @@ services:
     environment:
       - GOOGLE_ANALYTICS_KEY=${GOOGLE_ANALYTICS_KEY}
     restart: always
-    container_name: app
+    container_name: prereq_map_app
     build:
       context: .
     volumes:
       - ./prereq_map:/app/prereq_map
     ports:
-      - "8000:8000"
+      - "${RUNSERVER_PORT:-8000}:8000"
   devtools:
     restart: always
-    container_name: devtools
+    container_name: prereq_map_devtools
     image: node:8.16.0-jessie
     volumes:
       - ./package.json:/devtools/prereq-map/package.json
