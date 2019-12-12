@@ -1,25 +1,42 @@
-dist: xenial
-sudo: false
+sudo: required
+
 language: python
 python:
-  - "3.6"
-addons:
-  apt:
-    packages:
-      - gcc-4.8
-      - unixodbc-dev
+  - 3.6
+
+services:
+  - docker
+
+os:
+  - linux
+
+env:
+  global:
+    - RELEASE_NAME="prereqmap"
+    - DJANGO_APP="prereq_map"
+    - COMMIT_HASH="$(git rev-parse --short=7 HEAD)"
+    - IMAGE_TAG="${RELEASE_NAME}:${COMMIT_HASH}"
+    - DEPLOY_SCRIPT_BASE=https://raw.githubusercontent.com/uw-it-aca/gcp-app-deploy/master
+
 install:
-  - pip install pycodestyle
+  - docker build -t "$IMAGE_TAG" .
+
 before_script:
+  - pip install coverage
   - pip install coveralls
-  - npm install
-  - pip install .
-  - cp travis/manage.py manage.py
+
 script:
-  - pycodestyle prereq_map/ --exclude=migrations,prereq_map/static
-  - ./node_modules/.bin/stylelint '**/*.vue' '**/*.css' '**/*.scss'
-  - ./node_modules/.bin/eslint --ext .js,.vue prereq_map/static/prereq_map/js/components/
-  - ./node_modules/.bin/eslint --ext .js,.vue prereq_map/static/prereq_map/js/pages/
-  - coverage run --source=prereq_map/ --omit=prereq_map/migrations/* manage.py test prereq_map
+  - docker run -u root -it -v /tmp:/coverage -e DJANGO_APP="$DJANGO_APP" -e "ENV=localdev" "$IMAGE_TAG" bash -c ". ./travis-ci/test.sh"
+
 after_success:
+  - cp /tmp/.coverage.* .
+  - coverage combine
   - coveralls
+#  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [[ "$TRAVIS_BRANCH" =~ ^(develop|master)$ ]]; then
+#    curl -Ls ${DEPLOY_SCRIPT_BASE}/travis-ci/deploy.sh | bash;
+#    fi
+
+cache:
+  directories:
+    - "$HOME/helm"
+    - "$HOME/kubeval"
