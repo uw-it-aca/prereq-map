@@ -1,0 +1,67 @@
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  tls:
+    prereqmap-test:
+      secretName: prereqmap-test.uw.edu
+      hosts:
+        - prereqmap-test.uw.edu
+  hosts:
+    prereqmap-test:
+      host: prereqmap-test.uw.edu
+      paths: 
+        - "/"
+database:
+  engine: mysql
+  name: prereq
+  hostname: prereq-test-db-service
+  secretName: prereq-test-db
+externalService:
+  enabled: true
+  name: prereq-test-db-service
+  type: ClusterIP
+  serviceAddress: 172.18.0.9
+  servicePort: 3306
+repo: prereqmap
+instance: test
+targetAverageUtilization: 90
+resources:
+  limits:
+    cpu: 600m
+  requests:
+    cpu: 200m
+image:
+  repository: registry.hub.docker.com/acait/prereqmap
+  tag: IMAGE_TAG
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+certs:
+  mounted: true
+  certPath: /certs/prereqmap-test.s.uw.edu-uwca.cert
+  keyPath: /certs/prereqmap-test.s.uw.edu-uwca.key
+  secretName: prereqmap-test-uwca-certs
+environmentVariables:
+  - name: ENV
+    value: dev
+  - name: CERT_PATH
+    value: /certs/prereqmap-test.s.uw.edu-uwca.cert
+  - name: KEY_PATH
+    value: /certs/prereqmap-test.s.uw.edu-uwca.key
+  - name: SWS_ENV
+    value: EVAL
+environmentVariablesSecrets:
+  djangoSecret:
+    name: DJANGO_SECRET
+    secretName: prereqmap-test-django-secret
+    secretKey: django-secret
+  emailHostUser:
+    name: EMAIL_HOST_USER
+    secretName: email-post-credentials
+    secretKey: username
+  emailHostPassword:
+    name: EMAIL_HOST_PASSWORD
+    secretName: email-post-credentials
+    secretKey: password
