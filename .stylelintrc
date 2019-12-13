@@ -1,6 +1,5 @@
 {
   "extends" : "stylelint-config-sass-guidelines",
-  "configBasedir": "prereq_map",
   "rules" : {
     "indentation" : [ 2, { "baseIndentLevel" : 1 } ],
     "scss/at-import-no-partial-leading-underscore" : null,
