@@ -22,8 +22,8 @@ var router = new VueRouter({
   mode: "history",
   routes: [
     { path: '/', component: Search },
-    { path: '/curriculum-search/', redirect: '/' },
-    { path: '/course-search/', redirect: '/' },
+    { path: '/curriculum-search/', redirect: '/curriculum/' },
+    { path: '/course-search/', redirect: '/course/' },
     { path: '/curriculum/', component: Curriculum },
     { path: '/course/', component: Course },
     { path: '/about/', component: About },
