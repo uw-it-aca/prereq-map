@@ -26,7 +26,7 @@ setup(
     install_requires=[
         'django>=2.1,<2.3',
         'django-webpack-loader',
-        'pandas',
+        'pandas<1.0',
         'inflector',
         'UW-RestClients-SWS>=2.1.1,<3.0'
     ],

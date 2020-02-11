@@ -1,2 +1,8 @@
 [run]
 source = prereq_map
+parallel = True
+
+[paths]
+source =
+  prereq_map/
+  /app/prereq_map/
