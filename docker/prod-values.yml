@@ -35,9 +35,9 @@ image:
   repository: registry.hub.docker.com/acait/prereqmap
   tag: IMAGE_TAG
 metrics:
-  enabled: true
+  enabled: false
   serviceMonitor:
-    enabled: true
+    enabled: false
 certs:
   mounted: true
   certPath: /certs/prereqmap.s.uw.edu-uwca.cert
