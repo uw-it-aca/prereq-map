@@ -29,3 +29,7 @@ environmentVariablesSecrets:
     name: GOOGLE_ANALYTICS_KEY
     secretName: prereq-google-analytics-prod 
     secretKey: key
+  djangosecret:
+    name: DJANGO_SECRET
+    secretName: prm-django-secret
+    secretKey: key
