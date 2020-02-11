@@ -1,0 +1,71 @@
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  tls:
+    prereqmap:
+      secretName: prereqmap.uw.edu
+      hosts:
+        - prereqmap.uw.edu
+  hosts:
+    prereqmap:
+      host: prereqmap.uw.edu
+      paths:
+        - "/"
+database:
+  engine: mysql
+  name: prereq
+  hostname: prereq-prod-db-service
+  secretName: prereq-cloudsql-auth
+externalService:
+  enabled: true
+  name: prereq-test-db-service
+  type: ClusterIP
+  serviceAddress: 172.18.0.12
+  servicePort: 3306
+repo: prereqmap
+instance: prod
+targetAverageUtilization: 150
+resources:
+  limits:
+    cpu: 600m
+  requests:
+    cpu: 200m
+image:
+  repository: registry.hub.docker.com/acait/prereqmap
+  tag: IMAGE_TAG
+metrics:
+  enabled: false
+  serviceMonitor:
+    enabled: false
+certs:
+  mounted: true
+  certPath: /certs/prereqmap.s.uw.edu-uwca.cert
+  keyPath: /certs/prereqmap.s.uw.edu-uwca.key
+  secretName: prereqmap-uwca
+environmentVariables:
+  - name: ENV
+    value: prod
+  - name: CERT_PATH
+    value: /certs/prereqmap.s.uw.edu-uwca.cert
+  - name: KEY_PATH
+    value: /certs/prereqmap.s.uw.edu-uwca.key
+  - name: SWS_ENV
+    value: PROD
+environmentVariablesSecrets:
+  djangoSecret:
+    name: DJANGO_SECRET
+    secretName: prm-django-secret
+    secretKey: django-secret
+  gaKey:
+    name: GOOGLE_ANALYTICS_KEY
+    secretName: prereq-google-analytics-prod
+    secretKey: key
+  emailHostUser:
+    name: EMAIL_HOST_USER
+    secretName: email-post-credentials
+    secretKey: username
+  emailHostPassword:
+    name: EMAIL_HOST_PASSWORD
+    secretName: email-post-credentials
+    secretKey: password
