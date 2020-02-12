@@ -19,7 +19,7 @@ database:
   secretName: prereq-cloudsql-auth
 externalService:
   enabled: true
-  name: prereq-test-db-service
+  name: prereq-prod-db-service
   type: ClusterIP
   serviceAddress: 172.18.0.12
   servicePort: 3306
