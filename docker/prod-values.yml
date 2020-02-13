@@ -25,12 +25,15 @@ externalService:
   servicePort: 3306
 repo: prereqmap
 instance: prod
+autoscaling:
+  minReplicas: 4
+  maxReplicas: 16
 targetAverageUtilization: 150
 resources:
   limits:
-    cpu: 600m
+    cpu: 800m
   requests:
-    cpu: 200m
+    cpu: 400m
 image:
   repository: registry.hub.docker.com/acait/prereqmap
   tag: IMAGE_TAG
