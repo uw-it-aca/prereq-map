@@ -50,9 +50,9 @@ environmentVariables:
   - name: ENV
     value: prod
   - name: CERT_PATH
-    value: /certs/prereqmap.s.uw.edu-uwca.cert
+    value: /certs/prereqmap.uw.edu-uwca.cert
   - name: KEY_PATH
-    value: /certs/prereqmap.s.uw.edu-uwca.key
+    value: /certs/prereqmap.uw.edu-uwca.key
   - name: SWS_ENV
     value: PROD
 environmentVariablesSecrets:
