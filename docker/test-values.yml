@@ -40,7 +40,7 @@ metrics:
     enabled: true
 certs:
   mounted: true
-  certPath: /certs/preprereqmap.uw.edu-uwca.pem
+  certPath: /certs/prereqmap.uw.edu-uwca.pem
   keyPath: /certs/prereqmap.uw.edu-uwca.key
   secretName: prereqmap-test-uwca-certs
 environmentVariables:
