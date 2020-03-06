@@ -51,7 +51,7 @@ environmentVariables:
   - name: KEY_PATH
     value: /certs/prereqmap.uw.edu-uwca.key
   - name: SWS_ENV
-    value: EVAL
+    value: PROD
 environmentVariablesSecrets:
   djangoSecret:
     name: DJANGO_SECRET
