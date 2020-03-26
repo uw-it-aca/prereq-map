@@ -38,21 +38,21 @@ image:
   repository: registry.hub.docker.com/acait/prereqmap
   tag: IMAGE_TAG
 metrics:
-  enabled: false
+  enabled: true
   serviceMonitor:
-    enabled: false
+    enabled: true
 certs:
   mounted: true
-  certPath: /certs/prereqmap.s.uw.edu-uwca.cert
-  keyPath: /certs/prereqmap.s.uw.edu-uwca.key
+  certPath: /certs/prereqmap.uw.edu-uwca.pem
+  keyPath: /certs/prereqmap.uw.edu-uwca.key
   secretName: prereqmap-uwca
 environmentVariables:
   - name: ENV
     value: prod
   - name: CERT_PATH
-    value: /certs/prereqmap.s.uw.edu-uwca.cert
+    value: /certs/prereqmap.uw.edu-uwca.pem
   - name: KEY_PATH
-    value: /certs/prereqmap.s.uw.edu-uwca.key
+    value: /certs/prereqmap.uw.edu-uwca.key
   - name: SWS_ENV
     value: PROD
 environmentVariablesSecrets:
