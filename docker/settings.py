@@ -26,8 +26,7 @@ GOOGLE_ANALYTICS_KEY = os.getenv("GOOGLE_ANALYTICS_KEY", default=" ")
 
 MIDDLEWARE = ['django_prometheus.middleware.PrometheusBeforeMiddleware'] +\
              MIDDLEWARE +\
-             ['userservice.user.UserServiceMiddleware',
-              'django_prometheus.middleware.PrometheusAfterMiddleware']
+             ['django_prometheus.middleware.PrometheusAfterMiddleware']
 
 if not os.getenv("ENV") == "localdev":
     DATABASES['default']['ENGINE'] = 'django_prometheus.db.backends.mysql'
