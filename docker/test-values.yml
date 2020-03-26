@@ -4,12 +4,12 @@ ingress:
     kubernetes.io/ingress.class: nginx
   tls:
     prereqmap-test:
-      secretName: prereqmap-test.uw.edu
+      secretName: test.prereqmap.uw.edu-4751ea1355a6e70e42ab3120fccc4d93
       hosts:
-        - prereqmap-test.uw.edu
+        - test.prereqmap.uw.edu
   hosts:
     prereqmap-test:
-      host: prereqmap-test.uw.edu
+      host: test.prereqmap.uw.edu
       paths:
         - "/"
 database:
