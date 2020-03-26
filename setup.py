@@ -28,7 +28,8 @@ setup(
         'django-webpack-loader',
         'pandas<1.0',
         'inflector',
-        'UW-RestClients-SWS>=2.1.1,<3.0'
+        'UW-RestClients-SWS>=2.1.1,<3.0',
+        'django-prometheus>=1.0,<2.0',
     ],
     license='Apache License, Version 2.0',
     description='A tool for visually displaying UW course prerequisites',
