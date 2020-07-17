@@ -16,6 +16,8 @@ function run_test {
     eval $1
 }
 
+node install stylelint
+
 run_test "pycodestyle ${DJANGO_APP}/ --exclude=migrations,static"
 run_test "./node_modules/.bin/stylelint 'prereq_map/**/*.vue' 'prereq_map/**/*.css' 'prereq_map/**/*.scss'"
 run_test "./node_modules/.bin/eslint --ext .js,.vue prereq_map/static/prereq_map/js/components/"
