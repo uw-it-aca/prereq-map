@@ -10,13 +10,14 @@ trap 'exit 1' ERR
 # start virtualenv
 source bin/activate
 
+# install test tooling
+npm install .
+
 function run_test {
     echo "##########################"
     echo "TEST: $1"
     eval $1
 }
-
-node install stylelint
 
 run_test "pycodestyle ${DJANGO_APP}/ --exclude=migrations,static"
 run_test "./node_modules/.bin/stylelint 'prereq_map/**/*.vue' 'prereq_map/**/*.css' 'prereq_map/**/*.scss'"
