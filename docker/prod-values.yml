@@ -26,14 +26,18 @@ externalService:
 repo: prereqmap
 instance: prod
 autoscaling:
-  minReplicas: 4
+  minReplicas: 2
   maxReplicas: 16
-targetAverageUtilization: 150
+targetAverageUtilization: 100
 resources:
   limits:
-    cpu: 800m
+    cpu: 1.0
+    memory: 1280Mi
   requests:
-    cpu: 400m
+    cpu: 256m
+    memory: 1024Mi
+affinity:
+   podsSpanNodes: true
 image:
   repository: registry.hub.docker.com/acait/prereqmap
   tag: IMAGE_TAG

@@ -3,7 +3,6 @@ from .base_settings import *
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS += [
-    'django_prometheus',
     'webpack_loader',
     'prereq_map'
 ]
@@ -23,13 +22,6 @@ STATICFILES_FINDERS = (
 DATA_ROOT = os.path.join(BASE_DIR, "prereq_map/data")
 
 GOOGLE_ANALYTICS_KEY = os.getenv("GOOGLE_ANALYTICS_KEY", default=" ")
-
-MIDDLEWARE = ['django_prometheus.middleware.PrometheusBeforeMiddleware'] +\
-             MIDDLEWARE +\
-             ['django_prometheus.middleware.PrometheusAfterMiddleware']
-
-if not os.getenv("ENV") == "localdev":
-    DATABASES['default']['ENGINE'] = 'django_prometheus.db.backends.mysql'
 
 TEMPLATES = [
     {

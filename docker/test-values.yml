@@ -25,12 +25,16 @@ externalService:
   servicePort: 3306
 repo: prereqmap
 instance: test
-targetAverageUtilization: 90
+targetAverageUtilization: 100
 resources:
   limits:
-    cpu: 600m
+    cpu: 1.0
+    memory: 1280Mi
   requests:
-    cpu: 200m
+    cpu: 256m
+    memory: 1024Mi
+affinity:
+   podsSpanNodes: true
 image:
   repository: registry.hub.docker.com/acait/prereqmap
   tag: IMAGE_TAG

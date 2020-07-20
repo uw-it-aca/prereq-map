@@ -11,9 +11,7 @@ trap 'exit 1' ERR
 source bin/activate
 
 # install test tooling
-pip install pycodestyle coverage
-apt-get install -y nodejs npm gcc-4.8 unixodbc-dev
-npm install
+npm install .
 
 function run_test {
     echo "##########################"
