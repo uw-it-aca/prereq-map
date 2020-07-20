@@ -22,7 +22,8 @@ env:
     - secure: C+UPo462GpkZGdqKG7GBM7qQikMp0urRTC7Fl42dNKjFwCab/ApJutZ0RvujKZtIGXKyYMNvClJOg1uVCyLaWIxI4th7T6D3c5M9gnDD9dcZ87EIcfMeygH4WN+F19otb2KOFhhpZQGQUw/X+/csY7jpWv1EO1YauNc9FTUtZSvNgYHme0CJCNN56JW9Dsh121Jpvpe3Uta7ffWzusHvT5HMdnWbZjvpt9QPYGjFNb52YRpkX5Cxy93OyNQpS3/E265hOiaLUV6QgwcxXFCK8J5gtt9sanSK1xTL51BDZ/P7NmYyF312raDN9DCJ7zNF+3QXh65VRwHyy/3lZhd1+ZJ9dfeUL6/YORGwvyzjYLSQCIFitw02r5S8W6We5oFRaFGj0dKV8Vxq5SAvoY9g8XJXSHSydXn1MZKywXkbiOy4ZbP5N5ltY1JYAudzUeRHgEqGwrfTY2LgAuU8Hx77Kj/5enespXxTpWgr+BIx7pgrRiBk3H4XM1/yA2agmUn576emjIT0dnBPkgK0+mgyKL7cJMtpJIwGarzAH38dRc9EY+HzPNh1Stl7nokd3y77/DpXiw7cw1Ul9rcP0qwwmSlx7weB5W7gbCjP9OL+2qFPET+PSK+na9IR/k1s04Opidn0mMpFWyFvnUQaglZzjDr+mvAvXm2eAv0UMSF/8Mk=
 
 install:
-  - docker build -t "$IMAGE_TAG" .
+  - docker build --target app-container -t "$IMAGE_TAG" .
+  - docker build -t app-test-container .
 
 before_script:
   - pip install coverage
