@@ -1,4 +1,4 @@
-FROM acait/django-container:1.0.36 as app-prewebpack-container
+FROM acait/django-container:1.1.3 as app-prewebpack-container
 
 USER root
 RUN apt-get update && apt-get install mysql-client libmysqlclient-dev -y
@@ -31,7 +31,7 @@ COPY --chown=acait:acait --from=wpack /app/prereq_map/static/prereq_map/bundles/
 COPY --chown=acait:acait --from=wpack /app/prereq_map/static/ /static/
 COPY --chown=acait:acait --from=wpack /app/prereq_map/static/webpack-stats.json /app/prereq_map/static/webpack-stats.json
 
-FROM acait/django-test-container:1.0.33 as app-test-container
+FROM acait/django-test-container:1.1.3 as app-test-container
 
 COPY --from=app-container /app/ /app/
 COPY --from=app-container /static/ /static/

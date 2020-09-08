@@ -1,10 +1,10 @@
 ingress:
   enabled: true
   annotations:
-    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt
   tls:
     prereqmap-test:
-      secretName: test.prereqmap.uw.edu-4751ea1355a6e70e42ab3120fccc4d93
+      secretName: test.prereqmap.uw.edu-ingress-cert
       hosts:
         - test.prereqmap.uw.edu
   hosts:
@@ -14,17 +14,23 @@ ingress:
         - "/"
 database:
   engine: mysql
-  name: prereq
+  name: prereq_test
   hostname: prereq-test-db-service
-  secretName: prereq-test-db
+  secretName: test.prereqmap.uw.edu-sql-secrets
 externalService:
   enabled: true
   name: prereq-test-db-service
   type: ClusterIP
-  serviceAddress: 172.18.0.9
+  serviceAddress: 172.18.0.12
   servicePort: 3306
 repo: prereqmap
 instance: test
+lifecycle:
+  enabled: true
+  preStop:
+    enabled: true
+readiness:
+  enabled: true
 targetAverageUtilization: 100
 resources:
   limits:
@@ -44,24 +50,55 @@ metrics:
     enabled: true
 certs:
   mounted: true
-  certPath: /certs/prereqmap.uw.edu-uwca.pem
-  keyPath: /certs/prereqmap.uw.edu-uwca.key
-  secretName: prereqmap-test-uwca-certs
+  certPath: /certs/test.prereqmap.uw.edu-uwca.cert
+  keyPath: /certs/test.prereqmap.uw.edu-uwca.key
+  secretName: test.prereqmap.uw.edu-uwca-certs
+
 environmentVariables:
   - name: ENV
     value: dev
+  - name: CLUSTER_CNAME
+    value: test.prereqmap.uw.edu
   - name: SWS_ENV
     value: PROD
+
+externalSecrets:
+  enabled: true
+  secrets:
+    - name: test.prereqmap.uw.edu-secrets
+      externalKey: axdd/kv/data/prereq-map/test/secrets
+      data:
+        - name: django-secret
+          property: django-secret
+        - name: email-host-password
+          property: email-host-password
+        - name: email-host-username
+          property: email-host-username
+    - name: test.prereqmap.uw.edu-sql-secrets
+      externalKey: axdd/kv/data/prereq-map/test/sql-secrets
+      data:
+        - name: username
+          property: username
+        - name: password
+          property: password
+    - name: test.prereqmap.uw.edu-uwca-certs
+      externalKey: axdd/kv/data/prereq-map/test/uwca-certs
+      data:
+        - name: test.prereqmap.uw.edu-uwca.cert
+          property: test.prereqmap.uw.edu-uwca.cert
+        - name: test.prereqmap.uw.edu-uwca.key
+          property: test.prereqmap.uw.edu-uwca.key
+
 environmentVariablesSecrets:
   djangoSecret:
     name: DJANGO_SECRET
-    secretName: prereqmap-test-django-secret
+    secretName: test.prereqmap.uw.edu-secrets
     secretKey: django-secret
   emailHostUser:
     name: EMAIL_HOST_USER
-    secretName: email-post-credentials
-    secretKey: username
+    secretName: test.prereqmap.uw.edu-secrets
+    secretKey: email-host-username
   emailHostPassword:
     name: EMAIL_HOST_PASSWORD
-    secretName: email-post-credentials
-    secretKey: password
+    secretName: test.prereqmap.uw.edu-secrets
+    secretKey: email-host-password
