@@ -95,7 +95,8 @@
     },
     data() {
       return{
-        //userAccepted: false
+        // check if valid cookie exists and user has accepted terms
+        userAccepted: this.$cookies.get("prereq-accepted")
       }
     },
     mounted() {
