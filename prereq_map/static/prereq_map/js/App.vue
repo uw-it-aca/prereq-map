@@ -1,5 +1,5 @@
 <template>
-  <div class="prereq">
+  <div class="prereq" :aria-hidden="[!userAccepted]">
     <header>
       <nav class="navbar navbar-expand-md navbar-dark prereq-bar" aria-label="Utility Menu">
         <div class="d-flex flex-row order-2 order-md-3">
@@ -72,18 +72,36 @@
       </div>
       <!-- end of footer content -->
     </footer>
+
+    <user-accept />
+
   </div>
 </template>
 
 <script>
+  import Vue from "vue";
+  import VueCookies from "vue-cookies";
+  Vue.use(VueCookies);
+
   import CourseTypeahead from "./components/course-typeahead.vue";
   import CurricTypeahead from "./components/curric-typeahead.vue";
+  import UserAccept from "./components/user-accept.vue";
 
   export default {
     components: {
+      "user-accept": UserAccept,
       "course-typeahead": CourseTypeahead,
       "curric-typeahead": CurricTypeahead,
-    }
+    },
+    data() {
+      return{
+        //userAccepted: false
+      }
+    },
+    mounted() {
+      // check if valid cookie exists and user has accepted terms
+      userAccepted = this.$cookies.get("prereq-accepted")
+    },
   };
 </script>
 
