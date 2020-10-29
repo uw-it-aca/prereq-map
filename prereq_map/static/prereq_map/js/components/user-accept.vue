@@ -61,15 +61,15 @@
   Vue.use(VueCookies);
 
   export default {
-    data() {
-      return {};
+    model: {
+      prop:"userAccepted",
+      event:"update",
     },
     props: {
       userAccepted: Boolean,
     },
-    model: {
-      prop:"userAccepted",
-      event:"update",
+    data() {
+      return {};
     },
     mounted() {
       // check if valid cookie exists and user has not yet accepted terms
@@ -97,7 +97,7 @@
         });
 
         // updated userAccepted v-model
-        this.$emit("update",true)
+        this.$emit("update",true);
 
       }
     }
