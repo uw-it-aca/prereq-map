@@ -73,7 +73,7 @@
       <!-- end of footer content -->
     </footer>
 
-    <user-accept />
+    <user-accept v-model="userAccepted" />
 
   </div>
 </template>
@@ -95,20 +95,8 @@
     },
     data() {
       return {
-        // set initial value to false
-        userAccepted: false
+        userAccepted: false,
       }
-    },
-    mounted() {
-      // check if valid cookie exists and user has accepted terms
-      if (this.$cookies.get("prereq-accepted") == "false") {
-        //console.log("user accepted false");
-        this.userAccepted = false
-      } else {
-        //console.log("user accepted true");
-        this.userAccepted = true
-      }
-
     },
   };
 </script>

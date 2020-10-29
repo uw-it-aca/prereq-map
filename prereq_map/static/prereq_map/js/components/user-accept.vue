@@ -64,6 +64,13 @@
     data() {
       return {};
     },
+    props: {
+      userAccepted: Boolean,
+    },
+    model: {
+      prop:"userAccepted",
+      event:"update",
+    },
     mounted() {
       // check if valid cookie exists and user has not yet accepted terms
       if (this.$cookies.get("prereq-accepted") == "false") {
@@ -88,6 +95,9 @@
           page: "/vpv/accepted/",
           title: "Onboarding accepted"
         });
+
+        // updated userAccepted v-model
+        this.$emit("update",true)
 
       }
     }
