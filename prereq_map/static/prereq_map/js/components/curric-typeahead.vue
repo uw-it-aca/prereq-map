@@ -11,13 +11,20 @@
             placeholder="Enter curriculum code... (e.g MATH. BIOL)"
             list="my-list-id"
             autocomplete="off"
+            :state="isValid"
           />
-          <b-form-datalist id="my-list-id" :options="curric_list" />
           <b-input-group-append>
-            <b-button v-bind:variant="$route.path == '/curriculum/' ? 'light': 'primary'" class="border-left" type="submit">
+             <b-button v-if="$route.path == '/curriculum/'" :variant="isValid == false ? 'danger' : 'light'" class="border-left-0 rounded-right" type="submit">
+              Search
+            </b-button>
+            <b-button v-else :variant="isValid == false ? 'danger' : 'primary'" class="border-left-0 rounded-right" type="submit">
               Search
             </b-button>
           </b-input-group-append>
+          <b-form-invalid-feedback id="input-curric-feedback" role="alert">
+            You must select a curriculum from the list provided.
+          </b-form-invalid-feedback>
+          <b-form-datalist id="my-list-id" :options="curric_list" />
         </b-input-group>
       </b-form>
     </div>
@@ -31,6 +38,7 @@
     filters: {},
     data() {
       return {
+        isValid: null,
         query: "",
         curric_list: undefined,
         curric_objs: {},
@@ -50,8 +58,11 @@
 
         // don't allow empty searches
         if (curric_code !== undefined) {
+          this.isValid = null;
           // eslint-disable-next-line no-unused-vars
           this.$router.push("/curriculum/?curric=" + encodeURIComponent(curric_code)).catch(err => {});
+        } else {
+          this.isValid = false;
         }
 
       },
