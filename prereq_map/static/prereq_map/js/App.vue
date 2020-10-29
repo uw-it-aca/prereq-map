@@ -94,14 +94,21 @@
       "curric-typeahead": CurricTypeahead,
     },
     data() {
-      return{
-        // check if valid cookie exists and user has accepted terms
-        userAccepted: this.$cookies.get("prereq-accepted")
+      return {
+        // set initial value to false
+        userAccepted: false
       }
     },
     mounted() {
       // check if valid cookie exists and user has accepted terms
-      userAccepted = this.$cookies.get("prereq-accepted")
+      if (this.$cookies.get("prereq-accepted") == "false") {
+        //console.log("user accepted false");
+        this.userAccepted = false
+      } else {
+        //console.log("user accepted true");
+        this.userAccepted = true
+      }
+
     },
   };
 </script>

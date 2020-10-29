@@ -71,7 +71,6 @@
         this.$bvModal.show("userAcceptance");
       }
     },
-
     methods: {
       // handle the 'get started' button click event
       accept: function() {
@@ -89,6 +88,7 @@
           page: "/vpv/accepted/",
           title: "Onboarding accepted"
         });
+
       }
     }
   };
