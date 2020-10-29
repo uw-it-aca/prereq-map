@@ -1,17 +1,17 @@
 <template>
   <div class="row course-search">
     <div class="col">
-      <b-form @submit.prevent="processForm" :validated="false" >
+      <b-form @submit.prevent="processForm" :validated="false">
         <b-input-group>
           <b-form-input
             v-bind:size="$route.path == '/course/' ? 'md': 'lg'"
             v-model="course_name"
+            :state="isValid"
             type="text"
             aria-label="Enter course name or code... (e.g Calculus, MATH 124)"
             placeholder="Enter course name or code... (e.g Calculus, MATH 124)"
             list="my-course-list-id"
             autocomplete="off"
-            :state="isValid"
           />
           <b-input-group-append>
             <b-button v-if="$route.path == '/course/'" :variant="isValid == false ? 'danger' : 'light'" class="border-left-0 rounded-right" type="submit">
@@ -35,7 +35,6 @@
   import axios from "axios";
 
   export default {
-    computed: {},
     data() {
       return {
         isValid: null,
@@ -44,6 +43,7 @@
         course_list: undefined,
       };
     },
+    computed: {},
     watch: {
       // make sure course codes persists between query param changes
       "$route.query.course": function() {

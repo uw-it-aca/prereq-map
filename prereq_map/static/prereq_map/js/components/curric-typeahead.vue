@@ -6,15 +6,15 @@
           <b-form-input
             v-bind:size="$route.path == '/curriculum/' ? 'md': 'lg'"
             v-model="query"
+            :state="isValid"
             type="text"
             aria-label="Enter curriculum code... (e.g MATH, BIOL)"
             placeholder="Enter curriculum code... (e.g MATH. BIOL)"
             list="my-list-id"
             autocomplete="off"
-            :state="isValid"
           />
           <b-input-group-append>
-             <b-button v-if="$route.path == '/curriculum/'" :variant="isValid == false ? 'danger' : 'light'" class="border-left-0 rounded-right" type="submit">
+            <b-button v-if="$route.path == '/curriculum/'" :variant="isValid == false ? 'danger' : 'light'" class="border-left-0 rounded-right" type="submit">
               Search
             </b-button>
             <b-button v-else :variant="isValid == false ? 'danger' : 'primary'" class="border-left-0 rounded-right" type="submit">
