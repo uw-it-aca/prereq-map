@@ -60,7 +60,6 @@
 
 <script>
   import axios from "axios";
-  //import CourseSearch from "../components/course-search.vue";
   import CourseDetail from "../components/course-detail.vue";
 
   export default {

@@ -41,7 +41,6 @@
             <b-col sm="3" class="text-center">
               <b-button
                 @click="accept"
-                @keydown="accept"
                 variant="primary"
                 size="md"
                 class="mt-2 mb-3"
@@ -62,19 +61,23 @@
   Vue.use(VueCookies);
 
   export default {
+    model: {
+      prop:"userAccepted",
+      event:"update",
+    },
+    props: {
+      userAccepted: Boolean,
+    },
     data() {
       return {};
     },
     mounted() {
       // check if valid cookie exists and user has not yet accepted terms
       if (this.$cookies.get("prereq-accepted") == "false") {
-
         // show the onboarding modal
         this.$bvModal.show("userAcceptance");
-
       }
     },
-
     methods: {
       // handle the 'get started' button click event
       accept: function() {
@@ -92,6 +95,10 @@
           page: "/vpv/accepted/",
           title: "Onboarding accepted"
         });
+
+        // updated userAccepted v-model
+        this.$emit("update",true);
+
       }
     }
   };
