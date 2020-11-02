@@ -1,23 +1,30 @@
 <template>
   <div class="row course-search">
     <div class="col">
-      <b-form @submit.prevent="processForm">
+      <b-form @submit.prevent="processForm" :validated="false">
         <b-input-group>
           <b-form-input
             v-bind:size="$route.path == '/course/' ? 'md': 'lg'"
             v-model="course_name"
+            :state="isValid"
             type="text"
             aria-label="Enter course name or code... (e.g Calculus, MATH 124)"
             placeholder="Enter course name or code... (e.g Calculus, MATH 124)"
             list="my-course-list-id"
             autocomplete="off"
           />
-          <b-form-datalist id="my-course-list-id" :options="course_list" />
           <b-input-group-append>
-            <b-button v-bind:variant="$route.path == '/course/' ? 'light': 'primary'" class="border-left" type="submit">
+            <b-button v-if="$route.path == '/course/'" :variant="isValid == false ? 'danger' : 'light'" class="border-left-0 rounded-right" type="submit">
+              Search
+            </b-button>
+            <b-button v-else :variant="isValid == false ? 'danger' : 'primary'" class="border-left-0 rounded-right" type="submit">
               Search
             </b-button>
           </b-input-group-append>
+          <b-form-invalid-feedback id="input-course-feedback" role="alert">
+            You must select a course from the list provided.
+          </b-form-invalid-feedback>
+          <b-form-datalist id="my-course-list-id" :options="course_list" />
         </b-input-group>
       </b-form>
     </div>
@@ -30,11 +37,13 @@
   export default {
     data() {
       return {
+        isValid: null,
         course_code: undefined,
         course_name: undefined,
         course_list: undefined,
       };
     },
+    computed: {},
     watch: {
       // make sure course codes persists between query param changes
       "$route.query.course": function() {
@@ -55,11 +64,12 @@
 
         // don't allow empty searches
         if ( this.course_code.length > 0) {
+          this.isValid = null;
           // eslint-disable-next-line no-unused-vars
           this.$router.push("/course/?course=" + this.course_code.toUpperCase()).catch(err => {});
+        } else {
+          this.isValid = false;
         }
-
-
       },
       uppercase(value) {
         return value.toUpperCase();

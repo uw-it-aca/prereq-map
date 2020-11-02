@@ -2,7 +2,6 @@
 
 <template>
   <b-container id="search">
-    <user-accept />
     <b-row class="justify-content-center">
       <b-col md="9">
         <h1 class="h3 sr-only">
@@ -28,12 +27,10 @@
 <script>
   import CourseTypeahead from "../components/course-typeahead.vue";
   import CurricTypeahead from "../components/curric-typeahead.vue";
-  import UserAccept from "../components/user-accept.vue";
 
   export default {
     name: "Search",
     components: {
-      "user-accept": UserAccept,
       "curric-typeahead": CurricTypeahead,
       "course-typeahead": CourseTypeahead
     },
