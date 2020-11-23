@@ -12,7 +12,8 @@ source bin/activate
 
 # install test tooling
 apt-get install -y nodejs npm
-npm install -g stylelint eslint
+npm install -g stylelint
+npm install -g eslint
 
 function run_test {
     echo "##########################"
