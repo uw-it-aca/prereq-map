@@ -24,11 +24,11 @@ setup(
     author_email="aca-it@uw.edu",
     include_package_data=True,
     install_requires=[
-        'django>=2.1,<2.3',
+        'django>=2.2.13,<3.0',
         'django-webpack-loader',
         'pandas<1.0',
         'inflector',
-        'UW-RestClients-SWS>=2.1.1,<3.0',
+        'UW-RestClients-SWS>=2.3.3,<3.0',
     ],
     license='Apache License, Version 2.0',
     description='A tool for visually displaying UW course prerequisites',
