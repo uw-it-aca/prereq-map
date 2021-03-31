@@ -1,8 +1,8 @@
-# Copyright 2021 UW-IT, University of Washington
-# SPDX-License-Identifier: Apache-2.0
-
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
+# Copyright 2021 UW-IT, University of Washington
+# SPDX-License-Identifier: Apache-2.0
 
 import pandas as pd
 import os
