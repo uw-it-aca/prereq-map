@@ -29,7 +29,7 @@ npm install
 
 run_test "eslint --ext .js,.vue ${DJANGO_APP}/static/${DJANGO_APP}/js/components/"
 run_test "eslint --ext .js,.vue ${DJANGO_APP}/static/${DJANGO_APP}/js/pages/"
-run_test "stylelint '${DJANGO_APP}/**/*.vue' '${DJANGO_APP}/**/*.css' ${DJANGO_APP}/**/*.scss'"
+run_test "stylelint '${DJANGO_APP}/**/*.vue' '${DJANGO_APP}/**/*.css' '${DJANGO_APP}/**/*.scss'"
 
 run_test "coverage run --source=${DJANGO_APP} '--omit=*/migrations/*' manage.py test ${DJANGO_APP}"
 
