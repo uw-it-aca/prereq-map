@@ -1,3 +1,6 @@
+# Copyright 2021 UW-IT, University of Washington
+# SPDX-License-Identifier: Apache-2.0
+
 from django.views.generic import TemplateView
 from uw_sws.term import get_current_term
 from restclients_core.exceptions import DataFailureException
