@@ -31,7 +31,7 @@ COPY --chown=acait:acait --from=wpack /app/prereq_map/static/prereq_map/bundles/
 COPY --chown=acait:acait --from=wpack /app/prereq_map/static/ /static/
 COPY --chown=acait:acait --from=wpack /app/prereq_map/static/webpack-stats.json /app/prereq_map/static/webpack-stats.json
 
-FROM gcr.io/uwit-mci-axdd/django-container:1.3.1 as app-test-container
+FROM gcr.io/uwit-mci-axdd/django-test-container:1.3.1 as app-test-container
 
 COPY --from=app-container /app/ /app/
 COPY --from=app-container /static/ /static/
