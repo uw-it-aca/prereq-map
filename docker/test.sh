@@ -10,7 +10,7 @@ trap 'exit 1' ERR
 source bin/activate
 
 # install test tooling
-npm install .
+#npm install .
 
 function run_test {
     echo "##########################"
