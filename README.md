@@ -1,6 +1,7 @@
-[![Build Status](https://travis-ci.com/uw-it-aca/prereq-map.svg?branch=master)](https://travis-ci.com/uw-it-aca/prereq-map) [![Coverage Status](https://coveralls.io/repos/github/uw-it-aca/prereq_map/badge.svg?branch=master)](https://coveralls.io/github/uw-it-aca/prereq_map?branch=master)
-# prereq-map
-Prerequisite Course Map
+# Prerequisite Course Map
+
+[![Build Status](https://github.com/uw-it-aca/prereq-map/workflows/tests/badge.svg?branch=master)](https://github.com/uw-it-aca/prereq-map/actions)
+[![Coverage Status](https://coveralls.io/repos/github/uw-it-aca/prereq-map/badge.svg?branch=master)](https://coveralls.io/github/uw-it-aca/prereq-map?branch=master)
 
 System Requirements
 -------------------

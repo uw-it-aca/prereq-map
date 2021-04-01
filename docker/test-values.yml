@@ -31,18 +31,12 @@ lifecycle:
     enabled: true
 readiness:
   enabled: true
-targetAverageUtilization: 100
-resources:
-  limits:
-    cpu: 1.0
-    memory: 1280Mi
-  requests:
-    cpu: 256m
-    memory: 1024Mi
+securityPolicy:
+  enabled: true
 affinity:
    podsSpanNodes: true
 image:
-  repository: registry.hub.docker.com/acait/prereqmap
+  repository: gcr.io/uwit-mci-axdd/prereqmap
   tag: IMAGE_TAG
 metrics:
   enabled: true

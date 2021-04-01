@@ -45,7 +45,7 @@ resources:
 affinity:
    podsSpanNodes: true
 image:
-  repository: registry.hub.docker.com/acait/prereqmap
+  repository: gcr.io/uwit-mci-axdd/prereqmap
   tag: IMAGE_TAG
 metrics:
   enabled: true
