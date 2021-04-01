@@ -1,21 +1,21 @@
 {
-  "name": "prereq_map",
+  "name": "prereq-map",
   "version": "1.0.0",
-  "description": "[![Build Status](https://travis-ci.org/uw-it-aca/prereq_map.svg?branch=master)](https://travis-ci.org/uw-it-aca/prereq_map) # prereq-map Prerequisite Course Map",
+  "description": "[![Build Status](https://github.com/uw-it-aca/prereq-map/workflows/tests/badge.svg?branch=master)](https://github.com/uw-it-aca/prereq-map/actions) Prerequisite Course Map",
   "main": "webpack.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/uw-it-aca/prereq_map.git"
+    "url": "git+https://github.com/uw-it-aca/prereq-map.git"
   },
   "author": "Charlon Palacay",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/uw-it-aca/prereq_map/issues"
+    "url": "https://github.com/uw-it-aca/prereq-map/issues"
   },
-  "homepage": "https://github.com/uw-it-aca/prereq_map#readme",
+  "homepage": "https://github.com/uw-it-aca/prereq-map#readme",
   "devDependencies": {
     "axios": "^0.18.1",
     "bootstrap": "^4.4.1",

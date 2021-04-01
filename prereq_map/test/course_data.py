@@ -1,3 +1,6 @@
+# Copyright 2021 UW-IT, University of Washington
+# SPDX-License-Identifier: Apache-2.0
+
 from django.test import TestCase, Client
 from prereq_map.utils.course_data import split_course, get_course_label, \
     get_course_details
