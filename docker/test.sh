@@ -7,6 +7,9 @@ trap 'exit 1' ERR
 # start virtualenv
 source bin/activate
 
+# install test tooling
+npm install .
+
 function run_test {
     echo "##########################"
     echo "TEST: $1"
