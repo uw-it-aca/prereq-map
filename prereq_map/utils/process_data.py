@@ -9,7 +9,7 @@ import os
 import json
 from prereq_map.models.course_title import CourseTitle
 from prereq_map.utils.course_data import get_course_details
-from prereq_map.models.graph import CourseGraph, CurricGraph
+from prereq_map.models.graph import CourseGraphCache, CurricGraphCache
 from uw_sws.exceptions import InvalidSectionID
 from restclients_core.exceptions import DataFailureException
 from django.conf import settings
@@ -51,22 +51,22 @@ def get_graph(curric_filter=None, course_filter=None):
     if curric_filter:
         try:
             if USE_CACHE:
-                graph = CurricGraph.objects.get(curric_id=curric_filter)
+                graph = CurricGraphCache.objects.get(curric_id=curric_filter)
                 CACHE_RESPONSES.inc()
                 return json.loads(graph.graph_data)
             else:
                 return process_data(curric_filter=curric_filter)
-        except CurricGraph.DoesNotExist:
+        except CurricGraphCache.DoesNotExist:
             return process_data(curric_filter=curric_filter)
     if course_filter:
         try:
             if USE_CACHE:
-                graph = CourseGraph.objects.get(course_id=course_filter)
+                graph = CourseGraphCache.objects.get(course_id=course_filter)
                 CACHE_RESPONSES.inc()
                 return json.loads(graph.graph_data)
             else:
                 return process_data(course_filter=course_filter)
-        except CourseGraph.DoesNotExist:
+        except CourseGraphCache.DoesNotExist:
             return process_data(course_filter=course_filter)
 
 
@@ -275,10 +275,10 @@ def _process_data(course_data,
 
     if course_filter:
         data = json.dumps(response)
-        CourseGraph(graph_data=data, course_id=course_filter).save()
+        CourseGraphCache(graph_data=data, course_id=course_filter).save()
     if curric_filter:
         data = json.dumps(response)
-        CurricGraph(graph_data=data, curric_id=curric_filter).save()
+        CurricGraphCache(graph_data=data, curric_id=curric_filter).save()
     return response
 
 
