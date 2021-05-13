@@ -37,5 +37,7 @@ class Command(BaseCommand):
         CurricTitles.update_titles(curric_info, course_info)
         CourseTitle.update_titles(course_info)
 
-        prereq.to_pickle(os.path.join(data_root, "prereq_data.pkl"), protocol=4)
-        course_info.to_pickle(os.path.join(data_root, "course_data.pkl"), protocol=4)
+        prereq.to_pickle(os.path.join(data_root, "prereq_data.pkl"),
+                         protocol=4)
+        course_info.to_pickle(os.path.join(data_root, "course_data.pkl"),
+                              protocol=4)
