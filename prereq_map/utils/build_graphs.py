@@ -40,8 +40,9 @@ def build_curric_graphs():
 def build_course_graphs(count):
     # Update existing course models
     courses = get_courses()
-    course_obj_to_update = CourseGraphCache.objects.filter(course_id__in=courses,
-                                                           needs_rebuild=True)
+    course_obj_to_update = \
+        CourseGraphCache.objects.filter(course_id__in=courses,
+                                        needs_rebuild=True)
     courses_saved = 0
     course_data = get_course_data()
     prereq_data = get_prereq_data()
@@ -58,8 +59,9 @@ def build_course_graphs(count):
 
     if courses_saved < count:
         # Add courses w/o model
-        existing_courses = CourseGraphCache.objects.all().values_list('course_id',
-                                                                      flat=True)
+        existing_courses = \
+            CourseGraphCache.objects.all().values_list('course_id',
+                                                       flat=True)
         new_courses = list(set(courses) - set(existing_courses))
         new_graphs = []
 
