@@ -24,10 +24,11 @@ setup(
     include_package_data=True,
     install_requires=[
         'django~=2.2',
-        'django-webpack-loader',
+        'django-webpack-loader==0.6',
         'pandas<1.0',
         'inflector',
         'UW-RestClients-SWS~=2.3',
+        'django_prometheus'
     ],
     license='Apache License, Version 2.0',
     description='A tool for visually displaying UW course prerequisites',
