@@ -27,7 +27,6 @@ class CurricApiView(View):
 class CourseApiView(View):
     @cache_control(max_age=86400)
     def get(self, request, course_code):
-        logger.info('Get course graph for: %s' % course_code.upper())
         response = get_graph(course_filter=course_code.upper())
         if response:
             return HttpResponse(json.dumps(response))

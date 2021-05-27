@@ -63,9 +63,6 @@ def get_graph(curric_filter=None, course_filter=None):
     if course_filter:
         try:
             if USE_CACHE:
-                logger.info("Filter: %s" % course_filter)
-                logger.info("Total Course Obj: %s"
-                            % len(CourseGraphCache.objects.all()))
                 graph = CourseGraphCache.objects.get(course_id=course_filter)
                 CACHE_RESPONSES.inc()
                 return json.loads(graph.graph_data)
@@ -280,10 +277,12 @@ def _process_data(course_data,
 
     if course_filter:
         data = json.dumps(response)
-        CourseGraphCache(graph_data=data, course_id=course_filter).save()
+        if USE_CACHE:
+            CourseGraphCache(graph_data=data, course_id=course_filter).save()
     if curric_filter:
         data = json.dumps(response)
-        CurricGraphCache(graph_data=data, curric_id=curric_filter).save()
+        if USE_CACHE:
+            CurricGraphCache(graph_data=data, curric_id=curric_filter).save()
     return response
 
 
