@@ -63,8 +63,9 @@ def get_graph(curric_filter=None, course_filter=None):
     if course_filter:
         try:
             if USE_CACHE:
-                logger.info(course_filter)
-                logger.info(len(CourseGraphCache.objects.all()))
+                logger.info("Filter: %s" % course_filter)
+                logger.info("Total Course Obj: %s"
+                            % len(CourseGraphCache.objects.all()))
                 graph = CourseGraphCache.objects.get(course_id=course_filter)
                 CACHE_RESPONSES.inc()
                 return json.loads(graph.graph_data)
