@@ -14,6 +14,7 @@ from uw_sws.exceptions import InvalidSectionID
 from restclients_core.exceptions import DataFailureException
 from django.conf import settings
 from prometheus_client import Counter
+import logging
 
 """
 Unless we want to mess around with plots offline there should be no need to
@@ -41,6 +42,7 @@ D3 or vis.js later on.
 """
 
 
+logger = logging.getLogger(__name__)
 CURRIC_BLACKLIST = ["TRAIN", "TTRAIN"]
 USE_CACHE = getattr(settings, 'USE_CACHE', False)
 CACHE_RESPONSES = Counter('graph_cache_responses', 'Responses cached')
@@ -275,10 +277,12 @@ def _process_data(course_data,
 
     if course_filter:
         data = json.dumps(response)
-        CourseGraphCache(graph_data=data, course_id=course_filter).save()
+        if USE_CACHE:
+            CourseGraphCache(graph_data=data, course_id=course_filter).save()
     if curric_filter:
         data = json.dumps(response)
-        CurricGraphCache(graph_data=data, curric_id=curric_filter).save()
+        if USE_CACHE:
+            CurricGraphCache(graph_data=data, curric_id=curric_filter).save()
     return response
 
 
