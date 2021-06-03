@@ -12,11 +12,13 @@ from prereq_map.models.course_title import CourseTitle
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        os.environ["FREETDSCONF"] = "db_config/freetds.conf"
+        os.environ["ODBCSYSINI"] = "db_config"
         password = getattr(settings, "EDW_PASSWORD")
         user = getattr(settings, "EDW_USER")
         data_root = getattr(settings, "DATA_ROOT")
         constring = "Driver={FreeTDS};" \
-                    "SERVERNAME=sqlserver01;" \
+                    "SERVERNAME=edw;" \
                     "Database=UWSDBDataStore;" \
                     "Port=1433;" \
                     "TDS_Version=7.2;" \
@@ -35,6 +37,7 @@ class Command(BaseCommand):
         CurricTitles.update_titles(curric_info, course_info)
         CourseTitle.update_titles(course_info)
 
-        prereq.to_pickle(os.path.join(data_root, "prereq_data.pkl"))
-        course_info.to_pickle(os.path.join(data_root, "course_data.pkl"))
-        curric_info.to_pickle(os.path.join(data_root, "curric_data.pkl"))
+        prereq.to_pickle(os.path.join(data_root, "prereq_data.pkl"),
+                         protocol=4)
+        course_info.to_pickle(os.path.join(data_root, "course_data.pkl"),
+                              protocol=4)

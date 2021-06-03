@@ -9,6 +9,9 @@ from django.views import View
 from prereq_map.utils.process_data import get_graph
 from prereq_map.utils.typeahead import get_curric_typeahead
 from prereq_map.utils.typeahead import get_course_typeahead
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class CurricApiView(View):

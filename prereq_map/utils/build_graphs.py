@@ -8,7 +8,7 @@ import pandas as pd
 import re
 from prereq_map.utils.process_data import _process_data, get_prereq_data, \
     get_course_data, process_data
-from prereq_map.models.graph import CourseGraph, CurricGraph
+from prereq_map.models.graph import CourseGraphCache, CurricGraphCache
 
 # Number of graphs to bulk_create at once
 GRAPH_SAVE_LIMIT = 1000
@@ -23,7 +23,7 @@ def rebuild_graphs():
 
 
 def reset_course_graphs():
-    CourseGraph.objects.all().update(needs_rebuild=True)
+    CourseGraphCache.objects.all().update(needs_rebuild=True)
 
 
 def build_curric_graphs():
@@ -31,17 +31,18 @@ def build_curric_graphs():
     curric_graphs = []
     for curric in curric_list:
         graph_json = json.dumps(process_data(curric_filter=curric.strip()))
-        curric_graphs.append(CurricGraph(curric_id=curric,
-                                         graph_data=graph_json))
-    CurricGraph.objects.all().delete()
-    CurricGraph.objects.bulk_create(curric_graphs)
+        curric_graphs.append(CurricGraphCache(curric_id=curric,
+                                              graph_data=graph_json))
+    CurricGraphCache.objects.all().delete()
+    CurricGraphCache.objects.bulk_create(curric_graphs)
 
 
 def build_course_graphs(count):
     # Update existing course models
     courses = get_courses()
-    course_obj_to_update = CourseGraph.objects.filter(course_id__in=courses,
-                                                      needs_rebuild=True)
+    course_obj_to_update = \
+        CourseGraphCache.objects.filter(course_id__in=courses,
+                                        needs_rebuild=True)
     courses_saved = 0
     course_data = get_course_data()
     prereq_data = get_prereq_data()
@@ -58,8 +59,9 @@ def build_course_graphs(count):
 
     if courses_saved < count:
         # Add courses w/o model
-        existing_courses = CourseGraph.objects.all().values_list('course_id',
-                                                                 flat=True)
+        existing_courses = \
+            CourseGraphCache.objects.all().values_list('course_id',
+                                                       flat=True)
         new_courses = list(set(courses) - set(existing_courses))
         new_graphs = []
 
@@ -70,12 +72,12 @@ def build_course_graphs(count):
                 prereq_data,
                 course_filter=course
             ))
-            new_graphs.append(CourseGraph(course_id=course,
-                                          graph_data=graph_json))
+            new_graphs.append(CourseGraphCache(course_id=course,
+                                               graph_data=graph_json))
             if len(new_graphs) == GRAPH_SAVE_LIMIT:
-                CourseGraph.objects.bulk_create(new_graphs)
+                CourseGraphCache.objects.bulk_create(new_graphs)
                 new_graphs.clear()
-        CourseGraph.objects.bulk_create(new_graphs)
+        CourseGraphCache.objects.bulk_create(new_graphs)
 
 
 def get_currics():
