@@ -20,8 +20,8 @@ Docker
 
 2. Docker/Docker Compose is used to containerize your local build environment
     and deploy it to a local container so you can view your application. Docker
-    is configured to build an empty 'project' and copy the settings files located
-    in the 'docker' directory.
+    is configured to build an empty 'project' and copy the settings files
+    located in the 'docker' directory.
 
         $ docker-compose up
 
