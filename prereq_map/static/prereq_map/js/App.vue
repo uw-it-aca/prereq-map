@@ -48,10 +48,11 @@
       </div>
     </header>
     <b-alert show>
-      Prereq Map will no longer be available after Feb 1, 2022.
+      Prereq Map will no longer be available after Feb 8, 2022.
       The app will be replaced by a new tool called DawgPath which provides
       much of the same data in an improved user experience.
       <a href="https://itconnect.uw.edu/learn/success-analytics/apps/#dawg">Learn more</a>.
+      <a href="https://dawgpath.uw.edu">Visit DawgPath</a>.
     </b-alert>
 
     <main class="prereq-content mt-5 mb-5">
